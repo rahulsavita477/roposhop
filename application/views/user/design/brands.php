@@ -1,0 +1,42 @@
+<body id="page-details" class="loaded">
+    <div class="page-wrapper">
+        <main class="main">
+            <div class="container">
+                <ol class="breadcrumb mt-0 mb-2">
+                    <li class="breadcrumb-item"><a href="<?= base_url() ?>"><i class="icon-home"></i></a></li>
+                    <li class="breadcrumb-item"><a href="#" class="text-active">Brands</a></li>
+                </ol>
+
+                <div class="col-md-6">
+                    <form method="get" action="<?= base_url('brands') ?>">
+                        <input name="search_tearm" class="w-50" type="text" placeholder="Search Brand" value="<?= isset($_GET['search_tearm']) ? $_GET['search_tearm'] : '' ?>" />
+                        <button type="submit" class="btn-primary"> <i class="icon-magnifier"> SEARCH</i></button>
+                    </form>
+                </div>
+
+                <div class="container mt-3 mb-3">
+                    <div class="row row-sm">
+                        <?php
+                        if (isset($result)) 
+                        {
+                            foreach ($result as $brand) 
+                            {
+                                echo '<div class="col-md-2 text-center mb-3">
+                                        <a href="'.base_url('brands/'.url_title($brand['name'], '-', true).'?brand_id=').$brand['brand_id'].'">
+                                            <div class="img-text" style="height: 150px;">
+                                                <img src="'.base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']).'" alt="'.$brand['name'].'" style="min-width: 100%;min-height: auto;">
+                                                <h3>'.$brand['name'].'</h3>
+                                            </div>
+                                        </a>
+                                    </div>';
+                            }
+                        }
+                        else
+                            echo "Not available";
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
