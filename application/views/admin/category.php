@@ -16,7 +16,7 @@
                 <div class="box">
                     <form method="post" action="<?= base_url('changeParentCategory') ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <!-- select sub category -->
-                        <div class="col-sm-12" style="margin-bottom: 10px;">
+                        <div class="col-sm-12 Category_search_add_div">
                             <div class="col-sm-3">
                                 <label>Move selected to parent category: </label>
                             </div>

@@ -23,6 +23,7 @@ else
 
         <!-- Theme style -->
         <link href="<?= $this->config->item('site_url').'assets/admin/css/AdminLTE.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= $this->config->item('site_url').'assets/admin/css/custom.css' ?>" rel="stylesheet" type="text/css" />
         
         <!-- Morris chart -->
         <link href="<?= $this->config->item('site_url').'assets/admin/css/morris/morris.css' ?>" rel="stylesheet" type="text/css" />

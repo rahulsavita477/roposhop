@@ -53,23 +53,25 @@ else
             <div class="col-xs-12">
                 <div class="box">
                     <div class="row" style="margin: 10px 0 10px 0;">
-                        <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
-                            <div class="col-sm-3">
-                                <select class="form-control" name="category_id">
-                                    <?= $category_options ?>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <select class="form-control" name="brand_id">
-                                    <?= $brand_options ?>
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <button type="submit" class="btn btn-info">Find product</button>
-                                <a href="<?= base_url('products') ?>" class='btn btn-default'>Remove filter</a>
-                            </div>
-                        </form>
-                        <div class="col-sm-3">
+                        <div class="col-sm-11 Products_search_add_div">
+                            <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="category_id">
+                                        <?= $category_options ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="brand_id">
+                                        <?= $brand_options ?>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="submit" class="btn btn-info">Find product</button>
+                                    <a href="<?= base_url('products') ?>" class='btn btn-default'>Remove filter</a>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-1">
                             <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
                         </div>
                     </div>

@@ -108,7 +108,7 @@ if (isset($_COOKIE['shop_logo']))
                     </div>
                     <div class="pull-left info">
                         <p><?php print_r(strtoupper($_COOKIE['name'])); ?></p>
-                        <?= strtoupper($_COOKIE['site_code']) ?>
+                        (<?= strtoupper($_COOKIE['site_code']) ?>)
                     </div>
                 </div>
 

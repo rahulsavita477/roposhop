@@ -22,7 +22,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
             <div class="col-xs-12">
                 <div class="box">
                     <div class="row" style="margin: 20px;">
-                        <div class="col-sm-1">
+                        <div class="col-sm-1" style="padding-left: 0px;">
                             <label>Filter user:</label>
                         </div>
                         <div class="col-sm-2">

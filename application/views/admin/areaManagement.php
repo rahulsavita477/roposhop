@@ -163,7 +163,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                         }
                                     }
                                     else
-                                        echo "<tr><td colspan='6' align='center'>No Record found.</td></tr>";
+                                        echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
                                     ?>
                                 </tbody>
                             </table>

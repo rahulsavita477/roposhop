@@ -27,7 +27,7 @@
                             <thead>
                                 <tr>
                                     <th>S.NO.</th>
-                                    <<th>Attribute ID</th>
+                                    <th>Attribute ID</th>
                                     <th>Name</th>
                                     <th>Action</th>
                                 </tr>

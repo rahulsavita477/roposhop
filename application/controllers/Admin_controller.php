@@ -3600,7 +3600,7 @@ class Admin_controller extends CI_Controller
 		$where = array('link_id' => $link_id, 'atch_for' => $atch_for);
 		$atch_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 
-		if ($atch_res['result']) 
+		if ($atch_res && $atch_res['result']) 
 			return $atch_res['result'];
 		else
 			return FALSE;
