@@ -1899,7 +1899,7 @@ class Excel_controller extends CI_Controller
         $areas = $this->getArea('', $city_id, '');
         if ( isset($areas['db_error']) ) 
             redirectWithMessage('Error: '.$areas['msg'], $controller);
-        else if ($areas['result'])
+        else if ($areas && $areas['result'])
             $data['areas'] = $areas['result'];
 
         if (isset($_GET['area_id'])) 

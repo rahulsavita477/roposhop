@@ -373,10 +373,10 @@ class V1_api_controller extends CI_Controller
 			$hasUpdateDateField, 
 			$where_in
 		);
-		$prd_result = $result['result'];
 
-		if ($prd_result) 
+		if ($result) 
 		{
+			$prd_result = $result['result'];
 			$res['products'] = $prd_result;
 			
 			$i = 0;

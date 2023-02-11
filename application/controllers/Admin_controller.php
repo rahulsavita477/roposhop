@@ -121,7 +121,7 @@ class Admin_controller extends CI_Controller
 
 			//get attatchment
 			$requestedImageMetaData = $this->Admin_model->selectRecords(array('link_id' => $id, 'atch_type' => 'IMAGE', 'atch_for' => $atch_for), 'attatchments', 'atch_url');
-			$metaData['metaImage'] = $requestedImageMetaData['result'][0]['atch_url'] ? $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/'.$folder.$id.'/'.$requestedImageMetaData['result'][0]['atch_url'] : '';
+			$metaData['metaImage'] = ($requestedImageMetaData && $requestedImageMetaData['result'][0]['atch_url']) ? $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/'.$folder.$id.'/'.$requestedImageMetaData['result'][0]['atch_url'] : '';
 		}
 		else
 		{

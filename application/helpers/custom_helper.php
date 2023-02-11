@@ -74,7 +74,7 @@ function currency_format($val, $symbol='&#x20b9;&nbsp;', $r=2)
     $i = $n = number_format(abs($n),$r); 
     $j = (($j = strlen($i)) > 3) ? $j % 3 : 0; 
 
-   	$a = $symbol.$sign .($j ? substr($i,0, $j) + $t : '').preg_replace('/(\d{3})(?=\d)/',"$1".$t,substr($i,$j)) ;
+   	$a = $symbol.$sign.($j ? substr($i,0, $j) . $t : '').preg_replace('/(\d{3})(?=\d)/',"$1".$t,substr($i,$j)) ;
 
    return $a;
 }

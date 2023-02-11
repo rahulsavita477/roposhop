@@ -539,7 +539,7 @@ class User_controller extends CI_Controller
                     $product_id = $product['product_id'];
 
                     $product_imgs = $this->attatchments($product_id, "PRODUCT");
-                    if ($product_imgs['result']) 
+                    if ($product_imgs && $product_imgs['result']) 
                     {
                         foreach ($product_imgs['result'] as $atch_value) 
                             array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
@@ -744,7 +744,7 @@ class User_controller extends CI_Controller
 
             //get merchant shop images
             $product_imgs = $this->attatchments($merchant_id, "SELLER");
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
