@@ -19,8 +19,8 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
     	<div class="row">
 		    <div class="col-xs-12">
                 <div class="box">
-                    <div class="row" style="margin: 10px 0 10px 0;">
-                        <div class="col-sm-6">
+                    <div class="row Excel_Listing_search_add_row">
+                        <div class="col-sm-12 Excel_Listing_search_add_div">
                             <?= form_open('listingExcel', array('method' => 'get')) ?>
                                 <div class="col-sm-4">
                                     <select class="form-control" name="product_id">
@@ -62,27 +62,27 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
                                 </div>
                             <?= form_close() ?>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="col-sm-10" align="right">
-                                <?= form_open('exportTemplateForListing', array('method' => 'get')) ?>
-                                    <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
-                                    <input type="hidden" name="product_id" value="<?= $product_id ?>" />
-                                    <button type="submit" class="btn btn-info">Export Existing Data</button>
-                                    <a href="<?= base_url('exportTemplateForListing') ?>" class='btn btn-primary'>Export Empty Template</a>
-                                <?= form_close() ?>
-                            </div>
-                            <div class="col-sm-2" align="left">
-                                <?= form_open_multipart('importListingXls') ?>
-                                    <div class="file file_div btn btn-success">
-                                        Import address
-                                        <input type="file" name="result_file" class="input_type_file" required />
-                                    </div>
-                                <?= form_close() ?>
-                            </div>
-                        </div>
                     </div>
 
-        		    <div class="box-body table-responsive" style="padding: 30px;">
+                    <div class="row Excel_Listing_forms_row">
+                        <div class="col-sm-12 Excel_Listing_forms_div">
+                            <?= form_open('exportTemplateForListing', array('method' => 'get')) ?>
+                                <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
+                                <input type="hidden" name="product_id" value="<?= $product_id ?>" />
+                                <button type="submit" class="btn btn-info">Export Existing Data</button>
+                                <a href="<?= base_url('exportTemplateForListing') ?>" class='btn btn-primary'>Export Empty Template</a>
+                            <?= form_close() ?>
+
+                            <?= form_open_multipart('importListingXls') ?>
+                                <div class="file file_div btn btn-success Excel_Listing_import_form" style="margin-left: 3px;">
+                                    Import address
+                                    <input type="file" name="result_file" class="input_type_file" required />
+                                </div>
+                            <?= form_close() ?>
+                        </div>                        
+                    </div>
+
+        		    <div class="box-body table-responsive">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>

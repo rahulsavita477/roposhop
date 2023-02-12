@@ -21,8 +21,8 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
     	<div class="row">
     		<div class="col-xs-12">
                 <div class="box">
-                	<div class="row" style="margin: 10px 0 10px 0;">
-                        <div class="col-sm-8">
+                	<div class="row Excel_Address_search_add_row">
+                        <div class="col-sm-12 Excel_Address_search_add_div">
                             <?= form_open('addressExcel', array('method' => 'get')) ?>
                                 <div class="col-sm-3">
                                     <select class="form-control" name="merchant_id">
@@ -68,24 +68,24 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                                 </div>
                             <?= form_close() ?>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="col-sm-9" align="right">
-                                <?= form_open('exportTemplateForAddress', array('method' => 'post')) ?>
-                                    <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
-                                    <input type="hidden" name="state_id" value="<?= $state_id ?>" />
-                                    <input type="hidden" name="city_id" value="<?= $city_id ?>" />
-                                    <button type="submit" class="btn btn-info">Export Existing Data</button>
-                                    <a href="<?= base_url('exportTemplateForAddress') ?>" class='btn btn-primary'>Export Empty Template</a>
-                                <?= form_close() ?>
-                            </div>
-                            <div class="col-sm-3" align="left">
-                                <?= form_open_multipart('importAddressXls') ?>
-                                    <div class="file file_div btn btn-success">
-                                        Import address
-	                    				<input type="file" name="result_file" class="input_type_file" required />
-                                    </div>
-                                <?= form_close() ?>
-                            </div>
+                    </div>
+
+                    <div class="row Excel_Address_forms_row">
+                        <div class="col-sm-12 Excel_Address_forms_div">
+                            <?= form_open('exportTemplateForAddress', array('method' => 'post')) ?>
+                                <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
+                                <input type="hidden" name="state_id" value="<?= $state_id ?>" />
+                                <input type="hidden" name="city_id" value="<?= $city_id ?>" />
+                                <button type="submit" class="btn btn-info">Export Existing Data</button>
+                                <a href="<?= base_url('exportTemplateForAddress') ?>" class='btn btn-primary'>Export Empty Template</a>
+                            <?= form_close() ?>
+                            
+                            <?= form_open_multipart('importAddressXls') ?>
+                                <div class="file file_div btn btn-success Excel_Address_import_form">
+                                    Import address
+                                    <input type="file" name="result_file" class="input_type_file" required />
+                                </div>
+                            <?= form_close() ?>
                         </div>
                     </div>
                     
@@ -104,7 +104,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                         echo '<div class="alert alert-success" role="alert">'.$message.'</div>';
                     ?>
 
-                	<div class="box-body table-responsive" style="padding: 30px;">
+                	<div class="box-body table-responsive">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>

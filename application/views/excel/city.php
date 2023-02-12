@@ -27,15 +27,13 @@ $query_string_cnt_id = "";
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-12">
                         <div class="box box-primary">
                             <div class="box-body">
                                 <!-- select category -->
-                                <div class="row form-group">
-                                    <div class="col-sm-3 input-field">
-                                        <label>Select country*:</label>    
-                                    </div>
-                                    <div class="col-sm-9 input-field">
+                                <div class="row">
+                                    <div class="col-sm-4 input-field">
+                                        <label>Select country*:</label> 
                                         <select class="form-control" id="cnt_id">
                                             <option value="">Select country</option>
                                             <?php
@@ -53,10 +51,8 @@ $query_string_cnt_id = "";
                                         </select>
                                     </div>
                                     
-                                    <div class="col-sm-3 input-field">
-                                        <label>Select state*:</label>    
-                                    </div>
-                                    <div class="col-sm-9 input-field">
+                                    <div class="col-sm-4 input-field">
+                                        <label>Select state*:</label>  
                                         <select class="form-control" id="state_id">
                                             <?php 
                                             if ($states) 
@@ -76,10 +72,15 @@ $query_string_cnt_id = "";
                                         </select>
                                     </div> 
 
-                                    <div class="col-sm-12" style="margin-top: 10px;" align="right">
+                                    <div class="col-sm-4">
+                                        <label class="label_hide">make space equal to label</label><br />
                                         <a href="<?= base_url('cityExcel') ?>" class="btn btn-default">Remove Filter</a>
                                         <button class="btn btn-primary" onclick="cityManagement('getCityList');">Get city list</button>
-
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-sm-12">
                                         <?= form_open_multipart('importCityXls') ?>
                                             <div class="file file_div btn btn-success">
                                                 Import city
@@ -96,9 +97,6 @@ $query_string_cnt_id = "";
                 </div>
 
                 <div class="box">
-                    <div class="box-header">
-                        <h3>Cities <small>List</small></h3>
-                    </div>
                     <div class="box-body table-responsive">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>

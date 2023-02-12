@@ -26,15 +26,16 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-md-5 col-md-offset-3">
+                    <div class="col-md-12">
                         <div class="box box-primary">
                             <div class="box-body">
                                 <!-- select category -->
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-sm-2">
                                         <label>Select country*:</label>    
                                     </div>
-                                    <div class="col-sm-9">
+                                    
+                                    <div class="col-sm-3">
                                         <select class="form-control" id="cnt_id">
                                             <option value="">Select country</option>
                                             <?php
@@ -50,9 +51,15 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
                                             }
                                             ?>          
                                         </select>
-
+                                    </div>
+                                    
+                                    <div class="col-sm-3">
                                         <button class="btn btn-primary" onclick="stateManagement('getStateList');">Get state list</button>
+                                    </div>
+                                </div>
 
+                                <div class="row Excel_State_forms">
+                                    <div class="col-sm-12">
                                         <?= form_open_multipart('importCountryXls') ?>
                                             <div class="file file_div btn btn-success">
                                                 Import state
@@ -68,11 +75,7 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
                     </div>
                 </div>
                 <div class="box">
-                    <div class="box-header">
-                        <h3>States <small>List</small></h3>
-                    </div>
-
-                    <div class="box-body table-responsive" style="margin-top: 20px;">
+                    <div class="box-body table-responsive">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>

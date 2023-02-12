@@ -21,35 +21,37 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : '';
 			<div class="col-xs-12">
 				<div class="box">
 					<div class="row" style="margin: 10px 0 10px 0;">
-						<?= form_open('merchantExcel', array('method' => 'get')) ?>
-		                    <div class="col-sm-3">
-		                        <select class="form-control" name="state_id" id="state_id" onchange="getCity(this.value);">
-				                	<option value="">-- select state --</option>
-				                    <?php
-				                    foreach ($states as $state) 
-				                    {
-				                    	if (isset($_GET['state_id']) && $state['state_id'] == $_GET['state_id']) 
-				                    	{
-				                    		$selected = "selected='selected'";
-				                    		$state_id = $state['state_id'];
-				                    	}
-				                    	else
-				                    		$selected = '';
+						<div class="col-sm-11 Merchant_Excel_search_add_div">
+							<?= form_open('merchantExcel', array('method' => 'get')) ?>
+								<div class="col-sm-3">
+									<select class="form-control" name="state_id" id="state_id" onchange="getCity(this.value);">
+										<option value="">-- select state --</option>
+										<?php
+										foreach ($states as $state) 
+										{
+											if (isset($_GET['state_id']) && $state['state_id'] == $_GET['state_id']) 
+											{
+												$selected = "selected='selected'";
+												$state_id = $state['state_id'];
+											}
+											else
+												$selected = '';
 
-				                    	echo "<option value='".$state['state_id']."' ".$selected.">".$state['name']."</option>";
-				                    }
-				                    ?>
-				                </select>
-		                    </div>
-		                    <div class="col-sm-3">
-		                        <select class="form-control" name="city_id" id="state_cities"></select>
-		                    </div>
-		                    <div class="col-sm-3">
-		                        <button type="submit" class="btn btn-info">Find merchant</button>
-		                        <a href="<?= base_url('merchantExcel') ?>" class='btn btn-default'>Remove filter</a>
-		                    </div>
-		                <?= form_close() ?>
-		                <div class="col-sm-3">
+											echo "<option value='".$state['state_id']."' ".$selected.">".$state['name']."</option>";
+										}
+										?>
+									</select>
+								</div>
+								<div class="col-sm-3">
+									<select class="form-control" name="city_id" id="state_cities"></select>
+								</div>
+								<div class="col-sm-3">
+									<button type="submit" class="btn btn-info">Find merchant</button>
+									<a href="<?= base_url('merchantExcel') ?>" class='btn btn-default'>Remove filter</a>
+								</div>
+							<?= form_close() ?>
+						</div>
+						<div class="col-sm-1">
 		                	<?= form_open('exportTemplateForMerchant', array('method' => 'get')) ?>
 		                		<input type="hidden" name="state_id" value="<?= $state_id ?>" />
 		                		<input type="hidden" name="city_id" value="<?= $city_id ?>" />
@@ -58,7 +60,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : '';
 		                </div>
 		            </div>
 
-					<div class="box-body table-responsive" style="padding: 30px;">
+					<div class="box-body table-responsive">
 		                <table id="example1" class="table table-bordered table-striped">
 		                    <thead>
 		                        <tr>

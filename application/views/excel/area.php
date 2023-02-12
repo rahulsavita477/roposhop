@@ -26,15 +26,14 @@ $status = isset($area['status']) ? $area['status'] : 1;
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-12">
                         <div class="box box-primary">
                             <div class="box-body">
                                 <!-- select category -->
-                                <div class="row form-group">
+                                <div class="row">
+
                                     <div class="col-sm-3 input-field">
-                                        <label>Select country*:</label>    
-                                    </div>
-                                    <div class="col-sm-9 input-field">
+                                        <label>Select country*:</label>
                                         <select class="form-control" id="cnt_id">
                                             <option value="">Select country</option>
                                             <?php
@@ -53,9 +52,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                     </div>
                                     
                                     <div class="col-sm-3 input-field">
-                                        <label>Select state*:</label>    
-                                    </div>
-                                    <div class="col-sm-9 input-field">
+                                        <label>Select state*:</label> 
                                         <select class="form-control" id="state_id">
                                             <?php 
                                             if ($states) 
@@ -74,11 +71,9 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                             ?>
                                         </select>
                                     </div> 
-
+                                    
                                     <div class="col-sm-3 input-field">
-                                        <label>Select city*:</label>    
-                                    </div>
-                                    <div class="col-sm-9 input-field">
+                                        <label>Select city*:</label>  
                                         <select class="form-control" id="city_id">
                                             <?php 
                                             if ($cities) 
@@ -98,18 +93,26 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                         </select>
                                     </div> 
 
-                                    <div class="col-sm-12" style="margin-top: 10px;" align="right">
+                                    <div class="col-sm-3">
+                                        <label class="label_hide">make space equal to label</label><br />
+                                        
                                         <a href="<?= base_url('areaExcel') ?>" class="btn btn-default">Remove Filter</a>
                                         <button class="btn btn-primary" onclick="areaManagement('getAreaList');">Get area list</button>
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-sm-12">
                                         <?= form_open_multipart('importAreaXls') ?>
                                             <div class="file file_div btn btn-success">
                                                 Import area
                                                 <input type="file" name="result_file" class="input_type_file" required />
                                             </div>
+                                            
+                                            <button class="btn btn-primary" onclick="areaManagement('exportTemplateForArea');">Export Existing Data</button>
+                                            
+                                            <button class="btn btn-primary" onclick="areaManagement('exportEmptyTemplateForArea');">Export Empty Template</button>
                                         <?= form_close() ?>
-                                        <button class="btn btn-primary" onclick="areaManagement('exportTemplateForArea');">Export Existing Data</button>
-                                        <button class="btn btn-primary" onclick="areaManagement('exportEmptyTemplateForArea');">Export Empty Template</button>
                                     </div>
                                 </div>
                             </div>
@@ -118,10 +121,6 @@ $status = isset($area['status']) ? $area['status'] : 1;
                 </div>
 
                 <div class="box">
-                    <div class="box-header">
-                        <h3>Area <small>List</small></h3>
-                    </div>
-
                     <?php
                     //Error or success message div
                     if (count($error)>0) 
