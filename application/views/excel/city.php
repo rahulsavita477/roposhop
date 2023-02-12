@@ -200,11 +200,11 @@ function cityManagement(type)
             url = "<?= base_url('exportTemplateForCity/1?getCityList='); ?>"+cnt_id+"-"+state_id;
         else if (type == 'getCityList')
             url = "<?= base_url('cityExcel?'); ?>"+type+"="+cnt_id+"-"+state_id;
+            
+        location.href = url;
     }
     else
-        url = "<?= base_url('exportTemplateForCity/1'); ?>";
-
-    location.href = url;
+        alert('Error: please select country and state!!');
 }
 
 function getStates(cnt_id)

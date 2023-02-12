@@ -2111,7 +2111,7 @@ class Admin_controller extends CI_Controller
 
 			//db attribute result
 			$db_att_ids = array();
-			if ($db_att_res['result'])
+			if ($db_att_res && $db_att_res['result'])
 			{
 				foreach ($db_att_res['result'] as $att_key => $att_value) 
 					array_push($db_att_ids, $att_value['att_id']);
@@ -2746,8 +2746,10 @@ class Admin_controller extends CI_Controller
 			$tags = $this->Admin_model->selectRecords("", "tags", "*");	
 			if (isset($tags['db_error'])) 
 				redirectWithMessage('Error: '.$tags['msg'], $controller);
-			else if ($tags['result']) 
+			else if ($tags && $tags['result']) 
 				$data['tags'] = $tags['result'];
+			else 
+				$data['tags'] = [];
 
 			$data['product_tags'] = array();
 			$data['key_features'] = array();
@@ -3670,7 +3672,7 @@ class Admin_controller extends CI_Controller
 				$prd_res['product_tags'] = $tags_res;
 
 			$tags = $this->Admin_model->selectRecords("", "tags", "*");	
-			if ($tags['result']) 
+			if ($tags && $tags['result']) 
 				$prd_res['tags'] = $tags['result'];
 
 			return $prd_res;
@@ -3843,15 +3845,16 @@ class Admin_controller extends CI_Controller
 		else
 		{
 			$att_id = $this->Admin_model->insertData('attribute_name', $data);
-
-			if ($att_id['db_error'])
+			// echo "<pre>"; print_r($att_id); die;
+			
+			if (isset($att_id['db_error']))
 				$msg = 'Error: '.$att_id['msg'];
 			else if ($att_id) 
 				$msg = 'Succesfully inserted!';
 			else
 				$msg = 'Error: Unable to insert!';
 		}
-
+		
 		redirectWithMessage($msg, $controller);
 	}
 
