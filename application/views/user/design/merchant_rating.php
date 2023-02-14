@@ -246,14 +246,21 @@ figure img {
                 <div class="row">
                     <div  class="col-md-4">
                         <div class="product-default" style="width:270px">
-                            <a href="<?=  base_url('merchants/'.url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']) ?>">                                
-                                <figure>
-                                    <img src="<?= base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']) ?>" alt="<?= $merchant['establishment_name'] ?>">
-                                </figure>
-                                <div class="product-details text-left">
-                                    <h2 class="product-title text-black"><?= $merchant['establishment_name'] ?></h2>
-                                </div>
-                            </a>
+                        <?php
+                            echo '<a href="'.base_url('merchants/'.url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'">';
+                            
+                            if($merchant['merchant_logo']) {
+                                echo '<figure>
+                                        <img src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'">
+                                    </figure>';
+                            }
+
+                            echo '<div class="product-details text-left">
+                                    <h2 class="product-title text-black">'.$merchant['establishment_name'].'</h2>
+                                </div>';
+
+                            echo '</a>';
+                        ?>
                         </div>
                     </div>
 

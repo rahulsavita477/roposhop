@@ -47,7 +47,7 @@
                                         else
                                             $name = $review_value['product_name'];
                                         
-                                        if ($review_value['status']) 
+                                        if ($review_value['enabled']) 
                                         {
                                             $current_status = "<span class='label label-danger'>Not active</span>";
                                             $change_status = 0;

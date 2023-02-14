@@ -365,7 +365,7 @@ function open_modal(merchant_id, establishment_name)
                                                         <input class="form-control" type="email" placeholder="Email*" name="email" value="<?= set_value('email') ?>" required />
                                                     </div>
                                                     <div class="form-group-inline">
-                                                        91<input class="form-control" type="text" placeholder="Contact (Mobile) number*" name="contact_number" value="<?= set_value('contact_number') ?>" required />
+                                                        +91-<input class="form-control" type="text" placeholder="Contact (Mobile) number*" name="contact_number" value="<?= set_value('contact_number') ?>" required />
                                                     </div>
                                                     <div class="form-group-inline">
                                                         <div class="alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>

@@ -629,13 +629,13 @@ class User_controller extends CI_Controller
         $data['product']['login_user_review'] = false;
         if (isset($_COOKIE['consumer_id'])) 
         {
-            $prd_usr_review = $this->am1->productReviews(array('product_review.product_id' => $product_id, 'product_review.consumer_id' => $_COOKIE['consumer_id']));
+            $prd_usr_review = $this->am1->productReviews(array('product_review.product_id' => $product_id, 'product_review.consumer_id' => $_COOKIE['consumer_id'], 'product_review.status' => 0));
             if ($prd_usr_review)
                 $data['product']['login_user_review'] = $prd_usr_review['result'][0];
         }
 
         //average rating information
-        $rating_info = $this->am1->selectRecords(array('product_id' => $product_id), 'product_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
+        $rating_info = $this->am1->selectRecords(array('product_id' => $product_id, 'status' => 0), 'product_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
         $data['product']['rating_info'] = $rating_info['result'][0];
 
         //echo "<pre>"; print_r($data); die;
@@ -694,13 +694,13 @@ class User_controller extends CI_Controller
         $data['merchant']['login_user_review'] = false;
         if (isset($_COOKIE['consumer_id'])) 
         {
-            $prd_usr_review = $this->am1->merchantReviews(array('merchant_review.merchant_id' => $merchant_id, 'merchant_review.consumer_id' => $_COOKIE['consumer_id']));
+            $prd_usr_review = $this->am1->merchantReviews(array('merchant_review.merchant_id' => $merchant_id, 'merchant_review.consumer_id' => $_COOKIE['consumer_id'], 'merchant_review.status' => 0));
             if ($prd_usr_review)
                 $data['merchant']['login_user_review'] = $prd_usr_review['result'][0];
         }
 
         //average rating information
-        $rating_info = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
+        $rating_info = $this->am1->selectRecords(array('merchant_id' => $merchant_id, 'status' => 0), 'merchant_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
         $data['merchant']['rating_info'] = $rating_info['result'][0];
 
         //echo "<pre>"; print_r($data); die;
@@ -1158,7 +1158,7 @@ class User_controller extends CI_Controller
 
             //get merchant shop images
             $product_imgs = $this->attatchments($merchant_id, "SELLER");
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
@@ -1231,6 +1231,7 @@ class User_controller extends CI_Controller
 
         // echo "<pre>"; print_r($merchants);die;
         //echo "<pre>"; print_r($data);die;
+        // echo $page; die;
 
         //load view
         $this->load->view('user/design/include/header', $data);
@@ -1238,7 +1239,7 @@ class User_controller extends CI_Controller
         
         if ($page == 'merchant_detail')
         {
-            //echo "<pre>"; print_r($data); die;
+            // echo "<pre>"; print_r($data); die;
 
             $this->load->view('user/design/include/merchant_products_with_filter', $data);
             $this->load->view('ajaxFunctions');  
@@ -1438,8 +1439,11 @@ class User_controller extends CI_Controller
         $review_data = array();
         $review_data['review'] = $this->input->post('review');
         $review_data['rating'] = $this->input->post('rating');
+        $review_data['status'] = 0;
         $review_data['consumer_id'] = $_COOKIE['consumer_id'];
         $review_data['update_date'] = date("Y-m-d H:i:s");
+
+        $msg = 'Your rating update successfully';
 
         if ($review_for == "merchant") 
         {
@@ -1458,7 +1462,7 @@ class User_controller extends CI_Controller
                 $this->am1->insertData('merchant_review', $review_data);
             }
 
-            redirect(base_url('merchant/rating/').$merchant_id);
+            $controller = 'merchant/rating/'.$merchant_id;
         }
         else if ($review_for == "product") 
         {
@@ -1481,9 +1485,10 @@ class User_controller extends CI_Controller
                 $this->am1->insertData('product_review', $review_data);
             }
 
-            
-            redirect(base_url('product/rating/').$product_id);
+            $controller = 'product/rating/'.$product_id;
         }
+
+        $this->redirect($msg, $controller);
     }
 
     public function offer()

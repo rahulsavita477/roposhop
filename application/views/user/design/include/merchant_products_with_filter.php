@@ -270,7 +270,7 @@ function getAndSetProductListing(page)
     $.when(getMerchantProducts("<?= $_GET['merchant_id'] ?>", page)).done(function(merchantProducts){        
         resp = JSON.parse(merchantProducts);
 
-        if (resp.listings == null || resp.listings == 'undefined') 
+        if (resp.listings == null || resp.listings == 'undefined' || resp.listings.length <= 0) 
         {
             for (var i = 1; i < 16; i++) 
                 $("#listing_product_url"+i).css("display", "none");

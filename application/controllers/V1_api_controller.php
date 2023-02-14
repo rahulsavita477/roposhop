@@ -463,8 +463,14 @@ class V1_api_controller extends CI_Controller
 		$where = array();
 		$where['product_listing.merchant_id'] = $merchant_id;
 		$result = $this->am3->getProductListings($where, $search, $this->limit, $this->start, $orderby, $a_brand_id, $a_category_id);
-		$listings['listings'] = $result['result'];
-		$listings['paging'] = $this->createPagingArray($result['count']);
+		
+		if($result) {
+			$listings['listings'] = $result['result'];
+			$listings['paging'] = $this->createPagingArray($result['count']);
+		} else {
+			$listings['listings'] = [];
+			$listings['paging'] = $this->createPagingArray(0);
+		}		
 
 		//echo "<pre>"; print_r($data); die;
         $this->getJsonData(CODE_SUCCESS, 'ok', $listings);
