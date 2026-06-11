@@ -62,12 +62,6 @@
  .color-change {
  color: #08c !important;
  }
- form.form-inline input.w-50 {
- width: 320px !important;
- border: 1px solid #3364b0;
- border-radius: 4px 0px 0px 4px;
- padding-left: 5px !important;
- }
  .btn-primaryss {
  border: 1px solid #3364b0;
  height: 29px;
@@ -125,17 +119,17 @@
                         <button type="button" class="btn-primaryss" onclick="getAndSetProductListing(1)"> <i class="icon-magnifier"></i></button>
                     </form>
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <label class="pt-2 float-left">Showing <span class="paging_count"></span> results</label>
-                    <!-- <div class="layout-modes float-left">
+                    <div class="layout-modes float-left">
                         <a href="category.php" class="layout-btn btn-grid active" title="Grid">
                             <i class="icon-mode-grid"></i>
                         </a>
                         <a href="category-list.php" class="layout-btn btn-list" title="List">
                             <i class="icon-mode-list"></i>
                         </a>
-                    </div> -->
-                </div>
+                    </div>
+                </div> -->
             </div>
             <div class="row">
                 <?php 

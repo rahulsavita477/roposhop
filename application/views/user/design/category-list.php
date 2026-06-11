@@ -86,12 +86,6 @@
             z-index: 99
 
 }
-form.form-inline input.w-50 {
-    width: 320px !important;
-    border: 1px solid #3364b0;
-    border-radius: 4px 0px 0px 4px;
-    padding-left: 5px !important;
-}
 .btn-primaryss {
     border: 1px solid #3364b0;
     height: 29px;
@@ -168,18 +162,16 @@ a.sorter-btn {
                                    
                                 </div><!-- End .toolbox-item -->
                         </div>
-
+                        <div class="col-md-3"></div>
                          <div class="col-md-5">
                             <form method="get" action="/" class="form-inline">
-               <input name="" class="w-50" type="text" placeholder="Page search" required="">
-                <button type="submit" class="btn-primaryss"> <i class="icon-magnifier"></i></button>
-            </form>
+                            <input name="" class="w-50" type="text" placeholder="Page search" required="">
+                                <button type="submit" class="btn-primaryss"> <i class="icon-magnifier"></i></button>
+                            </form>
                          </div>
 
-                          <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                            <label class="pt-2 float-left">Showing 1–9 of 60 results</label>
-                           
-
                             <div class="layout-modes float-left">
                                 <a href="category.php" class="layout-btn btn-grid active" title="Grid">
                                     <i class="icon-mode-grid"></i>
@@ -189,13 +181,10 @@ a.sorter-btn {
                                 </a>
                             </div>
                           </div>
-
-                      </div>
-    <div class="row">
-
-                             <?php for ($i=1; $i <=8; $i++){?>
-
-                            
+                        </div> -->
+                        
+                        <div class="row">
+                            <?php for ($i=1; $i <=8; $i++){?>
                             <div class="col-6 col-sm-12 product-default left-details mb-1 pt-1">
                                 
                                 <span class="rating-right" style="background:#28a745">
@@ -226,12 +215,7 @@ a.sorter-btn {
                               </a>
                               </div>
                             </div>
-
-
-
-                             <?php } ?>
-
-
+                            <?php } ?>
                         </div>
 
                         <nav class="toolbox toolbox-pagination mt-2">

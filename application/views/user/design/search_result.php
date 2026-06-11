@@ -61,12 +61,6 @@
  padding: 1px;
  z-index: 99
  }
- form.form-inline input.w-50 {
- width: 320px !important;
- border: 1px solid #3364b0;
- border-radius: 4px 0px 0px 4px;
- padding-left: 5px !important;
- }
  .btn-primaryss {
  border: 1px solid #3364b0;
  height: 29px;
