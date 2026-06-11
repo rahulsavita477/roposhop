@@ -294,8 +294,8 @@ class User_controller extends CI_Controller
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
         $data['states'] = $this->am1->selectRecords(array('status' => 1), 'state', 'state_id, name'); //get all states
-        // $data['city'] = $this->am1->selectRecords('', 'city', 'name, latitude, longitude'); //get all cities
-        // $data['area'] = $this->am1->selectRecords('', 'area', 'area_name, latitude, longitude'); //get all areas
+        $data['city'] = $this->am1->selectRecords('', 'city', 'name, latitude, longitude'); //get all cities
+        $data['area'] = $this->am1->selectRecords('', 'area', 'area_name, latitude, longitude'); //get all areas
 
         // echo "<pre>"; print_r($data); die;
 
@@ -304,6 +304,16 @@ class User_controller extends CI_Controller
         // $this->load->view('user/include/sidebar', $data);
         // $this->load->view('user/location_setting');
         // $this->load->view('user/include/footer');
+
+        // $response = file_get_contents("https://ipinfo.io/json");
+        // $location = json_decode($response, true);
+
+        // echo "IP: " . $data['ip'] . "<br>";
+        // echo "City: " . $location['city'] . "<br>";
+        // echo "State Region: " . $location['region'] . "<br>";
+        // echo "Country: " . $data['country'] . "<br>";
+        // echo "Location: " . $data['loc'] . "<br>"; // "lat,long"        
+        // die;
 
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/location_setting');
@@ -1308,8 +1318,8 @@ class User_controller extends CI_Controller
 
         //load view
         $this->load->view('user/design/include/header', $data);
-        $this->load->view('user/design/category', $data);   
-        $this->load->view('ajaxFunctions', $data);             
+        $this->load->view('user/design/category', $data);
+        $this->load->view('ajaxFunctions', $data);
         $this->load->view('user/design/include/footer');
     }
 
@@ -1334,10 +1344,9 @@ class User_controller extends CI_Controller
         $mer_reviews = $this->am1->getUserAddress(array('address.userId' => $user_id), 'COUNT(address_id) AS addressCnt');
         $data['totalAddress'] = $mer_reviews['result'][0]['addressCnt'];
 
-        // echo "<pre>"; print_r($data); die;
-        //load view
-        $this->load->view('user/design/include/header', $data);
-        $this->load->view('user/design/merchant_addresses', $data);
+        // echo "<pre>"; prin        $this->l        $this->load->view('user/design/category', $data);   
+        $this->load->view('ajaxFunctions', $data);             
+s->load->view('user/design/merchant_addresses', $data);
         $this->load->view('ajaxFunctions', $data);             
         $this->load->view('user/design/include/footer');
     }

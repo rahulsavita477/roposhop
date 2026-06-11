@@ -1,0 +1,48 @@
+.Category_search_add_div {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.Products_search_add_div, .Merchant_Excel_search_add_div, .Product_Excel_search_add_div, .Excel_Listing_search_add_div, .Excel_Address_search_add_div, .Excel_Country_search_add_div, .Excel_State_forms {
+    padding-left: 0px;
+}
+
+.table-responsive table {
+    white-space: nowrap;
+}
+
+th::after {
+    content: "\00a0 \00a0 ";
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-y: hidden;
+}
+
+/* Excel page css */
+.Excel_Listing_import_form, .Excel_Address_import_form {
+    margin-left: 3px;
+}
+
+.Excel_Listing_forms_row, .Excel_Address_forms_row {
+    margin: 20px 0 10px 0;
+}
+
+.Excel_State_forms{
+    margin-top: 20px;
+}
+
+.Excel_Listing_forms_div, .Excel_Address_forms_div {
+    display: flex;
+}
+
+.Excel_Listing_search_add_row, .Excel_Address_search_add_row {
+    margin: 10px 0 10px 0;
+}
+
+.label_hide {
+    visibility: hidden;
+}

@@ -508,13 +508,14 @@ class V1_api_controller extends CI_Controller
             $data['product']['off'] = $prd_off['off'];
         }
 
-        //echo "<pre>"; print_r($data); die;
+        //echo "<pre>"; print_r($product_id, $mrp_price, $merchant_id); die;
         $this->getJsonData(CODE_SUCCESS, 'ok', $data);
     }
 
     //need to remove that function (exist in user controller)
     private function getMinimumOffOnProduct($product_id, $mrp_price, $merchant_id)
     {
+		// echo "<pre>"; print_r([$product_id, $mrp_price, $merchant_id]);
         $data = array();
         $where = array();
 
@@ -526,7 +527,8 @@ class V1_api_controller extends CI_Controller
         //get product listings
         $sold_by_merchants = $this->am3->getProductListings($where);
 
-        $data['offer_price'] = (is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+		// print_r($sold_by_merchants && is_array($sold_by_merchants['result'])); die;
+        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
         $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
         $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
 

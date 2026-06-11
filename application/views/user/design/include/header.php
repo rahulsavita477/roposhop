@@ -62,7 +62,7 @@ else
     </div>
             
     <?php if (SITE_ENVIRONMENT != '') { ?>
-        <div class="info-boxes-container">
+        <div>
             <div class="container">
                 <div class="info-box">
                     <div class="info-box-content">

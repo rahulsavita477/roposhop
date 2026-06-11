@@ -1,11 +1,10 @@
 <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" /> -->
 
 <script type="text/javascript">
-$(document).ready(function() {
-    //set default location
-    if (getCookie('location') == '') 
-        getCurrentLocation();
-});
+// $(document).ready(function() {
+//     //set default location
+//     if (getCookie('location') == '') getCurrentLocation();
+// });
 
 function url_title(name) 
 {
@@ -238,31 +237,31 @@ function getCookie(cname) {
     return "";
 }
 
-function getCurrentLocation() 
-{
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            let latitude = position.coords.latitude;
-            let longitude = position.coords.longitude;
-            let s_city_name = getCityName(latitude, longitude);
+// function getCurrentLocation() 
+// {
+//     if(navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(function(position) {
+//             let latitude = position.coords.latitude;
+//             let longitude = position.coords.longitude;
+//             let s_city_name = getCityName(latitude, longitude);
 
-            document.cookie = "latitude="+latitude+";path=/";
-            document.cookie = "longitude="+longitude+";path=/";
-        });
-    } 
-}
+//             document.cookie = "latitude="+latitude+";path=/";
+//             document.cookie = "longitude="+longitude+";path=/";
+//         });
+//     } 
+// }
 
-function getCityName(lat, lng) {
-    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI';
+// function getCityName(lat, lng) {
+//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI';
 
-    $.getJSON(GEOCODING).done(function(location) {
-        s_city_name = location.results[0].address_components[0].long_name;
-        document.cookie = "location="+s_city_name+";path=/";
-        document.cookie = "location_selection=default;path=/";
+//     $.getJSON(GEOCODING).done(function(location) {
+//         s_city_name = location.results[0].address_components[0].long_name;
+//         document.cookie = "location="+s_city_name+";path=/";
+//         document.cookie = "location_selection=default;path=/";
 
-        $("#location").html('<i class="fa fa-map-marker"></i> &nbsp; '+s_city_name);
+//         $("#location").html('<i class="fa fa-map-marker"></i> &nbsp; '+s_city_name);
 
-        // alert("location changed");
-    })
-}
+//         // alert("location changed");
+//     })
+// }
 </script>
