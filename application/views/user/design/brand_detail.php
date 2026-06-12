@@ -455,7 +455,7 @@ function open_modal(merchant_id, establishment_name)
                 <div class="sidebar-wrapper sticky-active" style="border-bottom: 0px none rgb(122, 125, 130); width: 270px;">
                     <div class="widget">
                         <h3 class="widget-title">
-                            <a data-toggle="collapse" href="#widget-body-y" role="button" aria-expanded="true" aria-controls="widget-body-y">Categories</a>
+                            <a data-toggle="collapse" href="#widget-body-y" aria-expanded="true" aria-controls="widget-body-y">Categories</a>
                         </h3>
                         <div class="collapse show" id="widget-body-y">
                             <div class="widget-body">

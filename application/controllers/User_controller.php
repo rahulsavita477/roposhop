@@ -727,7 +727,7 @@ class User_controller extends CI_Controller
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
 
-        if (isset($_GET['list_id'])) 
+        if (isset($_GET['list_id']) && $_GET['list_id'] != 'undefined')
         {
             // $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
 
@@ -844,7 +844,7 @@ class User_controller extends CI_Controller
 
         // echo "<pre>"; print_r($data); die;
         $this->load->view('user/design/include/header', $data);
-        $this->load->view('user/design/listing_detail', $data);   
+        $this->load->view('user/design/listing_detail', $data);
         $this->load->view('user/design/include/footer');
     }
 

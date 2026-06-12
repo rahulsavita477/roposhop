@@ -133,9 +133,11 @@ function time_elapsed_string($ptime)
 //CALCULATE DISTANCE
 function distance($lat1, $lon1, $unit=KILOMETERS) 
 {
-    if (!isset($_COOKIE['latitude']) && !isset($_COOKIE['longitude'])) 
+    if (!isset($_COOKIE['latitude']) && !isset($_COOKIE['longitude'])) {
         return "";
-    else
+    } else if (!$lat1 && !$lon1) {
+        return "";
+    } else
     {
         $lat2 = $_COOKIE['latitude'];
         $lon2 = $_COOKIE['longitude'];
