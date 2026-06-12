@@ -729,7 +729,7 @@ class User_controller extends CI_Controller
 
         if (isset($_GET['list_id'])) 
         {
-            $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
+            // $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
 
             $listing_id = $_GET['list_id']; // listing id
             $product_id = $_GET['prd_id']; // product id
@@ -1369,7 +1369,7 @@ s->load->view('user/design/merchant_addresses', $data);
             $brand_id = $brand['result'][0]['brand_id'];
             $brand_imgs = $this->attatchments($brand_id, "BRAND");
 
-            if ($brand_imgs['result']) 
+            if ($brand_imgs && $brand_imgs['result']) 
             {
                 foreach ($brand_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);

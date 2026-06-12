@@ -51,7 +51,7 @@ class Admin_controller extends CI_Controller
 
 	public function getMetaData($type, $id='')
 	{
-		switch ($type) 
+		switch ($type)
 		{
 			case 'BRAND':
 				$tbl_name = 'brand';
@@ -114,10 +114,15 @@ class Admin_controller extends CI_Controller
 		$metaData = array();
 		$defaultMetaData = $this->site_settings();
 
-		if ($id) 
+		if ($id)
 		{
 			$requestedMetaData = $this->Admin_model->selectRecords($where, $tbl_name, $column.', meta_keyword, meta_description');
-			$metaData['metaDescription'] = $requestedMetaData['result'][0]['meta_description'] ? $requestedMetaData['result'][0]['meta_description'] : $requestedMetaData['result'][0]['description'];
+			if($requestedMetaData) {
+				
+				$metaData['metaDescription'] = $requestedMetaData['result'][0]['meta_description'] ? $requestedMetaData['result'][0]['meta_description'] : $requestedMetaData['result'][0]['description'];
+			} else {
+				$metaData['metaDescription'] = '';
+			}
 
 			//get attatchment
 			$requestedImageMetaData = $this->Admin_model->selectRecords(array('link_id' => $id, 'atch_type' => 'IMAGE', 'atch_for' => $atch_for), 'attatchments', 'atch_url');

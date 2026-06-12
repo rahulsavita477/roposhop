@@ -388,7 +388,8 @@ class V1_api_controller extends CI_Controller
 				$prd_id = $prd_value['product_id'];
 				$prd_imgs = $this->attatchments($prd_id, "PRODUCT");
 
-				if ($prd_imgs['result']) 
+				// if($this->start > 0) {echo "<pre>"; print_r($prd_imgs);}
+				if ($prd_imgs && $prd_imgs['result']) 
 				{
 					foreach ($prd_imgs['result'] as $atch_value) 
 						array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$prd_id.'/'.$atch_value['atch_url']);
