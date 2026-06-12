@@ -110,7 +110,7 @@ else
 		                    </div>
 
                             <div class="form-group">
-                                <input type="text" name="contact" class="form-control" placeholder="contact number" value="<?= $contact ?>" />
+                                <input type="text" name="contact" class="form-control" placeholder="contact number *" value="<?= $contact ?>" required />
                             </div>
 
                             <div class="form-group">

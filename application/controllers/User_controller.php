@@ -1192,8 +1192,8 @@ class User_controller extends CI_Controller
             else
                 $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
 
-            $merchants['address']['nearest_address'] = $getAddress['result'][0];
-            $merchants['address']['total_address'] = $getAddress['count'];
+            $merchants['address']['nearest_address'] = $getAddress ? $getAddress['result'][0] : null;
+            $merchants['address']['total_address'] = $getAddress ? $getAddress['count'] : 0;
 
             //get product reviews
             $merchant_reviews = $this->am1->merchantReviews(array('merchant_review.merchant_id' => $merchant_id), 3, 0);

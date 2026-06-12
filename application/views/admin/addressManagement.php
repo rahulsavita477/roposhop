@@ -150,7 +150,6 @@ $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 .box-primary1{
 	border: 2px solid #ccc;
 	box-shadow: 15px 10px 18px #ccc;
-	height: 350px;
 }
 
 .box .box-header a{

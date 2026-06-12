@@ -19,22 +19,22 @@ if ($rating_count)
 else
     $five_star_width = $four_star_width = $three_star_width = $two_star_width = $one_star_width = 0;
 
-$address_id = $address['nearest_address']['address_id'];
-$lat = $address['nearest_address']['latitude'];
-$long = $address['nearest_address']['longitude'];
-$pin = $address['nearest_address']['pin'];
-$contact = $address['nearest_address']['contact'];
-$business_days = $address['nearest_address']['business_days'];
-$business_hours = $address['nearest_address']['business_hours'];
-$line1 = $address['nearest_address']['address_line_1'];
-$line2 = $address['nearest_address']['address_line_2'];
-$landmark = $address['nearest_address']['landmark'];
-$cnt_id = $address['nearest_address']['country_id'];
-$state_id = $address['nearest_address']['state_id'];
-$city_id = $address['nearest_address']['city_id'];
-$country_name = $address['nearest_address']['country_name'];
-$state_name = $address['nearest_address']['state_name'];
-$city_name = $address['nearest_address']['city_name'];
+$address_id = isset($address['nearest_address']['address_id']) ? $address['nearest_address']['address_id'] : '';
+$lat = isset($address['nearest_address']['latitude']) ? $address['nearest_address']['latitude'] : '';
+$long = isset($address['nearest_address']['longitude']) ? $address['nearest_address']['longitude'] : '';
+$pin = isset($address['nearest_address']['pin']) ? $address['nearest_address']['pin'] : '';
+$contact = isset($address['nearest_address']['contact']) ? $address['nearest_address']['contact'] : '';
+$business_days = isset($address['nearest_address']['business_days']) ? $address['nearest_address']['business_days'] : '';
+$business_hours = isset($address['nearest_address']['business_hours']) ? $address['nearest_address']['business_hours'] : '';
+$line1 = isset($address['nearest_address']['address_line_1']) ? $address['nearest_address']['address_line_1'] : '';
+$line2 = isset($address['nearest_address']['address_line_2']) ? $address['nearest_address']['address_line_2'] : '';
+$landmark = isset($address['nearest_address']['landmark']) ? $address['nearest_address']['landmark'] : '';
+$cnt_id = isset($address['nearest_address']['country_id']) ? $address['nearest_address']['country_id'] : '';
+$state_id = isset($address['nearest_address']['state_id']) ? $address['nearest_address']['state_id'] : '';
+$city_id = isset($address['nearest_address']['city_id']) ? $address['nearest_address']['city_id'] : '';
+$country_name = isset($address['nearest_address']['country_name']) ? $address['nearest_address']['country_name'] : '';
+$state_name = isset($address['nearest_address']['state_name']) ? $address['nearest_address']['state_name'] : '';
+$city_name = isset($address['nearest_address']['city_name']) ? $address['nearest_address']['city_name'] : '';
 ?>
 
 <style type="text/css" media="screen">
