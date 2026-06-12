@@ -300,7 +300,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                     <div class="form-group">
                         <label for=""><b>Contact (Mobile) Number <sup>*</sup></b></label>
-                        91<input type="text" class="form-control" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
+                        +91-<input type="text" class="form-control" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
                     </div>
                     <div class="span5 alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
 
@@ -357,6 +357,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     <center>
                         <div id="googleMap" style="width:90%;height:400px; margin: 20px;"></div>
                    
+                        <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
                         <a href="<?= base_url('merchantLoginSignup') ?>" class="btn btn-default">Cancel</a>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </center>

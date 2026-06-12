@@ -4,10 +4,10 @@
 #!assets/user/*
 #!assets/favicon.ico
 #!assets/logo.png
-!assets/brand/*
-!assets/product/*
-!assets/seller/*
-!assets/temp/*
+assets/brand/
+assets/product/
+assets/seller/
+assets/temp/
 
 ## STANDARD GIT IGNORE CONTENT
 

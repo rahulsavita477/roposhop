@@ -194,20 +194,22 @@ class Common_controller extends CI_Controller
                     $body .= EMAIL_SIGNATURE;
                     $body = nl2br($body);
 
-                    break;   
+                    break;
                 }
 
                 default: return false;
             }
 
             $mail_response = sendEmail($reciever_email, $subject, $body, $atch);
-            if ($code == MAIL_CODE_HELP_AND_SUPPORT) 
+            if ($code == MAIL_CODE_HELP_AND_SUPPORT)
             {
                 echo "<script>window.alert('Mail has been sent!');</script>";
                 redirect($_SERVER['HTTP_REFERER']);
             }
-            else
+            else {
+                echo "<script>window.alert('Unable to send mail!');</script>";
                 return $mail_response;
+            }
         }
     }
 

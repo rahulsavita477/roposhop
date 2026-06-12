@@ -1345,8 +1345,10 @@ class User_controller extends CI_Controller
         $data['totalAddress'] = $mer_reviews['result'][0]['addressCnt'];
 
         // echo "<pre>"; prin        $this->l        $this->load->view('user/design/category', $data);   
+        
+        $this->load->view('user/design/include/header', $data);
         $this->load->view('ajaxFunctions', $data);             
-s->load->view('user/design/merchant_addresses', $data);
+        $this->load->view('user/design/merchant_addresses', $data);
         $this->load->view('ajaxFunctions', $data);             
         $this->load->view('user/design/include/footer');
     }

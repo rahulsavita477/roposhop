@@ -218,6 +218,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['merchantSignupStep2/(:num)/(:num)'] = $merchant_controller.'merchantSignupStep2/$1/$2';
 	$route['updateMerchant'] = $merchant_controller.'updateMerchant';
 	$route['insertSeller'] = $merchant_controller.'insertSeller';
+	$route['merchantLoginWithoutStep2Completion/(:num)/(:num)'] = $merchant_controller.'merchantLoginWithoutStep2Completion/$1/$2';
 	$route['merchantLogin'] = $merchant_controller.'login';
 	$route['verifyListing/(:num)/(:num)/(:num)'] = $admin_controller.'verifyListing/$1/$2/$3';
 }

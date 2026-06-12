@@ -308,7 +308,7 @@ function getLatLongFromCity($address_data)
 function redirectWithMessage($msg, $controller)
 {
     echo "<script>
-            window.alert('".$msg."');
+            window.alert('".addslashes($msg)."');
             window.location.href = '".base_url($controller)."';
         </script>";
     die;
@@ -363,7 +363,7 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     if ($atch)
         $ci->email->attach($atch);
 
-    if($ci->email->send())
+    if(@$ci->email->send())
         return true;
     else
         return false;
