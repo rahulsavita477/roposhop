@@ -515,7 +515,7 @@ class User_controller extends CI_Controller
                     else
                         $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant['userId']), $address_columns);
 
-                    $data['product']['sold_by_merchants'][$i]['nearest_address'] = $getAddress['result'][0];
+                    $data['product']['sold_by_merchants'][$i]['nearest_address'] = $getAddress ? $getAddress['result'][0] : false;
                 }
             }
 
