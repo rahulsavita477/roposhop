@@ -20,7 +20,7 @@
                                 <th>S.No.</th>
                                 <th>Requested ID</th>
                                 <th>Product Name</th>
-                                <th>Brand</th>
+                                <th>New Brand Name</th>
                                 <th>Seller Price</th>
                                 <th>Action</th>
                             </tr>

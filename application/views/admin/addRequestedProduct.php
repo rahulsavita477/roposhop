@@ -187,7 +187,7 @@ $page_title = 'Add requested product';
 		                        <!-- select brand -->
 		                        <div class="row form-group">
 	                        		<div class="col-sm-3">
-	                        			<label>Brand*:</label>	
+	                        			<label>Brand*:</label>
 	                        		</div>
 	                        		<div class="col-sm-5">
 	                        			<?php

@@ -273,7 +273,7 @@ class Admin_model extends CI_Model
             return $this->db->affected_rows();
     }
 
-    public function products($where=array())
+    public function products($where=array(), $isRequestedProduct = false)
     {
         $this->db->select('product_id, product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, description, mrp_price, category_name, hasVarient, name as brand_name, product.create_date, product.update_date, in_the_box, notes');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'inner');
@@ -285,11 +285,15 @@ class Admin_model extends CI_Model
         if ($this->last_updateDate) 
            $this->db->where(array('update_date >=' => $this->last_updateDate));
         
-        //product should not in requested list
-        $this->db->where('product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)', NULL, FALSE);
+        //product should not present in requested list
+        if(!$isRequestedProduct) {
+            $this->db->where('product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)', null, false);
+        }
         
         $this->db->order_by('update_date', 'ASC');
 
+        // $sql = $this->db->get_compiled_select('product');
+        // echo $sql; die;
         $query = $this->db->get('product');
         $isDbError = $this->dbError();
 

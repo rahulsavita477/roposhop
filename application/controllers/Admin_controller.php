@@ -2709,7 +2709,7 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$req_prds['msg'], $controller);
 
 			//get product detail
-			$prd_res = $this->productDetail($req_prds[0]['req_prd_id']);
+			$prd_res = $this->productDetail($req_prds[0]['req_prd_id'], true);
 			unset($prd_res['brand_name']);
 
 			//merge requested product and product detail response
@@ -3613,14 +3613,14 @@ class Admin_controller extends CI_Controller
 			return FALSE;
 	}
 
-	public function productDetail($prd_id)
+	public function productDetail($prd_id, $isRequestedProduct = false)
 	{
 		$this->isLoggedIn();
 
 		if ($prd_id) 
 		{	
 			//get product
-			$result = $this->Admin_model->products(array('product_id' => $prd_id));
+			$result = $this->Admin_model->products(array('product_id' => $prd_id), $isRequestedProduct);
 
 			$prd_res = $result[0];
 			$prd_res['status'] = TRUE;
@@ -5024,7 +5024,7 @@ class Admin_controller extends CI_Controller
 			$req_prd_data['req_prd_id'] = $prd_id;
 			$req_prd_data['product_name'] = $prd_name;
 			$req_prd_data['req_lst_id'] = $list_id;
-			$req_prd_data['brand_name'] = $data['brand_id'] ? $data['brand_id'] : $this->input->post('brand_name');
+			$req_prd_data['brand_name'] = $data['brand_id'] ? null : $this->input->post('brand_name');
 			$req_prd_data['refer_link'] = $this->input->post('refer_link');
 			$req_prd_data['isLinked'] = 0;
 			$req_prd_data['isEnabled'] = 1;
