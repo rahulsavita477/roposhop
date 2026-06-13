@@ -329,7 +329,7 @@ async function setMerchantProductData(listing_products, paging)
         //set data in products page
         $.when(getProduct(listing_products[i].product_id)).done(function(product){
             resp = JSON.parse(product);
-            
+            console.log(resp);
             //add one line break if charater has less than 37 charaters
             $("#product"+j+"_name").html(resp.product.product_name.substr(0, 35));
             $("#listing"+j+"_price").html(resp.product.offer_price);

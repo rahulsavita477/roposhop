@@ -384,7 +384,7 @@ class User_controller extends CI_Controller
                 $data['result'][$i]['rating'] = $this->getProductRating($product_id);
 
                 //get minimum off on product by merchant
-                $prd_off = $this->getMinimumOffOnProduct($product_id, $data['result'][$i]['mrp_price']);
+                $prd_off = $this->common_controller->getMinimumOffOnProduct($product_id, $data['result'][$i]['mrp_price']);
                 $data['result'][$i]['offer_price'] = $prd_off['offer_price'];
                 $data['result'][$i]['discount_price'] = $prd_off['discount_price'];
                 $data['result'][$i]['off'] = $prd_off['off'];
@@ -395,20 +395,6 @@ class User_controller extends CI_Controller
             if (isset($products['count']))
                 $data['paging'] = $this->createPagingArray($products['count']);
         }
-
-        return $data;
-    }
-
-    private function getMinimumOffOnProduct($product_id, $mrp_price)
-    {
-        $data = array();
-
-        //get product listings
-        $sold_by_merchants = $this->am1->getProductListings(array('product_listing.product_id' => $product_id));
-
-        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
-        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
-        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
 
         return $data;
     }
@@ -590,7 +576,7 @@ class User_controller extends CI_Controller
         //get product detail
         $product_detail = $this->am1->selectRecords(array('product_id' => $product_id), 'product', 'product_id, product_name, mrp_price');
         $data['product'] = $product_detail['result'][0];
-        $prd_off = $this->getMinimumOffOnProduct($product_id, $data['product']['mrp_price']);
+        $prd_off = $this->common_controller->getMinimumOffOnProduct($product_id, $data['product']['mrp_price']);
         $data['product']['offer_price'] = $prd_off['offer_price'];
         $data['product']['discount_price'] = $prd_off['discount_price'];
         $data['product']['off'] = $prd_off['off'];
@@ -1212,10 +1198,10 @@ class User_controller extends CI_Controller
 
             //get merchant listing products categories
             $data['listing_product_categories'] = $this->am1->getCategoriesHavingProduct($_GET['merchant_id']);
-
+            
             //get merchant's listing products categories
             $data['listing_product_brands'] = $this->am1->getBrandHavingProduct($_GET['merchant_id']);
-
+            
             //get merchant meta data
             $metaData = $this->admin_controller->getMetaData('MERCHANT', $_GET['merchant_id']);
 

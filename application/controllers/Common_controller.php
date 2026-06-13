@@ -213,6 +213,21 @@ class Common_controller extends CI_Controller
         }
     }
 
+    public function getMinimumOffOnProduct($product_id, $mrp_price)
+    {
+        $data = array();
+    
+        //get product listings
+        $sold_by_merchants = $this->am5->getProductListings(array('product_listing.product_id' => $product_id));
+
+        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+        // echo "<pre>"; print_r($sold_by_merchants); die;
+        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
+        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+
+        return $data;
+    }
+
     //-- function for image upload 
     public function single_upload($path, $name="", $obj_name='file')
     {

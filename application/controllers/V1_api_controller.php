@@ -503,7 +503,8 @@ class V1_api_controller extends CI_Controller
             $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 
             //get minimum off on product by merchant
-            $prd_off = $this->getMinimumOffOnProduct($product_id, $products['result'][0]['mrp_price'], $merchant_id);
+			// $prd_off = $this->getMinimumOffOnProduct($product_id, $products['result'][0]['mrp_price'], $merchant_id);
+            $prd_off = $this->common_controller->getMinimumOffOnProduct($product_id, $products['result'][0]['mrp_price']);
             $data['product']['offer_price'] = $prd_off['offer_price'];
             $data['product']['discount_price'] = $prd_off['discount_price'];
             $data['product']['off'] = $prd_off['off'];
@@ -514,27 +515,27 @@ class V1_api_controller extends CI_Controller
     }
 
     //need to remove that function (exist in user controller)
-    private function getMinimumOffOnProduct($product_id, $mrp_price, $merchant_id)
-    {
-		// echo "<pre>"; print_r([$product_id, $mrp_price, $merchant_id]);
-        $data = array();
-        $where = array();
+    // private function getMinimumOffOnProduct($product_id, $mrp_price, $merchant_id)
+    // {
+	// 	// echo "<pre>"; print_r([$product_id, $mrp_price, $merchant_id]);
+    //     $data = array();
+    //     $where = array();
 
-        if ($merchant_id)
-        	$where['product_listing.merchant_id'] = $merchant_id;
+    //     if ($merchant_id)
+    //     	$where['product_listing.merchant_id'] = $merchant_id;
 
-        $where['product_listing.product_id'] = $product_id;
+    //     $where['product_listing.product_id'] = $product_id;
 
-        //get product listings
-        $sold_by_merchants = $this->am3->getProductListings($where);
+    //     //get product listings
+    //     $sold_by_merchants = $this->am3->getProductListings($where);
 
-		// print_r($sold_by_merchants && is_array($sold_by_merchants['result'])); die;
-        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
-        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
-        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+	// 	// print_r($sold_by_merchants && is_array($sold_by_merchants['result'])); die;
+    //     $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+    //     $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
+    //     $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
 	//get product rating
 	public function getProductRating($prd_id = '')
