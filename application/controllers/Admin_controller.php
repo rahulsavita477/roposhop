@@ -705,7 +705,7 @@ class Admin_controller extends CI_Controller
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id AS id, name as label', array('name' => 'ASC'));
 			if (isset($data['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
-			
+			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
 			$data['products'] = json_encode($products['result']);
 			$data['categories'] = $this->getAllCategories();
 		}
@@ -4860,9 +4860,10 @@ class Admin_controller extends CI_Controller
 	{
 		$images = array();
 		$data = array();
+		$prd_name = $this->input->post('prd_name');
 		$data['category_id'] = $this->input->post('parent_cat_id');
 		$data['brand_id'] = $this->input->post('brand_id');
-		$data['product_name'] = $this->input->post('prd_name');
+		$data['product_name'] = $prd_name;
 		$data['mrp_price'] = $this->input->post('prd_price');
 		$data['description'] = $this->input->post('prd_desc');
 		$data['in_the_box'] = $this->input->post('in_the_box');
@@ -5021,16 +5022,17 @@ class Admin_controller extends CI_Controller
 			$req_prd_data = array();
 			$req_prd_data['merchant_id'] = $merchant_id;
 			$req_prd_data['req_prd_id'] = $prd_id;
+			$req_prd_data['product_name'] = $prd_name;
 			$req_prd_data['req_lst_id'] = $list_id;
-			$req_prd_data['brand_name'] = $data['brand_id'] ? NULL : $this->input->post('brand_name');
+			$req_prd_data['brand_name'] = $data['brand_id'] ? $data['brand_id'] : $this->input->post('brand_name');
 			$req_prd_data['refer_link'] = $this->input->post('refer_link');
 			$req_prd_data['isLinked'] = 0;
 			$req_prd_data['isEnabled'] = 1;
 			$req_prd_data['update_date'] = $this->current_date;
-
+			
 			//set null for blank fields
 			setNULLToBlank($req_prd_data);
-
+			
 			if ($req_prd_id) 
 			{
 				$controller = 'editRequestedProduct/'.$req_prd_id;

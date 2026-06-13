@@ -493,7 +493,7 @@ class V1_api_controller extends CI_Controller
 
             //get product images
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 $data['product']['image'] = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url'];
             }

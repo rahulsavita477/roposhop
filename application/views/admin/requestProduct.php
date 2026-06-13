@@ -117,10 +117,10 @@ $product_images_dir = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.
                                                       $brand_id_div_style = 'style="display: none;"';
                                                 }
 
-                                                echo 
-                                                '<select class="form-control" name="brand_id" '.$brand_id_div_style.'>
-                                                      <option value="">select brand</option>';
-
+                                                echo '<select class="form-control" name="brand_id" '.$brand_id_div_style.'>
+                                                      <option value="">select brand</option>
+                                                      <option value="other">Not Available</option>';
+                                                      
                                                       foreach ($brands['result'] as $brands_value) 
                                                       {
                                                             $selected = $brands_value['id'] == $brand_id ? 'selected' : '';
@@ -128,9 +128,7 @@ $product_images_dir = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.
                                                             echo "<option value='".$brands_value['id']."' ".$selected.">".$brands_value['label']."</option>";
                                                       }
                                                 
-                                                echo 
-                                                      "<option value='other'>other</option>
-                                                </select>";
+                                                echo "</select>";
                                                 ?>
                                           </div>
 

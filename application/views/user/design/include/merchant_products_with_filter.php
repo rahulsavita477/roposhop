@@ -159,11 +159,11 @@
                                         <span id="product'.$i.'_name"></span><br>
                                         <span class="color-change"> 
                                             <strong>
-                                                <strike id="product'.$i.'_price_div">₹ <span id="product'.$i.'_price">&nbsp;</strike> 
-                                                ₹ <span id="listing'.$i.'_price"></span>
+                                                <strike id="product'.$i.'_price_div">₹<span id="product'.$i.'_price"></strike>
+                                                ₹<span id="listing'.$i.'_price"></span>
                                             </strong>
                                             <span id="product'.$i.'_discount_div">
-                                                <span id="product'.$i.'_off"></span>%&nbsp; Off  &nbsp; (Discount &nbsp;₹ <span id="product'.$i.'_discount"></span>)
+                                                <span id="product'.$i.'_off"></span>% Off (Discount ₹<span id="product'.$i.'_discount"></span>)
                                             </span>
                                         </span>
                                     </h2>
@@ -329,7 +329,7 @@ async function setMerchantProductData(listing_products, paging)
         //set data in products page
         $.when(getProduct(listing_products[i].product_id)).done(function(product){
             resp = JSON.parse(product);
-            console.log(resp);
+            
             //add one line break if charater has less than 37 charaters
             $("#product"+j+"_name").html(resp.product.product_name.substr(0, 35));
             $("#listing"+j+"_price").html(resp.product.offer_price);
@@ -338,7 +338,7 @@ async function setMerchantProductData(listing_products, paging)
 
             if (resp.product.discount_price > 0) 
             {
-                $("#product"+j+"_price").html(resp.product.mrp_price+'&nbsp;');
+                $("#product"+j+"_price").html(resp.product.mrp_price);
                 $("#product"+j+"_off").html(resp.product.off);
                 $("#product"+j+"_discount").html(resp.product.discount_price);
 
