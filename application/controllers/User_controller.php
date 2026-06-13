@@ -764,8 +764,8 @@ class User_controller extends CI_Controller
             else
                 $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
 
-            $data['merchant']['address']['nearest_address'] = $getAddress['result'][0];
-            $data['merchant']['address']['total_address'] = $getAddress['count'];
+            $data['merchant']['address']['nearest_address'] = $getAddress ? $getAddress['result'][0] : null;
+            $data['merchant']['address']['total_address'] = $getAddress ? $getAddress['count'] : 0;
 
             //average rating information
             $rating_info = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");

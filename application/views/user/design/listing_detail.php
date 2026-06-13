@@ -13,22 +13,22 @@ $in_stock = isset($listing['in_stock']) ? 'Yes' : 'No';
 $url = isset($_GET['category']) ? '&category='.$_GET['category'] : '';
 
 //merchant detail
-$address_id = isset($merchant) ? $merchant['address']['nearest_address']['address_id'] : '';
-$lat = isset($merchant) ? $merchant['address']['nearest_address']['latitude'] : '';
-$long = isset($merchant) ? $merchant['address']['nearest_address']['longitude'] : '';
-$pin = isset($merchant) ? $merchant['address']['nearest_address']['pin'] : '';
-$contact = isset($merchant) ? $merchant['address']['nearest_address']['contact'] : '';
-$business_days = isset($merchant) ? $merchant['address']['nearest_address']['business_days'] : '';
-$business_hours = isset($merchant) ? $merchant['address']['nearest_address']['business_hours'] : '';
-$line1 = isset($merchant) ? $merchant['address']['nearest_address']['address_line_1'] : '';
-$line2 = isset($merchant) ? $merchant['address']['nearest_address']['address_line_2'] : '';
-$landmark = isset($merchant) ? $merchant['address']['nearest_address']['landmark'] : '';
-$cnt_id = isset($merchant) ? $merchant['address']['nearest_address']['country_id'] : '';
-$state_id = isset($merchant) ? $merchant['address']['nearest_address']['state_id'] : '';
-$city_id = isset($merchant) ? $merchant['address']['nearest_address']['city_id'] : '';
-$country_name = isset($merchant) ? $merchant['address']['nearest_address']['country_name'] : '';
-$state_name = isset($merchant) ? $merchant['address']['nearest_address']['state_name'] : '';
-$city_name = isset($merchant) ? $merchant['address']['nearest_address']['city_name'] : '';
+$address_id = isset($merchant['address']['nearest_address']['address_id']) ? $merchant['address']['nearest_address']['address_id'] : '';
+$lat = isset($merchant['address']['nearest_address']['latitude']) ? $merchant['address']['nearest_address']['latitude'] : '';
+$long = isset($merchant['address']['nearest_address']['longitude']) ? $merchant['address']['nearest_address']['longitude'] : '';
+$pin = isset($merchant['address']['nearest_address']['pin']) ? $merchant['address']['nearest_address']['pin'] : '';
+$contact = isset($merchant['address']['nearest_address']['contact']) ? $merchant['address']['nearest_address']['contact'] : '';
+$business_days = isset($merchant['address']['nearest_address']['business_days']) ? $merchant['address']['nearest_address']['business_days'] : '';
+$business_hours = isset($merchant['address']['nearest_address']['business_hours']) ? $merchant['address']['nearest_address']['business_hours'] : '';
+$line1 = isset($merchant['address']['nearest_address']['address_line_1']) ? $merchant['address']['nearest_address']['address_line_1'] : '';
+$line2 = isset($merchant['address']['nearest_address']['address_line_2']) ? $merchant['address']['nearest_address']['address_line_2'] : '';
+$landmark = isset($merchant['address']['nearest_address']['landmark']) ? $merchant['address']['nearest_address']['landmark'] : '';
+$cnt_id = isset($merchant['address']['nearest_address']['country_id']) ? $merchant['address']['nearest_address']['country_id'] : '';
+$state_id = isset($merchant['address']['nearest_address']['state_id']) ? $merchant['address']['nearest_address']['state_id'] : '';
+$city_id = isset($merchant['address']['nearest_address']['city_id']) ? $merchant['address']['nearest_address']['city_id'] : '';
+$country_name = isset($merchant['address']['nearest_address']['country_name']) ? $merchant['address']['nearest_address']['country_name'] : '';
+$state_name = isset($merchant['address']['nearest_address']['state_name']) ? $merchant['address']['nearest_address']['state_name'] : '';
+$city_name = isset($merchant['address']['nearest_address']['city_name']) ? $merchant['address']['nearest_address']['city_name'] : '';
 
 $avg_rating = (isset($merchant['rating_info']['avg_rating'])) ? $merchant['rating_info']['avg_rating'] : 0;
 $merchant_avg_rating_width = ($avg_rating*100)/5;
