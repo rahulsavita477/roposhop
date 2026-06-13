@@ -159,11 +159,11 @@
                                     <h2 class="product-title text-black">
                                         <span id="product'.$i.'_name"></span><br>
                                         <span class="color-change"> 
-                                            <strike id="product'.$i.'_price_div">₹ <span id="product'.$i.'_price">&nbsp;</strike> 
-                                                ₹ <span id="listing'.$i.'_price"></span>
+                                            <strike id="product'.$i.'_price_div">₹<span id="product'.$i.'_price">&nbsp;</strike> 
+                                                ₹<span id="listing'.$i.'_price"></span>
                                         </span>
                                         <span id="product'.$i.'_discount_div">
-                                            <span id="product'.$i.'_off"></span>%&nbsp; Off  &nbsp; (Discount &nbsp;₹ <span id="product'.$i.'_discount"></span>)
+                                            <span id="product'.$i.'_off"></span>%&nbsp;   &nbsp; (Discount &nbsp;₹<span id="product'.$i.'_discount"></span>)
                                         </span>
                                     </h2>
                                     <div class="price-box"></div>
@@ -334,7 +334,7 @@ async function setProductData(products, paging)
                 resp.product.offer_price > 0
             ) 
             {
-                $("#product"+j+"_price").html(resp.product.mrp_price+'&nbsp;');
+                $("#product"+j+"_price").html(resp.product.mrp_price);
                 $("#product"+j+"_off").html(resp.product.off);
                 $("#product"+j+"_discount").html(resp.product.discount_price);
 

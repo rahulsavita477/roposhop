@@ -656,7 +656,7 @@ $(document).ready(function() {
                                                                                     <div class="product-details">
                                                                                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                                                                                             Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                                                                            <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                                                                            <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                                                                             33.2%&nbsp; Off  &nbsp;
                                                                                         </h2>
                                                                                     </div>
@@ -685,7 +685,7 @@ $(document).ready(function() {
                                                                                     <div class="product-details">
                                                                                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                                                                                             Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                                                                            <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>33.2%&nbsp; Off  &nbsp;
+                                                                                            <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>33.2%&nbsp; Off  &nbsp;
                                                                                         </h2>
                                                                                     </div>
                                                                                 </div>
@@ -713,7 +713,7 @@ $(document).ready(function() {
                                                                                     <div class="product-details">
                                                                                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                                                                                             Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                                                                            <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                                                                            <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                                                                             33.2%&nbsp; Off  &nbsp;
                                                                                         </h2>
                                                                                     </div>
@@ -770,7 +770,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -784,7 +784,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                             Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -798,7 +798,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -812,7 +812,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -826,7 +826,7 @@ $(document).ready(function() {
                                             <div class="product-details text-left">
                                                 <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -870,7 +870,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -886,7 +886,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -900,7 +900,7 @@ $(document).ready(function() {
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -917,7 +917,7 @@ $(document).ready(function() {
                                     <div class="product-details text-left">
                                         <h2 class="product-title text-black">
                                             Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                            <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                            <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                         </h2>
                                     </div>
                                 </a>
@@ -934,7 +934,7 @@ $(document).ready(function() {
                                     <div class="product-details text-left">
                                        <h2 class="product-title text-black">
                                         Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                            <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                            <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                         </h2>
                                     </div>
                                 </a>
@@ -948,7 +948,7 @@ $(document).ready(function() {
                                     <div class="product-details text-left">
                                        <h2 class="product-title text-black">
                                         Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                            <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                            <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                         </h2>
                                     </div>
                                 </a>

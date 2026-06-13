@@ -421,11 +421,11 @@ function open_modal(merchant_id, establishment_name)
                                         <span id="product'.$i.'_name"></span><br>
                                         <span class="color-change"> 
                                             <strong>
-                                                <strike id="product'.$i.'_price_div">₹ <span id="product'.$i.'_price">&nbsp;</strike> 
-                                                ₹ <span id="listing'.$i.'_price"></span>
+                                                <strike id="product'.$i.'_price_div">₹<span id="product'.$i.'_price"></strike>
+                                                ₹<span id="listing'.$i.'_price"></span>
                                             </strong>
                                             <span id="product'.$i.'_discount_div">
-                                                <span id="product'.$i.'_off"></span>%&nbsp; Off  &nbsp; (Discount &nbsp;₹ <span id="product'.$i.'_discount"></span>)
+                                                <span id="product'.$i.'_off"></span>%&nbsp; Off (Discount ₹<span id="product'.$i.'_discount"></span>)
                                             </span>
                                         </span>
                                     </h2>
@@ -572,7 +572,7 @@ async function setBrandProductData(listing_products, paging)
 
             if (resp.product.discount_price > 0) 
             {
-                $("#product"+j+"_price").html(resp.product.mrp_price+'&nbsp;');
+                $("#product"+j+"_price").html(resp.product.mrp_price);
                 $("#product"+j+"_off").html(resp.product.off);
                 $("#product"+j+"_discount").html(resp.product.discount_price);
 

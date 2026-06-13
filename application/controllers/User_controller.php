@@ -474,7 +474,7 @@ class User_controller extends CI_Controller
 
             //get product images
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
@@ -798,7 +798,7 @@ class User_controller extends CI_Controller
             //get product images
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
             $attatchments = array();
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
@@ -1390,13 +1390,10 @@ class User_controller extends CI_Controller
             // $this->load->view('user/brand', $brands);
             // $this->load->view('user/include/footer');
 
-            // echo "<pre>"; print_r($brands); die;
-            //echo "<pre>"; print_r($data); die;
-
             //load view
             $this->load->view('user/design/include/header', $data);
             $this->load->view('user/design/brand_detail', $brands);
-            $this->load->view('ajaxFunctions');  
+            $this->load->view('ajaxFunctions');
             $this->load->view('user/design/include/footer');
         }
         else //get all brands

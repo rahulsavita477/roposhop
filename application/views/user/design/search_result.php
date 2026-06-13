@@ -176,7 +176,7 @@
                                          </ul>
                                       </div>
                                       <div class="price-box">
-                                         <strong><strike>₹ <?= $value['mrp_price'] ?></strike>&nbsp; ₹ <?= $value['offer_price'] ?><br></strong><?= $value['off'] ?>%  &nbsp; Off &nbsp;[ Discount &nbsp; ₹ <?= $value['discount_price'] ?>]
+                                         <strong><strike>₹<?= $value['mrp_price'] ?></strike> ₹<?= $value['offer_price'] ?><br></strong><?= $value['off'] ?>%  Off [Discount ₹<?= $value['discount_price'] ?>]
                                       </div>
                                    </div>
                                 </div>

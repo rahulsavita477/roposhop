@@ -210,10 +210,10 @@
                             <div class="product-details text-left">
                                <h2 class="product-title text-black">
                                     Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                  <strong><strike>₹ 13999</strike>
-                                    &nbsp; ₹ 1000<br>
+                                  <strong><strike>₹13999</strike>
+                                    &nbsp; ₹1000<br>
                                   </strong>
-                                    33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                    33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                                               
                                   </h2>
                                 <div class="price-box">
@@ -233,10 +233,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                 <div class="price-box">
                                  </div><!-- End .price-box -->
@@ -255,10 +255,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                 <div class="price-box">
                                  </div><!-- End .price-box -->
@@ -277,10 +277,10 @@
                             <div class="product-details text-left">
                               <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                 <div class="price-box">
                                  </div><!-- End .price-box -->
@@ -299,10 +299,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                 <div class="price-box">
                                  </div><!-- End .price-box -->
@@ -322,10 +322,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                 <div class="price-box">
                                  </div><!-- End .price-box -->
@@ -381,10 +381,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                
                                 
@@ -402,10 +402,10 @@
                             <div class="product-details text-left">
                                <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                            </a>
@@ -421,10 +421,10 @@
                             <div class="product-details text-left">
                               <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </a>
@@ -441,10 +441,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                
                              </div><!-- End .product-details -->
@@ -462,10 +462,10 @@
                             <div class="product-details text-left">
                                <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                             </a>
@@ -483,10 +483,10 @@
                             <div class="product-details text-left">
                                <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </a>
@@ -536,10 +536,10 @@
                             <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                
                             </div><!-- End .product-details -->
@@ -556,10 +556,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                            </a>
@@ -575,10 +575,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </a>
@@ -595,10 +595,10 @@
                             <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                                
                              </div><!-- End .product-details -->
@@ -616,10 +616,10 @@
                             <div class="product-details text-left">
                                   <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                             </a>
@@ -637,10 +637,10 @@
                              <div class="product-details text-left">
                                   <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </a>
@@ -771,10 +771,10 @@
                                 <div class="product-details text-left">
                                   <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                            </div><!-- End .product-details -->
@@ -792,10 +792,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -813,10 +813,10 @@
                                 <div class="product-details text-left">
                                   <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                           </div><!-- End .product-details -->
@@ -834,10 +834,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -855,10 +855,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -876,10 +876,10 @@
                                 <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                           </div><!-- End .product-details -->
@@ -930,10 +930,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -951,10 +951,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -972,10 +972,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                            </div><!-- End .product-details -->
@@ -993,10 +993,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                           </div><!-- End .product-details -->
@@ -1014,10 +1014,10 @@
                                 <div class="product-details text-left">
                                 <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                             </div><!-- End .product-details -->
@@ -1035,10 +1035,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -1187,10 +1187,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
@@ -1245,10 +1245,10 @@
                                 <div class="product-details text-left">
                                  <h2 class="product-title text-black">
                                 Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                <strong><strike>₹ 13999</strike>
-                                &nbsp; ₹ 1000<br>
+                                <strong><strike>₹13999</strike>
+                                &nbsp; ₹1000<br>
                                 </strong>
-                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹ 4520]
+                                33.2%&nbsp; Off  &nbsp; [Discount &nbsp; ₹4520]
                                 </h2>
                              </div><!-- End .product-details -->
                          </div><!-- End .product-details -->
