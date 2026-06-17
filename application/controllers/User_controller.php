@@ -353,6 +353,13 @@ class User_controller extends CI_Controller
     public function getProducts($where='', $where_in=array(), $like=array())
     {
         $data = false;
+        $discardDisabledProduct = ['isEnabled' => 1];
+        if(is_array($where)) {
+            $where = $where + $discardDisabledProduct;
+        } else {
+            $where = $discardDisabledProduct;
+        }
+
         $products = $this->am1->selectRecords($where, 'product', 'SQL_CALC_FOUND_ROWS product_id, product_name, mrp_price, description', array(), $this->limit, $this->start, $like, false, $where_in);
         
         if ($products) 
@@ -401,7 +408,7 @@ class User_controller extends CI_Controller
 
     public function product_detail()
     {
-        if (isset($_GET['category']) && !isset($_GET['prd_id'])) 
+        if (isset($_GET['category']) && !isset($_GET['prd_id']))
         {
             $this->product();
             die;
@@ -414,16 +421,16 @@ class User_controller extends CI_Controller
         $data['product'] = false;
         $key_features = array();
 
-        if (isset($_GET['prd_id'])) 
+        if (isset($_GET['prd_id']))
         {
             $product_id = $_GET['prd_id']; // product id
 
             //get product detail
-            $where = array('product_id' => $product_id);
+            $where = array('product_id' => $product_id, 'isEnabled' => 1);
             $product_detail = $this->am1->selectRecords($where, 'product', 'category_id, product_id, product_name, mrp_price, description, brand_id, in_the_box, meta_keyword, meta_description');
 
             //product detail
-            $data['product'] = $product_detail['result'][0];
+            $data['product'] = $product_detail ? $product_detail['result'][0] : [];
 
             //get product meta data
             $metaData = $this->admin_controller->getMetaData('PRODUCT', $product_id);
@@ -434,14 +441,17 @@ class User_controller extends CI_Controller
             $data['meta_data']['image'] = $metaData['metaImage'];
 
             //get brand name
-            $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
-            $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
-            $data['product']['brand_name'] = $brand['result'][0]['name'];
-            $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+            if($product_detail) {
+                
+                $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
+                $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
+                $data['product']['brand_name'] = $brand ? $brand['result'][0]['name']: "";
+                $data['product']['brand_logo'] = $brand ? base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']) : "";
+            }
 
             //get product attributes
             $prd_att_res = $this->am1->productAttributes($product_id);
-            if ($prd_att_res) 
+            if ($prd_att_res && $data['product']) 
                 $data['product']['specifications'] = $prd_att_res;
             else
                 $data['product']['specifications'] = false;
@@ -520,7 +530,7 @@ class User_controller extends CI_Controller
             }
 
             //get similar product
-            $where = array('product_id !=' => $product_id, 'category_id' => $data['product']['category_id']);
+            if(isset($data['product']['category_id'])) $where = array('product_id !=' => $product_id, 'category_id' => $data['product']['category_id']);
             $similar_products = $this->am1->selectRecords($where, 'product', 'product_id, product_name');
             
             if ($similar_products) 
@@ -880,7 +890,7 @@ class User_controller extends CI_Controller
                 $offer_id = $mer_offer['offer_id'];
                 $offer_imgs = $this->attatchments($offer_id, "OFFER");
 
-                if ($offer_imgs['result']) 
+                if ($offer_imgs && $offer_imgs['result']) 
                 {
                     foreach ($offer_imgs['result'] as $atch_value) 
                         array_push($attatchments, $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH.$offer_id.'/'.$atch_value['atch_url']);

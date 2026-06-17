@@ -47,7 +47,8 @@
                                             <td>".$req_prd['brand_name']."</td>
                                             <td>".$req_prd['sell_price']."</td>
                                             <td>
-                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>ADD</a>
+                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>Approve</a>
+                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-danger'>Reject</a>
                                             </td>
                                         </tr>";
                                 }

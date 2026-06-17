@@ -228,22 +228,24 @@ $(document).ready(function() {
                                 <div class="product-slider-container product-item">
                                     <div class="product-single-carousel owl-carousel">
                                         <?php
-                                        foreach ($product['images'] as $key => $imgs) 
-                                        {
-                                            echo '<div class="product-item">
-                                                    <img 
-                                                        style="    
-                                                            width: auto;
-                                                            max-width: 343px;
-                                                            margin-left: auto;
-                                                            margin-right: auto;
-                                                            height: auto;
-                                                            max-height: 400px;" 
-                                                        class="product-single-image" 
-                                                        src="'.$imgs.'" 
-                                                        data-zoom-image="'.$imgs.'" 
-                                                        alt="'.$product['product_name'].'_'.$key.'" />
-                                                </div>';
+                                        if(isset($product['images']) && isset($product['product_name'])) {
+                                            
+                                            foreach ($product['images'] as $key => $imgs) {
+
+                                                echo '<div class="product-item">
+                                                        <img
+                                                            style="width: auto;
+                                                                max-width: 343px;
+                                                                margin-left: auto;
+                                                                margin-right: auto;
+                                                                height: auto;
+                                                                max-height: 400px;"
+                                                            class="product-single-image"
+                                                            src="'.$imgs.'"
+                                                            data-zoom-image="'.$imgs.'"
+                                                            alt="'.$product['product_name'].'_'.$key.'" />
+                                                    </div>';
+                                            }
                                         }
                                         ?>
                                     </div>
@@ -254,21 +256,23 @@ $(document).ready(function() {
                                 </div>
 
                                 <div class="prod-thumbnail row owl-dots transparent-dots" id='carousel-custom-dots'>
-                                    <?php
-                                    foreach ($product['images'] as $imgs) 
-                                    {
-                                        echo '<div class="owl-dot">
-                                                <img 
-                                                    style="    
-                                                        width: auto;
-                                                        max-width: 80px;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        height: auto;
-                                                        max-height: 80px;"
-                                                    src="'.$imgs.'" 
-                                                    alt="'.$product['product_name'].'_'.$key.'" />
-                                            </div>';
+                                    <?php if(isset($product['images']) && isset($product['product_name'])) {
+                                        
+                                        foreach ($product['images'] as $imgs) {
+                                            
+                                            echo '<div class="owl-dot">
+                                                    <img
+                                                        style="
+                                                            width: auto;
+                                                            max-width: 80px;
+                                                            margin-left: auto;
+                                                            margin-right: auto;
+                                                            height: auto;
+                                                            max-height: 80px;"
+                                                        src="'.$imgs.'"
+                                                        alt="'.$product['product_name'].'_'.$key.'" />
+                                                </div>';
+                                        }
                                     }
                                     ?>
                                 </div>
@@ -277,7 +281,7 @@ $(document).ready(function() {
 
                         <div class="col-lg-7">
                             <div class="product-single-details">
-                                <h2 class="product"><?= $product['product_name'] ?></h2>
+                                <h2 class="product"><?= isset($product['product_name']) ? $product['product_name'] : '' ?></h2>
                                 <div class="ratings-container">
                                     <a href="<?= base_url('product/rating/').$_GET['prd_id'] ?>">
                                         <div class="product-ratings">
@@ -301,30 +305,21 @@ $(document).ready(function() {
                                     <tr>
                                         <td>Brand</td>
                                         <td>
-                                            <?php
-                                            if ($product['brand_name']) 
-                                                echo $product['brand_name'];
-                                            ?>
+                                            <?= isset($product['brand_name']) && $product['brand_name'] ? $product['brand_name'] : '' ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>In the box</td>
                                         <td>
-                                            <?php
-                                            if ($product['in_the_box']) 
-                                                echo $product['in_the_box'];
-                                            ?>
+                                            <?= isset($product['in_the_box']) && $product['in_the_box'] ? $product['in_the_box'] : '' ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>MRP</td>
                                         <td>
-                                            <?php
-                                            if ($product['mrp_price']) 
-                                                echo currency_format($product['mrp_price']);
-                                            ?>
+                                            <?= isset($product['mrp_price']) && $product['mrp_price'] ? currency_format($product['mrp_price']) : '' ?>
                                         </td>
-                                    </tr>       
+                                    </tr>
                                 </tbody>
                             </table>
 
@@ -359,54 +354,57 @@ $(document).ready(function() {
                                             'items': 5
                                         }
                                     }
-                                }"> 
-                                    <?php 
-                                    foreach ($product['sold_by_merchants'] as $merchant) 
-                                    { 
-                                        $listing_url = base_url('listings').'/'.url_title($merchant['establishment_name'].'-'.$product['product_name'], '-', true).'?list_id='.$merchant['listing_id'].'&prd_id='.$_GET['prd_id'].$url;
+                                }">
+                                    <?php
+                                    if(isset($product['product_name'])) {
+                                        
+                                        foreach ($product['sold_by_merchants'] as $merchant) {
 
-                                        $lat = $merchant['nearest_address']['latitude'];
-                                        $long = $merchant['nearest_address']['longitude'];
-                                        $distance = distance($lat, $long);
+                                            $listing_url = base_url('listings').'/'.url_title($merchant['establishment_name'].'-'.$product['product_name'], '-', true).'?list_id='.$merchant['listing_id'].'&prd_id='.$_GET['prd_id'].$url;
 
-                                        echo '<div class="product-default d-flex flex-column justify-content-center">
-                                            <a href="'.$listing_url.'">';
+                                            $lat = $merchant['nearest_address']['latitude'];
+                                            $long = $merchant['nearest_address']['longitude'];
+                                            $distance = distance($lat, $long);
 
-                                            if ($merchant['merchant_logo']) 
-                                                echo '<div class="height-100 d-flex flex-column"
-                                                    >
-                                                        <img 
-                                                            style="
-                                                                display: block !important;
-                                                                width: auto !important;
-                                                                max-width: 100%;
-                                                                height: auto;
-                                                                position: relative;
-                                                                max-height: 100px;
-                                                                margin-left: auto;
-                                                                margin-right: auto;"
+                                            echo '<div class="product-default d-flex flex-column justify-content-center">
+                                                <a href="'.$listing_url.'">';
 
-                                                            src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'" 
-                                                            alt="'.$merchant['establishment_name'].'"/>
-                                                    </div>';
-                                            else
-                                                echo '<div class="height-100 d-flex flex-column justify-content-center" style="background:red;">
-                                                    <h3 style="color:#fff;">'.$merchant['establishment_name'].'</h3></div>';
+                                                if ($merchant['merchant_logo']) 
+                                                    echo '<div class="height-100 d-flex flex-column"
+                                                        >
+                                                            <img 
+                                                                style="
+                                                                    display: block !important;
+                                                                    width: auto !important;
+                                                                    max-width: 100%;
+                                                                    height: auto;
+                                                                    position: relative;
+                                                                    max-height: 100px;
+                                                                    margin-left: auto;
+                                                                    margin-right: auto;"
 
-                                            echo '<div class="row pt-2 pb-2">
-                                                    <div class="col-md-6 text-left">
-                                                        <div class="product-filters-container text-left">
-                                                            '.currency_format($merchant['sell_price']).'<br />('.calculatePercentage($product['mrp_price'], $merchant['sell_price']).'% Off)
-                                                        </div> 
-                                                    </div>    
-                                            
-                                                    <div class="col-md-6">
-                                                        <button class="bs"><i class="fa fa-walking" aria-hidden="true"></i> '.$distance.'<br />KM</button>
-                                                    </div>  
-                                                </div>
-                                            </a>
-                                        </div>';
-                                    } 
+                                                                src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'" 
+                                                                alt="'.$merchant['establishment_name'].'"/>
+                                                        </div>';
+                                                else
+                                                    echo '<div class="height-100 d-flex flex-column justify-content-center" style="background:red;">
+                                                        <h3 style="color:#fff;">'.$merchant['establishment_name'].'</h3></div>';
+
+                                                echo '<div class="row pt-2 pb-2">
+                                                        <div class="col-md-6 text-left">
+                                                            <div class="product-filters-container text-left">
+                                                                '.currency_format($merchant['sell_price']).'<br />('.calculatePercentage($product['mrp_price'], $merchant['sell_price']).'% Off)
+                                                            </div> 
+                                                        </div>    
+                                                
+                                                        <div class="col-md-6">
+                                                            <button class="bs"><i class="fa fa-walking" aria-hidden="true"></i> '.$distance.'<br />KM</button>
+                                                        </div>  
+                                                    </div>
+                                                </a>
+                                            </div>';
+                                        }    
+                                    }
                                     ?>
                                 </div>
                             </div>
@@ -429,15 +427,18 @@ $(document).ready(function() {
                                                         <table class="table show tableSeconday">
                                                             <tbody>
                                                                 <?php
-                                                                foreach ($product['specifications'] as $spec_value) 
-                                                                {
-                                                                    if ($spec_value['value']) 
-                                                                    {
-                                                                        echo '<tr><td>'.$spec_value['spec'].'</td><td>'.$spec_value['value'].'</td></tr>';
+                                                                if($product['specifications']) {
+                                                                    
+                                                                    foreach ($product['specifications'] as $spec_value) {
+                                                                     
+                                                                        if ($spec_value['value']) {
+                                                                        
+                                                                            echo '<tr><td>'.$spec_value['spec'].'</td><td>'.$spec_value['value'].'</td></tr>';
+                                                                        }
                                                                     }
                                                                 }
 
-                                                                if ($product['varients']) 
+                                                                if ($product['varients'])
                                                                 {
                                                                     foreach ($product['varients'] as $vrnt_key_name => $vrnt_values) 
                                                                     {
@@ -475,7 +476,7 @@ $(document).ready(function() {
 
                                     <div class="product-collapse-body collapse show" id="product-collapse-description" data-parent="#productAccordion">
                                         <p class="more">
-                                            <?= $product['description'] ?>
+                                            <?= isset($product['description']) ? $product['description'] : "" ?>
                                         </p>
                                     </div>
                                 </div>

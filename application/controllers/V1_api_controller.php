@@ -326,6 +326,7 @@ class V1_api_controller extends CI_Controller
 	{
 		$res = array();
 		$where_in = array();
+		$where_in = ['isEnabled' => 1];
 
 		if (count($a_brand_id)>0) 
 			$where_in['brand_id'] = $a_brand_id;

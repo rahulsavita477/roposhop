@@ -138,6 +138,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['verifySeller'] = $admin_controller.'verifySeller';
 	$route['deleteAttactchment/(:any)/(:any)/(:any)'] = $admin_controller.'deleteAttactchment/$1/$2/$3';
 	$route['deleteProduct/(:num)'] = $admin_controller.'deleteProduct/$1';
+	$route['changeProductStatus/(:num)/(:num)'] = $admin_controller.'updateProductStatus/$1/$2';
 	$route['getAllProducts/(:num)'] = $admin_controller.'getProductsForLinking/$1';
 	$route['getProductDetail/(:num)/(:num)/(:num)'] = $admin_controller.'getProductDetail/$1/$2/$3';
 	$route['insertListingInfo'] = $admin_controller.'addListing';

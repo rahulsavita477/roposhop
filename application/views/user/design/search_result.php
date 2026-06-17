@@ -135,6 +135,10 @@
 
             <div class="row">
                 <?php 
+                if(!$search_result['products'] && !$search_result['brands'] && !$search_result['merchants']) {
+                    echo "No Result Found!";
+                }
+
                 if ($search_result['products']) 
                 {
                     foreach ($search_result['products']['result'] as $value) 

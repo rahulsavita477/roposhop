@@ -154,10 +154,17 @@
                                     </tbody>
                                 </table>
                             </div><!-- /.box-body -->
-                        <?php 
-                        } if (!isset($_GET['list_new_product'])) { ?>
-                            <a href="<?= base_url('getAllProducts/0?list_new_product=Yes') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> List New Product</a>
-                        <?php } ?>  
+                        <?php
+                        } if (!isset($_GET['list_new_product'])) {
+
+                            if($_COOKIE['site_code'] == "seller") {
+                                
+                                echo '<a href="'.base_url('getAllProducts/'.$_COOKIE['merchant_id'].'?list_new_product=Yes').'" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> List New Product</a>';
+                            } elseif($_COOKIE['site_code'] == "admin") {
+                                
+                                echo '<a href="'.base_url('getAllProducts/0?list_new_product=Yes').'" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> List New Product</a>';
+                            }
+                        } ?>
                     </div>
                 
                     <!-- select requested product for linking -->
@@ -202,32 +209,34 @@
                                 <h3 class="box-title">Listed Products</h3>
                             </div><!-- /.box-header -->
 
-                            <div class="row" style="margin: 10px 0 10px 0;">
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="merchant_id">
-                                        <?php
-                                        echo '<option value="">-- select merchant --</option>';
-    
-                                        foreach ($merchants as $merchant) 
-                                        {
-                                            if (!$merchant['establishment_name'])
-                                                continue;
+                            <?php if ($_COOKIE['site_code'] == 'admin'): ?>
+                                <div class="row" style="margin: 10px 0 10px 0;">
+                                    <div class="col-sm-3">
+                                        <select class="form-control" name="merchant_id">
+                                            <?php
+                                            echo '<option value="">-- select merchant --</option>';
+        
+                                            foreach ($merchants as $merchant) 
+                                            {
+                                                if (!$merchant['establishment_name'])
+                                                    continue;
 
-                                            $selected = '';
-                                            
-                                            if ($sel_id == $merchant['merchant_id']) 
-                                                $selected = 'selected';
+                                                $selected = '';
+                                                
+                                                if ($sel_id == $merchant['merchant_id']) 
+                                                    $selected = 'selected';
 
-                                            echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";
-                                        }
-                                        ?>
-                                    </select>
+                                                echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="button" onclick="getListing()" class="btn btn-info">Find listing</button>
+                                        <a href="<?= base_url('getAllProducts/0') ?>" class='btn btn-default'>Remove filter</a>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <button type="button" onclick="getListing()" class="btn btn-info">Find listing</button>
-                                    <a href="<?= base_url('getAllProducts/0') ?>" class='btn btn-default'>Remove filter</a>
-                                </div>
-                            </div>
+                            <?php endif; ?>
 
                             <div class="box-body table-responsive">
                                 <table id="example1" class="table table-bordered table-striped">
@@ -236,8 +245,9 @@
                                             <th>S.No.</th>
                                             <th>Listing ID</th>
                                             <?php
-                                            if ($_COOKIE['site_code'] == 'admin')
+                                            if ($_COOKIE['site_code'] == 'admin') {
                                                 echo "<th>Merchant ID</th>";
+                                            }
                                             ?>
                                             <th>Product ID</th>
                                             <th>Product Name</th>

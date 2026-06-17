@@ -670,7 +670,7 @@ class Admin_controller extends CI_Controller
 			$data['merchant_offers'] = $this->getOffer('', $_COOKIE['merchant_id']);
 
 			if ( isset($data['merchant_offers']['db_error']) ) 
-				redirectWithMessage('Error: '.$availableProducts['msg'], $controller);
+				redirectWithMessage('Error: '.$data['msg'], $controller);
 		}
 		else if ($pageName == "addOffer") 
 		{
@@ -679,6 +679,9 @@ class Admin_controller extends CI_Controller
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id, name', array('name' => 'ASC'));
 			if (isset($res['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
+
+			
+			// $pageName = "addOffer_old";
 		}
 		else if ($pageName == "merchantReview") 
 		{
@@ -1007,13 +1010,13 @@ class Admin_controller extends CI_Controller
 		if (isset($attatchments['db_error'])) 
 			redirectWithMessage('Error: '.$attatchments['msg'], $controller);
 
-		$offer_detail['attatchments'] = $attatchments['result'];
+		$offer_detail['attatchments'] = $attatchments ? $attatchments['result'] : array();
 		$offer_detail['sellers'] = $this->sellers;
 		$offer_detail['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id, name', array('name' => 'ASC'));
 		if (isset($res['brands']['db_error'])) 
 			redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
-		//$offer_detail['linked_products'] = $this->Admin_model->getLinkedproductsToOffer($offer_id, $offer_detail['merchant_id']);
-
+		$offer_detail['linked_products'] = $this->Admin_model->getLinkedproductsToOffer($offer_id, $offer_detail['merchant_id']);
+		
 		if (isset($offer_detail['db_error'])) 
 			redirectWithMessage('Error: '.$offer_detail['msg'], $controller);
 
@@ -2984,11 +2987,23 @@ class Admin_controller extends CI_Controller
 		if (isset($data['brands']['db_error'])) 
 			redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
 		
+		// echo "<pre>"; print_r($data); die;
+		
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/products', $data);
 		$this->load->view('admin/include/footer');
 		die;
+	}
+	
+	public function updateProductStatus($prd_id, $prd_status) {
+		
+		$data = ['isEnabled' => $prd_status];
+		$condition = ['product_id' => $prd_id];
+		$updated = $this->Admin_model->updateData('product', $data, $condition);
+
+		if (isset($updated['db_error'])) redirectWithMessage('Error: '.$updated['msg'], 'products');
+		else $this->products();
 	}
 
 	public function updateProductVarientValue()
@@ -3008,7 +3023,7 @@ class Admin_controller extends CI_Controller
 				$condition = array('vrnt_id' => $vrnt_key);
 				$data['att_value'] = $vrnt_value;
 
-				$isUpdated = $this->Admin_model->updateData('product_varient', $data, $condition);
+				$updated = $this->Admin_model->updateData('product_varient', $data, $condition);
 
 				if (isset($updated['db_error'])) 
 					redirectWithMessage('Error: '.$updated['msg'], 'products');
