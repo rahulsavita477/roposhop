@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped" style="color: #433f3f;">
+                        <table class="table table-bordered table-striped data-pagination-table" style="color: #433f3f;">
                             <thead>
                                 <tr>
                                     <th colspan="3"><center>Shop images</center></th>

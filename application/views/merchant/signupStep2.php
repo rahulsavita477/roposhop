@@ -60,7 +60,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-striped" style="color: #433f3f;">
+                        <table class="table table-striped" style="color: #433f3f;">
                             <tbody>
                                 <tr>
                                     <td>
@@ -330,7 +330,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-striped" style="color: #433f3f;">
+                        <table class="table table-striped" style="color: #433f3f;">
                             <tbody>
                                 <tr>
                                     <td>Profile Picture</td>

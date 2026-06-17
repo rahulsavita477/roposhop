@@ -487,7 +487,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 						            </div>
 
 						            <div class="box-body table-responsive">
-					                    <table id="example1" class="table table-bordered table-striped">
+					                    <table class="table table-bordered table-striped data-pagination-table">
 					                        <thead>
 					                            <tr>
 					                                <th colspan="3"><center>Shop images</center></th>
@@ -700,7 +700,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                        	</div>
 
 		                        	<div class="box-body table-responsive">
-		                                <table id="example1" class="table table-bordered table-striped">
+		                                <table class="table table-bordered table-striped data-pagination-table">
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">

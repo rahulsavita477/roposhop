@@ -103,7 +103,7 @@
                             </div>
 
                             <div class="box-body table-responsive">
-                                <table id="example1" class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped data-pagination-table">
                                     <thead>
                                         <tr>
                                             <th>S.NO.</th>
@@ -239,7 +239,7 @@
                             <?php endif; ?>
 
                             <div class="box-body table-responsive">
-                                <table id="example1" class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped data-pagination-table">
                                     <thead>
                                         <tr>
                                             <th>S.No.</th>
@@ -329,7 +329,7 @@
                                 <h3 class="box-title">Listed Requested Products</h3>
                             </div><!-- /.box-header -->
                             <div class="box-body table-responsive">
-                                <table id="example2" class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped data-pagination-table">
                                     <thead>
                                         <tr>
                                             <th>S.No.</th>

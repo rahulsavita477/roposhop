@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="box-body table-responsive" style="margin-top: 20px;">
-                            <table id="example1" class="table table-bordered table-striped" style="margin-top: 40px;">
+                            <table class="table table-bordered table-striped data-pagination-table" style="margin-top: 40px;">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
