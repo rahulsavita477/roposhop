@@ -350,7 +350,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     <div class="alert alert-warning" role="alert">Only decimals are allowed for <b>Latitude </b> & <b>Longitude</b>.</div>
 
                     <div class="form-group">
-                        <button type="button" onclick="getLatLongFromAddress();" class="btn btn-info">Get lat-long from address</button>&nbsp;&nbsp;&nbsp; <span style="color: darkgray;"><b>Or Select On Map Below</b></span><br /><br />
+                        <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>&nbsp;&nbsp;&nbsp; <span style="color: darkgray;"><b>Or Select On Map Below</b></span><br /><br />
                     </div>
 
                     <!-- google map -->

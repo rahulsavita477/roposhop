@@ -57,7 +57,7 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <button type="submit" class="btn btn-info">Find Listing</button>
+                                    <button type="submit" class="btn btn-primary">Find Listing</button>
                                     <a href="<?= base_url('listingExcel') ?>" class='btn btn-default'>Remove Filter</a>
                                 </div>
                             <?= form_close() ?>
@@ -69,7 +69,7 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
                             <?= form_open('exportTemplateForListing', array('method' => 'get')) ?>
                                 <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
                                 <input type="hidden" name="product_id" value="<?= $product_id ?>" />
-                                <button type="submit" class="btn btn-info">Export Existing Data</button>
+                                <button type="submit" class="btn btn-primary">Export Existing Data</button>
                                 <a href="<?= base_url('exportTemplateForListing') ?>" class='btn btn-primary'>Export Empty Template</a>
                             <?= form_close() ?>
 
@@ -112,7 +112,7 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
                                                 <td>".currency_format($listing['price'])."</td>
                                                 <td>".$listing['listing_id']."</td>
                                                 <td>
-                                                    <button type='button' class='btn btn-info' data-toggle='modal' data-target='#myModal".$count."'>Detail</button>
+                                                    <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal".$count."'>Detail</button>
                                                 </td>
                             				</tr>";
 

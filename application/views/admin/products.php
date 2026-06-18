@@ -66,7 +66,7 @@ else
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-info">Find product</button>
+                                    <button type="submit" class="btn btn-primary">Find product</button>
                                     <a href="<?= base_url('products') ?>" class='btn btn-default'>Remove filter</a>
                                 </div>
                             </form>

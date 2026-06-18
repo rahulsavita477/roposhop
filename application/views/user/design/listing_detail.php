@@ -640,7 +640,7 @@ function open_modal2(name, data)
                                 <div class="col-lg-3">
                                     <?php
                                     if (isset($merchant['address']['total_address']) && $merchant['address']['total_address'] > 1)
-                                        echo '<a href="'.base_url('merchant/'.$merchant['merchant_id'].'/address').'" class="btn btn-info pull-right">View all '.$merchant['address']['total_address'].' addresses</a><br /><br />';
+                                        echo '<a href="'.base_url('merchant/'.$merchant['merchant_id'].'/address').'" class="btn btn-primary pull-right">View all '.$merchant['address']['total_address'].' addresses</a><br /><br />';
 
                                     echo '<a target="_blank" href="https://www.google.com/maps/place/'.$lat.','.$long.'" class="btn btn-warning pull-right"><i class="fa fa-walking" aria-hidden="true"></i> '.distance($lat, $long).' KM</a>';
                                     ?>

@@ -97,7 +97,7 @@ $page_title = 'Add requested product';
 			                        </div>
 
 			                        <div class="modal-footer">
-			                        	<button type="button" class="btn btn-info" id="createVarientFieldBtn" disabled><i class="fa fa-plus"></i> Create verient field</button>
+			                        	<button type="button" class="btn btn-primary" id="createVarientFieldBtn" disabled><i class="fa fa-plus"></i> Create verient field</button>
 			                        	<button class="btn btn-default" data-dismiss="modal">Close</button>
 			                        	<button type="submit" class="btn btn-primary" id="varientSubmitBtn" disabled>Submit</button>
 			                        </div>

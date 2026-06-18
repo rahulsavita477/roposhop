@@ -60,7 +60,7 @@ else
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
-                                    <button class="btn btn-info" onclick="searchOffer();">Find offer</button>
+                                    <button class="btn btn-primary" onclick="searchOffer();">Find offer</button>
                                     <a href="<?= base_url('sellers/offers') ?>" class='btn btn-default'>Remove filter</a>
                                 </div>
                             </div>

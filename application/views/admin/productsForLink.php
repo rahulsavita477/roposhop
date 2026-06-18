@@ -41,24 +41,70 @@
                                 <select class="form-control" onchange="changeURL(this)">
                                     <option value="0">--select seller--</option>
                                     <?php
-                                            foreach ($merchants as $merchant) 
-                                            {
-                                                if (!$merchant['establishment_name'])
-                                                    continue;
+                                    foreach ($merchants as $merchant) 
+                                    {
+                                        if (!$merchant['establishment_name'])
+                                            continue;
 
-                                                if ($sel_id == $merchant['merchant_id']) 
-                                                    $selected = "selected='selected'";
-                                                else
-                                                    $selected = '';
+                                        if ($sel_id == $merchant['merchant_id']) 
+                                            $selected = "selected='selected'";
+                                        else
+                                            $selected = '';
 
-                                                echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";    
-                                            }
-                                            ?>
+                                        echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";    
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
                         <?php endif; ?>
 
+                        <div class="row" style="margin: 10px 0 10px -5px;">
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <?= form_open('getAllProducts/'.$sel_id, array('method' => 'get')) ?>
+                                        <input type="hidden" name="list_new_product" value="Yes" />
+                                        <div class="col-sm-4">
+                                            <select class="form-control" name="category_id">
+                                                <option value="">--select category--</option>
+                                                <?php
+                                                foreach ($categories['result'] as $category) 
+                                                {
+                                                    if ($category['category_id'] == $_GET['category_id']) 
+                                                        $selected = "selected='selected'";
+                                                    else
+                                                        $selected = '';
+
+                                                    echo "<option value='".$category['category_id']."' ".$selected.">".$category['category_name']."</option>";    
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" name="brand_id">
+                                                <option value="">--select brand--</option>
+                                                <?php
+                                                foreach ($brands['result'] as $brand) 
+                                                {
+                                                    if ($brand['brand_id'] == $_GET['brand_id'])
+                                                        $selected = "selected='selected'";
+                                                    else
+                                                        $selected = '';
+
+                                                    echo "<option value='".$brand['brand_id']."' ".$selected.">".$brand['name']."</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-primary" onclick="searchProduct();">Find product</button>
+                                            <a href="<?= base_url('getAllProducts/'.$sel_id.'?list_new_product=Yes') ?>" class='btn btn-default'>Remove filter</a>
+                                        </div>
+                                    <?= form_close() ?>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="box-body table-responsive">
                             <table class="table table-bordered table-striped data-pagination-table">
                                 <thead>
@@ -115,11 +161,11 @@
 
                             if($_COOKIE['site_code'] == "seller") {
                                 
-                                echo '<a href="'.base_url('getAllProducts/'.$_COOKIE['merchant_id'].'?list_new_product=Yes').'" class="btn btn-primary pull-right" style="margin: 10px 0 20px 0;"><i class="fa fa-plus"></i> List New Product</a>';
+                                echo '<a href="'.base_url('getAllProducts/'.$_COOKIE['merchant_id'].'?list_new_product=Yes').'" class="btn btn-primary pull-right" style="margin: 10px 10px 0px 0;"><i class="fa fa-plus"></i> List New Product</a>';
                                 
                             } elseif($_COOKIE['site_code'] == "admin") {
                                 
-                                echo '<a href="'.base_url('getAllProducts/0?list_new_product=Yes').'" class="btn btn-primary pull-right"><i class="fa fa-plus" style="margin: 10px 0 20px 0;"></i> List New Product</a>';
+                                echo '<a href="'.base_url('getAllProducts/0?list_new_product=Yes').'" class="btn btn-primary pull-right" style="margin: 10px 10px 0px 0;"><i class="fa fa-plus"></i> List New Product</a>';
                             }
                         } ?>
                     </div>
@@ -163,12 +209,12 @@
                     </div>
                     <?php } if (!isset($_GET['list_new_product'])) { ?>
                     
-                    <div class="box-header">
+                    <div class="box-header" style="position:unset;">
                         <h3 class="box-title">Listed Products</h3>
                     </div><!-- /.box-header -->
 
                     <?php if ($_COOKIE['site_code'] == 'admin'): ?>
-                    <div class="row" style="margin: 10px 0 10px 0;">
+                    <div class="row" style="margin: 10px 0 10px -5px;">
                         <div class="col-sm-3">
                             <select class="form-control" name="merchant_id">
                                 <?php
@@ -190,8 +236,8 @@
                             </select>
                         </div>
                         <div class="col-sm-3">
-                            <button type="button" onclick="getListing()" class="btn btn-info">Find listing</button>
-                            <a href="<?= base_url('getAllProducts/0') ?>" class='btn btn-default'>Remove filter</a>
+                            <button type="button" onclick="getListing()" class="btn btn-primary">Find Listing</button>
+                            <a href="<?= base_url('getAllProducts/0') ?>" class='btn btn-default'>Remove Filter</a>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -286,7 +332,7 @@
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Listed Requested Products</h3>
-                    </div><!-- /.box-header -->
+                    </div> <!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>

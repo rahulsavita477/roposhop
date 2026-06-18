@@ -312,7 +312,7 @@ function open_modal(merchant_id, establishment_name)
                                         $is_completed = '<a 
                                             href="javascript:void(0);" 
                                             data-toggle="modal" 
-                                            class="btn btn-info" 
+                                            class="btn btn-primary" 
                                             style="padding: 5px;"
                                             >
                                                 Verified
@@ -325,7 +325,7 @@ function open_modal(merchant_id, establishment_name)
                                                 &apos;'.$merchant_detail['establishment_name'].'&apos;
                                             );" 
                                             data-toggle="modal" 
-                                            class="btn btn-info" 
+                                            class="btn btn-primary" 
                                             style="padding: 5px;"
                                             >
                                                 Claim this business
@@ -489,7 +489,7 @@ function open_modal(merchant_id, establishment_name)
                                 <div class="col-sm-6">
                                     <?php
                                     if ($address['total_address'] > 1)
-                                        echo '<a href="'.base_url('merchant/'.$_GET['merchant_id'].'/address').'" class="btn btn-info">View all '.$address['total_address'].' addresses</a><br /><br />';
+                                        echo '<a href="'.base_url('merchant/'.$_GET['merchant_id'].'/address').'" class="btn btn-primary">View all '.$address['total_address'].' addresses</a><br /><br />';
 
                                     echo '<a target="_blank" href="https://www.google.com/maps/place/'.$lat.','.$long.'" class="btn btn-warning"><i class="fa fa-walking" aria-hidden="true"></i> '.distance($lat, $long).' KM</a>';
                                     ?>

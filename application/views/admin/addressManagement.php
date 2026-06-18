@@ -75,7 +75,7 @@ $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 	                        <select class="form-control" name="city_id" id="state_cities"></select>
 	                    </div>
 	                    <div class="col-sm-4">
-	                        <button type="submit" class="btn btn-info">Find address</button>
+	                        <button type="submit" class="btn btn-primary">Find address</button>
 	                        <a href="<?= base_url('page/addressManagement?user_id='.$_GET["user_id"].'&merchant_id=').$_GET["merchant_id"] ?>" class='btn btn-default'>Remove filter</a>
 	                    </div>
 	                </div>

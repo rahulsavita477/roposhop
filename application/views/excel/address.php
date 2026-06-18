@@ -63,7 +63,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-info">Apply Filter</button>
+                                    <button type="submit" class="btn btn-primary">Apply Filter</button>
                                     <a href="<?= base_url('addressExcel') ?>" class='btn btn-default'>Remove Filter</a>
                                 </div>
                             <?= form_close() ?>
@@ -76,7 +76,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                                 <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
                                 <input type="hidden" name="state_id" value="<?= $state_id ?>" />
                                 <input type="hidden" name="city_id" value="<?= $city_id ?>" />
-                                <button type="submit" class="btn btn-info">Export Existing Data</button>
+                                <button type="submit" class="btn btn-primary">Export Existing Data</button>
                                 <a href="<?= base_url('exportTemplateForAddress') ?>" class='btn btn-primary'>Export Empty Template</a>
                             <?= form_close() ?>
                             
@@ -136,7 +136,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                                                 <td>".$addres['state_name']."</td>
                                                 <td>".$addres['address_id']."</td>
                                                 <td>
-                                                    <button type='button' class='btn btn-info' data-toggle='modal' data-target='#myModal".$count."'>Detail</button>
+                                                    <button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal".$count."'>Detail</button>
                                                 </td>
                             				</tr>";
 

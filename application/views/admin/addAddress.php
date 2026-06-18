@@ -129,7 +129,7 @@ else
                                     <input type="text" name="long" id="long" class="form-control" placeholder="longitude" onkeyup="initialize();" value="<?= $long ?>" required />
                                 </div>
                                 <div class="col-sm-4">
-                                    <button type="button" onclick="getLatLongFromAddress();" class="btn btn-info">Get lat-long from address</button>
+                                    <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>
                                 </div>
                             </div>
 

@@ -46,7 +46,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : '';
 									<select class="form-control" name="city_id" id="state_cities"></select>
 								</div>
 								<div class="col-sm-3">
-									<button type="submit" class="btn btn-info">Find merchant</button>
+									<button type="submit" class="btn btn-primary">Find merchant</button>
 									<a href="<?= base_url('merchantExcel') ?>" class='btn btn-default'>Remove filter</a>
 								</div>
 							<?= form_close() ?>
@@ -82,7 +82,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : '';
 		                                        <td>".$merchant['establishment_name']."</td>
 		                                        <td>".$merchant['merchant_id']."</td>
 		                                        <td>
-		                                        	<button type='button' class='btn btn-info' data-toggle='modal' data-target='#myModal".$count."'>Detail</button>
+		                                        	<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#myModal".$count."'>Detail</button>
 		                                        </td>
 		                    				</tr>";
 
