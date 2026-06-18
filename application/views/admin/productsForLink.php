@@ -329,10 +329,10 @@
                     </div><!-- /.box-body -->
                 </div>
 
-                <div class="box">
+                <!-- <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Listed Requested Products</h3>
-                    </div> <!-- /.box-header -->
+                    </div>
                     <div class="box-body table-responsive">
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
@@ -348,48 +348,48 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody> -->
                                 <?php
-                                    $available = false;
-                                    if ($req_products) 
-                                    {
-                                        $count = 1;
-                                        foreach ($req_products as $req_product) 
-                                        {
-                                            if ($req_product['merchant_id'] == $sel_id && !$req_product['isLinked']) 
-                                            {
-                                                $request_id = $req_product['request_id'];
-                                                $available = true;
-                                                if ($req_product['in_stock'])
-                                                    $in_stock = "<span class='label label-success'>Yes</span>";
-                                                else
-                                                    $in_stock = "<span class='label label-danger'>No</span>";
+                                // $available = false;
+                                // if ($req_products) 
+                                // {
+                                //     $count = 1;
+                                //     foreach ($req_products as $req_product) 
+                                //     {
+                                //         if ($req_product['merchant_id'] == $sel_id && !$req_product['isLinked']) 
+                                //         {
+                                //             $request_id = $req_product['request_id'];
+                                //             $available = true;
+                                //             if ($req_product['in_stock'])
+                                //                 $in_stock = "<span class='label label-success'>Yes</span>";
+                                //             else
+                                //                 $in_stock = "<span class='label label-danger'>No</span>";
 
-                                                echo "<tr>
-                                                        <td>".$count."</td>
-                                                        <td>".$request_id."</td>
-                                                        <td>".$req_product['product_name']."</td>
-                                                        <td>".$req_product['brand_name']."</td>
-                                                        <td>".$req_product['prd_price']."</td>
-                                                        <td>".$req_product['sell_price']."</td>
-                                                        <td>".$in_stock."</td>
-                                                        <td><span class='label label-warning'>Pending</span></td>
-                                                        <td>
-                                                            <a href='".base_url('editRequestedProduct').'/'.$request_id."' class='btn btn-primary'>Edit</a>
-                                                        </td>
-                                                    </tr>";
+                                //             echo "<tr>
+                                //                     <td>".$count."</td>
+                                //                     <td>".$request_id."</td>
+                                //                     <td>".$req_product['product_name']."</td>
+                                //                     <td>".$req_product['brand_name']."</td>
+                                //                     <td>".$req_product['prd_price']."</td>
+                                //                     <td>".$req_product['sell_price']."</td>
+                                //                     <td>".$in_stock."</td>
+                                //                     <td><span class='label label-warning'>Pending</span></td>
+                                //                     <td>
+                                //                         <a href='".base_url('editRequestedProduct').'/'.$request_id."' class='btn btn-primary'>Edit</a>
+                                //                     </td>
+                                //                 </tr>";
 
-                                                $count++;
-                                            }
-                                        }
-                                    }
+                                //             $count++;
+                                //         }
+                                //     }
+                                // }
 
-                                    if (!$products || !$available) 
-                                        echo "<tr><td colspan='10' align='center'>No Record found.</td></tr>";
-                                    ?>
-                            </tbody>
+                                // if (!$products || !$available) 
+                                //     echo "<tr><td colspan='10' align='center'>No Record found.</td></tr>";
+                                ?>
+                            <!-- </tbody>
                         </table>
-                    </div><!-- /.box-body -->
+                    </div> -->
                     <?php } ?>
                 </div>
             </div>

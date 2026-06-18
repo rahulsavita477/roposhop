@@ -32,7 +32,7 @@ else
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="row" style="margin: 20px 0 20px 0;">
+                    <div class="row" style="margin-top: 10px;">
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-4">
