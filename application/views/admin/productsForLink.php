@@ -60,6 +60,45 @@
                         <?php endif; ?>
 
                         <div class="row" style="margin: 10px 0 10px -5px;">
+                            <!-- select requested product for linking -->
+                            <?php if ($req_products && isset($_GET['list_new_product'])) { ?>
+                                <div class="col-sm-12 form-group">
+                                    <?php if ($_COOKIE['site_code'] == 'seller') { ?>
+                                        <div class="col-sm-3">
+                                            <label>Requested products available for link:</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select class="form-control" name="req_prd_id" id="req_prd_id">
+                                                <?php
+                                                $count = 0;
+                                                foreach ($req_products as $req_prd_value) 
+                                                {
+                                                    if (!$req_prd_value['isLinked'] && $req_prd_value['merchant_id'] !== $_COOKIE['merchant_id'])
+                                                    {
+                                                        $count++;
+
+                                                        if ($count == 1)
+                                                            echo "<option value=''>Select requested product!!</option>";
+
+                                                        echo "<option value='".$req_prd_value['request_id']."'>".$req_prd_value['product_name']."</option>";
+                                                    }
+                                                }
+
+                                                if ($count == 0)
+                                                    echo "<option value=''>Requested product not available!!</option>";
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <?php if ($count > 0) { ?>
+                                            <div class="col-sm-2">
+                                                <button class='btn btn-primary'
+                                                    onclick="fillListingDetailOfRequestedProduct();">Next</button>
+                                            </div>
+                                        <?php }
+                                    }
+                                echo "</div>";
+                            } ?>
+                            
                             <div class="col-sm-8">
                                 <div class="row">
                                     <?= form_open('getAllProducts/'.$sel_id, array('method' => 'get')) ?>
@@ -170,44 +209,7 @@
                         } ?>
                     </div>
 
-                    <!-- select requested product for linking -->
-                    <?php if ($req_products && isset($_GET['list_new_product'])) { ?>
-                    <div class="row form-group">
-                        <?php if ($_COOKIE['site_code'] == 'seller') { ?>
-                        <div class="col-sm-3">
-                            <label>Requested products available for link:</label>
-                        </div>
-                        <div class="col-sm-4">
-                            <select class="form-control" name="req_prd_id" id="req_prd_id">
-                                <?php
-                                        $count = 0;
-                                        foreach ($req_products as $req_prd_value) 
-                                        {
-                                            if (!$req_prd_value['isLinked'])
-                                            {
-                                                $count++;
-
-                                                if ($count == 1)
-                                                    echo "<option value=''>Select requested product!!</option>";
-
-                                                echo "<option value='".$req_prd_value['request_id']."'>".$req_prd_value['product_name']."</option>";
-                                            }
-                                        }
-
-                                        if ($count == 0)
-                                            echo "<option value=''>Requested product not available!!</option>";
-                                        ?>
-                            </select>
-                        </div>
-                        <?php if ($count > 0) { ?>
-                        <div class="col-sm-2">
-                            <button class='btn btn-success'
-                                onclick="fillListingDetailOfRequestedProduct();">Next</button>
-                        </div>
-                        <?php } 
-                            } ?>
-                    </div>
-                    <?php } if (!isset($_GET['list_new_product'])) { ?>
+                    <?php if (!isset($_GET['list_new_product'])) { ?>
                     
                     <div class="box-header" style="position:unset;">
                         <h3 class="box-title">Listed Products</h3>

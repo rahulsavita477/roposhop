@@ -1103,15 +1103,15 @@ class Admin_controller extends CI_Controller
 
 	public function editRequestedProduct($req_id = '')
 	{
-		if ($req_id) 
+		if ($req_id)
 		{
-			$req_prd = $this->Admin_model->getRequestedProduct(array('request_id' => $req_id));			
+			$req_prd = $this->Admin_model->getRequestedProduct(array('request_id' => $req_id));
 			if (isset($req_prd['db_error'])) 
 				redirectWithMessage('Error: '.$req_prd['msg'], 'page/merchantRequestedProducts');
-			
+			// echo "<pre>"; print_r($req_prd); die;
 			if ($req_prd)
 			{
-				$data = $req_prd[0];	
+				$data = $req_prd[0];
 				
 				$products = $this->Admin_model->selectRecords('', 'product', 'product_name as label, product_id as id');
 				if (isset($products['db_error'])) 
@@ -1937,10 +1937,10 @@ class Admin_controller extends CI_Controller
 		//echo "<pre>"; print_r($res['products']); die;
 
 		//get all requested products by merchant
-		$res['req_products'] = $this->Admin_model->getRequestedProduct(array('requested_product.merchant_id' => $sel_id));
+		$res['req_products'] = $this->Admin_model->getRequestedProduct();
 		if (isset($res['req_products']['db_error'])) 
 			redirectWithMessage('Error: '.$res['req_products']['msg'], $controller);
-		
+		// echo "<pre>"; print_r($res['req_products']); die;
 		//get all categories
 		$res['categories'] = $this->Admin_model->selectRecords('', 'product_category', 'category_id, category_name', array('category_name' => 'ASC'));
 		if (isset($res['categories']['db_error'])) 

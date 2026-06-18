@@ -164,7 +164,9 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['seller'] = $admin_controller.'dashboard';
 	$route['signup'] = $admin_controller.'merchantSignUp';
 	$route['addRequestedProduct'] = $admin_controller.'addRequestedProduct';
-	$route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'fillListingDetailOfRequestedProduct/$1';
+	// $route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'fillListingDetailOfRequestedProduct/$1';
+	$route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
+	$route['editRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
 	$route['addAddress'] = $admin_controller.'addAddress';
 	$route['deleteAddress/(:num)/(:num)/(:num)'] = $admin_controller.'deleteAddress/$1/$2/$3';
 	$route['deleteMerchant/(:num)/(:num)'] = $admin_controller.'deleteMerchant/$1/$2';
@@ -172,7 +174,6 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['deleteReview/(:num)/(:any)'] = $admin_controller.'deleteReview/$1/$2';
 	$route['editReview/(:num)/(:any)'] = $admin_controller.'editReview/$1/$2';
 	$route['addReview'] = $admin_controller.'addReview';
-	$route['editRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
 	$route['deleteRequestProduct/(:num)'] = $admin_controller.'deleteRequestProduct/$1';
 	$route['deleteFeature/(:num)/(:num)'] = $admin_controller.'deleteProductKeyFeature/$1/$2';
 	$route['deleteSellerOffering/(:num)/(:num)'] = $admin_controller.'deleteSellerOffering/$1/$2';

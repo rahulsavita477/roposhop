@@ -13,7 +13,7 @@
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box">   
                     <form method="post" action="<?= base_url('changeParentCategory') ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <!-- select sub category -->
                         <div class="col-sm-12 Category_search_add_div">
