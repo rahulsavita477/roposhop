@@ -89,7 +89,7 @@ else if($pageName == "offerManagement")
             <?php if($pageName == "sellersTable"){ ?>
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="col-sm-12" style="margin: 10px 0 20px 0;">
+                        <div class="col-sm-12" style="margin-top: 10px;">
                             <a href="<?= base_url('page/addSeller') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Seller</a>
                         </div>
 

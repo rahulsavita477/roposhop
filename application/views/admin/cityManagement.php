@@ -88,8 +88,10 @@ $status = isset($city['status']) ? $city['status'] : 1;
 
                 <?php if (!isset($_GET['addNewCity'])) { ?>
                     <div class="box">
-                        <div class="box-header">
-                            <h3>Cities <small>List</small></h3>
+                        <div class="box-header" style="padding-bottom:0px">
+                            <div class="box-title">
+                                <h3 style="margin: 0px;">Cities <small>List</small></h3>
+                            </div>
                         </div>
                         <div class="box-body table-responsive">
                             <table class="table table-bordered table-striped data-pagination-table">

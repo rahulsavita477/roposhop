@@ -554,7 +554,7 @@ class Admin_controller extends CI_Controller
 			$cities = $this->getcity('', $state_id, '');
 			if (isset($cities['db_error'])) 
 				redirectWithMessage('Error: '.$cities['msg'], $controller);
-			else if ($cities['result']) 
+			else if ($cities && $cities['result']) 
 				$data['cities'] = $cities['result'];
 
 			if (isset($_GET['city_id'])) 

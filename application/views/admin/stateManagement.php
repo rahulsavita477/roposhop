@@ -31,15 +31,15 @@ $status = isset($state['status']) ? $state['status'] : 1;
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-md-5 col-md-offset-3">
+                    <div class="col-md-12">
                         <div class="box box-primary">
                             <div class="box-body">
                                 <!-- select category -->
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Select country*:</label>    
+                                <div class="row form-group" style="margin-bottom: 0px;">
+                                    <div class="col-sm-2">
+                                        <label>Select country*:</label>
                                     </div>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-2">
                                         <select class="form-control" id="cnt_id">
                                             <option value="">Select country</option>
                                             <?php
@@ -56,9 +56,8 @@ $status = isset($state['status']) ? $state['status'] : 1;
                                             ?>          
                                         </select>
                                     </div>
-                                    <div class="col-sm-12" style="margin-top: 10px;" align="right">
+                                    <div class="col-sm-4">
                                         <button class="btn btn-primary" onclick="stateManagement('getStateList');">Get state list</button>
-
                                         <button class="btn btn-warning" onclick="stateManagement('addNewState');"><i class="fa fa-plus"></i> Add new state</button>
                                     </div>
                                 </div>
@@ -68,11 +67,13 @@ $status = isset($state['status']) ? $state['status'] : 1;
                 </div>
                 <?php if (!isset($_GET['addNewState'])) { ?>
                     <div class="box">
-                        <div class="box-header">
-                            <h3>States <small>List</small></h3>
+                        <div class="box-header" style="padding-bottom:0px">
+                            <div class="box-title">
+                                <h3 style="margin: 0px;">States <small>List</small></h3>
+                            </div>
                         </div>
 
-                        <div class="box-body table-responsive" style="margin-top: 20px;">
+                        <div class="box-body table-responsive">
                             <table class="table table-bordered table-striped data-pagination-table">
                                 <thead>
                                     <tr>
