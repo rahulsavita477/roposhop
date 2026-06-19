@@ -3056,7 +3056,14 @@ class Admin_controller extends CI_Controller
 		//get product id
 		$req_prd_id = $this->Admin_model->selectRecords(array('request_id' => $request_id), 'requested_product', 'req_prd_id');
      	$product_id = $req_prd_id['result'][0]['req_prd_id'];
-     	$controller = 'page/merchantRequestedProducts';
+
+		if($_COOKIE['site_code'] == 'admin') $controller = 'page/requestedProducts';
+     	else $controller = 'page/merchantRequestedProducts';
+		
+		//delete requested product
+		$isDeleted = $this->Admin_model->deleteRecord('requested_product', array('request_id' => $request_id));
+		if (isset($isDeleted['db_error'])) 
+			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
 		//delete product
 		$isDeleted = $this->Admin_model->deleteRecord('product', array('product_id' => $product_id));

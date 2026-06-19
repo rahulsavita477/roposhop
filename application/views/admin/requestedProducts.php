@@ -48,7 +48,8 @@
                                             <td>".$req_prd['sell_price']."</td>
                                             <td>
                                                 <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>Approve</a>
-                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-danger'>Reject</a>
+                                                <a href='".base_url()."rejectRequestedProduct?req_prd_id=".$req_prd_id."' class='btn btn-danger'>Reject</a>
+                                                <a href='".base_url("deleteRequestProduct").'/'.$req_prd['request_id']."' class='btn btn-danger'>Delete</a>
                                             </td>
                                         </tr>";
                                 }
