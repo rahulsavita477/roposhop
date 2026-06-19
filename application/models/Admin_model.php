@@ -449,12 +449,12 @@ class Admin_model extends CI_Model
             return FALSE;
     }
 
-    public function getProductsForLinking($sel_id=NULL, $where='')
+    public function getProductsForLinking($sel_id=null, $where='')
     {
         $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified');
 
         $merchant_where = $sel_id ? 'AND merchant_id = '.$sel_id : '';
-
+    
         $this->db->join('product_listing', 'product_listing.product_id = product.product_id '.$merchant_where, 'left');
 
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
@@ -462,11 +462,13 @@ class Admin_model extends CI_Model
         $this->db->join('attatchments', 'product.product_id = attatchments.link_id AND atch_for = "PRODUCT" AND atch_type = "IMAGE"', 'left');
         $this->db->group_by('product.product_id');
 
-        if ($where)
-            $this->db->where($where);
 
-        $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)');
-
+        if($sel_id == null) {
+            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)');
+        } else {
+            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0 AND merchant_id = '.$sel_id.')');
+        }
+        
         $query = $this->db->get('product');
         //echo $this->db->last_query(); die;
 
@@ -890,8 +892,31 @@ class Admin_model extends CI_Model
 
     public function getRequestedProduct($where = '')
     {
-        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering');
+        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId');
         $this->db->join('product_listing', 'listing_id = req_lst_id', 'left');
+        $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
+
+        if ($where) 
+            $this->db->where($where);
+
+        $query = $this->db->get('requested_product');
+        
+        $isDbError = $this->dbError();
+
+        if (isset($isDbError['db_error'])) 
+            return $isDbError;
+
+        if ($query->num_rows() > 0)  
+            return $query->result_array();
+        else
+            return FALSE;
+    }
+
+    public function getRequestedProductsAvailableForLinking($where = '')
+    {
+        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box');
+        // $this->db->join('product_listing', 'listing_id = req_lst_id AND product_listing.merchant_id != '.$_COOKIE['merchant_id'], 'left');
+        // $this->db->where('product_id NOT IN (SELECT product_id FROM product_listing WHERE product_listing.merchant_id = '.$_COOKIE['merchant_id'].')', null, false);
         $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
 
         if ($where) 

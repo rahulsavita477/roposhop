@@ -1937,7 +1937,7 @@ class Admin_controller extends CI_Controller
 		//echo "<pre>"; print_r($res['products']); die;
 
 		//get all requested products by merchant
-		$res['req_products'] = $this->Admin_model->getRequestedProduct();
+		$res['req_products'] = $this->Admin_model->getRequestedProductsAvailableForLinking();
 		if (isset($res['req_products']['db_error'])) 
 			redirectWithMessage('Error: '.$res['req_products']['msg'], $controller);
 		// echo "<pre>"; print_r($res['req_products']); die;
@@ -3737,13 +3737,13 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
-	public function getProductDetail($prd_id = '', $sel_id='', $list_id='')
+	public function getProductDetail($prd_id = '', $sel_id='', $list_id='', $isRequestedProduct=false)
 	{
 		$this->isLoggedIn();
 
 		if ($prd_id) 
 		{
-			$prd_res = $this->productDetail($prd_id);
+			$prd_res = $this->productDetail($prd_id, $isRequestedProduct);
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
 
@@ -4558,7 +4558,7 @@ class Admin_controller extends CI_Controller
 		if (isset($db_vrnt_price['db_error'])) 
 			redirectWithMessage('Error: '.$db_vrnt_price['msg'], $controller);
 
-		if ($db_vrnt_price['result']) 
+		if ($db_vrnt_price && $db_vrnt_price['result']) 
 		{
 			foreach ($db_vrnt_price['result'] as $db_vrnt_prc_value) 
 				array_push($db_vrnt_price_array, $db_vrnt_prc_value['vrnt_id']);

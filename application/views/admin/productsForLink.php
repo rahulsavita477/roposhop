@@ -46,56 +46,54 @@
                                         if (!$merchant['establishment_name'])
                                             continue;
 
-                                        if ($sel_id == $merchant['merchant_id']) 
+                                        if ($sel_id == $merchant['merchant_id'])
                                             $selected = "selected='selected'";
                                         else
                                             $selected = '';
 
-                                        echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";    
+                                        echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";
                                     }
                                     ?>
                                 </select>
                             </div>
                         </div>
+                        <?php elseif ($_COOKIE['site_code'] == 'seller'): ?>
+                            <input type="hidden" id="loggedinSellerId" value="<?= isset($_COOKIE['merchant_id']) ? $_COOKIE['merchant_id'] : ''; ?>" />
+                        
                         <?php endif; ?>
 
                         <div class="row" style="margin: 10px 0 10px -5px;">
                             <!-- select requested product for linking -->
-                            <?php if ($req_products && isset($_GET['list_new_product'])) { ?>
+                            <?php if ($req_products && isset($_GET['list_new_product']) && $_COOKIE['site_code'] == "seller") { ?>
                                 <div class="col-sm-12 form-group">
-                                    <?php if ($_COOKIE['site_code'] == 'seller') { ?>
-                                        <div class="col-sm-3">
-                                            <label>Requested products available for link:</label>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" name="req_prd_id" id="req_prd_id">
-                                                <?php
-                                                $count = 0;
-                                                foreach ($req_products as $req_prd_value) 
+                                    <div class="col-sm-3">
+                                        <label>Requested products available for link:</label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" id="req_prd_id">
+                                            <?php
+                                            $count = 0;
+                                            foreach ($req_products as $req_prd_value) 
+                                            {
+                                                if (!$req_prd_value['isLinked'] && $req_prd_value['merchant_id'] !== $_COOKIE['merchant_id'] && $req_prd_value['linkedMerchantId'] !== $_COOKIE['merchant_id'])
                                                 {
-                                                    if (!$req_prd_value['isLinked'] && $req_prd_value['merchant_id'] !== $_COOKIE['merchant_id'])
-                                                    {
-                                                        $count++;
+                                                    $count++;
 
-                                                        if ($count == 1)
-                                                            echo "<option value=''>Select requested product!!</option>";
+                                                    if ($count == 1)
+                                                        echo "<option value=''>Select requested product!!</option>";
 
-                                                        echo "<option value='".$req_prd_value['request_id']."'>".$req_prd_value['product_name']."</option>";
-                                                    }
+                                                    echo "<option value='".$req_prd_value['req_prd_id']."'>".$req_prd_value['product_name']."</option>";
                                                 }
-
-                                                if ($count == 0)
-                                                    echo "<option value=''>Requested product not available!!</option>";
-                                                ?>
-                                            </select>
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <?php if ($count > 0) { ?>
+                                        <div class="col-sm-2">
+                                            <button class='btn btn-primary'
+                                                onclick="fillListingDetailOfRequestedProduct();">Next</button>
                                         </div>
-                                        <?php if ($count > 0) { ?>
-                                            <div class="col-sm-2">
-                                                <button class='btn btn-primary'
-                                                    onclick="fillListingDetailOfRequestedProduct();">Next</button>
-                                            </div>
-                                        <?php }
-                                    }
+                                    <?php }
                                 echo "</div>";
                             } ?>
                             
@@ -178,7 +176,7 @@
                                                     if ($sel_id) 
                                                     {
                                                         echo "<td>
-                                                                <a href='".base_url("getProductDetail/$prd_id/$sel_id/0")."' class='btn btn-success'>Link</a>
+                                                                <a href='".base_url("getProductDetail/$prd_id/$sel_id/0/false")."' class='btn btn-success'>Link</a>
                                                             </td>";
                                                     }
                                                     else
@@ -312,7 +310,7 @@
                                                         <td>".$in_stock."</td>
                                                         <td>".$isVerified."</td>
                                                         <td>
-                                                            <a href='".base_url()."getProductDetail/".$prd_id."/".$sel_id."/".$list_id."' class='btn btn-primary'>Edit</a>
+                                                            <a href='".base_url()."getProductDetail/".$prd_id."/".$sel_id."/".$list_id."/false' class='btn btn-primary'>Edit</a>
                                                             <a href='".base_url()."deleteListing/".$list_id."/".$sel_id."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
                                                             ".$verifyBtn."
                                                         </td>
@@ -323,7 +321,7 @@
                                         }
                                     }
 
-                                    if (!$products || !$available) 
+                                    elseif (!$products || !$available) 
                                         echo "<tr><td colspan='11' align='center'>No Record found.</td></tr>";
                                     ?>
                             </tbody>
@@ -401,12 +399,18 @@
 
     <script type="text/javascript">
     function fillListingDetailOfRequestedProduct() {
-        req_prd_id = $('#req_prd_id').val();
+        
+        let req_prd_id = $('#req_prd_id').val();
+        let sellerId = $('#loggedinSellerId').val();   // from PHP
+        let listingId = 0;
 
-        if (req_prd_id)
-            window.location = "<?= base_url('fillListingDetailOfRequestedProduct') ?>/" + req_prd_id;
-        else
-            alert('Error: please select requested product');
+        if (req_prd_id && sellerId) {
+        
+            // window.location = "<?= base_url('fillListingDetailOfRequestedProduct') ?>/" + req_prd_id;
+            window.location.href = "<?= base_url('getProductDetail'); ?>/" + req_prd_id + "/" + sellerId + "/" + listingId+"/true";
+        
+        } else if (!req_prd_id) alert('Error: please select requested product');
+        else if (!sellerId) alert('Error: seller not found');
     }
 
     function getListing() {

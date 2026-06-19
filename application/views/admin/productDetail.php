@@ -1,4 +1,4 @@
-<?php 
+<?php
 //product detail
 $product_id = isset($product_id) ? $product_id : false;
 $product_name = isset($product_name) ? $product_name : '';

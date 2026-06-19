@@ -525,7 +525,8 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
 $(document).ready(function () {
 	prd_id = <?= (!empty($product_id) ? json_encode($product_id) : '""'); ?>;
       page_label = <?= (!empty($page_label) ? json_encode($page_label) : '""'); ?>;
-      
+	disableProductDetailFrom = <?= (!empty($disableProductDetailFrom) ? json_encode($disableProductDetailFrom) : '""'); ?>;
+
       if (prd_id) 
       {
             if (page_label == "view") 
@@ -533,10 +534,10 @@ $(document).ready(function () {
             else
                   cat_id = $("[name='parent_cat_id'] option:selected").val();
 
-            if (cat_id && cat_id != 0) 
+            if (cat_id && cat_id != 0)
             {
-                  setTimeout(function(){ 
-                        getCategoryAttribtes(cat_id, prd_id, page_label);
+                  setTimeout(function(){
+                        getCategoryAttribtes(cat_id, prd_id, page_label, disableProductDetailFrom);
                   }, 2000);
             }
       }
@@ -545,33 +546,33 @@ $(document).ready(function () {
             $('.other').css('display', ($(this).val() == 'other') ? 'block' : 'none');
             $('[name="brand_id"]').css('display', ($(this).val() == 'other') ? 'none' : 'block');
       });
-});      
+});
 
-function getCategoryAttribtes(cat_id, prd_id=0, page_label)
+function getCategoryAttribtes(cat_id, prd_id=0, page_label, disableProductDetailFrom=false)
 {
       $('#open_att_modal').prop('disabled', true);
       $('#submit_btn').prop('disabled', false);
       $('#att_fields').empty();
       $('#divLoading').show();
 
-      if (cat_id) 
+      if (cat_id)
       {
             $.ajax({
               type: "GET",
               url: '<?= base_url("categoryAttributes") ?>/'+cat_id+'/'+prd_id,
               success: function(data){
-                  if (data) 
+                  if (data)
                   {
                         resp = JSON.parse(data);
                         fields = '';
                         
-                        if (resp.length > 0) 
+                        if (resp.length > 0)
                         {
                               fields += '<table class="table table-bordered table-striped dataTable"><tr><th colspan=2><center>Product attributes</center></th></tr>';
 
-                              for (var i = 0; i < resp.length; i++) 
+                              for (var i = 0; i < resp.length; i++)
                               {
-                                    if (resp[i].mp_id != null) 
+                                    if (resp[i].mp_id != null)
                                     {
                                           $('#open_att_modal').prop('disabled', false);
                                     
@@ -587,16 +588,16 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 
                                           fields += '<tr><td>'+att_name_label+'</td>';
 
-                                    if (page_label == "view") 
+                                    if (page_label == "view")
                                           fields += '<td>'+att_val+'</td>';
                                     else
                                           fields += '<td>'+
-                                                      '<input type="text" name="'+att_id+'" class="form-control att_values" placeholder="Enter '+att_name_label+'..." value="'+att_val+'" />'+
+                                                      '<input type="text" name="'+att_id+'" class="form-control att_values" placeholder="Enter '+att_name_label+'..." value="'+att_val+'" '+(disableProductDetailFrom ? 'disabled' : '')+' />'+
                                                 '</td><tr>';
                                     }
-                                    }
+                              }
 
-                                    fields += '</table>'
+                              fields += '</table>'
                         }
 
                         $('#att_fields').append(fields);
@@ -645,38 +646,39 @@ function validateForm()
       if (parseInt(sell_price) > parseInt(prd_price)) 
       {
             alert('seller price could not more then product price');
-            return false;      
+            return false;
       }
 
       //check product name existance
       var product_id = $('[name="product_id"]').val();
       var product_name = $('[name="prd_name"]').val();
       var isValid = checkProductExistance(product_id, product_name);
-      if (isValid) 
+      if (isValid)
       {
             alert('product already available');
-            return false;          
+            return false;
       }
 
       //check brand is set or not and existance
       var brand_name = $('[name="brand_name"]').val();
       var brand_id = $('[name="brand_id"]').val();
-      if (brand_id == '' || (brand_id == 'other' && brand_name == ''))
+
+      if (brand_id == '' && brand_name == '')
       {
             alert('brand not found');
-            return false; 
+            return false;
       }
-      else if (brand_id == 'other' && brand_name != '') 
+      else if (brand_id == 'other' && brand_name != '')
       {
             var isValid = checkBrandExistance(brand_name);
 
-            if (isValid) 
+            if (isValid)
             {
                   alert('Brand name you typed is already exist, please select it from brand list, or type a different name');
-                  return false; 
+                  return false;
             }
       }
-}                
+}
 </script>
 
 <style type="text/css">
