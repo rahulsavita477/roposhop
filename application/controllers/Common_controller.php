@@ -194,21 +194,38 @@ class Common_controller extends CI_Controller
                     $body .= EMAIL_SIGNATURE;
                     $body = nl2br($body);
 
-                    break;   
+                    break;
                 }
 
                 default: return false;
             }
 
             $mail_response = sendEmail($reciever_email, $subject, $body, $atch);
-            if ($code == MAIL_CODE_HELP_AND_SUPPORT) 
+            if ($code == MAIL_CODE_HELP_AND_SUPPORT)
             {
                 echo "<script>window.alert('Mail has been sent!');</script>";
                 redirect($_SERVER['HTTP_REFERER']);
             }
-            else
+            else {
+                echo "<script>window.alert('Unable to send mail!');</script>";
                 return $mail_response;
+            }
         }
+    }
+
+    public function getMinimumOffOnProduct($product_id, $mrp_price)
+    {
+        $data = array();
+    
+        //get product listings
+        $sold_by_merchants = $this->am5->getProductListings(array('product_listing.product_id' => $product_id));
+
+        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+        // echo "<pre>"; print_r($sold_by_merchants); die;
+        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
+        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+
+        return $data;
     }
 
     //-- function for image upload 

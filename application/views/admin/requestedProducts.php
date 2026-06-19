@@ -14,13 +14,13 @@
         <div class="row">
             <div class="box">
                 <div class="box-body table-responsive">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped data-pagination-table">
                         <thead>
                             <tr>
                                 <th>S.No.</th>
                                 <th>Requested ID</th>
                                 <th>Product Name</th>
-                                <th>Brand</th>
+                                <th>New Brand Name</th>
                                 <th>Seller Price</th>
                                 <th>Action</th>
                             </tr>
@@ -47,7 +47,9 @@
                                             <td>".$req_prd['brand_name']."</td>
                                             <td>".$req_prd['sell_price']."</td>
                                             <td>
-                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>ADD</a>
+                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>Approve</a>
+                                                <a href='".base_url()."rejectRequestedProduct?req_prd_id=".$req_prd_id."' class='btn btn-danger'>Reject</a>
+                                                <a href='".base_url("deleteRequestProduct").'/'.$req_prd['request_id']."' class='btn btn-danger'>Delete</a>
                                             </td>
                                         </tr>";
                                 }

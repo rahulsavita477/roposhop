@@ -1,4 +1,4 @@
-<?php 
+<?php
 //product detail
 $product_id = isset($product_id) ? $product_id : false;
 $product_name = isset($product_name) ? $product_name : '';
@@ -125,7 +125,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                         <?php if ($prd_varients) { ?>
                             <div style="margin-bottom: 20px;">
                                 <div class="box-body table-responsive">
-                                    <table class="table table-bordered table-striped">
+                                    <table class="table table-bordered table-striped data-pagination-table">
                                         <thead>
                                             <tr>
                                                 <th colspan="3"><center>PRODUCT VARIENTS</center></th>
@@ -432,7 +432,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
 
                     <div class="form-group" id="att_fields" style="display: none;">
                         <div class="box-body table-responsive">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped data-pagination-table">
                                 <tbody id="att_data"></tbody>
                             </table>
                         </div>

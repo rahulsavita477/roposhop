@@ -65,7 +65,7 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
                                                 Import state
                                                 <input type="file" name="result_file" class="input_type_file" required />
                                             </div>
-                                            <a href="<?= base_url('exportTemplateForState/').$query_string_cnt_id ?>" class="btn btn-info">Export Existing Data</a>
+                                            <a href="<?= base_url('exportTemplateForState/').$query_string_cnt_id ?>" class="btn btn-primary">Export Existing Data</a>
                                             <a href="<?= base_url('exportTemplateForState/0') ?>" class="btn btn-warning">Export Empty Template</a>
                                         <?= form_close() ?>
                                     </div>
@@ -76,7 +76,7 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
                 </div>
                 <div class="box">
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
                                     <th>S.No.</th>

@@ -126,10 +126,10 @@ a.text-active {
 
             <div class="col-md-7">
               <h2 class="product">Samsung Galaxy A7  (64GB)  (4GB RAM)</h2>
-                 <span class="color-change pt-3 pb-3"> <strong><strike>₹ 13999</strike>
-                                    &nbsp; ₹ 1000
+                 <span class="color-change pt-3 pb-3"> <strong><strike>₹13999</strike>
+                                    &nbsp; ₹1000
                      </strong>
-                     33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)
+                     33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)
                      </span>
               <div class="row pt-3 mt-5">
                   <div class="col-md-5">
@@ -230,7 +230,7 @@ a.text-active {
                                         <tbody>
                                         <tr>
                                           <td>Sale Price</td>
-                                            <td class="text-left">₹ 99999.00 (44.44% Off)</td>
+                                            <td class="text-left">₹99999.00 (44.44% Off)</td>
                                           </tr>
                                           <tr>
                                            <td>Finance available</td>
@@ -338,7 +338,7 @@ a.text-active {
                                         <div class="product-details">
                                         <h2 class="product-title text-black" style="font-size: 13px;font-weight: 500">
                                           Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                          33.2%&nbsp; Off  &nbsp;
                                          </h2>
                                          </div><!-- End .product-details -->
@@ -360,7 +360,7 @@ a.text-active {
                                         <div class="product-details">
                                         <h2 class="product-title text-black" style="font-size: 13px;font-weight: 500">
                                           Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                          33.2%&nbsp; Off  &nbsp;
                                          </h2>
                                          </div><!-- End .product-details -->
@@ -387,7 +387,7 @@ a.text-active {
                                         <div class="product-details">
                                         <h2 class="product-title text-black" style="font-size: 13px;font-weight: 500">
                                           Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                          33.2%&nbsp; Off  &nbsp;
                                          </h2>
                                          </div><!-- End .product-details -->
@@ -419,7 +419,7 @@ a.text-active {
                                         <div class="product-details">
                                         <h2 class="product-title text-black" style="font-size: 13px;font-weight: 500">
                                           Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                          33.2%&nbsp; Off  &nbsp;
                                          </h2>
                                          </div><!-- End .product-details -->

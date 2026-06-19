@@ -66,7 +66,7 @@ else
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-info">Find product</button>
+                                    <button type="submit" class="btn btn-primary">Find product</button>
                                     <a href="<?= base_url('products') ?>" class='btn btn-default'>Remove filter</a>
                                 </div>
                             </form>
@@ -77,11 +77,11 @@ else
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>S.NO.</th>
                                     <th>Product ID</th>
+                                    <th>Status</th>
                                     <th>Product</th>
                                     <th>Category</th>
                                     <th>Brand</th>
@@ -91,17 +91,28 @@ else
                             </thead>
                             <tbody>
                             	<?php
-                            	if ($data) 
+                            	if ($data)
                             	{
                                     $count = 1;
-                            		foreach ($data as $prd_value) 
+                            		foreach ($data as $prd_value)
                             		{
+                                        if ($prd_value['isEnabled'])
+                                        {
+                                            $status = "<span class='label label-success'>Enabled</span>";
+                                            $newStatus = 0;
+                                        }
+                                        else
+                                        {
+                                            $status = "<span class='label label-danger'>Disabled</span>";
+                                            $newStatus = 1;
+                                        }
+
                                         $prd_id = $prd_value['product_id'];
                                         $cat_id = $prd_value['category_id'];
                                         
                                         echo "<tr>
-                            					<td>".$count++."</td>
                                                 <td>".$prd_id."</td>
+                            					<td>".$status."</td>
                                                 <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
                                                 <td>".$prd_value['category_name']."</td>
                                                 <td>".$prd_value['brand_name']."</td>
@@ -110,6 +121,7 @@ else
                                                     <a href='".base_url("editProduct/$prd_id/edit")."' class='btn btn-primary'>Edit</a>
                                                     <a href='".base_url("editProduct/$prd_id/duplicate")."' class='btn btn-warning'>Duplcate</a>
                                                     <a href='".base_url("deleteProduct/$prd_id")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
+                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' class='btn btn-default' onclick='return confirm(\"Do you want to change the product status?\")'>Change Status</a>
                                                 </td>
                             				</tr>";
                             		}

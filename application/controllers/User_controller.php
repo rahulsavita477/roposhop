@@ -294,8 +294,8 @@ class User_controller extends CI_Controller
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
         $data['states'] = $this->am1->selectRecords(array('status' => 1), 'state', 'state_id, name'); //get all states
-        // $data['city'] = $this->am1->selectRecords('', 'city', 'name, latitude, longitude'); //get all cities
-        // $data['area'] = $this->am1->selectRecords('', 'area', 'area_name, latitude, longitude'); //get all areas
+        $data['city'] = $this->am1->selectRecords('', 'city', 'name, latitude, longitude'); //get all cities
+        $data['area'] = $this->am1->selectRecords('', 'area', 'area_name, latitude, longitude'); //get all areas
 
         // echo "<pre>"; print_r($data); die;
 
@@ -304,6 +304,16 @@ class User_controller extends CI_Controller
         // $this->load->view('user/include/sidebar', $data);
         // $this->load->view('user/location_setting');
         // $this->load->view('user/include/footer');
+
+        // $response = file_get_contents("https://ipinfo.io/json");
+        // $location = json_decode($response, true);
+
+        // echo "IP: " . $data['ip'] . "<br>";
+        // echo "City: " . $location['city'] . "<br>";
+        // echo "State Region: " . $location['region'] . "<br>";
+        // echo "Country: " . $data['country'] . "<br>";
+        // echo "Location: " . $data['loc'] . "<br>"; // "lat,long"        
+        // die;
 
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/location_setting');
@@ -343,6 +353,13 @@ class User_controller extends CI_Controller
     public function getProducts($where='', $where_in=array(), $like=array())
     {
         $data = false;
+        $discardDisabledProduct = ['isEnabled' => 1];
+        if(is_array($where)) {
+            $where = $where + $discardDisabledProduct;
+        } else {
+            $where = $discardDisabledProduct;
+        }
+
         $products = $this->am1->selectRecords($where, 'product', 'SQL_CALC_FOUND_ROWS product_id, product_name, mrp_price, description', array(), $this->limit, $this->start, $like, false, $where_in);
         
         if ($products) 
@@ -374,7 +391,7 @@ class User_controller extends CI_Controller
                 $data['result'][$i]['rating'] = $this->getProductRating($product_id);
 
                 //get minimum off on product by merchant
-                $prd_off = $this->getMinimumOffOnProduct($product_id, $data['result'][$i]['mrp_price']);
+                $prd_off = $this->common_controller->getMinimumOffOnProduct($product_id, $data['result'][$i]['mrp_price']);
                 $data['result'][$i]['offer_price'] = $prd_off['offer_price'];
                 $data['result'][$i]['discount_price'] = $prd_off['discount_price'];
                 $data['result'][$i]['off'] = $prd_off['off'];
@@ -389,23 +406,9 @@ class User_controller extends CI_Controller
         return $data;
     }
 
-    private function getMinimumOffOnProduct($product_id, $mrp_price)
-    {
-        $data = array();
-
-        //get product listings
-        $sold_by_merchants = $this->am1->getProductListings(array('product_listing.product_id' => $product_id));
-
-        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
-        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
-        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
-
-        return $data;
-    }
-
     public function product_detail()
     {
-        if (isset($_GET['category']) && !isset($_GET['prd_id'])) 
+        if (isset($_GET['category']) && !isset($_GET['prd_id']))
         {
             $this->product();
             die;
@@ -418,16 +421,16 @@ class User_controller extends CI_Controller
         $data['product'] = false;
         $key_features = array();
 
-        if (isset($_GET['prd_id'])) 
+        if (isset($_GET['prd_id']))
         {
             $product_id = $_GET['prd_id']; // product id
 
             //get product detail
-            $where = array('product_id' => $product_id);
+            $where = array('product_id' => $product_id, 'isEnabled' => 1);
             $product_detail = $this->am1->selectRecords($where, 'product', 'category_id, product_id, product_name, mrp_price, description, brand_id, in_the_box, meta_keyword, meta_description');
 
             //product detail
-            $data['product'] = $product_detail['result'][0];
+            $data['product'] = $product_detail ? $product_detail['result'][0] : [];
 
             //get product meta data
             $metaData = $this->admin_controller->getMetaData('PRODUCT', $product_id);
@@ -438,14 +441,17 @@ class User_controller extends CI_Controller
             $data['meta_data']['image'] = $metaData['metaImage'];
 
             //get brand name
-            $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
-            $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
-            $data['product']['brand_name'] = $brand['result'][0]['name'];
-            $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+            if($product_detail) {
+                
+                $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
+                $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
+                $data['product']['brand_name'] = $brand ? $brand['result'][0]['name']: "";
+                $data['product']['brand_logo'] = $brand ? base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']) : "";
+            }
 
             //get product attributes
             $prd_att_res = $this->am1->productAttributes($product_id);
-            if ($prd_att_res) 
+            if ($prd_att_res && $data['product']) 
                 $data['product']['specifications'] = $prd_att_res;
             else
                 $data['product']['specifications'] = false;
@@ -478,7 +484,7 @@ class User_controller extends CI_Controller
 
             //get product images
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
@@ -519,12 +525,12 @@ class User_controller extends CI_Controller
                     else
                         $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant['userId']), $address_columns);
 
-                    $data['product']['sold_by_merchants'][$i]['nearest_address'] = $getAddress['result'][0];
+                    $data['product']['sold_by_merchants'][$i]['nearest_address'] = $getAddress ? $getAddress['result'][0] : false;
                 }
             }
 
             //get similar product
-            $where = array('product_id !=' => $product_id, 'category_id' => $data['product']['category_id']);
+            if(isset($data['product']['category_id'])) $where = array('product_id !=' => $product_id, 'category_id' => $data['product']['category_id']);
             $similar_products = $this->am1->selectRecords($where, 'product', 'product_id, product_name');
             
             if ($similar_products) 
@@ -580,7 +586,7 @@ class User_controller extends CI_Controller
         //get product detail
         $product_detail = $this->am1->selectRecords(array('product_id' => $product_id), 'product', 'product_id, product_name, mrp_price');
         $data['product'] = $product_detail['result'][0];
-        $prd_off = $this->getMinimumOffOnProduct($product_id, $data['product']['mrp_price']);
+        $prd_off = $this->common_controller->getMinimumOffOnProduct($product_id, $data['product']['mrp_price']);
         $data['product']['offer_price'] = $prd_off['offer_price'];
         $data['product']['discount_price'] = $prd_off['discount_price'];
         $data['product']['off'] = $prd_off['off'];
@@ -717,9 +723,9 @@ class User_controller extends CI_Controller
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
 
-        if (isset($_GET['list_id'])) 
+        if (isset($_GET['list_id']) && $_GET['list_id'] != 'undefined')
         {
-            $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
+            // $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
 
             $listing_id = $_GET['list_id']; // listing id
             $product_id = $_GET['prd_id']; // product id
@@ -768,8 +774,8 @@ class User_controller extends CI_Controller
             else
                 $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
 
-            $data['merchant']['address']['nearest_address'] = $getAddress['result'][0];
-            $data['merchant']['address']['total_address'] = $getAddress['count'];
+            $data['merchant']['address']['nearest_address'] = $getAddress ? $getAddress['result'][0] : null;
+            $data['merchant']['address']['total_address'] = $getAddress ? $getAddress['count'] : 0;
 
             //average rating information
             $rating_info = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
@@ -802,7 +808,7 @@ class User_controller extends CI_Controller
             //get product images
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
             $attatchments = array();
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
@@ -834,7 +840,7 @@ class User_controller extends CI_Controller
 
         // echo "<pre>"; print_r($data); die;
         $this->load->view('user/design/include/header', $data);
-        $this->load->view('user/design/listing_detail', $data);   
+        $this->load->view('user/design/listing_detail', $data);
         $this->load->view('user/design/include/footer');
     }
 
@@ -884,7 +890,7 @@ class User_controller extends CI_Controller
                 $offer_id = $mer_offer['offer_id'];
                 $offer_imgs = $this->attatchments($offer_id, "OFFER");
 
-                if ($offer_imgs['result']) 
+                if ($offer_imgs && $offer_imgs['result']) 
                 {
                     foreach ($offer_imgs['result'] as $atch_value) 
                         array_push($attatchments, $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH.$offer_id.'/'.$atch_value['atch_url']);
@@ -1182,8 +1188,8 @@ class User_controller extends CI_Controller
             else
                 $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
 
-            $merchants['address']['nearest_address'] = $getAddress['result'][0];
-            $merchants['address']['total_address'] = $getAddress['count'];
+            $merchants['address']['nearest_address'] = $getAddress ? $getAddress['result'][0] : null;
+            $merchants['address']['total_address'] = $getAddress ? $getAddress['count'] : 0;
 
             //get product reviews
             $merchant_reviews = $this->am1->merchantReviews(array('merchant_review.merchant_id' => $merchant_id), 3, 0);
@@ -1202,10 +1208,10 @@ class User_controller extends CI_Controller
 
             //get merchant listing products categories
             $data['listing_product_categories'] = $this->am1->getCategoriesHavingProduct($_GET['merchant_id']);
-
+            
             //get merchant's listing products categories
             $data['listing_product_brands'] = $this->am1->getBrandHavingProduct($_GET['merchant_id']);
-
+            
             //get merchant meta data
             $metaData = $this->admin_controller->getMetaData('MERCHANT', $_GET['merchant_id']);
 
@@ -1308,8 +1314,8 @@ class User_controller extends CI_Controller
 
         //load view
         $this->load->view('user/design/include/header', $data);
-        $this->load->view('user/design/category', $data);   
-        $this->load->view('ajaxFunctions', $data);             
+        $this->load->view('user/design/category', $data);
+        $this->load->view('ajaxFunctions', $data);
         $this->load->view('user/design/include/footer');
     }
 
@@ -1334,9 +1340,10 @@ class User_controller extends CI_Controller
         $mer_reviews = $this->am1->getUserAddress(array('address.userId' => $user_id), 'COUNT(address_id) AS addressCnt');
         $data['totalAddress'] = $mer_reviews['result'][0]['addressCnt'];
 
-        // echo "<pre>"; print_r($data); die;
-        //load view
+        // echo "<pre>"; prin        $this->l        $this->load->view('user/design/category', $data);   
+        
         $this->load->view('user/design/include/header', $data);
+        $this->load->view('ajaxFunctions', $data);             
         $this->load->view('user/design/merchant_addresses', $data);
         $this->load->view('ajaxFunctions', $data);             
         $this->load->view('user/design/include/footer');
@@ -1360,7 +1367,7 @@ class User_controller extends CI_Controller
             $brand_id = $brand['result'][0]['brand_id'];
             $brand_imgs = $this->attatchments($brand_id, "BRAND");
 
-            if ($brand_imgs['result']) 
+            if ($brand_imgs && $brand_imgs['result']) 
             {
                 foreach ($brand_imgs['result'] as $atch_value) 
                     array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);
@@ -1393,13 +1400,10 @@ class User_controller extends CI_Controller
             // $this->load->view('user/brand', $brands);
             // $this->load->view('user/include/footer');
 
-            // echo "<pre>"; print_r($brands); die;
-            //echo "<pre>"; print_r($data); die;
-
             //load view
             $this->load->view('user/design/include/header', $data);
             $this->load->view('user/design/brand_detail', $brands);
-            $this->load->view('ajaxFunctions');  
+            $this->load->view('ajaxFunctions');
             $this->load->view('user/design/include/footer');
         }
         else //get all brands

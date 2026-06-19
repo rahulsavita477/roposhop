@@ -335,7 +335,7 @@ else
 
 					            <div class="row form-group">
 					            	<div class="box-body table-responsive">
-					                    <table id="example1" class="table table-bordered table-striped">
+					                    <table class="table table-bordered table-striped data-pagination-table">
 					                        <thead>
 					                            <tr>
 					                                <th colspan="3"><center>Offer Images</center></th>
@@ -382,7 +382,7 @@ else
 
 					            <?php if ($_COOKIE['site_code'] == 'admin') { ?>
 									<div class="box-body table-responsive">
-					                    <table id="example1" class="table table-bordered table-striped">
+					                    <table class="table table-bordered table-striped data-pagination-table">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">

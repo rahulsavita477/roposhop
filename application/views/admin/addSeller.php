@@ -664,7 +664,7 @@ else
 	                        	</div>
 
 					            <div class="box-body table-responsive">
-				                    <table id="example1" class="table table-bordered table-striped">
+				                    <table class="table table-bordered table-striped data-pagination-table">
 				                        <thead>
 				                            <tr>
 				                                <th colspan="3"><center>Company Images</center></th>
@@ -708,7 +708,7 @@ else
 				                </div>
 
 				                <div class="box-body table-responsive">
-	                                <table id="example1" class="table table-bordered table-striped">
+	                                <table class="table table-bordered table-striped data-pagination-table">
 	                                    <thead>
 	                                        <tr>
 	                                            <th colspan="2">
@@ -867,7 +867,7 @@ else
 						                	<input type="text" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" required />
 						                </div>
 						                <div class="col-sm-4">
-		                                    <button type="button" onclick="getLatLongFromAddress();" class="btn btn-info">Get lat-long from address</button>
+		                                    <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>
 		                                </div>
 						            </div>
 

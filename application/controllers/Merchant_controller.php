@@ -312,6 +312,19 @@ class Merchant_controller extends CI_Controller
             redirectWithMessage('Error: User id or merchant id not found!', $controller);
     }
 
+    public function merchantLoginWithoutStep2Completion($user_id, $merchant_id) {
+
+        $usr_details = $this->am2->getUser($user_id, 1);
+        if (isset($usr_details['db_error'])) 
+            redirectWithMessage('Error: '.$usr_details['msg'], $controller);
+        else
+        {
+            //merchant cookie setup and redirect to seller dashboard
+            $usr_details['merchant_id'] = $merchant_id;
+            $this->admin_controller->cookieSetupForLogin($usr_details);
+        }
+    }
+
     //login method
     public function login()
     {

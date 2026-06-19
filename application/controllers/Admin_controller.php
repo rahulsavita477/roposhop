@@ -51,7 +51,7 @@ class Admin_controller extends CI_Controller
 
 	public function getMetaData($type, $id='')
 	{
-		switch ($type) 
+		switch ($type)
 		{
 			case 'BRAND':
 				$tbl_name = 'brand';
@@ -114,10 +114,15 @@ class Admin_controller extends CI_Controller
 		$metaData = array();
 		$defaultMetaData = $this->site_settings();
 
-		if ($id) 
+		if ($id)
 		{
 			$requestedMetaData = $this->Admin_model->selectRecords($where, $tbl_name, $column.', meta_keyword, meta_description');
-			$metaData['metaDescription'] = $requestedMetaData['result'][0]['meta_description'] ? $requestedMetaData['result'][0]['meta_description'] : $requestedMetaData['result'][0]['description'];
+			if($requestedMetaData) {
+				
+				$metaData['metaDescription'] = $requestedMetaData['result'][0]['meta_description'] ? $requestedMetaData['result'][0]['meta_description'] : $requestedMetaData['result'][0]['description'];
+			} else {
+				$metaData['metaDescription'] = '';
+			}
 
 			//get attatchment
 			$requestedImageMetaData = $this->Admin_model->selectRecords(array('link_id' => $id, 'atch_type' => 'IMAGE', 'atch_for' => $atch_for), 'attatchments', 'atch_url');
@@ -665,7 +670,7 @@ class Admin_controller extends CI_Controller
 			$data['merchant_offers'] = $this->getOffer('', $_COOKIE['merchant_id']);
 
 			if ( isset($data['merchant_offers']['db_error']) ) 
-				redirectWithMessage('Error: '.$availableProducts['msg'], $controller);
+				redirectWithMessage('Error: '.$data['msg'], $controller);
 		}
 		else if ($pageName == "addOffer") 
 		{
@@ -674,6 +679,9 @@ class Admin_controller extends CI_Controller
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id, name', array('name' => 'ASC'));
 			if (isset($res['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
+
+			
+			// $pageName = "addOffer_old";
 		}
 		else if ($pageName == "merchantReview") 
 		{
@@ -700,7 +708,7 @@ class Admin_controller extends CI_Controller
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id AS id, name as label', array('name' => 'ASC'));
 			if (isset($data['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
-			
+			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
 			$data['products'] = json_encode($products['result']);
 			$data['categories'] = $this->getAllCategories();
 		}
@@ -1002,13 +1010,13 @@ class Admin_controller extends CI_Controller
 		if (isset($attatchments['db_error'])) 
 			redirectWithMessage('Error: '.$attatchments['msg'], $controller);
 
-		$offer_detail['attatchments'] = $attatchments['result'];
+		$offer_detail['attatchments'] = $attatchments ? $attatchments['result'] : array();
 		$offer_detail['sellers'] = $this->sellers;
 		$offer_detail['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id, name', array('name' => 'ASC'));
 		if (isset($res['brands']['db_error'])) 
 			redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
-		//$offer_detail['linked_products'] = $this->Admin_model->getLinkedproductsToOffer($offer_id, $offer_detail['merchant_id']);
-
+		$offer_detail['linked_products'] = $this->Admin_model->getLinkedproductsToOffer($offer_id, $offer_detail['merchant_id']);
+		
 		if (isset($offer_detail['db_error'])) 
 			redirectWithMessage('Error: '.$offer_detail['msg'], $controller);
 
@@ -1095,15 +1103,15 @@ class Admin_controller extends CI_Controller
 
 	public function editRequestedProduct($req_id = '')
 	{
-		if ($req_id) 
+		if ($req_id)
 		{
-			$req_prd = $this->Admin_model->getRequestedProduct(array('request_id' => $req_id));			
+			$req_prd = $this->Admin_model->getRequestedProduct(array('request_id' => $req_id));
 			if (isset($req_prd['db_error'])) 
 				redirectWithMessage('Error: '.$req_prd['msg'], 'page/merchantRequestedProducts');
-			
+			// echo "<pre>"; print_r($req_prd); die;
 			if ($req_prd)
 			{
-				$data = $req_prd[0];	
+				$data = $req_prd[0];
 				
 				$products = $this->Admin_model->selectRecords('', 'product', 'product_name as label, product_id as id');
 				if (isset($products['db_error'])) 
@@ -1929,10 +1937,10 @@ class Admin_controller extends CI_Controller
 		//echo "<pre>"; print_r($res['products']); die;
 
 		//get all requested products by merchant
-		$res['req_products'] = $this->Admin_model->getRequestedProduct(array('requested_product.merchant_id' => $sel_id));
+		$res['req_products'] = $this->Admin_model->getRequestedProductsAvailableForLinking();
 		if (isset($res['req_products']['db_error'])) 
 			redirectWithMessage('Error: '.$res['req_products']['msg'], $controller);
-		
+		// echo "<pre>"; print_r($res['req_products']); die;
 		//get all categories
 		$res['categories'] = $this->Admin_model->selectRecords('', 'product_category', 'category_id, category_name', array('category_name' => 'ASC'));
 		if (isset($res['categories']['db_error'])) 
@@ -2704,7 +2712,7 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$req_prds['msg'], $controller);
 
 			//get product detail
-			$prd_res = $this->productDetail($req_prds[0]['req_prd_id']);
+			$prd_res = $this->productDetail($req_prds[0]['req_prd_id'], true);
 			unset($prd_res['brand_name']);
 
 			//merge requested product and product detail response
@@ -2979,11 +2987,23 @@ class Admin_controller extends CI_Controller
 		if (isset($data['brands']['db_error'])) 
 			redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
 		
+		// echo "<pre>"; print_r($data); die;
+		
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/products', $data);
 		$this->load->view('admin/include/footer');
 		die;
+	}
+	
+	public function updateProductStatus($prd_id, $prd_status) {
+		
+		$data = ['isEnabled' => $prd_status];
+		$condition = ['product_id' => $prd_id];
+		$updated = $this->Admin_model->updateData('product', $data, $condition);
+
+		if (isset($updated['db_error'])) redirectWithMessage('Error: '.$updated['msg'], 'products');
+		else $this->products();
 	}
 
 	public function updateProductVarientValue()
@@ -3003,7 +3023,7 @@ class Admin_controller extends CI_Controller
 				$condition = array('vrnt_id' => $vrnt_key);
 				$data['att_value'] = $vrnt_value;
 
-				$isUpdated = $this->Admin_model->updateData('product_varient', $data, $condition);
+				$updated = $this->Admin_model->updateData('product_varient', $data, $condition);
 
 				if (isset($updated['db_error'])) 
 					redirectWithMessage('Error: '.$updated['msg'], 'products');
@@ -3036,7 +3056,14 @@ class Admin_controller extends CI_Controller
 		//get product id
 		$req_prd_id = $this->Admin_model->selectRecords(array('request_id' => $request_id), 'requested_product', 'req_prd_id');
      	$product_id = $req_prd_id['result'][0]['req_prd_id'];
-     	$controller = 'page/merchantRequestedProducts';
+
+		if($_COOKIE['site_code'] == 'admin') $controller = 'page/requestedProducts';
+     	else $controller = 'page/merchantRequestedProducts';
+		
+		//delete requested product
+		$isDeleted = $this->Admin_model->deleteRecord('requested_product', array('request_id' => $request_id));
+		if (isset($isDeleted['db_error'])) 
+			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
 		//delete product
 		$isDeleted = $this->Admin_model->deleteRecord('product', array('product_id' => $product_id));
@@ -3608,14 +3635,14 @@ class Admin_controller extends CI_Controller
 			return FALSE;
 	}
 
-	public function productDetail($prd_id)
+	public function productDetail($prd_id, $isRequestedProduct = false)
 	{
 		$this->isLoggedIn();
 
 		if ($prd_id) 
 		{	
 			//get product
-			$result = $this->Admin_model->products(array('product_id' => $prd_id));
+			$result = $this->Admin_model->products(array('product_id' => $prd_id), $isRequestedProduct);
 
 			$prd_res = $result[0];
 			$prd_res['status'] = TRUE;
@@ -3717,13 +3744,13 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
-	public function getProductDetail($prd_id = '', $sel_id='', $list_id='')
+	public function getProductDetail($prd_id = '', $sel_id='', $list_id='', $isRequestedProduct=false)
 	{
 		$this->isLoggedIn();
 
 		if ($prd_id) 
 		{
-			$prd_res = $this->productDetail($prd_id);
+			$prd_res = $this->productDetail($prd_id, $isRequestedProduct);
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
 
@@ -4538,7 +4565,7 @@ class Admin_controller extends CI_Controller
 		if (isset($db_vrnt_price['db_error'])) 
 			redirectWithMessage('Error: '.$db_vrnt_price['msg'], $controller);
 
-		if ($db_vrnt_price['result']) 
+		if ($db_vrnt_price && $db_vrnt_price['result']) 
 		{
 			foreach ($db_vrnt_price['result'] as $db_vrnt_prc_value) 
 				array_push($db_vrnt_price_array, $db_vrnt_prc_value['vrnt_id']);
@@ -4855,9 +4882,10 @@ class Admin_controller extends CI_Controller
 	{
 		$images = array();
 		$data = array();
+		$prd_name = $this->input->post('prd_name');
 		$data['category_id'] = $this->input->post('parent_cat_id');
 		$data['brand_id'] = $this->input->post('brand_id');
-		$data['product_name'] = $this->input->post('prd_name');
+		$data['product_name'] = $prd_name;
 		$data['mrp_price'] = $this->input->post('prd_price');
 		$data['description'] = $this->input->post('prd_desc');
 		$data['in_the_box'] = $this->input->post('in_the_box');
@@ -5016,16 +5044,17 @@ class Admin_controller extends CI_Controller
 			$req_prd_data = array();
 			$req_prd_data['merchant_id'] = $merchant_id;
 			$req_prd_data['req_prd_id'] = $prd_id;
+			$req_prd_data['product_name'] = $prd_name;
 			$req_prd_data['req_lst_id'] = $list_id;
-			$req_prd_data['brand_name'] = $data['brand_id'] ? NULL : $this->input->post('brand_name');
+			$req_prd_data['brand_name'] = $data['brand_id'] ? null : $this->input->post('brand_name');
 			$req_prd_data['refer_link'] = $this->input->post('refer_link');
 			$req_prd_data['isLinked'] = 0;
 			$req_prd_data['isEnabled'] = 1;
 			$req_prd_data['update_date'] = $this->current_date;
-
+			
 			//set null for blank fields
 			setNULLToBlank($req_prd_data);
-
+			
 			if ($req_prd_id) 
 			{
 				$controller = 'editRequestedProduct/'.$req_prd_id;

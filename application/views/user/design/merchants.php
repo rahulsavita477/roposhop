@@ -7,13 +7,19 @@
                     <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Sellers</a></li>
                 </ol>
 
-                <div class="col-md-6">
-                    <form method="get" action="<?= base_url('merchants') ?>">
-                        <input name="search_tearm" class="w-50" type="text" placeholder="Search Merchants" value="<?= isset($_GET['search_tearm']) ? $_GET['search_tearm'] : '' ?>" />
-                        <button type="submit" class="btn-primary"> <i class="icon-magnifier"> SEARCH</i></button>
-                    </form>
-                </div>
-
+                <div class="header-center merchant_search">
+                    <div class="header-search">
+                        <a href="#" class="search-toggle"><i class="icon-magnifier"></i></a>
+                        <form action="<?= base_url('merchants') ?>" method="get">
+                            <div class="header-search-wrapper">
+                                <input type="search" class="form-control merchant_search_tearm" name="search_tearm" placeholder="Search: Seller" value="<?= isset($_GET['search_tearm']) ? $_GET['search_tearm'] : '' ?>" required>
+                            
+                                <button class="btn" type="submit"><i class="icon-magnifier"></i></button>
+                            </div><!-- End .header-search-wrapper -->
+                        </form>
+                    </div><!-- End .header-search -->
+                </div><!-- End .headeer-center -->
+                
                 <div class="container mt-3 mb-3">
                     <div class="row row-sm">
                         <?php

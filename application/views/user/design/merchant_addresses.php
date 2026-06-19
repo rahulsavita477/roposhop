@@ -62,12 +62,6 @@
  .color-change {
  color: #08c !important;
  }
- form.form-inline input.w-50 {
- width: 320px !important;
- border: 1px solid #3364b0;
- border-radius: 4px 0px 0px 4px;
- padding-left: 5px !important;
- }
  .btn-primaryss {
  border: 1px solid #3364b0;
  height: 29px;
@@ -122,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="col-md-3"></div>
                 <div class="col-md-3">
                     <div class="toolbox-item toolbox-sort">
                         <div class="select-custom">
@@ -131,17 +125,17 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                     <label class="pt-2 float-left">Showing <span class="paging_count"></span> results</label>
-                    <!-- <div class="layout-modes float-left">
+                    <div class="layout-modes float-left">
                         <a href="category.php" class="layout-btn btn-grid active" title="Grid">
                             <i class="icon-mode-grid"></i>
                         </a>
                         <a href="category-list.php" class="layout-btn btn-list" title="List">
                             <i class="icon-mode-list"></i>
                         </a>
-                    </div> -->
-                </div>
+                    </div>
+                </div> -->
             </div>
             
                 <?php 
@@ -243,17 +237,16 @@ function setMerchantAddressData(addresses, paging)
     //set addresses
     for (var i=0,j=1; i<addresses.length; i++) 
     {
-        let address = addresses[i].address_line_1+"<br />"+addresses[i].address_line_2;
+        console.log(addresses[i]);
+        let address = addresses[i].address_line_1;
 
         if (addresses[i].address_line_2)
-            address += "<br />";
-
-        address += addresses[i].landmark;
+            address += "<br />"+addresses[i].address_line_2;
 
         if (addresses[i].landmark)
-            address += "<br />";
+            address += "<br />"+addresses[i].landmark;
 
-        address += addresses[i].city;
+        address += "<br />"+addresses[i].city;
 
         if (addresses[i].pin)
             address += " - "+addresses[i].pin;

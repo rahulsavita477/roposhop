@@ -326,6 +326,7 @@ class V1_api_controller extends CI_Controller
 	{
 		$res = array();
 		$where_in = array();
+		$where_in = ['isEnabled' => 1];
 
 		if (count($a_brand_id)>0) 
 			$where_in['brand_id'] = $a_brand_id;
@@ -388,7 +389,8 @@ class V1_api_controller extends CI_Controller
 				$prd_id = $prd_value['product_id'];
 				$prd_imgs = $this->attatchments($prd_id, "PRODUCT");
 
-				if ($prd_imgs['result']) 
+				// if($this->start > 0) {echo "<pre>"; print_r($prd_imgs);}
+				if ($prd_imgs && $prd_imgs['result']) 
 				{
 					foreach ($prd_imgs['result'] as $atch_value) 
 						array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$prd_id.'/'.$atch_value['atch_url']);
@@ -492,7 +494,7 @@ class V1_api_controller extends CI_Controller
 
             //get product images
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
-            if ($product_imgs['result']) 
+            if ($product_imgs && $product_imgs['result']) 
             {
                 $data['product']['image'] = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url'];
             }
@@ -502,36 +504,39 @@ class V1_api_controller extends CI_Controller
             $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 
             //get minimum off on product by merchant
-            $prd_off = $this->getMinimumOffOnProduct($product_id, $products['result'][0]['mrp_price'], $merchant_id);
+			// $prd_off = $this->getMinimumOffOnProduct($product_id, $products['result'][0]['mrp_price'], $merchant_id);
+            $prd_off = $this->common_controller->getMinimumOffOnProduct($product_id, $products['result'][0]['mrp_price']);
             $data['product']['offer_price'] = $prd_off['offer_price'];
             $data['product']['discount_price'] = $prd_off['discount_price'];
             $data['product']['off'] = $prd_off['off'];
         }
 
-        //echo "<pre>"; print_r($data); die;
+        //echo "<pre>"; print_r($product_id, $mrp_price, $merchant_id); die;
         $this->getJsonData(CODE_SUCCESS, 'ok', $data);
     }
 
     //need to remove that function (exist in user controller)
-    private function getMinimumOffOnProduct($product_id, $mrp_price, $merchant_id)
-    {
-        $data = array();
-        $where = array();
+    // private function getMinimumOffOnProduct($product_id, $mrp_price, $merchant_id)
+    // {
+	// 	// echo "<pre>"; print_r([$product_id, $mrp_price, $merchant_id]);
+    //     $data = array();
+    //     $where = array();
 
-        if ($merchant_id)
-        	$where['product_listing.merchant_id'] = $merchant_id;
+    //     if ($merchant_id)
+    //     	$where['product_listing.merchant_id'] = $merchant_id;
 
-        $where['product_listing.product_id'] = $product_id;
+    //     $where['product_listing.product_id'] = $product_id;
 
-        //get product listings
-        $sold_by_merchants = $this->am3->getProductListings($where);
+    //     //get product listings
+    //     $sold_by_merchants = $this->am3->getProductListings($where);
 
-        $data['offer_price'] = (is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
-        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
-        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+	// 	// print_r($sold_by_merchants && is_array($sold_by_merchants['result'])); die;
+    //     $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+    //     $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
+    //     $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
 	//get product rating
 	public function getProductRating($prd_id = '')

@@ -61,12 +61,6 @@
  padding: 1px;
  z-index: 99
  }
- form.form-inline input.w-50 {
- width: 320px !important;
- border: 1px solid #3364b0;
- border-radius: 4px 0px 0px 4px;
- padding-left: 5px !important;
- }
  .btn-primaryss {
  border: 1px solid #3364b0;
  height: 29px;
@@ -141,6 +135,10 @@
 
             <div class="row">
                 <?php 
+                if(!$search_result['products'] && !$search_result['brands'] && !$search_result['merchants']) {
+                    echo "No Result Found!";
+                }
+
                 if ($search_result['products']) 
                 {
                     foreach ($search_result['products']['result'] as $value) 
@@ -182,7 +180,7 @@
                                          </ul>
                                       </div>
                                       <div class="price-box">
-                                         <strong><strike>₹ <?= $value['mrp_price'] ?></strike>&nbsp; ₹ <?= $value['offer_price'] ?><br></strong><?= $value['off'] ?>%  &nbsp; Off &nbsp;[ Discount &nbsp; ₹ <?= $value['discount_price'] ?>]
+                                         <strong><strike>₹<?= $value['mrp_price'] ?></strike> ₹<?= $value['offer_price'] ?><br></strong><?= $value['off'] ?>%  Off [Discount ₹<?= $value['discount_price'] ?>]
                                       </div>
                                    </div>
                                 </div>

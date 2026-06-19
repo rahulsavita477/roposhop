@@ -86,12 +86,6 @@
             z-index: 99
 
 }
-form.form-inline input.w-50 {
-    width: 320px !important;
-    border: 1px solid #3364b0;
-    border-radius: 4px 0px 0px 4px;
-    padding-left: 5px !important;
-}
 .btn-primaryss {
     border: 1px solid #3364b0;
     height: 29px;
@@ -168,18 +162,16 @@ a.sorter-btn {
                                    
                                 </div><!-- End .toolbox-item -->
                         </div>
-
+                        <div class="col-md-3"></div>
                          <div class="col-md-5">
                             <form method="get" action="/" class="form-inline">
-               <input name="" class="w-50" type="text" placeholder="Page search" required="">
-                <button type="submit" class="btn-primaryss"> <i class="icon-magnifier"></i></button>
-            </form>
+                            <input name="" class="w-50" type="text" placeholder="Page search" required="">
+                                <button type="submit" class="btn-primaryss"> <i class="icon-magnifier"></i></button>
+                            </form>
                          </div>
 
-                          <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                            <label class="pt-2 float-left">Showing 1–9 of 60 results</label>
-                           
-
                             <div class="layout-modes float-left">
                                 <a href="category.php" class="layout-btn btn-grid active" title="Grid">
                                     <i class="icon-mode-grid"></i>
@@ -189,13 +181,10 @@ a.sorter-btn {
                                 </a>
                             </div>
                           </div>
-
-                      </div>
-    <div class="row">
-
-                             <?php for ($i=1; $i <=8; $i++){?>
-
-                            
+                        </div> -->
+                        
+                        <div class="row">
+                            <?php for ($i=1; $i <=8; $i++){?>
                             <div class="col-6 col-sm-12 product-default left-details mb-1 pt-1">
                                 
                                 <span class="rating-right" style="background:#28a745">
@@ -217,8 +206,8 @@ a.sorter-btn {
 
                                 </div>
                                     <div class="price-box">
-                                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
-                                          33.2%  &nbsp; Off &nbsp;[ Discount &nbsp; ₹ 4520   ]
+                                         <strong><strike>₹13999</strike> ₹1000<br></strong>
+                                          33.2% Off [Discount ₹4520]
                                       
                                     </div><!-- End .price-box -->
                                     
@@ -226,12 +215,7 @@ a.sorter-btn {
                               </a>
                               </div>
                             </div>
-
-
-
-                             <?php } ?>
-
-
+                            <?php } ?>
                         </div>
 
                         <nav class="toolbox toolbox-pagination mt-2">
@@ -373,7 +357,7 @@ a.sorter-btn {
                      <div class="product-details">
                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                            Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                           33.2%&nbsp; Off  &nbsp;
                         </h2>
                     </div><!-- End .product-details -->
@@ -410,7 +394,7 @@ a.sorter-btn {
                      <div class="product-details">
                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                            Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                           33.2%&nbsp; Off  &nbsp;
                         </h2>
                     </div><!-- End .product-details -->
@@ -447,7 +431,7 @@ a.sorter-btn {
                      <div class="product-details">
                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                            Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                         <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                         <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                           33.2%&nbsp; Off  &nbsp;
                         </h2>
                     </div><!-- End .product-details -->

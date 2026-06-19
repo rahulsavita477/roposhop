@@ -19,22 +19,22 @@ if ($rating_count)
 else
     $five_star_width = $four_star_width = $three_star_width = $two_star_width = $one_star_width = 0;
 
-$address_id = $address['nearest_address']['address_id'];
-$lat = $address['nearest_address']['latitude'];
-$long = $address['nearest_address']['longitude'];
-$pin = $address['nearest_address']['pin'];
-$contact = $address['nearest_address']['contact'];
-$business_days = $address['nearest_address']['business_days'];
-$business_hours = $address['nearest_address']['business_hours'];
-$line1 = $address['nearest_address']['address_line_1'];
-$line2 = $address['nearest_address']['address_line_2'];
-$landmark = $address['nearest_address']['landmark'];
-$cnt_id = $address['nearest_address']['country_id'];
-$state_id = $address['nearest_address']['state_id'];
-$city_id = $address['nearest_address']['city_id'];
-$country_name = $address['nearest_address']['country_name'];
-$state_name = $address['nearest_address']['state_name'];
-$city_name = $address['nearest_address']['city_name'];
+$address_id = isset($address['nearest_address']['address_id']) ? $address['nearest_address']['address_id'] : '';
+$lat = isset($address['nearest_address']['latitude']) ? $address['nearest_address']['latitude'] : '';
+$long = isset($address['nearest_address']['longitude']) ? $address['nearest_address']['longitude'] : '';
+$pin = isset($address['nearest_address']['pin']) ? $address['nearest_address']['pin'] : '';
+$contact = isset($address['nearest_address']['contact']) ? $address['nearest_address']['contact'] : '';
+$business_days = isset($address['nearest_address']['business_days']) ? $address['nearest_address']['business_days'] : '';
+$business_hours = isset($address['nearest_address']['business_hours']) ? $address['nearest_address']['business_hours'] : '';
+$line1 = isset($address['nearest_address']['address_line_1']) ? $address['nearest_address']['address_line_1'] : '';
+$line2 = isset($address['nearest_address']['address_line_2']) ? $address['nearest_address']['address_line_2'] : '';
+$landmark = isset($address['nearest_address']['landmark']) ? $address['nearest_address']['landmark'] : '';
+$cnt_id = isset($address['nearest_address']['country_id']) ? $address['nearest_address']['country_id'] : '';
+$state_id = isset($address['nearest_address']['state_id']) ? $address['nearest_address']['state_id'] : '';
+$city_id = isset($address['nearest_address']['city_id']) ? $address['nearest_address']['city_id'] : '';
+$country_name = isset($address['nearest_address']['country_name']) ? $address['nearest_address']['country_name'] : '';
+$state_name = isset($address['nearest_address']['state_name']) ? $address['nearest_address']['state_name'] : '';
+$city_name = isset($address['nearest_address']['city_name']) ? $address['nearest_address']['city_name'] : '';
 ?>
 
 <style type="text/css" media="screen">
@@ -312,7 +312,7 @@ function open_modal(merchant_id, establishment_name)
                                         $is_completed = '<a 
                                             href="javascript:void(0);" 
                                             data-toggle="modal" 
-                                            class="btn btn-info" 
+                                            class="btn btn-primary" 
                                             style="padding: 5px;"
                                             >
                                                 Verified
@@ -325,7 +325,7 @@ function open_modal(merchant_id, establishment_name)
                                                 &apos;'.$merchant_detail['establishment_name'].'&apos;
                                             );" 
                                             data-toggle="modal" 
-                                            class="btn btn-info" 
+                                            class="btn btn-primary" 
                                             style="padding: 5px;"
                                             >
                                                 Claim this business
@@ -489,7 +489,7 @@ function open_modal(merchant_id, establishment_name)
                                 <div class="col-sm-6">
                                     <?php
                                     if ($address['total_address'] > 1)
-                                        echo '<a href="'.base_url('merchant/'.$_GET['merchant_id'].'/address').'" class="btn btn-info">View all '.$address['total_address'].' addresses</a><br /><br />';
+                                        echo '<a href="'.base_url('merchant/'.$_GET['merchant_id'].'/address').'" class="btn btn-primary">View all '.$address['total_address'].' addresses</a><br /><br />';
 
                                     echo '<a target="_blank" href="https://www.google.com/maps/place/'.$lat.','.$long.'" class="btn btn-warning"><i class="fa fa-walking" aria-hidden="true"></i> '.distance($lat, $long).' KM</a>';
                                     ?>
@@ -671,7 +671,7 @@ function open_modal(merchant_id, establishment_name)
                                                                                     <div class="product-details">
                                                                                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                                                                                             Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                                                                            <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                                                                            <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                                                                             33.2%&nbsp; Off  &nbsp;
                                                                                         </h2>
                                                                                     </div>
@@ -700,7 +700,7 @@ function open_modal(merchant_id, establishment_name)
                                                                                     <div class="product-details">
                                                                                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                                                                                             Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                                                                            <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>33.2%&nbsp; Off  &nbsp;
+                                                                                            <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>33.2%&nbsp; Off  &nbsp;
                                                                                         </h2>
                                                                                     </div>
                                                                                 </div>
@@ -728,7 +728,7 @@ function open_modal(merchant_id, establishment_name)
                                                                                     <div class="product-details">
                                                                                         <h2 class="product-title text-black pt-2" style="font-size: 13px;font-weight: 500">
                                                                                             Redmi Y3 (64 GB) (4 GB RAM)....<br>
-                                                                                            <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000<br></strong>
+                                                                                            <strong><strike>₹13999</strike>&nbsp; ₹1000<br></strong>
                                                                                             33.2%&nbsp; Off  &nbsp;
                                                                                         </h2>
                                                                                     </div>
@@ -785,7 +785,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -799,7 +799,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                             Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -813,7 +813,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -827,7 +827,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -841,7 +841,7 @@ function open_modal(merchant_id, establishment_name)
                                             <div class="product-details text-left">
                                                 <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -885,7 +885,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -901,7 +901,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -915,7 +915,7 @@ function open_modal(merchant_id, establishment_name)
                                         <div class="product-details text-left">
                                             <h2 class="product-title text-black">
                                                 Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                                <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                                <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                             </h2>
                                         </div>
                                     </a>
@@ -932,7 +932,7 @@ function open_modal(merchant_id, establishment_name)
                                     <div class="product-details text-left">
                                         <h2 class="product-title text-black">
                                             Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                            <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                            <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                         </h2>
                                     </div>
                                 </a>
@@ -949,7 +949,7 @@ function open_modal(merchant_id, establishment_name)
                                     <div class="product-details text-left">
                                        <h2 class="product-title text-black">
                                         Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                            <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                            <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                         </h2>
                                     </div>
                                 </a>
@@ -963,7 +963,7 @@ function open_modal(merchant_id, establishment_name)
                                     <div class="product-details text-left">
                                        <h2 class="product-title text-black">
                                         Redmi Y3 (64 GB) (4 GB RAM)<br>
-                                            <span class="color-change"> <strong><strike>₹ 13999</strike>&nbsp; ₹ 1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)</span>
+                                            <span class="color-change"> <strong><strike>₹13999</strike>&nbsp; ₹1000</strong>33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)</span>
                                         </h2>
                                     </div>
                                 </a>

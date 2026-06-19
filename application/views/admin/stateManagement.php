@@ -73,7 +73,7 @@ $status = isset($state['status']) ? $state['status'] : 1;
                         </div>
 
                         <div class="box-body table-responsive" style="margin-top: 20px;">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped data-pagination-table">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>

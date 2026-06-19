@@ -62,12 +62,6 @@
  .color-change {
  color: #08c !important;
  }
- form.form-inline input.w-50 {
- width: 320px !important;
- border: 1px solid #3364b0;
- border-radius: 4px 0px 0px 4px;
- padding-left: 5px !important;
- }
  .btn-primaryss {
  border: 1px solid #3364b0;
  height: 29px;
@@ -120,23 +114,24 @@
                         <!-- <a href="#" class="sorter-btn" title="Set Ascending Direction"><i class="fa fa-arrow-down rotate" aria-hidden="true"></i></a> -->
                     </div>
                 </div>
+                <div class="col-md-3"></div>
                 <div class="col-md-5">
                     <form method="get" action="javascript:void(0)" class="form-inline" >
                         <input class="w-50" type="text"  placeholder="Search Product" id="search_text">
                         <button type="button" class="btn-primaryss" onclick="getAndSetProductListing(1)"> <i class="icon-magnifier"></i></button>
                     </form>
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <label class="pt-2 float-left">Showing <span class="paging_count"></span> results</label>
-                    <!-- <div class="layout-modes float-left">
+                    <div class="layout-modes float-left">
                         <a href="category.php" class="layout-btn btn-grid active" title="Grid">
                             <i class="icon-mode-grid"></i>
                         </a>
                         <a href="category-list.php" class="layout-btn btn-list" title="List">
                             <i class="icon-mode-list"></i>
                         </a>
-                    </div> -->
-                </div>
+                    </div>
+                </div> -->
             </div>
             <div class="row">
                 <?php 
@@ -166,11 +161,11 @@
                                     <h2 class="product-title text-black">
                                         <span id="product'.$i.'_name"></span><br>
                                         <span class="color-change"> 
-                                            <strike id="product'.$i.'_price_div">₹ <span id="product'.$i.'_price">&nbsp;</strike> 
-                                                ₹ <span id="listing'.$i.'_price"></span>
+                                            <strike id="product'.$i.'_price_div">₹<span id="product'.$i.'_price">&nbsp;</strike> 
+                                                ₹<span id="listing'.$i.'_price"></span>
                                         </span>
                                         <span id="product'.$i.'_discount_div">
-                                            <span id="product'.$i.'_off"></span>%&nbsp; Off  &nbsp; (Discount &nbsp;₹ <span id="product'.$i.'_discount"></span>)
+                                            <span id="product'.$i.'_off"></span> Off (Discount ₹<span id="product'.$i.'_discount"></span>)
                                         </span>
                                     </h2>
                                     <div class="price-box"></div>
@@ -358,7 +353,7 @@ async function setProductData(products, paging)
 
             if (resp.product.discount_price > 0) 
             {
-                $("#product"+j+"_price").html(resp.product.mrp_price+'&nbsp;');
+                $("#product"+j+"_price").html(resp.product.mrp_price);
                 $("#product"+j+"_off").html(resp.product.off);
                 $("#product"+j+"_discount").html(resp.product.discount_price);
 

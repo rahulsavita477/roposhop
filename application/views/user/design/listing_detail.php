@@ -1,37 +1,37 @@
 <?php 
 //product rating
-$avg_rating = ($product['rating_info']['avg_rating']) ? $product['rating_info']['avg_rating'] : 0;
+$avg_rating = (isset($product['rating_info']['avg_rating'])) ? $product['rating_info']['avg_rating'] : 0;
 $prd_avg_rating_width = ($avg_rating*100)/5;
 
 //listing detail
-$finance_available = $listing['finance_available'] ? 'Yes' : 'No';
-$home_delivery_available = $listing['home_delivery_available'] ? 'Yes' : 'No';
-$installation_available = $listing['installation_available'] ? 'Yes' : 'No';
-$in_stock = $listing['in_stock'] ? 'Yes' : 'No';
-$replacement_available = $listing['replacement_available'] ? 'Yes' : 'No';
-$in_stock = $listing['in_stock'] ? 'Yes' : 'No';
+$finance_available = isset($listing['finance_available']) ? 'Yes' : 'No';
+$home_delivery_available = isset($listing['home_delivery_available']) ? 'Yes' : 'No';
+$installation_available = isset($listing['installation_available']) ? 'Yes' : 'No';
+$in_stock = isset($listing['in_stock']) ? 'Yes' : 'No';
+$replacement_available = isset($listing['replacement_available']) ? 'Yes' : 'No';
+$in_stock = isset($listing['in_stock']) ? 'Yes' : 'No';
 $url = isset($_GET['category']) ? '&category='.$_GET['category'] : '';
 
 //merchant detail
-$address_id = $merchant['address']['nearest_address']['address_id'];
-$lat = $merchant['address']['nearest_address']['latitude'];
-$long = $merchant['address']['nearest_address']['longitude'];
-$pin = $merchant['address']['nearest_address']['pin'];
-$contact = $merchant['address']['nearest_address']['contact'];
-$business_days = $merchant['address']['nearest_address']['business_days'];
-$business_hours = $merchant['address']['nearest_address']['business_hours'];
-$line1 = $merchant['address']['nearest_address']['address_line_1'];
-$line2 = $merchant['address']['nearest_address']['address_line_2'];
-$landmark = $merchant['address']['nearest_address']['landmark'];
-$cnt_id = $merchant['address']['nearest_address']['country_id'];
-$state_id = $merchant['address']['nearest_address']['state_id'];
-$city_id = $merchant['address']['nearest_address']['city_id'];
-$country_name = $merchant['address']['nearest_address']['country_name'];
-$state_name = $merchant['address']['nearest_address']['state_name'];
-$city_name = $merchant['address']['nearest_address']['city_name'];
+$address_id = isset($merchant['address']['nearest_address']['address_id']) ? $merchant['address']['nearest_address']['address_id'] : '';
+$lat = isset($merchant['address']['nearest_address']['latitude']) ? $merchant['address']['nearest_address']['latitude'] : '';
+$long = isset($merchant['address']['nearest_address']['longitude']) ? $merchant['address']['nearest_address']['longitude'] : '';
+$pin = isset($merchant['address']['nearest_address']['pin']) ? $merchant['address']['nearest_address']['pin'] : '';
+$contact = isset($merchant['address']['nearest_address']['contact']) ? $merchant['address']['nearest_address']['contact'] : '';
+$business_days = isset($merchant['address']['nearest_address']['business_days']) ? $merchant['address']['nearest_address']['business_days'] : '';
+$business_hours = isset($merchant['address']['nearest_address']['business_hours']) ? $merchant['address']['nearest_address']['business_hours'] : '';
+$line1 = isset($merchant['address']['nearest_address']['address_line_1']) ? $merchant['address']['nearest_address']['address_line_1'] : '';
+$line2 = isset($merchant['address']['nearest_address']['address_line_2']) ? $merchant['address']['nearest_address']['address_line_2'] : '';
+$landmark = isset($merchant['address']['nearest_address']['landmark']) ? $merchant['address']['nearest_address']['landmark'] : '';
+$cnt_id = isset($merchant['address']['nearest_address']['country_id']) ? $merchant['address']['nearest_address']['country_id'] : '';
+$state_id = isset($merchant['address']['nearest_address']['state_id']) ? $merchant['address']['nearest_address']['state_id'] : '';
+$city_id = isset($merchant['address']['nearest_address']['city_id']) ? $merchant['address']['nearest_address']['city_id'] : '';
+$country_name = isset($merchant['address']['nearest_address']['country_name']) ? $merchant['address']['nearest_address']['country_name'] : '';
+$state_name = isset($merchant['address']['nearest_address']['state_name']) ? $merchant['address']['nearest_address']['state_name'] : '';
+$city_name = isset($merchant['address']['nearest_address']['city_name']) ? $merchant['address']['nearest_address']['city_name'] : '';
 
-$avg_rating = ($merchant['rating_info']['avg_rating']) ? $merchant['rating_info']['avg_rating'] : 0;
-$merchant_avg_rating_width = ($avg_rating*100)/5
+$avg_rating = (isset($merchant['rating_info']['avg_rating'])) ? $merchant['rating_info']['avg_rating'] : 0;
+$merchant_avg_rating_width = ($avg_rating*100)/5;
 ?>
 
 <style type="text/css" media="screen">
@@ -244,6 +244,7 @@ function open_modal2(name, data)
                                 <div class="product-slider-container product-item">
                                     <div class="product-single-carousel owl-carousel">
                                         <?php
+                                        if(isset($product)){
                                         foreach ($product['images'] as $key => $imgs) 
                                         {
                                             echo '<div class="product-item">
@@ -260,7 +261,7 @@ function open_modal2(name, data)
                                                         data-zoom-image="'.$imgs.'" 
                                                         alt="'.$product['product_name'].'_'.$key.'" />
                                                 </div>';
-                                        }
+                                        }}
                                         ?>
                                     </div>
                                     <!-- End .product-single-carousel -->
@@ -271,20 +272,23 @@ function open_modal2(name, data)
 
                                 <div class="prod-thumbnail row owl-dots transparent-dots" id='carousel-custom-dots'>
                                     <?php
-                                    foreach ($product['images'] as $imgs) 
-                                    {
-                                        echo '<div class="owl-dot">
-                                                <img 
-                                                    style="    
-                                                        width: auto;
-                                                        max-width: 80px;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        height: auto;
-                                                        max-height: 80px;"
-                                                    src="'.$imgs.'" 
-                                                    alt="'.$product['product_name'].'_'.$key.'" />
-                                            </div>';
+                                    if(isset($product['images'])) {
+                                        
+                                        foreach ($product['images'] as $imgs) 
+                                        {
+                                            echo '<div class="owl-dot">
+                                                    <img 
+                                                        style="    
+                                                            width: auto;
+                                                            max-width: 80px;
+                                                            margin-left: auto;
+                                                            margin-right: auto;
+                                                            height: auto;
+                                                            max-height: 80px;"
+                                                        src="'.$imgs.'" 
+                                                        alt="'.$product['product_name'].'_'.$key.'" />
+                                                </div>';
+                                        }
                                     }
                                     ?>
                                 </div>
@@ -293,7 +297,7 @@ function open_modal2(name, data)
 
                         <div class="col-lg-7">
                             <div class="product-single-details">
-                                <h2 class="product"><?= $product['product_name'] ?></h2>
+                                <h2 class="product"><?= isset($product['product_name']) ? $product['product_name'] : '' ?></h2>
                                 <div class="ratings-container">
                                     <a href="<?= base_url('product/rating/').$_GET['list_id'] ?>">
                                         <div class="product-ratings">
@@ -305,7 +309,7 @@ function open_modal2(name, data)
 
                             <div class="product-filters-container pt-2">
                                 <ul style="list-style: inside;color:#000">
-                                    <?php if ($product['key_features']) {
+                                    <?php if (isset($product['key_features']) && $product['key_features']) {
                                         foreach ($product['key_features'] as $feature) 
                                             echo "<li>".$feature."</li>";
                                     } ?>
@@ -317,7 +321,7 @@ function open_modal2(name, data)
                                     <tr>
                                         <td>Brand</td>
                                         <td>
-                                            <?= $product['brand_name'] ?>
+                                            <?= isset($product['brand_name']) ? $product['brand_name'] : '' ?>
                                             &nbsp;&nbsp;
                                             <a href="<?= base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']) ?>">
                                                 <img 
@@ -333,49 +337,50 @@ function open_modal2(name, data)
                                     <tr>
                                         <td>In the box</td>
                                         <td>
-                                            <?php
-                                            if ($product['in_the_box']) 
-                                                echo $product['in_the_box'];
-                                            else
-                                                echo " - ";
-                                            ?>
+                                            <?= isset($product['in_the_box']) ? $product['in_the_box'] : ' - ' ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>MRP</td>
-                                        <td><strike><?= currency_format($product['mrp_price']) ?></strike></td>
+                                        <td><strike><?php if(isset($product['mrp_price'])) { echo currency_format($product['mrp_price']); }  ?></strike></td>
                                     </tr>  
                                     <tr>
                                         <td>Offer Price</td>
                                         <td>
-                                            <?= currency_format($listing['sell_price']) ?>
+                                            <?php if(isset($listing['sell_price'])) { echo currency_format($listing['sell_price']); }    ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Offered By</td>
-                                        <td><?= $merchant['establishment_name'] ?></td>
+                                        <td><?php if(isset($merchant['establishment_name'])) { echo $merchant['establishment_name']; } ?></td>
                                     </tr>  
                                     <tr>
                                         <td>Discount</td>
                                         <td>
                                             <?php
-                                            echo calculatePercentage(
-                                                (int) $product['mrp_price'], 
-                                                (int) $listing['sell_price']
-                                            )."% Off, ";
-                                            echo currency_format($product['mrp_price']-$listing['sell_price'])." Discount";
+                                            if(isset($product['mrp_price']) && isset($listing['sell_price'])) {
+                                                echo calculatePercentage(
+                                                    (int) $product['mrp_price'], 
+                                                    (int) $listing['sell_price']
+                                                )."% Off, ";
+                                            }
+
+                                            if(isset($product['mrp_price']) && isset($listing['sell_price'])) { 
+
+                                                echo currency_format($product['mrp_price']-$listing['sell_price'])." Discount";
+                                            }
                                             ?>
                                         </td>
                                     </tr>  
 
                                     <?php
-                                    if ($listing['seller_offering'])
+                                    if (isset($listing['seller_offering']))
                                     echo '<tr>
                                             <td>Seller offerings</td>
                                             <td>'.$listing['seller_offering'].'</td>
                                         </tr>';
 
-                                    $finance_terms = $listing['finance_terms'] ? '<a 
+                                    $finance_terms =  isset($listing['finance_terms']) ? '<a 
                                     href="javascript:void(0);" 
                                     onclick="open_modal2(
                                         \'Finance\',
@@ -399,7 +404,7 @@ function open_modal2(name, data)
                                         T&C
                                     </a>' : '';
 
-                                    $home_delivery_terms = $listing['home_delivery_terms'] ? '<a 
+                                    $home_delivery_terms = isset($listing['home_delivery_terms']) ? '<a 
                                     href="javascript:void(0);" 
                                     onclick="open_modal2(
                                         \'Home Delivery\',
@@ -423,7 +428,7 @@ function open_modal2(name, data)
                                         T&C
                                     </a>' : '';
 
-                                    $installation_terms = $listing['installation_terms'] ? '<a 
+                                    $installation_terms = isset($listing['installation_terms']) ? '<a 
                                     href="javascript:void(0);" 
                                     onclick="open_modal2(
                                         \'Installation\',
@@ -447,7 +452,7 @@ function open_modal2(name, data)
                                         T&C
                                     </a>' : '';
 
-                                    $replacement_terms = $listing['replacement_terms'] ? '<a 
+                                    $replacement_terms = isset($listing['replacement_terms']) ? '<a 
                                     href="javascript:void(0);" 
                                     onclick="open_modal2(
                                         \'Replacement\',
@@ -471,7 +476,7 @@ function open_modal2(name, data)
                                         T&C
                                     </a>' : '';
 
-                                    $return_policy = $listing['return_policy'] ? '<a 
+                                    $return_policy = isset($listing['return_policy']) ? '<a 
                                     href="javascript:void(0);" 
                                     onclick="open_modal2(
                                         \'Return\',
@@ -528,7 +533,7 @@ function open_modal2(name, data)
                         <div class="col-lg-7">
                             <div class="row">
                                 <div class="col-lg-7">
-                                    <h2><?= $merchant['establishment_name'] ?></h2>
+                                    <h2><?= isset($merchant['establishment_name']) ? $merchant['establishment_name'] : '' ?></h2>
                                     <div class="ratings-container">
                                         <a href="<?= base_url('merchant/rating/').$merchant['merchant_id'] ?>">
                                             <div class="product-ratings">
@@ -539,7 +544,7 @@ function open_modal2(name, data)
                                 </div>
 
                                 <div class="col-lg-5">
-                                    <?php
+                                    <?php if(isset($merchant)){
                                     echo '<a href="'.base_url('merchants/'.url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'">
                                         <img 
                                             style="    
@@ -553,7 +558,7 @@ function open_modal2(name, data)
                                             src="'.$merchant['images'][0].'" 
                                             alt="'.$merchant['establishment_name'].'_'.$key.'" />
                                     </a>';
-                                    ?>
+                                    }?>
                                 </div>
                             </div>
 
@@ -634,8 +639,8 @@ function open_modal2(name, data)
 
                                 <div class="col-lg-3">
                                     <?php
-                                    if ($merchant['address']['total_address'] > 1)
-                                        echo '<a href="'.base_url('merchant/'.$merchant['merchant_id'].'/address').'" class="btn btn-info pull-right">View all '.$merchant['address']['total_address'].' addresses</a><br /><br />';
+                                    if (isset($merchant['address']['total_address']) && $merchant['address']['total_address'] > 1)
+                                        echo '<a href="'.base_url('merchant/'.$merchant['merchant_id'].'/address').'" class="btn btn-primary pull-right">View all '.$merchant['address']['total_address'].' addresses</a><br /><br />';
 
                                     echo '<a target="_blank" href="https://www.google.com/maps/place/'.$lat.','.$long.'" class="btn btn-warning pull-right"><i class="fa fa-walking" aria-hidden="true"></i> '.distance($lat, $long).' KM</a>';
                                     ?>
@@ -646,7 +651,7 @@ function open_modal2(name, data)
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <?= $merchant['description'] ?>
+                            <?= isset($merchant['description']) ? $merchant['description'] : '' ?>
                         </div>
                     </div>
                 </div>

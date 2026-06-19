@@ -75,7 +75,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-striped">
+                        <table class="table table-striped">
                             <tbody>
                                 <tr>
                                     <td>
@@ -300,7 +300,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                     <div class="form-group">
                         <label for=""><b>Contact (Mobile) Number <sup>*</sup></b></label>
-                        91<input type="text" class="form-control" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
+                        +91-<input type="text" class="form-control" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
                     </div>
                     <div class="span5 alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
 
@@ -310,7 +310,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-striped">
+                        <table class="table table-striped">
                             <tbody>
                                 <tr>
                                     <td>Profile Picture</td>
@@ -350,13 +350,14 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     <div class="alert alert-warning" role="alert">Only decimals are allowed for <b>Latitude </b> & <b>Longitude</b>.</div>
 
                     <div class="form-group">
-                        <button type="button" onclick="getLatLongFromAddress();" class="btn btn-info">Get lat-long from address</button>&nbsp;&nbsp;&nbsp; <span style="color: darkgray;"><b>Or Select On Map Below</b></span><br /><br />
+                        <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>&nbsp;&nbsp;&nbsp; <span style="color: darkgray;"><b>Or Select On Map Below</b></span><br /><br />
                     </div>
 
                     <!-- google map -->
                     <center>
                         <div id="googleMap" style="width:90%;height:400px; margin: 20px;"></div>
                    
+                        <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
                         <a href="<?= base_url('merchantLoginSignup') ?>" class="btn btn-default">Cancel</a>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </center>

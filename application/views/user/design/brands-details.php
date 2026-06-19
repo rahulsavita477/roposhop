@@ -68,7 +68,7 @@
         </figure>
      <div class="product-details">
     <div class="product-details text-left">
-     <h2 class="product-title text-black"> Redmi Y3 (64 GB) (4 GB RAM)....<br><strong><strike>13999</strike>&nbsp; 1000<br></strong>Off &nbsp;33.2%<br> Discount &nbsp; ₹ 4520 </h2>
+     <h2 class="product-title text-black"> Redmi Y3 (64 GB) (4 GB RAM)....<br><strong><strike>13999</strike> 1000<br></strong>Off 33.2%<br>Discount ₹4520</h2>
     <div class="price-box">
     </div><!-- End .price-box -->
      </div>

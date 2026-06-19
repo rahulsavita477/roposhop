@@ -125,13 +125,12 @@
 					</div>
 					<div class="pull-right" style="margin-left:10px;"><?= $rating_info['rating_count_1_star'] ?></div>
 				</div>
-			</div>			
-		</div>			
+			</div>
+		</div>
 		
 		<?php foreach ($merchant_review as $review) {  ?>
 			<div class="row">
 				<div class="col-sm-12">
-					<hr/>
 					<div class="review-block">
 						<div class="row">
 							<div class="col-sm-2">
@@ -155,7 +154,6 @@
 								<div class="review-block-description"><?= $review['review'] ?></div>
 							</div>
 						</div>
-						<hr/>
 					</div>
 				</div>
 			</div>

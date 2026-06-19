@@ -43,7 +43,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
                                     <th>S.No.</th>

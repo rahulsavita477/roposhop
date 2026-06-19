@@ -46,7 +46,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                         <div class="row">
                             <div class="col-lg-6">
                                 <h4 class="widget-title">Subscribe newsletter</h4>
-                                <p>Get all the latest information on Events,Sales and Offers. Sign up for newsletter today</p>
+                                <p>Get all the latest information on Events, Sales and Offers. Sign up for newsletter today</p>
                             </div><!-- End .col-lg-6 -->
 
                             <div class="col-lg-6">
@@ -98,7 +98,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                 <div class="row">
                                     <div class="col-sm-6 col-md-5">
                                         <ul class="links">
-                                            <li><a href="<?= $seller_url.'/merchantLoginSignup' ?>">become a seller</a></li>
+                                            <li><a href="<?= $seller_url.'/merchantLoginSignup' ?>">Become a Seller</a></li>
 
                                             <?php
                                             if (isset($_COOKIE['user_id'])) 

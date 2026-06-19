@@ -17,13 +17,13 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="col-sm-12" style="margin: 20px 0 20px 0;">
+                    <div class="col-sm-12" style="margin-top: 10px;">
                         <a href="<?= base_url('page/addBrand');?>" class="btn btn-primary pull-right">
                             <i class="fa fa-plus"></i> Add New Brand</a> 
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
                                     <th>S.NO.</th>

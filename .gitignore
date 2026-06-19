@@ -1,9 +1,14 @@
 ## ROPOSHOP SPECIFIC GIT IGNORE
-assets/*
-!assets/admin/*
-!assets/user/*
-!assets/favicon.ico
-!assets/logo.png
+#assets/*
+#!assets/admin/*
+#!assets/user/*
+#!assets/favicon.ico
+#!assets/logo.png
+assets/brand/
+assets/product/
+assets/seller/
+assets/temp/
+assets/profile_pics/
 
 ## STANDARD GIT IGNORE CONTENT
 

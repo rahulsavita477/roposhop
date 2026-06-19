@@ -13,7 +13,7 @@
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
+                <div class="box">   
                     <form method="post" action="<?= base_url('changeParentCategory') ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <!-- select sub category -->
                         <div class="col-sm-12 Category_search_add_div">
@@ -46,7 +46,7 @@
                         </div>
 
                         <div class="box-body table-responsive" style="margin-top: 20px;">
-                            <table id="example1" class="table table-bordered table-striped" style="margin-top: 40px;">
+                            <table class="table table-bordered table-striped data-pagination-table" style="margin-top: 40px;">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>

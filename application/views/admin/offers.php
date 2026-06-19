@@ -32,7 +32,7 @@ else
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="row" style="margin: 20px 0 20px 0;">
+                    <div class="row" style="margin-top: 10px;">
                         <div class="col-sm-8">
                             <div class="row">
                                 <div class="col-sm-4">
@@ -60,7 +60,7 @@ else
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
-                                    <button class="btn btn-info" onclick="searchOffer();">Find offer</button>
+                                    <button class="btn btn-primary" onclick="searchOffer();">Find offer</button>
                                     <a href="<?= base_url('sellers/offers') ?>" class='btn btn-default'>Remove filter</a>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@ else
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
                                     <th>S.NO.</th>

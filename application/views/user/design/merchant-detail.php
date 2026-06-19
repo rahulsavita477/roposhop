@@ -99,10 +99,10 @@
                                  <h2 class="product-title text-black">
                      Redmi Y3 (64 GB) (4 GB RAM)<br>
                      
-                     <span class="color-change"> <strong><strike>₹ 13999</strike>
-                                    &nbsp; ₹ 1000
+                     <span class="color-change"> <strong><strike>₹13999</strike>
+                                    &nbsp; ₹1000
                      </strong>
-                     33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹ 4520)
+                     33.2%&nbsp; Off  &nbsp; (Discount &nbsp; ₹4520)
                      </span>                                     
                    </h2>
                                

@@ -73,7 +73,7 @@ else
 									</select>
 								</div>
 								<div class="col-sm-3">
-									<button type="submit" class="btn btn-info">Find product</button>
+									<button type="submit" class="btn btn-primary">Find product</button>
 									<a href="<?= base_url('productExcel') ?>" class='btn btn-default'>Remove filter</a>
 								</div>
 							<?= form_close() ?>
@@ -88,7 +88,7 @@ else
                     </div>
 
 					<div class="box-body table-responsive">
-		                <table id="example1" class="table table-bordered table-striped">
+		                <table class="table table-bordered table-striped data-pagination-table">
 		                    <thead>
 		                        <tr>
 		                            <th>S.NO.</th>

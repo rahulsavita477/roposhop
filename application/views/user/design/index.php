@@ -149,9 +149,9 @@
 
                                             <?php if ($product['offer_price']) { ?>
                                                 <strong>
-                                                    <strike><?= $product['mrp_price'] ?></strike>&nbsp; <?= $product['offer_price']?><br>
+                                                    <strike><?= $product['mrp_price'] ?></strike> <?= $product['offer_price']?><br>
                                                 </strong>
-                                                Off &nbsp;<?= $product['off'] ?>%<br />Discount &nbsp; &#8377;<?= $product['discount_price'] ?>
+                                                Off <?= $product['off'] ?>%<br />Discount &#8377;<?= $product['discount_price'] ?>
                                             <?php 
                                             } 
                                             else 

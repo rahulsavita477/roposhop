@@ -257,7 +257,7 @@ $cat_name_data = array(
 							   	</div>
 
 						    	<div class="box-body table-responsive">
-				                    <table id="example1" class="table table-bordered table-striped">
+				                    <table class="table table-bordered table-striped data-pagination-table">
 				                        <thead>
 				                            <tr>
 				                                <th colspan="4"><center>Category Images</center></th>
@@ -303,7 +303,7 @@ $cat_name_data = array(
 				                </div>
 
 							    <div class="box-body table-responsive">
-				                    <table id="example1" class="table table-bordered table-striped">
+				                    <table class="table table-bordered table-striped data-pagination-table">
 				                        <thead>
 				                        	<tr>
 				                        		<th colspan="4">

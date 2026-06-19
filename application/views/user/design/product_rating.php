@@ -261,7 +261,7 @@ figure img {
                                                 currency_format($product['offer_price']).
                                             '</strong>'.
                                             $product['off'].
-                                            '%&nbsp; Off  &nbsp; (Discount &nbsp; '.
+                                            '%&nbsp;Off (Discount '.
                                             currency_format($product['discount_price']).
                                             ')'
                                             ?>

@@ -7,10 +7,10 @@
     <div class="row row-sm">
         <div class="col-md-3"></div>
         <div class="col-md-6 text-center pt-5 pb-2 bdr-d">
-            <form method="post" accept="#" class="text-center">
-                <button type="button" onclick="getCurrentLocation()" class="btn btn-primary">Select current location</button>
+            <form method="post" class="text-center">
+                <!-- <button type="button" onclick="getCurrentLocation()" class="btn btn-primary">Select current location</button>
                 <div class="clearfix"></div>
-                <br><h3> Or</h3>
+                <br><h3> Or</h3> -->
 
                 <div class="form-group ml-2 mt-1">
                     <select class="form-control mx-auto" id="state_id">

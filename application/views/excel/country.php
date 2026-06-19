@@ -22,14 +22,14 @@
                                     Import country
                                     <input type="file" name="result_file" class="input_type_file" required />
                                 </div>
-                                <a href="<?= base_url('exportTemplateForCountry/1') ?>" class="btn btn-info">Export Existing Data</a>
+                                <a href="<?= base_url('exportTemplateForCountry/1') ?>" class="btn btn-primary">Export Existing Data</a>
                                 <a href="<?= base_url('exportTemplateForCountry/0') ?>" class="btn btn-warning">Export Empty Template</a>
                             <?= form_close() ?>
                         </div>
                     </div>
 
                     <div class="box-body table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
                                     <th>S.No.</th>
