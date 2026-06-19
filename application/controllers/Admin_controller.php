@@ -834,6 +834,20 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
+	public function rejectRequestedProduct($req_id) {
+		
+		$condition = array('request_id' => $req_id);
+		$data = ['status' => 'REJECTED'];
+		$isUpdated = $this->Admin_model->updateData('requested_product', $data, $condition);
+		$controller = 'page/requestedProducts';
+
+		if (isset($isUpdated['db_error'])) {
+			redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+		} else {
+			redirectWithMessage('Requested product rejected successfully!', $controller);
+		}
+	}
+
 	public function viewRequest($req_id)
 	{
 		$data = array();

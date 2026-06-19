@@ -22,6 +22,7 @@
                                 <th>Product Name</th>
                                 <th>New Brand Name</th>
                                 <th>Seller Price</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -39,17 +40,40 @@
                                         $isLinked = "LINKED";
                                     else 
                                         $isLinked = "NOT LINKED";
+                                    
+                                    $approveRequestedProductBtn = "<a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>Approve</a>";
+                                    $rejectRequestedProductBtn = "<a href='".base_url()."rejectRequestedProduct/".$req_prd['request_id']."' class='btn btn-danger'>Reject</a>";
+                                    $deleteRequestedProductBtn = "<a href='".base_url("deleteRequestProduct").'/'.$req_prd['request_id']."' class='btn btn-danger'>Delete</a>";
 
+                                    if ($req_prd['isLinked'] == 1)
+                                    {
+                                        $status = "<span class='label label-success'>CREATED</span>";
+                                        $rejectRequestedProductBtn = '';
+                                        $approveRequestedProductBtn = '';
+                                        $deleteRequestedProductBtn = '';
+
+                                    } elseif ($req_prd['requestProductStatus'] == "PENDING")
+                                    {
+                                        $status = "<span class='label label-warning'>".$req_prd['requestProductStatus']."</span>";
+
+                                    } elseif ($req_prd['requestProductStatus'] == "REJECTED")
+                                    {
+                                        $rejectRequestedProductBtn = '';
+                                        $status = "<span class='label label-danger'>".$req_prd['requestProductStatus']."</span>";
+                                    }
+                                    
                                     echo "<tr>
                                             <td>".$count++."</td>
                                             <td>".$req_prd_id."</td>
                                             <td>".$req_prd['product_name']."</td>
                                             <td>".$req_prd['brand_name']."</td>
                                             <td>".$req_prd['sell_price']."</td>
+                                            <td>".$status."</td>
+
                                             <td>
-                                                <a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>Approve</a>
-                                                <a href='".base_url()."rejectRequestedProduct?req_prd_id=".$req_prd_id."' class='btn btn-danger'>Reject</a>
-                                                <a href='".base_url("deleteRequestProduct").'/'.$req_prd['request_id']."' class='btn btn-danger'>Delete</a>
+                                                ".$approveRequestedProductBtn."
+                                                ".$rejectRequestedProductBtn."
+                                                ".$deleteRequestedProductBtn."
                                             </td>
                                         </tr>";
                                 }

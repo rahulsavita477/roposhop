@@ -175,6 +175,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['editReview/(:num)/(:any)'] = $admin_controller.'editReview/$1/$2';
 	$route['addReview'] = $admin_controller.'addReview';
 	$route['deleteRequestProduct/(:num)'] = $admin_controller.'deleteRequestProduct/$1';
+	$route['rejectRequestedProduct/(:num)'] = $admin_controller.'rejectRequestedProduct/$1';
 	$route['deleteFeature/(:num)/(:num)'] = $admin_controller.'deleteProductKeyFeature/$1/$2';
 	$route['deleteSellerOffering/(:num)/(:num)'] = $admin_controller.'deleteSellerOffering/$1/$2';
 	$route['addKeyFeature'] = $admin_controller.'addProductKeyFeature';

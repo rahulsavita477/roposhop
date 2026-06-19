@@ -892,7 +892,7 @@ class Admin_model extends CI_Model
 
     public function getRequestedProduct($where = '')
     {
-        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId');
+        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product.status as requestProductStatus');
         $this->db->join('product_listing', 'listing_id = req_lst_id', 'left');
         $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
 
