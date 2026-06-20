@@ -33,9 +33,7 @@
 
         <script type="text/javascript">
         $(function() {
-            $(".data-pagination-table").dataTable({language: {
-                emptyTable: "No Record found."
-            }});
+            $(".data-pagination-table").dataTable();
         });
         </script>
 

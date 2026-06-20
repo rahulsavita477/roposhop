@@ -501,7 +501,7 @@ class Admin_controller extends CI_Controller
 			$states = $this->getState('', '', $country_id);
 			if (isset($states['db_error'])) 
 				redirectWithMessage('Error: '.$states['msg'], $controller);
-			else if ($states['result']) 
+			else if ($states && $states['result']) 
 				$data['states'] = $states['result'];
 			else
 				$data['states'] = false;

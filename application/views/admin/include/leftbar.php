@@ -101,17 +101,6 @@ if (isset($_COOKIE['shop_logo']))
         <aside class="left-side sidebar-offcanvas">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!-- Sidebar user panel -->
-                <div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="<?= $usr_profile_pic ?>" class="img-circle" alt="User Image" />
-                    </div>
-                    <div class="pull-left info">
-                        <p><?php print_r(strtoupper($_COOKIE['name'])); ?></p>
-                        (<?= strtoupper($_COOKIE['site_code']) ?>)
-                    </div>
-                </div>
-
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <!-- dashboard -->
