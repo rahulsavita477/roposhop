@@ -311,7 +311,7 @@ else
 		                        	<?php if ($page_label == "view" && $product_varients) { ?>
 		                        		<div style="margin-bottom: 20px;">
 			                        		<div class="box-body table-responsive">
-							                    <table class="table table-bordered table-striped data-pagination-table">
+							                    <table class="table table-bordered table-striped">
 							                        <thead>
 							                        	<tr>
 							                        		<th colspan="3"><center>Product varients</center></th>
@@ -798,7 +798,7 @@ else
 		                            </div><!-- /.box-body -->
 
 		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">
@@ -1142,7 +1142,7 @@ else
 		                            </div><!-- /.box-body -->
 
 		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">

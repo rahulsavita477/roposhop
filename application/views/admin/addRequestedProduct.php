@@ -449,7 +449,7 @@ $page_title = 'Add requested product';
 	                            </div><!-- /.box-body -->
 
 	                            <div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
+				                    <table class="table table-bordered table-striped">
 				                        <thead>
 				                        	<tr>
 				                        		<th colspan="4">
