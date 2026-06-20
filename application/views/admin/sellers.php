@@ -169,7 +169,7 @@ else if($pageName == "offerManagement")
                                                     <td>
                                                         ".$change_verify_status_btn."
                                                         <a href='".base_url("seller/$merchant_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                        <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' class='btn btn-success'>Change status</a>
+                                                        <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' class='btn-custom btn-primary'>Change status</a>
                                                         <a href='".base_url("deleteMerchant/$merchant_id/$user_id")."' class='btn btn-danger'>Delete</a>
                                                     </td>
                                                 </tr>";
@@ -219,12 +219,12 @@ else if($pageName == "offerManagement")
                             <div class="next-step box-footer" align="right">
                                 <?php if ($pageName == 'sellersList') 
                                 { ?>
-                                    <button class='btn btn-success' onclick="getAllProducts();">Next</button>
+                                    <button class='btn-custom btn-primary' onclick="getAllProducts();">Next</button>
                                 <?php } 
                                 else if($pageName == "offerManagement") 
                                 { ?>
                                     <a href="<?= base_url('sellers/offers') ?>" class="btn btn-default">Back</a>
-                                    <button class='btn btn-success' onclick="setMerchantSession();">Next</button>
+                                    <button class='btn-custom btn-primary' onclick="setMerchantSession();">Next</button>
                                 <?php } ?>
                             </div>
                         </div>

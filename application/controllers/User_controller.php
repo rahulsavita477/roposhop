@@ -22,7 +22,7 @@ class User_controller extends CI_Controller
 
         //get categories in tree format
         $parent_categories = $this->am1->selectRecords(array('has_parent' => 0), 'product_category', '*');
-        $categories = $parent_categories['result'];
+        $categories = $parent_categories ? $parent_categories['result'] : [];
 
         $i = 0;
         foreach ($categories as $category) 
@@ -305,15 +305,27 @@ class User_controller extends CI_Controller
         // $this->load->view('user/location_setting');
         // $this->load->view('user/include/footer');
 
-        // $response = file_get_contents("https://ipinfo.io/json");
-        // $location = json_decode($response, true);
+        // if lat, long not available in cookies then set them using ip address
+        $latitude = $this->input->cookie('latitude', true);
+        $longitiude = $this->input->cookie('longitude', true);
 
-        // echo "IP: " . $data['ip'] . "<br>";
-        // echo "City: " . $location['city'] . "<br>";
-        // echo "State Region: " . $location['region'] . "<br>";
-        // echo "Country: " . $data['country'] . "<br>";
-        // echo "Location: " . $data['loc'] . "<br>"; // "lat,long"        
-        // die;
+        if(!$latitude || !$longitiude) {
+            $response = file_get_contents("https://ipinfo.io/json");
+            $location = json_decode($response, true);
+
+            $this->load->helper('cookie');
+        
+            // echo "IP: " . $location['ip'] . "<br>";
+            // echo "City: " . $location['city'] . "<br>";
+            // echo "State Region: " . $location['region'] . "<br>";
+            // echo "Country: " . $location['country'] . "<br>";
+            // echo $location['loc']; // "lat,long"
+            $parts = explode(',', $location['loc']);
+
+            set_cookie('latitude', $parts[0], 3600);
+            set_cookie('longitude', $parts[1], 3600);
+            
+        }
 
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/location_setting');

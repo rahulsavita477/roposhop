@@ -33,7 +33,7 @@
                         <input type="password" class="form-control" id="" name="confirm_password" autocomplete="off" required /> 
                     </div>
                     <center>
-                        <button class="btn btn-success">Sign Up</button>
+                        <button class="btn-custom btn-primary">Sign Up</button>
                     </center>
                 </form>
             </div>
@@ -54,7 +54,7 @@
                         <input type="password" class="form-control" id="" name="password" autocomplete="off" required /> 
                     </div>
                     <center>
-                        <button class="btn btn-success">Login</button>
+                        <button class="btn-custom btn-primary">Login</button>
                         <a href="#resetPassword" data-toggle="modal">Forgot password?</a>
                     </center>
                 </form>

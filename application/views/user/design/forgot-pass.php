@@ -55,7 +55,7 @@
                     </div>
 
 
-                    <button class="btn btn-success">Submit</button>
+                    <button class="btn-custom btn-primary">Submit</button>
 
                         
 

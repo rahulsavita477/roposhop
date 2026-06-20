@@ -176,12 +176,12 @@
                                                     if ($sel_id) 
                                                     {
                                                         echo "<td>
-                                                                <a href='".base_url("getProductDetail/$prd_id/$sel_id/0/false")."' class='btn btn-success'>Link</a>
+                                                                <a href='".base_url("getProductDetail/$prd_id/$sel_id/0/false")."' class='btn-custom btn-primary'>Link</a>
                                                             </td>";
                                                     }
                                                     else
                                                         echo "<td>
-                                                                <button type='button' class='btn btn-success'>Select seller to link</button>
+                                                                <button type='button' class='btn-custom btn-primary'>Select seller to link</button>
                                                             </td>";
 
                                                     echo "</tr>";

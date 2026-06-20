@@ -18,19 +18,18 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.<br /><br /><br />
+                    Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.
                 
                     <input type="hidden" id="site_code" value="<?= $site_code ?>" />
 
                     <div class="form-group-inline">
                         <input class="form-control" type="email" placeholder="email*" id="email" required />
                     </div>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="resetPasswordMail()">Submit</button>
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                    </div>
-
+                <div class="modal-footer">
+                    <button class="btn-custom btn-default" data-dismiss="modal" style="border: none;">Close</button>
+                    <button type="button" class="btn-custom btn-primary" onclick="resetPasswordMail()">Submit</button>
                 </div>
             </div>
         </div>

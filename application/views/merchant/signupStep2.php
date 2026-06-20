@@ -72,7 +72,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                     {
                                         echo 
                                         "<td>
-                                            <a href='".$user['business_proof']."' class='btn btn-success' target='_blank'>Preview</a>
+                                            <a href='".$user['business_proof']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
                                         </td>";
                                     }
                                     else
@@ -100,7 +100,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                     {
                                         echo 
                                         "<td>
-                                            <a href='".$user['merchant_logo']."' class='btn btn-success' target='_blank'>Preview</a>
+                                            <a href='".$user['merchant_logo']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
                                         </td>";
                                     }
                                     else
@@ -140,7 +140,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                         "<tr>
                                             <td>Shop image".$i."</td>
                                             <td>
-                                                <a href='".$shop_img."' class='btn btn-success' target='_blank'>Preview</a>
+                                                <a href='".$shop_img."' class='btn-custom btn-primary' target='_blank'>Preview</a>
                                             </td>
                                         </tr>";
                                     }

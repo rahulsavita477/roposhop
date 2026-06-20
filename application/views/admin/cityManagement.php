@@ -190,7 +190,7 @@ $status = isset($city['status']) ? $city['status'] : 1;
                                             <input type="text" name="long" class="form-control" placeholder="Enter Longitude Name" value="<?= $long ?>" required />
                                         </div>
                                         <div class="col-sm-12" align="right">
-                                            <button type="button" class="btn btn-success" onclick="getLatLongFromCityName();">Get Lat-Long from city name</button>
+                                            <button type="button" class="btn-custom btn-primary" onclick="getLatLongFromCityName();">Get Lat-Long from city name</button>
                                             <a href='<?= base_url("page/cityManagement?getCityList=".$_GET['addNewCity']) ?>' class='btn btn-default'>Cancel</a>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>

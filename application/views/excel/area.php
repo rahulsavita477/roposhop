@@ -104,7 +104,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <?= form_open_multipart('importAreaXls') ?>
-                                            <div class="file file_div btn btn-success">
+                                            <div class="file file_div btn-custom btn-primary">
                                                 Import area
                                                 <input type="file" name="result_file" class="input_type_file" required />
                                             </div>

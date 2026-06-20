@@ -124,15 +124,6 @@ a.btn-custom{
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);  
 }
 
-.btn-warning:hover, .btn-primary:hover, .btn-danger:hover, .btn-success:hover  {
-    color: #000 !important;
-    background-color: #e0a800;
-    border-color: #d39e00;
-    box-shadow: 1px 2px 3px #000;
-    cursor: pointer;
-}
-
-
 .btn-primary{
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
@@ -416,7 +407,6 @@ a.partner:hover{
     border: 1px solid #25aae1;
     background: #ffffff;
     border-radius: 5px;
-    box-shadow: 0px 1px 8px 0px #000000;
 }
 .col-md-2.text-center a{
     text-decoration: none;
@@ -642,6 +632,11 @@ form.form-inline input.w-50 {
     border: 1px solid #dae2e6;
     border-radius: 4px 0px 0px 4px;
     padding-left: 5px !important;
+}
+
+.modal-header, .modal-footer {
+    padding: 0px 1rem !important;
+    height: 50px;
 }
 
 /*==============

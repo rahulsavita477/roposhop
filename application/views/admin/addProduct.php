@@ -668,7 +668,7 @@ else
 						                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 						                        	<tr>
 						                        		<td>
-						                        			<div class="btn btn-success btn-file">
+						                        			<div class="btn-custom btn-primary btn-file">
 							                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 							                                </div>
@@ -822,7 +822,7 @@ else
 													if ($link) 
 													{
 														$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 													}
 													else
 														$buttons = '';
@@ -1166,7 +1166,7 @@ else
 													if ($link) 
 													{
 														$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 													}
 													else
 														$buttons = '';

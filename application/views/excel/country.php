@@ -18,7 +18,7 @@
                     <div class="col-sm-12" style="margin: 10px 0 20px 0px;">
                         <div class="col-sm-11 Excel_Country_search_add_div">
                             <?= form_open_multipart('importCountryXls') ?>
-                                <div class="file file_div btn btn-success">
+                                <div class="file file_div btn-custom btn-primary">
                                     Import country
                                     <input type="file" name="result_file" class="input_type_file" required />
                                 </div>

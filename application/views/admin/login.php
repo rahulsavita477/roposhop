@@ -55,7 +55,7 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal">
     <div class="modal-dialog">
     <!-- Modal content-->
         <div class="modal-content">
@@ -65,7 +65,7 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
             </div>
             
             <div class="modal-body">
-                Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.<br /><br /><br />
+                Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.
 
                 <input type="text" placeholder="email" id="email" />
                 <input type="text" id="site_code" value="<?= $_COOKIE['site_code'] ?>" />

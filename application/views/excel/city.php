@@ -82,7 +82,7 @@ $query_string_cnt_id = "";
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <?= form_open_multipart('importCityXls') ?>
-                                            <div class="file file_div btn btn-success">
+                                            <div class="file file_div btn-custom btn-primary">
                                                 Import city
                                                 <input type="file" name="result_file" class="input_type_file" required />
                                             </div>

@@ -79,7 +79,7 @@
                                <input type="password" class="form-control" id="" name="password" autocomplete="off">
                     </div>
 
-                    <center> <button class="btn btn-success">Sign Up</button><br>
+                    <center> <button class="btn-custom btn-primary">Sign Up</button><br>
 
                      <a href="merchant-login.php">Login Now</a>
                      </center>

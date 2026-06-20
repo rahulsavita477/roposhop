@@ -30,7 +30,6 @@
 							<input class="span3" type="password" name="password" value="<?= set_value('password') ?>" required />
 						</div>
 						<?= UC_error_label('password') ?>
-						<div class="alert alert-warning" role="alert">Password should be minimum 5 characters of length.</div>
 					</div>
 					<div class="control-group">
 						<label class="control-label">Confirm Password <sup>*</sup></label>
@@ -45,7 +44,6 @@
 							91<input class="span3" type="text" name="contact_number" value="<?= set_value('contact_number') ?>" required />
 						</div>
 						<?= UC_error_label('contact_number') ?>
-						<div class="alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
 					</div>
 					<div class="controls">
 						<button type="submit" class="btn block">Sign up</button>

@@ -29,7 +29,7 @@ class Admin_model extends CI_Model
     {
         $sql = $this->db->query('show tables');
         $tables = $sql->result();
-
+print_r($tables); die;
         foreach($tables as $table) {
             $db = 'Tables_in_'.DB_DATABASE;
             $table_name = $table->$db;

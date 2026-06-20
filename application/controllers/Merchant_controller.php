@@ -28,7 +28,7 @@ class Merchant_controller extends CI_Controller
 
         //get categories in tree format
         $parent_categories = $this->am2->selectRecords(array('has_parent' => 0), 'product_category', '*');
-        $categories = $parent_categories['result'];
+        $categories = $parent_categories ? $parent_categories['result'] : [];
 
         $i = 0;
         foreach ($categories as $category) 
@@ -74,7 +74,7 @@ class Merchant_controller extends CI_Controller
     }
 
     public function insertSeller()
-    {    
+    {
         if ($this->ci->form_validation->run('UC_step1_registration') == FALSE)
         {
             $this->loginSignupPage();
@@ -90,7 +90,7 @@ class Merchant_controller extends CI_Controller
         $user_contact = $this->input->post('contact_number');
         $user_data['create_date'] = $this->current_date;
         $user_data['update_date'] = $this->current_date;
-        $confirm_password = $this->input->post('confirm_password');
+        // $confirm_password = $this->input->post('confirm_password');
         
         //insert user detail
         $user_id = $this->am2->insertData('user', $user_data);

@@ -35,8 +35,8 @@ $config = array(
             'rules' => 'required|exact_length[10]|numeric',
             'errors' => array(
                 'required' => '%s required',
-                'exact_length' => 'not a valid mobile number',
-                'numeric' => 'not a valid mobile number',
+                'exact_length' => 'Invalid mobile number',
+                'numeric' => 'Invalid mobile number',
             ),
         )
     ),

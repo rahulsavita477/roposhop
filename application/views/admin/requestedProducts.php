@@ -41,7 +41,7 @@
                                     else 
                                         $isLinked = "NOT LINKED";
                                     
-                                    $approveRequestedProductBtn = "<a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn btn-success'>Approve</a>";
+                                    $approveRequestedProductBtn = "<a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' class='btn-custom btn-primary'>Approve</a>";
                                     $rejectRequestedProductBtn = "<a href='".base_url()."rejectRequestedProduct/".$req_prd['request_id']."' class='btn btn-danger'>Reject</a>";
                                     $deleteRequestedProductBtn = "<a href='".base_url("deleteRequestProduct").'/'.$req_prd['request_id']."' class='btn btn-danger'>Delete</a>";
 

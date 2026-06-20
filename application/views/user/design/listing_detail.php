@@ -400,9 +400,7 @@ function open_modal2(name, data)
                                     data-toggle="modal" 
                                     style="padding: 5px;
                                         color: #08c;"
-                                    >
-                                        T&C
-                                    </a>' : '';
+                                    >T&C</a>' : '';
 
                                     $home_delivery_terms = isset($listing['home_delivery_terms']) ? '<a 
                                     href="javascript:void(0);" 
@@ -424,9 +422,7 @@ function open_modal2(name, data)
                                     data-toggle="modal" 
                                     style="padding: 5px;
                                         color: #08c;"
-                                    >
-                                        T&C
-                                    </a>' : '';
+                                    >T&C</a>' : '';
 
                                     $installation_terms = isset($listing['installation_terms']) ? '<a 
                                     href="javascript:void(0);" 
@@ -448,9 +444,7 @@ function open_modal2(name, data)
                                     data-toggle="modal" 
                                     style="padding: 5px;
                                         color: #08c;"
-                                    >
-                                        T&C
-                                    </a>' : '';
+                                    >T&C</a>' : '';
 
                                     $replacement_terms = isset($listing['replacement_terms']) ? '<a 
                                     href="javascript:void(0);" 
@@ -472,9 +466,7 @@ function open_modal2(name, data)
                                     data-toggle="modal" 
                                     style="padding: 5px;
                                         color: #08c;"
-                                    >
-                                        T&C
-                                    </a>' : '';
+                                    >T&C</a>' : '';
 
                                     $return_policy = isset($listing['return_policy']) ? '<a 
                                     href="javascript:void(0);" 
@@ -496,10 +488,7 @@ function open_modal2(name, data)
                                     data-toggle="modal" 
                                     style="padding: 5px;
                                         color: #08c;"
-                                    >
-                                        T&C
-                                    </a>' : '';
-
+                                    >T&C</a>' : '';
 
                                     echo '<tr>
                                         <td>Finance available</td>

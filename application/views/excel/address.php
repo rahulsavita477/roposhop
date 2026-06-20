@@ -81,7 +81,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                             <?= form_close() ?>
                             
                             <?= form_open_multipart('importAddressXls') ?>
-                                <div class="file file_div btn btn-success Excel_Address_import_form">
+                                <div class="file file_div btn-custom btn-primary Excel_Address_import_form">
                                     Import address
                                     <input type="file" name="result_file" class="input_type_file" required />
                                 </div>

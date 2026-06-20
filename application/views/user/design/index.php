@@ -195,9 +195,16 @@
                             }
                         }
                     }">
-                        <?php foreach ($brands['result'] as $brand) { ?>
-                            <a href="<?= base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']) ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width: auto;"></a>
-                        <?php } ?>
+                        <?php if($brands) {
+                            foreach ($brands['result'] as $brand) {
+                                echo '<a href="'
+                                    . base_url('brands/' . url_title($brand['name'], '-', true) . '?brand_id=' . $brand['brand_id'])
+                                    . '" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">'
+                                    . '<img src="' . base_url(BRAND_ATTATCHMENTS_PATH . $brand['brand_id'] . '/' . $brand['brand_logo']) . '" style="height:80px;width:auto;">'
+                                    . '</a>';
+                            }
+                        } ?>
+                        
                     </div><!-- End .partners-carousel -->
                 </div><!-- End .container -->
             </div><!-- End .partners-container -->
@@ -229,20 +236,22 @@
                             }
                         }
                     }">
-                        <?php foreach ($merchants['result'] as $merchant)
-                        { 
-                            $merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
+                        <?php if($merchants) {
+
+                            foreach ($merchants['result'] as $merchant) { 
                             
-                            if ($merchant_logo) 
-                            {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
+                                $merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
+                                
+                                if ($merchant_logo) {
+
+                                    echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
+                                
+                                } else {
+
+                                    echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;background:red"><h3 style="color:#fff">'.$merchant['establishment_name'].'</h3></a>';
+                                }
                             }
-                            else
-                            {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;background:red"><h3 style="color:#fff">'.$merchant['establishment_name'].'</h3></a>';
-                            }
-                            ?>
-                        <?php } ?>
+                        } ?>
                     </div><!-- End .partners-carousel -->
                 </div><!-- End .container -->
             </div><!-- End .partners-container -->

@@ -71,7 +71,7 @@
                                <input type="password" class="form-control" id="" name="password" autocomplete="off">
                     </div>
 
-                    <button class="btn btn-success">Login</button>
+                    <button class="btn-custom btn-primary">Login</button>
                         &nbsp;&nbsp;&nbsp;<a href="forgot-password.php"> Forgot password?</a>
 
                         <br>
