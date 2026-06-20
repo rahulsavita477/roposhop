@@ -115,10 +115,7 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
                                                 <td>".$state_value['country_id']."</td>
                                             </tr>";
                                     }
-                                }
-                                else
-                                    echo "<tr><td colspan='4' align='center'>No Record found.</td></tr>";
-                                ?>
+                                } ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

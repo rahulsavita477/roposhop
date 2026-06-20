@@ -50,10 +50,7 @@
                                                 </td>
                                             </tr>";
                                     }
-                            	}
-                            	else
-                            		echo "<tr><td colspan='5' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

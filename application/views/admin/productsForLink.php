@@ -187,10 +187,7 @@
                                                     echo "</tr>";
                                                 }
                                             }
-                                        }
-                                        else
-                                            echo "<tr><td colspan='10' align='center'>No Record found.</td></tr>";
-                                        ?>
+                                        } ?>
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
@@ -319,11 +316,7 @@
                                                 $count++;
                                             }
                                         }
-                                    }
-
-                                    elseif (!$products || !$available) 
-                                        echo "<tr><td colspan='11' align='center'>No Record found.</td></tr>";
-                                    ?>
+                                    } ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

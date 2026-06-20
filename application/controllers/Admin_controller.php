@@ -414,7 +414,7 @@ class Admin_controller extends CI_Controller
 		$counts['not_varified_seller_count'] = $not_varified_seller_count['result'][0]['sel_cnt'];
 		$counts['pending_requested_product_count'] = $pending_requested_product_count['result'][0]['pen_req_prd_cnt'];
 		$counts['listed_products_count'] = $listed_products_count['result'][0]['lst_prd_cnt'];
-		$counts['last_db_backup_time'] = $last_db_backup_time['result'][0]['create_date'];
+		$counts['last_db_backup_time'] = $last_db_backup_time ? $last_db_backup_time['result'][0]['create_date'] : '';
 
 		if (($_COOKIE['site_code'] == 'seller') && isset($_COOKIE['merchant_id'])) 
 		{
@@ -450,7 +450,7 @@ class Admin_controller extends CI_Controller
 		if (isset($countries['db_error'])) 
 			redirectWithMessage('Error: '.$countries['msg'], $controller);
 
-		$data['countries'] = $countries['result'];
+		$data['countries'] = $countries ? $countries['result'] : [];
 
 		if ($pageName == "addCategory") 
 		{
@@ -2381,9 +2381,9 @@ class Admin_controller extends CI_Controller
 
 		$att_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 
-		if ( isset($att_res['db_error']) ) 
+		if (isset($att_res['db_error'])) 
 			return $att_res;
-		else if ($att_res['result']) 
+		else if ($att_res && $att_res['result']) 
 			return $att_res['result'];
 		else
 			return FALSE;
@@ -2636,7 +2636,7 @@ class Admin_controller extends CI_Controller
 		$brands_result = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 		if (isset($brands_result['db_error'])) 
 			return $brands_result;
-		else if ($brands_result['result']) 
+		else if ($brands_result && $brands_result['result']) 
 			return $brands_result['result'];
 		else
 			return FALSE;
@@ -2757,7 +2757,7 @@ class Admin_controller extends CI_Controller
 			if (isset($data['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);*/
 			
-			$data['products'] = json_encode($products['result']);
+			$data['products'] = $products ? json_encode($products['result']) : '';
 			$data['categories'] = $this->getAllCategories();
 
 			$data['brands'] = $this->getAllBrands();
@@ -2887,7 +2887,7 @@ class Admin_controller extends CI_Controller
 
 		if ( isset($cat_result['db_error']) ) 
 			return $cat_result;
-		if ($cat_result['result']) 
+		if ($cat_result && $cat_result['result']) 
 			return $cat_result['result'];
 		else
 			return FALSE;

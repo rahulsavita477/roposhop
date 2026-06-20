@@ -116,10 +116,7 @@ $status = isset($state['status']) ? $state['status'] : 1;
                                                     </td>
                                                 </tr>";
                                         }
-                                    }
-                                    else
-                                        echo "<tr><td colspan='4' align='center'>No Record found.</td></tr>";
-                                    ?>
+                                    } ?>
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->

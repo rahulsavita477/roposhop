@@ -267,7 +267,7 @@ $cat_name_data = array(
 				                        	<?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 				                        	<tr>
 				                        		<td>
-				                        			<div class="btn-custom btn-primary btn-file">
+				                        			<div class="btn btn-primary btn-file">
 					                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 					                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 					                                </div>

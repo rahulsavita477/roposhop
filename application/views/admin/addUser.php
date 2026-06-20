@@ -734,10 +734,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                                                        </td>
 		                                                    </tr>";
 		                                            }
-		                                        }
-		                                        else
-		                                            echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-		                                        ?>
+		                                        } ?>
 		                                    </tbody>
 		                                </table>
 		                            </div><!-- /.box-body -->

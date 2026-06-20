@@ -668,7 +668,7 @@ else
 						                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 						                        	<tr>
 						                        		<td>
-						                        			<div class="btn-custom btn-primary btn-file">
+						                        			<div class="btn btn-primary btn-file">
 							                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 							                                </div>
@@ -789,10 +789,7 @@ else
 		                                                        </td>
 		                                                    </tr>";
 		                                            }
-		                                        }
-		                                        else
-		                                            echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-		                                        ?>
+		                                        } ?>
 		                                    </tbody>
 		                                </table>
 		                            </div><!-- /.box-body -->
@@ -1128,15 +1125,10 @@ else
 							                            </div>
 		                                    		</td>
 		                                    	</tr>
-		                                        <?php
-		                                        if ($key_features) 
-		                                        {
+		                                        <?php if ($key_features) {
 		                                            foreach ($key_features['result'] as $feature_value) 
 		                                            	echo '<tr><td><input type="text" class="form-control" name="key_feature_values[]" value="'.$feature_value['feature'].'" /></td></tr>';
-		                                        }
-		                                        else
-		                                            echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-		                                        ?>
+		                                        } ?>
 		                                    </tbody>
 		                                </table>
 		                            </div><!-- /.box-body -->

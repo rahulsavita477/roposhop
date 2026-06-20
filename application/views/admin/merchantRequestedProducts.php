@@ -82,11 +82,7 @@
                                     $count++;
                                 }
                             }
-                        }
-
-                        if (!$products || !$available) 
-                            echo "<tr><td colspan='8' align='center'>No Record found.</td></tr>";
-                        ?>
+                        } ?>
                     </tbody>
                 </table>
             </div><!-- /.box-body -->

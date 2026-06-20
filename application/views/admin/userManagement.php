@@ -129,10 +129,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                                                 </td>
                             				</tr>";
                             		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='6' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                         <?= form_close(); ?>

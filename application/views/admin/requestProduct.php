@@ -212,7 +212,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                             <tr>
                                                                   <?php if (!$disableProductDetailFrom): ?>
                                                                   <td>
-                                                                        <div class="btn-custom btn-primary btn-file">
+                                                                        <div class="btn btn-primary btn-file">
                                                                               <i class="fa fa-paperclip"></i> Image<?= $i ?>
                                                                               <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" accept="image/*" />
                                                                         </div>
