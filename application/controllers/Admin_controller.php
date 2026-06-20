@@ -262,7 +262,7 @@ class Admin_controller extends CI_Controller
 				$usr_roles = $this->Admin_model->selectRecords(array('usr_id' => $usr_id), 'user_type', '*');
 				if (isset($usr_roles['db_error'])) 
 					redirectWithMessage('Error: '.$usr_roles['msg'], $controller);
-				else if ($usr_details) 
+				else if ($usr_details && $usr_roles) 
 				{
 					$usr_roles = array_column($usr_roles['result'], 'type_name');
 					

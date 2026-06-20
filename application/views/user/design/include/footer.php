@@ -7,9 +7,9 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 ?>
 
 <!-- contact form in modal ================================================================== -->
-<div class="container">
+<!-- <div class="container"> -->
     <!-- Modal -->
-    <div class="modal fade" id="resetPassword" role="dialog">
+    <div class="modal fade" id="resetPassword">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -23,7 +23,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     <input type="hidden" id="site_code" value="<?= $site_code ?>" />
 
                     <div class="form-group-inline">
-                        <input class="form-control" type="email" placeholder="email*" id="email" required />
+                        <input class="form-control" type="email" placeholder="email*" id="email" />
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
             </div>
         </div>
     </div>
-</div>
+<!-- </div> -->
 
 <footer class="footer">
     <div class="container">

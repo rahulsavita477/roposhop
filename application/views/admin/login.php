@@ -67,13 +67,15 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
             <div class="modal-body">
                 Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.
 
-                <input type="text" placeholder="email" id="email" />
-                <input type="text" id="site_code" value="<?= $_COOKIE['site_code'] ?>" />
+                <input type="hidden" id="site_code" value="<?= $_COOKIE['site_code'] ?>" />
+                <div class="form-group-inline">
+                    <input class="form-control" type="email" placeholder="email*" id="email" />
+                </div>
             </div>
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-default" onclick="resetPasswordMail()">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="resetPasswordMail()">Submit</button>
             </div>
         </div>
     </div>
