@@ -4,7 +4,7 @@
         <div class="container">
             <ol class="breadcrumb mt-0">
                 <li class="breadcrumb-item"><a href="index.php"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">User SignUp</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Seller SignUp</a></li>
             </ol>
         </div>
         <!-- End .container -->

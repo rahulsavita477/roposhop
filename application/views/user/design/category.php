@@ -105,8 +105,8 @@
                     <div class="toolbox-item toolbox-sort">
                         <div class="select-custom">
                             <select id="orderby" class="form-control">
-                                <option value="name_asc">Product Name Ascending</option>
-                                <option value="name_desc">Product Name Descending</option>
+                                <option value="name_asc">Name Ascending</option>
+                                <option value="name_desc">Name Descending</option>
                                 <option value="sell_price_asc">Price Ascending</option>
                                 <option value="sell_price_desc">Price Descending</option>
                             </select>

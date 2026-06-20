@@ -106,11 +106,12 @@ class User_controller extends CI_Controller
         $where['start_date <= '] = date("Y-m-d h:i:s");
         $where['end_date >= '] = date("Y-m-d h:i:s");
         $data = $this->getOffers($where); //get offers
-
+        
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
         $this->limit = '';
-
+        // echo "<pre>"; print_r($data); die;
+        
         for ($i=0; $i < sizeof($data['categories']) ; $i++) 
         { 
             if ($data['categories'][$i]['has_parent'] == 0)
