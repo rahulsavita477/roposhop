@@ -311,7 +311,7 @@ $page_title = 'Add requested product';
 								</div>
 
 								<div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
+				                    <table class="table table-bordered table-striped">
 				                        <thead>
 				                            <tr>
 				                                <th colspan="3"><center>Product Images</center></th>
@@ -406,7 +406,7 @@ $page_title = 'Add requested product';
 					            </div>
 								
 								<div class="box-body table-responsive">
-	                                <table class="table table-bordered table-striped data-pagination-table">
+	                                <table class="table table-bordered table-striped">
 	                                    <thead>
 	                                        <tr>
 	                                            <th colspan="2">

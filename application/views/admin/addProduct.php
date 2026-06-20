@@ -658,7 +658,7 @@ else
 									</div>
 
 									<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                            <tr>
 					                                <th colspan="3"><center>Product Images</center></th>
@@ -755,7 +755,7 @@ else
 						            </div>
 									
 									<div class="box-body table-responsive">
-		                                <table class="table table-bordered table-striped data-pagination-table">
+		                                <table class="table table-bordered table-striped">
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">
@@ -1076,10 +1076,10 @@ else
 									<?php if ($product_varients) { ?>
 		                        		<div style="margin-bottom: 20px;">
 			                        		<div class="box-body table-responsive">
-							                    <table class="table table-bordered table-striped data-pagination-table">
+							                    <table class="table table-bordered table-striped">
 							                        <thead>
 							                        	<tr>
-				                                            <th colspan="3"><center>Product varients</center></th>
+				                                            <th colspan="2"><center>Product varients</center></th>
 				                                        </tr>
 							                            <tr>
 							                                <th>Varient name </th>
@@ -1111,7 +1111,7 @@ else
 									<div class="form-group" id="att_fields" style="display: none;"></div>
 									
 									<div class="box-body table-responsive">
-		                                <table class="table table-bordered table-striped data-pagination-table">
+		                                <table class="table table-bordered table-striped">
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">
