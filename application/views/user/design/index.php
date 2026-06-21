@@ -215,6 +215,7 @@
             <div class="partners-container pt-1 pb-1 ">
                 <div class="container">
                     <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+                        'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
                         'nav' : true,
