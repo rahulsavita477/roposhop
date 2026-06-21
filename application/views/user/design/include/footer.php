@@ -136,7 +136,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                             <li><a href="#">Products</a></li>
                                             <li><a href="<?= $site_url ?>/merchants">Top Sellers</a></li>
                                             <li><a href="<?= $site_url ?>/brands">Brands</a></li>
-                                            <li><a href="<?= base_url('categories') ?>">Categories</a></li>
+                                            <li><a href="<?= $site_url ?>/categories">Categories</a></li>
                                         </ul>
                                     </div><!-- End .col-sm-6 -->
                                 </div><!-- End .row -->
