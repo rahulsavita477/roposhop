@@ -180,7 +180,7 @@
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
             <div class="partners-container" style="padding-top:0;padding-bottom:0;">
                 <div class="container">
-                    <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+                    <div class="partners-carousel  owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;" data-toggle="owl" data-owl-options="{
                         'margin': 20,
                         'autoplayHoverPause' : true,
                         'nav' : true,
@@ -223,7 +223,7 @@
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
             <div class="partners-container" style="padding-top:0;padding-bottom:0;">
                 <div class="container">
-                    <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+                    <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;" data-toggle="owl" data-owl-options="{
                         'margin': 20,
                         'autoplayHoverPause' : true,
                         'nav' : true,
