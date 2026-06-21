@@ -178,29 +178,34 @@
             <a href="<?= base_url('brands') ?>" class="rounded-btn float-right">View All</a>
             <div class="clearfix"></div><br>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
-            <div class="partners-container pt-1 pb-1 ">
-                <div class="container">
-                    <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
-                        'margin': 20,
-                        'autoplayHoverPause' : true,
-                        'nav' : true,
-                        'items': 1,
-                        'autoplayTimeout': 4000,
-                        'responsive': {
-                            '559': {
-                                'items': 5
-                            },
-                            '975': {
-                                'items': 6
-                            }
+            <div class="partners-carousel  owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;" data-toggle="owl" data-owl-options="{
+                    'margin': 20,
+                    'autoplayHoverPause' : true,
+                    'nav' : true,
+                    'items': 1,
+                    'autoplayTimeout': 4000,
+                    'responsive': {
+                        '559': {
+                            'items': 5
+                        },
+                        '975': {
+                            'items': 6
                         }
-                    }">
-                        <?php foreach ($brands['result'] as $brand) { ?>
-                            <a href="<?= base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']) ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width: auto;"></a>
-                        <?php } ?>
-                    </div><!-- End .partners-carousel -->
-                </div><!-- End .container -->
-            </div><!-- End .partners-container -->
+                    }
+                }">
+                    <?php foreach ($brands['result'] as $brand) {
+                        $brand_url = base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']);
+                        if (!empty($brand['brand_logo'])) { ?>
+                            <a href="<?= $brand_url ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
+                                <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width:auto;">
+                            </a>
+                        <?php } else { ?>
+                            <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($brand['name']) ?></span>
+                            </a>
+                        <?php }
+                    } ?>
+                </div><!-- End .partners-carousel -->
         </div>
     </div>
 
@@ -212,40 +217,36 @@
             <a href="<?= base_url('merchants') ?>" class="rounded-btn float-right">View All</a>
             <div class="clearfix"></div><br>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
-            <div class="partners-container pt-1 pb-1 ">
-                <div class="container">
-                    <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
-                        'margin': 20,
-                        'autoplayHoverPause' : true,
-                        'nav' : true,
-                        'items': 1,
-                        'autoplayTimeout': 2000,
-                        'responsive': {
-                            '559': {
-                                'items': 5
-                            },
-                            '975': {
-                                'items': 7
-                            }
+            <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;" data-toggle="owl" data-owl-options="{
+                    'margin': 20,
+                    'autoplayHoverPause' : true,
+                    'nav' : true,
+                    'items': 1,
+                    'autoplayTimeout': 2000,
+                    'responsive': {
+                        '559': {
+                            'items': 5
+                        },
+                        '975': {
+                            'items': 7
                         }
-                    }">
-                        <?php foreach ($merchants['result'] as $merchant)
-                        { 
-                            $merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
-                            
-                            if ($merchant_logo) 
-                            {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
-                            }
-                            else
-                            {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;background:red"><h3 style="color:#fff">'.$merchant['establishment_name'].'</h3></a>';
-                            }
-                            ?>
-                        <?php } ?>
-                    </div><!-- End .partners-carousel -->
-                </div><!-- End .container -->
-            </div><!-- End .partners-container -->
+                    }
+                }">
+                    <?php foreach ($merchants['result'] as $merchant)
+                    { 
+                        $merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
+                        
+                        if ($merchant_logo) 
+                        {
+                            echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
+                        }
+                        else
+                        {
+                            echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;"><span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'.htmlspecialchars($merchant['establishment_name']).'</span></a>';
+                        }
+                        ?>
+                    <?php } ?>
+                </div><!-- End .partners-carousel -->
         </div>
     </div>
 

@@ -1,4 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
+/* Global font standardization - Open Sans across entire user module */
+body,
+h1, h2, h3, h4, h5, h6,
+p, a, span, li, td, th,
+input, button, select, textarea,
+.h3, .h4, .h5,
+.btn, .nav, .menu,
+.product-title, .product-details,
+.info-box-content,
+.home-slide-content {
+    font-family: 'Open Sans', sans-serif !important;
+}
 
 .home-btn-custom {
     border: 1px solid #08c;
@@ -269,7 +280,7 @@ a.btn-custom{
     position: relative;
 }
 .h3{
-    font-family: 'Titillium Web', sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
     position: relative;
    /* border-bottom:2px solid #08c; 
     padding-bottom: 2px;*/
