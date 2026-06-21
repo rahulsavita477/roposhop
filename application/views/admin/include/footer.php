@@ -33,7 +33,25 @@
 
         <script type="text/javascript">
         $(function() {
-            $(".data-pagination-table").dataTable();
+            $(".data-pagination-table").each(function() {
+                var $table = $(this);
+                var $headerRow = $table.find('thead tr:last');
+                var headerCols = $headerRow.children('th').length;
+                if (headerCols === 0) return;
+
+                var valid = true;
+                $table.find('tbody tr').each(function() {
+                    var cells = $(this).children('td, th').length;
+                    if (cells > 0 && cells !== headerCols) {
+                        valid = false;
+                        return false;
+                    }
+                });
+
+                if (valid) {
+                    $table.dataTable();
+                }
+            });
         });
         </script>
 
