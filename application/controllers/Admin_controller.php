@@ -297,6 +297,7 @@ class Admin_controller extends CI_Controller
         setcookie('email', $usr_details[0]['email'], null, "/");
         setcookie('status', $usr_details[0]['status'], null, "/");
         setcookie('name', $usr_details[0]['first_name'], null, "/");
+        setcookie('lname', $usr_details[0]['last_name'], null, "/");
         setcookie('image', $usr_details[0]['profile_image'], null, "/");
 
         if (isset($usr_details['merchant_id'])) 

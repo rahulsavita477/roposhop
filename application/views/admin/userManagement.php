@@ -63,7 +63,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                                     foreach ($users as $user) 
                             		{
                                         $usr_id = $user['userId'];
-                                        $name = $user['first_name'];
+                                        $name = $user['first_name']." ".$user['last_name'];
                                         if ($user['status'])
                                         {
                                             $status = "<span class='label label-success'>Active</span>";

@@ -131,6 +131,7 @@ print_r($tables); die;
                 email, 
                 status, 
                 first_name, 
+                last_name,
                 IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."',picture), '') as profile_image, 
                 auth_token, 
                 create_date, 

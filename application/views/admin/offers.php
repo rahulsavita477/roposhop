@@ -87,7 +87,7 @@ else
                             </thead>
                             <tbody>
                                 <?php
-                                if ($merchant_offers) 
+                                if (isset($merchant_offers)) 
                                 {
                                     $count = 1;
 

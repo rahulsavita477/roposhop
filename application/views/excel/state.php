@@ -61,7 +61,7 @@ $cnt_id = isset($state['country_id']) ? $state['country_id'] : '';
                                 <div class="row Excel_State_forms">
                                     <div class="col-sm-12">
                                         <?= form_open_multipart('importCountryXls') ?>
-                                            <div class="file file_div btn-custom btn-primary">
+                                            <div class="file file_div btn btn-success">
                                                 Import state
                                                 <input type="file" name="result_file" class="input_type_file" required />
                                             </div>

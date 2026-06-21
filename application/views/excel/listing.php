@@ -74,7 +74,7 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
                             <?= form_close() ?>
 
                             <?= form_open_multipart('importListingXls') ?>
-                                <div class="file file_div btn-custom btn-primary Excel_Listing_import_form" style="margin-left: 3px;">
+                                <div class="file file_div btn btn-success Excel_Listing_import_form" style="margin-left: 3px;">
                                     Import address
                                     <input type="file" name="result_file" class="input_type_file" required />
                                 </div>

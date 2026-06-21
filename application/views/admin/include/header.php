@@ -94,14 +94,14 @@ else
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>
-                                <span><?= $_COOKIE['name'] ?> <i class="caret"></i></span>
+                                <span><?= $_COOKIE['name']. " " . $_COOKIE['lname'] ?> <i class="caret"></i></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
                                     <img src="<?= $usr_profile_pic ?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        <?= $_COOKIE['name'] ?>
+                                        <?= $_COOKIE['name']. " " . $_COOKIE['lname'] ?>(<?= strtoupper($_COOKIE['site_code']) ?>)
                                         <br /><span><?= $_COOKIE['email'] ?></span>
                                     </p>
                                 </li>

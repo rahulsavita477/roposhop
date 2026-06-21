@@ -132,13 +132,13 @@ class Excel_controller extends CI_Controller
 
         if (isset($states['db_error'])) 
             redirectWithMessage('Error: '.$states['msg'], $controller);
-        else if ($states['result']) 
+        else if ($states && $states['result']) 
             $data['states'] = $states['result'];
         else
             $data['states'] = false;
 
         $country = $this->getCountry();
-        $data['countries'] = $country['result'];
+        $data['countries'] = $country ? $country['result'] : [];
 
         $this->load->view('admin/include/header');
         $this->load->view('admin/include/leftbar');
@@ -264,7 +264,7 @@ class Excel_controller extends CI_Controller
         if (isset($countries['db_error'])) 
             redirectWithMessage('Error: '.$countries['msg'], $controller);
 
-        $data['countries'] = $countries['result'];
+        $data['countries'] = $countries ? $countries['result'] : '';
 
         if ($countries)
             $data['country'] = $countries;
@@ -1649,7 +1649,7 @@ class Excel_controller extends CI_Controller
         $cities = $this->getcity('', $state_id, '');
         if (isset($cities['db_error'])) 
             redirectWithMessage('Error: '.$cities['msg'], $controller);
-        else if ($cities['result']) 
+        else if ($cities && $cities['result']) 
             $data['cities'] = $cities['result'];
 
         if (isset($_GET['city_id'])) 
@@ -1660,7 +1660,7 @@ class Excel_controller extends CI_Controller
         }
 
         $country = $this->getCountry();
-        $data['countries'] = $country['result'];
+        $data['countries'] = $country ? $country['result'] : [];
 
         $this->load->view('admin/include/header');
         $this->load->view('admin/include/leftbar');
@@ -1812,7 +1812,7 @@ class Excel_controller extends CI_Controller
         }
 
         $country = $this->getCountry();
-        $data['countries'] = $country['result'];
+        $data['countries'] = $country ? $country['result'] : [];
 
         //load address view
         $data['message'] = $message;
