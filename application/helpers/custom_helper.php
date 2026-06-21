@@ -182,13 +182,16 @@ function convert_to_user_date($date, $format = 'j-n-Y g:i:s A', $serverTimeZone 
     
     try 
     {
-        $dateTime = new DateTime ($date, new DateTimeZone($serverTimeZone));
-        $dateTime->setTimezone(new DateTimeZone($userTimeZone));
+        if($date) {
+            $dateTime = new DateTime ($date, new DateTimeZone($serverTimeZone));
+            $dateTime->setTimezone(new DateTimeZone($userTimeZone));
 
-        return $dateTime->format($format);
-    } 
-    catch (Exception $e) 
-    {
+            return $dateTime->format($format);
+        } else {
+            
+            return 'No Backup Found';
+        }
+    } catch (Exception $e) {
         return '';
     }
 }

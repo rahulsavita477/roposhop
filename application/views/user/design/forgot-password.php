@@ -69,7 +69,7 @@
                     </div>
 
                     <center>
-                    <button class="btn btn-success">Reset My Password</button>
+                    <button class="btn-custom btn-primary">Reset My Password</button>
                     </center>
 
 

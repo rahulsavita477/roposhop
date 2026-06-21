@@ -71,7 +71,7 @@
                                <input type="tel" class="form-control" id="" name="" required="">
                     </div>
 
-                     <button class="btn btn-success">Sign Up</button>
+                     <button class="btn-custom btn-primary">Sign Up</button>
                     
                   </form>
                      
@@ -92,7 +92,7 @@
                                <input type="password" class="form-control" id="" name="" required="">
                     </div>
 
-                    <button class="btn btn-success">Login</button>
+                    <button class="btn-custom btn-primary">Login</button>
                         &nbsp;&nbsp;&nbsp;<a href="#"> Forgot password?</a>
 
 

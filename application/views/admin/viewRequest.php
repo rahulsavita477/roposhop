@@ -124,7 +124,7 @@ $is_clmd_approved = isset($data['is_clmd_approved']) ? $data['is_clmd_approved']
 				            	<input type="hidden" name="email" value="<?= $clmd_email ?>" />
 				            	<input type="hidden" name="establishment_name" value="<?= $establishment_name ?>" />
 				            	<input type="hidden" name="clmd_business_proof" value="<?= $clmd_business_proof ?>" />
-				            	<button type="submit" class="btn btn-success">Approve</button>
+				            	<button type="submit" class="btn-custom btn-primary">Approve</button>
 			            <?php echo form_close(); } else { ?>
 			            	<div class="row form-group">
 				    			<div class="col-sm-2">

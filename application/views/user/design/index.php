@@ -1,49 +1,32 @@
 <body id="page-home" class="loaded">
     <div class="page-wrapper">
 <main class="main">
+    <?php if($offers): ?>
     <div class="home-slider-container">
         <div class="home-slider owl-carousel owl-theme owl-theme-light">
-            <?php 
-            if ($offers) { 
-                foreach ($offers as $offer) { ?>
-                    <div class="home-slide">
-                        <div class="slide-bg owl-lazy"  data-src="<?= $offer['offer_images'][0] ?>" style="width: 50%; margin: 5%;"></div><!-- End .slide-bg -->
-                        <div class="container">
-                            <div class="row justify-content-end">
-                                <div class="col-8 col-md-6 text-center slide-content-right">
-                                    <div class="home-slide-content">
-                                        <div class="slide-border-top">
-                                            <img src="assets/user/assets2/images/slider/border-top.png" alt="Border" width="290" height="38" />
-                                        </div>
-                                        <h1><?= $offer['offer_title'] ?></h1>
-                                        <a href="<?= base_url().'offer/'.url_title($offer['offer_title'], '-', true).'?offer_id='.$offer['offer_id'] ?>" class="btn btn-primary">Know More</a>
-                                        <div class="slide-border-bottom">
-                                            <img src="assets/user/assets2/images/slider/border-bottom.png" alt="Border" width="290" height="111">
-                                        </div><!-- End .slide-border-bottom -->
-                                    </div><!-- End .home-slide-content -->
-                                </div><!-- End .col-lg-5 -->
-                            </div><!-- End .row -->
-                        </div><!-- End .container -->
-                    </div><!-- End .home-slide -->
-                <?php } 
-            } else { ?>
+            <?php
+            foreach ($offers as $offer) { ?>
                 <div class="home-slide">
-                    <div class="slide-bg owl-lazy"  data-src="<?= base_url('assets/user/assets2/images/slider/slide-1.jpg') ?>"></div><!-- End .slide-bg -->
-                    <div class="container">        
-                        <div class="home-slide-content float-left">
-                            <div class="slide-border-top">
-                                <img src="<?= base_url('assets/user/assets2/images/slider/border-top.png') ?>" alt="Border" width="290" height="38" />
-                            </div><!-- End .slide-border-top -->
-                            <h3>50% off for select items</h3>
-                            <h1>HOME APPLIANCES</h1>
-                            <a href="<?= base_url('categories/home-appliances?category=67') ?>" class="btn btn-primary">Shop Now</a>
-                            <div class="slide-border-bottom">
-                                <img src="<?= base_url('assets/user/assets2/images/slider/border-bottom.png') ?>" alt="Border" width="290" height="111">
-                            </div><!-- End .slide-border-bottom -->
-                        </div>
+                    <div class="slide-bg owl-lazy" data-src="<?= base_url('assets/user/assets2/images/slider/slide-1.jpg') ?>" style="width: 50%; margin: 5%;"></div><!-- End .slide-bg -->
+                    <div class="container">
+                        <div class="row justify-content-end">
+                            <div class="col-8 col-md-6 text-center slide-content-right">
+                                <div class="home-slide-content">
+                                    <div class="slide-border-top">
+                                        <img src="assets/user/assets2/images/slider/border-top.png" alt="Border" width="290" height="38" />
+                                    </div>
+                                    <h1><?= $offer['offer_title'] ?></h1>
+                                    <a href="<?= base_url().'offer/'.url_title($offer['offer_title'], '-', true).'?offer_id='.$offer['offer_id'] ?>" class="btn btn-primary">Know More</a>
+                                    <div class="slide-border-bottom">
+                                        <img src="assets/user/assets2/images/slider/border-bottom.png" alt="Border" width="290" height="111">
+                                    </div><!-- End .slide-border-bottom -->
+                                </div><!-- End .home-slide-content -->
+                            </div><!-- End .col-lg-5 -->
+                        </div><!-- End .row -->
                     </div><!-- End .container -->
                 </div><!-- End .home-slide -->
 
+                <!-- Need to remove below static part -->
                 <div class="home-slide">
                     <div class="slide-bg owl-lazy"  data-src="<?= base_url('assets/user/assets2/images/slider/slide-2.jpg') ?>"></div><!-- End .slide-bg -->
                     <div class="container">
@@ -56,7 +39,7 @@
                                     <h3>up to 70% off</h3>
                                     <h1>Mobile Phones</h1>
                                     <a href="<?= base_url('categories/mobile-phones?category=61') ?>" class="btn btn-primary">Shop Now</a>
-                                     <div class="slide-border-bottom">
+                                    <div class="slide-border-bottom">
                                         <img src="<?= base_url('assets/user/assets2/images/slider/border-bottom.png') ?>" alt="Border" width="290" height="111">
                                     </div><!-- End .slide-border-bottom -->
                                 </div><!-- End .home-slide-content -->
@@ -67,6 +50,7 @@
             <?php } ?>
         </div><!-- End .home-slider -->
     </div><!-- End .home-slider-container -->
+    <?php endif; ?>
 
     <div class="info-boxes-container">
         <div class="container">
@@ -96,19 +80,19 @@
         </div>
     </div>
 
+    <?php if($categories): ?>
     <div class="featured-products-section carousel-section">
-        <?php 
-        foreach ($categories as $category) 
-        {
-            if (count($category['products'])>0) 
-            { 
+        <?php foreach ($categories as $category) {
+
+            if (count($category['products'])>0) {
         ?>
                 <div class="container">
                     <h2 class="h3 title float-left"><?= $category['category_name'] ?></h2>
                     <a href="<?= base_url('categories/'.url_title($category['category_name'], '-', true).'?category=').$category['category_id'] ?>" class="float-right rounded-btn">View All</a>
-                    <div class="clearfix"></div><br>
+                    <div class="clearfix"></div>
                     <hr class="sethr" style=" margin:0px 0px 20px 0px" />
                     <div class="new-products owl-carousel owl-theme"  data-toggle="owl" data-owl-options="{
+                        'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
                          'dots':false,
@@ -169,18 +153,20 @@
             <?php }
         } ?>
     </div>
-    
     <div class="mb-2"></div><!-- margin -->
+    <?php endif; ?>
 
+    <?php if($brands): ?>
     <div class="featured-products-section carousel-section">
         <div class="container">
             <h2 class="h3 title float-left">Popular Brands</h2>
             <a href="<?= base_url('brands') ?>" class="rounded-btn float-right">View All</a>
-            <div class="clearfix"></div><br>
+            <div class="clearfix"></div>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
-            <div class="partners-container pt-1 pb-1 ">
-                <div class="container">
-                    <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+            <div class="partners-container" style="padding-top:0;padding-bottom:0;">
+                <div class="container" style="padding-left:0;padding-right:0;">
+                    <div class="partners-carousel owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;"   data-toggle="owl" data-owl-options="{
+                        'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
                         'nav' : true,
@@ -195,26 +181,37 @@
                             }
                         }
                     }">
-                        <?php foreach ($brands['result'] as $brand) { ?>
-                            <a href="<?= base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']) ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width: auto;"></a>
-                        <?php } ?>
+                        <?php foreach ($brands['result'] as $brand) {
+                            $brand_url = base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']);
+                            if (!empty($brand['brand_logo'])) { ?>
+                                <a href="<?= $brand_url ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
+                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width:auto;">
+                                </a>
+                            <?php } else { ?>
+                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                    <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($brand['name']) ?></span>
+                                </a>
+                            <?php }
+                        } ?>
                     </div><!-- End .partners-carousel -->
                 </div><!-- End .container -->
             </div><!-- End .partners-container -->
         </div>
     </div>
-
     <div class="mb-2"></div><!-- margin -->
+    <?php endif; ?>
 
+    <?php if($merchants): ?>
     <div class="featured-products-section carousel-section">
         <div class="container">
             <h2 class="h3 title float-left">Nearby Sellers</h2>
             <a href="<?= base_url('merchants') ?>" class="rounded-btn float-right">View All</a>
-            <div class="clearfix"></div><br>
+            <div class="clearfix"></div>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
-            <div class="partners-container pt-1 pb-1 ">
-                <div class="container">
-                    <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+            <div class="partners-container" style="padding-top:0;padding-bottom:0;">
+                <div class="container" style="padding-left:0;padding-right:0;">
+                    <div class="partners-carousel owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;"  data-toggle="owl" data-owl-options="{
+                        'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
                         'nav' : true,
@@ -229,25 +226,35 @@
                             }
                         }
                     }">
-                        <?php foreach ($merchants['result'] as $merchant)
-                        { 
+                        <?php foreach ($merchants['result'] as $merchant) {
+                        
                             $merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
+                            $merchentHref = base_url(
+                                'merchants/' . url_title($merchant['establishment_name'], '-', true)
+                            ) . '?merchant_id=' . $merchant['merchant_id'];
+
+                            if ($merchant_logo) {
+
+                                echo '<a href="'.$merchentHref.'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
                             
-                            if ($merchant_logo) 
-                            {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
-                            }
-                            else
-                            {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;background:red"><h3 style="color:#fff">'.$merchant['establishment_name'].'</h3></a>';
-                            }
-                            ?>
-                        <?php } ?>
+                            } else {
+                        ?>
+                                <a href="<?= $merchentHref; ?>"
+                                    class="partner"
+                                    style="display:inline-flex; align-items:center; justify-content:center; width:auto; height:90px; max-height:90px; max-width:200px; background:#e74c3c; border-radius:8px; text-decoration:none; padding:10px 20px;"
+                                >
+                                    <h3 style="color:#fff; margin:0; font-size:16px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                        <?= htmlspecialchars($merchant['establishment_name']) ?>
+                                    </h3>
+                                </a>
+                        <?php }
+                        } ?>
                     </div><!-- End .partners-carousel -->
                 </div><!-- End .container -->
             </div><!-- End .partners-container -->
         </div>
     </div>
+    <?php endif; ?>
 
     <!-- App Download -->
     <div class="info-section bg-white" id="app">

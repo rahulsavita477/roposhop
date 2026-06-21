@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+require_once FCPATH . 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
 class Excel_controller extends CI_Controller 
 {
@@ -128,13 +132,13 @@ class Excel_controller extends CI_Controller
 
         if (isset($states['db_error'])) 
             redirectWithMessage('Error: '.$states['msg'], $controller);
-        else if ($states['result']) 
+        else if ($states && $states['result']) 
             $data['states'] = $states['result'];
         else
             $data['states'] = false;
 
         $country = $this->getCountry();
-        $data['countries'] = $country['result'];
+        $data['countries'] = $country ? $country['result'] : [];
 
         $this->load->view('admin/include/header');
         $this->load->view('admin/include/leftbar');
@@ -260,7 +264,7 @@ class Excel_controller extends CI_Controller
         if (isset($countries['db_error'])) 
             redirectWithMessage('Error: '.$countries['msg'], $controller);
 
-        $data['countries'] = $countries['result'];
+        $data['countries'] = $countries ? $countries['result'] : '';
 
         if ($countries)
             $data['country'] = $countries;
@@ -356,684 +360,582 @@ class Excel_controller extends CI_Controller
         $objWriter->save('php://output');
     }*/
 
-    //export address xls sheet
     public function exportTemplateForAddress()
     {
-        //create template for address
-        $fields = 'Seller, Seller ID, Country, Country ID, State, State ID, City, City ID, Address Line 1, Address Line 2, Landmark, Pin, Contact, Business Days, Business Hours, Latitude, Longitude, Address ID';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = [
+            'Seller', 'Seller ID', 'Country', 'Country ID', 'State', 'State ID',
+            'City', 'City ID', 'Address Line 1', 'Address Line 2', 'Landmark',
+            'Pin', 'Contact', 'Business Days', 'Business Hours', 'Latitude',
+            'Longitude', 'Address ID'
+        ];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        if (isset($_REQUEST['merchant_id']) || isset($_REQUEST['state_id']) || isset($_REQUEST['city_id'])) 
-        {
-            $where = array();   
-
-            //get user id from merchant id
-            if (isset($_REQUEST['merchant_id']) && $_REQUEST['merchant_id']) 
-            {
-                // get country records from databse
-                $user_result = $this->Admin_model->selectRecords(array('merchant_id' => $_REQUEST['merchant_id']), 'merchant', 'userId');
-                if (isset($user_result['db_error'])) 
-                    redirectWithMessage('Error: '.$user_result['msg'], 'addressExcel');
-                else if ($user_result)
-                    $user_id = $user_result['result'][0]['userId'];
-                else
-                    redirectWithMessage('Error: unable to get user id from given merchant id', 'addressExcel');
-
+        // Handle filters
+        $where = [];
+        if ($this->input->get('merchant_id')) {
+            $user_result = $this->Admin_model->selectRecords(
+                ['merchant_id' => $this->input->get('merchant_id')],
+                'merchant',
+                'userId'
+            );
+            if (isset($user_result['db_error'])) {
+                redirectWithMessage('Error: '.$user_result['msg'], 'addressExcel');
+                return;
+            } elseif ($user_result) {
+                $user_id = $user_result['result'][0]['userId'];
                 $where['address.userId'] = $user_id;
+            } else {
+                redirectWithMessage('Error: unable to get user id', 'addressExcel');
+                return;
             }
-
-            if (isset($_REQUEST['state_id']) && $_REQUEST['state_id'])
-            {
-                $where['address.state_id'] = $_REQUEST['state_id'];
-
-                if (isset($_REQUEST['city_id']) && $_REQUEST['city_id'])
-                    $where['address.city_id'] = $_REQUEST['city_id'];
-            }
-
-            //sheet column name
-            $cell_column_name = array('establishment_name', 'merchant_id', 'country_name', 'country_id', 'state_name', 'state_id', 'city_name', 'city_id', 'address_line_1', 'address_line_2', 'landmark', 'pin', 'contact', 'business_days', 'business_hours', 'latitude', 'longitude', 'address_id');
-
-            // get data from databse
-            $address_columns = 'establishment_name, merchant_id, country.name as country_name, address.country_id, state.name as state_name, address.state_id, city.name as city_name, address.city_id, address_line_1, address_line_2, landmark, pin, address.contact, address.business_days, address.business_hours, address.latitude, address.longitude, address_id';
-            $address_result = $this->Admin_model->getUserAddress($where, $address_columns);
-            if (isset($address_result['db_error'])) 
-                redirectWithMessage('Error: '.$address_result['msg'], 'addressExcel');
-            else if ($address_result) 
-            {
-                //insert data in excel sheet from database
-                $i = 2;
-                foreach($address_result['result'] as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($cell_column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                        $cell->setCellValue($char.$i, $row[trim($column)]);
-                        
-                        $char++;
-                    }
-
-                    $i++;
-                }
-            }
-            else
-                redirectWithMessage('Error: no record found', 'dashboard');
         }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Address');
-        $this->objPHPExcel->setActiveSheetIndex(0);
-
-        $where = array('status' => 1);
-        for ($i=1; $i <= 3; $i++) 
-        { 
-            switch ($i) 
-            {
-                case 1:
-                    $table_name = 'country';
-                    $country_column = 'country_id, name';
-                    $column_name = explode(',', $country_column);
-
-                    // get country records from databse
-                    $country_result = $this->Admin_model->selectRecords($where, $table_name, $country_column);
-                    if (isset($country_result['db_error'])) 
-                        redirectWithMessage('Error: '.$country_result['msg'], 'dashboard');
-                    else if ($country_result)
-                        $result = $country_result['result'];
-                    else
-                        $result = false;
-
-                    break;
-                
-                case 2:
-                    $table_name = 'state';
-                    $state_column = 'state_id, name, country_id';
-                    $column_name = explode(',', $state_column);
-
-                    // get state records from databse
-                    $state_result = $this->Admin_model->selectRecords($where, $table_name, $state_column);
-                    if (isset($state_result['db_error'])) 
-                        redirectWithMessage('Error: '.$state_result['msg'], 'dashboard');
-                    else if ($state_result) 
-                        $result = $state_result['result'];
-                    else
-                        $result = false;
-
-                    break;
-
-                case 3:
-                    $table_name = 'city';
-                    $city_column = 'city_id, name, state_id, latitude, longitude';
-                    $column_name = explode(',', $city_column);
-
-                    // get city records from databse
-                    $city_result = $this->Admin_model->selectRecords($where, $table_name, $city_column);
-                    if (isset($city_result['db_error'])) 
-                        redirectWithMessage('Error: '.$city_result['msg'], 'dashboard');
-                    else if ($city_result) 
-                        $result = $city_result['result'];
-                    else
-                        $result = false;
-
-                    break;
-
-                default: return;
+        if ($this->input->get('state_id')) {
+            $where['address.state_id'] = $this->input->get('state_id');
+            if ($this->input->get('city_id')) {
+                $where['address.city_id'] = $this->input->get('city_id');
             }
+        }
 
-            $objWorkSheet = $this->objPHPExcel->createSheet($i); //Setting index when creating
+        // Column mapping
+        $cell_column_name = [
+            'establishment_name','merchant_id','country_name','country_id',
+            'state_name','state_id','city_name','city_id','address_line_1',
+            'address_line_2','landmark','pin','contact','business_days',
+            'business_hours','latitude','longitude','address_id'
+        ];
 
-            //Write column name in cells
-            $char = 'A';
-            foreach ($column_name as $column) 
-            {
-                if ($char == 'Z') 
-                    break;
+        // Fetch address data
+        $address_columns = 'establishment_name, merchant_id, country.name as country_name, address.country_id, state.name as state_name, address.state_id, city.name as city_name, address.city_id, address_line_1, address_line_2, landmark, pin, address.contact, address.business_days, address.business_hours, address.latitude, address.longitude, address_id';
+        $address_result = $this->Admin_model->getUserAddress($where, $address_columns);
 
-                $objWorkSheet->setCellValue($char.'1', $column);
-                $char++;
-            }
-
-            
-            // get records from databse
-            if ($result) 
-            {
-                //insert data in address excel tab from database
-                $j = 2;
-                foreach($result as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex($i);
-                        $cell->setCellValue($char.$j, $row[trim($column)]);
-                        
-                        $char++;
-                    }
-
-                    $j++;
+        if (isset($address_result['db_error'])) {
+            redirectWithMessage('Error: '.$address_result['msg'], 'addressExcel');
+            return;
+        } elseif ($address_result) {
+            $rowIndex = 2;
+            foreach ($address_result['result'] as $row) {
+                $col = 'A';
+                foreach ($cell_column_name as $column) {
+                    $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                    $col++;
                 }
+                $rowIndex++;
             }
-            
-            // Rename sheet
+        } else {
+            redirectWithMessage('Error: no record found', 'dashboard');
+            return;
+        }
+
+        $sheet->setTitle('Address');
+
+        // Extra sheets: country, state, city
+        $tables = [
+            ['country','country_id, name'],
+            ['state','state_id, name, country_id'],
+            ['city','city_id, name, state_id, latitude, longitude']
+        ];
+
+        $where = ['status' => 1];
+        foreach ($tables as $index => [$table_name, $columns]) {
+            $result = $this->Admin_model->selectRecords($where, $table_name, $columns);
+            $objWorkSheet = $spreadsheet->createSheet($index+1);
             $objWorkSheet->setTitle($table_name);
+
+            $column_name = explode(',', $columns);
+
+            // Header row
+            $col = 'A';
+            foreach ($column_name as $column) {
+                $objWorkSheet->setCellValue($col.'1', trim($column));
+                $col++;
+            }
+
+            // Data rows
+            if ($result && !isset($result['db_error'])) {
+                $rowIndex = 2;
+                foreach ($result['result'] as $row) {
+                    $col = 'A';
+                    foreach ($column_name as $column) {
+                        $objWorkSheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
+                    }
+                    $rowIndex++;
+                }
+            }
         }
-        
-        //create and download excel sheet
+
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="address.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
-    //export area xls sheet
     public function exportTemplateForArea($withData)
     {
-        $controller = (isset($_GET['getAreaList'])) ? 'areaExcel?getAreaList='.$_GET['getAreaList']: "areaExcel";
+        $controller = ($this->input->get('getAreaList'))
+            ? 'areaExcel?getAreaList='.$this->input->get('getAreaList')
+            : 'areaExcel';
 
-        //create template for address
-        $fields = 'Area Name, Area ID, Latitude, Longitude, Status, City ID';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = ['Area Name','Area ID','Latitude','Longitude','Status','City ID'];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        if ($withData) 
-        {
-            // get data from databse
-            $cell_column_name = array('area_name', 'area_id', 'latitude', 'longitude', 'status', 'city_id');
+        // Fill data if requested
+        if ($withData) {
+            $cell_column_name = ['area_name','area_id','latitude','longitude','status','city_id'];
 
-            if (isset($_GET['getAreaList']))
-            {
-                $ids = explode("-", $_GET['getAreaList']);
+            if ($this->input->get('getAreaList')) {
+                $ids = explode("-", $this->input->get('getAreaList'));
                 $cityId = $ids[2];
-
-                $where = array('city_id' => $cityId);
+                $where = ['city_id' => $cityId];
+            } else {
+                $where = [];
             }
-            else
-                $where = "";
 
-            $area_result = $this->Admin_model->selectRecords($where, 'area', 'area_name, area_id, latitude, longitude, status, city_id');
-            if (isset($area_result['db_error'])) 
+            $area_result = $this->Admin_model->selectRecords(
+                $where,
+                'area',
+                'area_name, area_id, latitude, longitude, status, city_id'
+            );
+
+            if (isset($area_result['db_error'])) {
                 redirectWithMessage('Error: '.$area_result['msg'], $controller);
-            else if ($area_result) 
-            {
-                //insert data in excel sheet from database
-                $i = 2;
-                foreach($area_result['result'] as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($cell_column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                        $cell->setCellValue($char.$i, $row[trim($column)]);
-                        
-                        $char++;
+                return;
+            } elseif ($area_result) {
+                $rowIndex = 2;
+                foreach ($area_result['result'] as $row) {
+                    $col = 'A';
+                    foreach ($cell_column_name as $column) {
+                        $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
                     }
-
-                    $i++;
+                    $rowIndex++;
                 }
-            }
-            else
+            } else {
                 redirectWithMessage('Error: no record found', $controller);
+                return;
+            }
         }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Area');
-        $this->objPHPExcel->setActiveSheetIndex(0);
+        $sheet->setTitle('Area');
 
-        $where = array('status' => 1);
-        for ($i=1; $i <= 3; $i++) 
-        { 
-            switch ($i) 
-            {
-                case 1:
-                    $table_name = 'country';
-                    $country_column = 'country_id, name';
-                    $column_name = explode(',', $country_column);
+        // Extra sheets: country, state, city
+        $tables = [
+            ['country','country_id, name'],
+            ['state','state_id, name, country_id'],
+            ['city','city_id, name, state_id, latitude, longitude']
+        ];
 
-                    // get country records from databse
-                    $country_result = $this->Admin_model->selectRecords($where, $table_name, $country_column);
-                    if (isset($country_result['db_error'])) 
-                        redirectWithMessage('Error: '.$country_result['msg'], 'dashboard');
-                    else if ($country_result)
-                        $result = $country_result['result'];
-                    else
-                        $result = false;
+        $where = ['status' => 1];
+        foreach ($tables as $index => [$table_name, $columns]) {
+            $result = $this->Admin_model->selectRecords($where, $table_name, $columns);
+            $objWorkSheet = $spreadsheet->createSheet($index+1);
+            $objWorkSheet->setTitle($table_name);
 
-                    break;
-                
-                case 2:
-                    $table_name = 'state';
-                    $state_column = 'state_id, name, country_id';
-                    $column_name = explode(',', $state_column);
+            $column_name = explode(',', $columns);
 
-                    // get state records from databse
-                    $state_result = $this->Admin_model->selectRecords($where, $table_name, $state_column);
-                    if (isset($state_result['db_error'])) 
-                        redirectWithMessage('Error: '.$state_result['msg'], 'dashboard');
-                    else if ($state_result) 
-                        $result = $state_result['result'];
-                    else
-                        $result = false;
-
-                    break;
-
-                case 3:
-                    $table_name = 'city';
-                    $city_column = 'city_id, name, state_id, latitude, longitude';
-                    $column_name = explode(',', $city_column);
-
-                    // get city records from databse
-                    $city_result = $this->Admin_model->selectRecords($where, $table_name, $city_column);
-                    if (isset($city_result['db_error'])) 
-                        redirectWithMessage('Error: '.$city_result['msg'], 'dashboard');
-                    else if ($city_result) 
-                        $result = $city_result['result'];
-                    else
-                        $result = false;
-
-                    break;
-
-                default: return;
+            // Header row
+            $col = 'A';
+            foreach ($column_name as $column) {
+                $objWorkSheet->setCellValue($col.'1', trim($column));
+                $col++;
             }
 
-            $objWorkSheet = $this->objPHPExcel->createSheet($i); //Setting index when creating
-
-            //Write column name in cells
-            $char = 'A';
-            foreach ($column_name as $column) 
-            {
-                if ($char == 'Z') 
-                    break;
-
-                $objWorkSheet->setCellValue($char.'1', $column);
-                $char++;
-            }
-
-            
-            // get records from databse
-            if ($result) 
-            {
-                //insert data in address excel tab from database
-                $j = 2;
-                foreach($result as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex($i);
-                        $cell->setCellValue($char.$j, $row[trim($column)]);
-                        
-                        $char++;
+            // Data rows
+            if ($result && !isset($result['db_error'])) {
+                $rowIndex = 2;
+                foreach ($result['result'] as $row) {
+                    $col = 'A';
+                    foreach ($column_name as $column) {
+                        $objWorkSheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
                     }
-
-                    $j++;
+                    $rowIndex++;
                 }
             }
-            
-            // Rename sheet
-            $objWorkSheet->setTitle($table_name);
         }
 
-        //create and download excel sheet
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="area.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
-    //export address xls sheet
     public function exportTemplateForListing()
     {
-        //create template for address
-        $fields = 'Seller, Seller ID, Product Name, Product ID, Brand, Category, Price, Finance Available, Finance Term, Home Delivery Available, Home Delivery Terms, Installation Available, Installation Terms, In Stock, Will Back In Stock On, Replacement Available, Replacement Terms, Return Available, Return Policy, Seller Offering, Listing ID';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = [
+            'Seller','Seller ID','Product Name','Product ID','Brand','Category','Price',
+            'Finance Available','Finance Term','Home Delivery Available','Home Delivery Terms',
+            'Installation Available','Installation Terms','In Stock','Will Back In Stock On',
+            'Replacement Available','Replacement Terms','Return Available','Return Policy',
+            'Seller Offering','Listing ID'
+        ];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        if (isset($_GET['merchant_id']) || isset($_GET['product_id'])) 
-        {
-            $where = array();   
+        // Apply filters
+        if ($this->input->get('merchant_id') || $this->input->get('product_id')) {
+            $where = [];
             $controller = 'addressExcel';
 
-            if (isset($_GET['merchant_id']) && $_GET['merchant_id']) 
-                $where['product_listing.merchant_id'] = $_GET['merchant_id'];
-
-            if (isset($_GET['product_id']) && $_GET['product_id'])
-                $where['product_listing.product_id'] = $_GET['product_id'];
-
-            //sheet column name
-            $cell_column_name = array('establishment_name', 'merchant_id', 'product_name', 'product_id', 'brand_name', 'category_name', 'price', 'finance_available', 'finance_terms', 'home_delivery_available', 'home_delivery_terms', 'installation_available', 'installation_terms', 'in_stock', 'will_back_in_stock_on', 'replacement_available', 'replacement_terms', 'return_available', 'return_policy', 'seller_offering', 'listing_id');
-
-            // get data from databse
-            $listing_result = $this->Excel_model->listing($where);
-            
-            if (isset($listing_result['db_error'])) 
-                redirectWithMessage('Error: '.$listing_result['msg'], $controller);
-            else if ($listing_result) 
-            {
-                //insert data in excel sheet from database
-                $i = 2;
-                foreach($listing_result as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($cell_column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                        $cell->setCellValue($char.$i, $row[trim($column)]);
-                        
-                        $char++;
-                    }
-
-                    $i++;
-                }
+            if ($this->input->get('merchant_id')) {
+                $where['product_listing.merchant_id'] = $this->input->get('merchant_id');
             }
-            else
+            if ($this->input->get('product_id')) {
+                $where['product_listing.product_id'] = $this->input->get('product_id');
+            }
+
+            // Column mapping
+            $cell_column_name = [
+                'establishment_name','merchant_id','product_name','product_id','brand_name',
+                'category_name','price','finance_available','finance_terms','home_delivery_available',
+                'home_delivery_terms','installation_available','installation_terms','in_stock',
+                'will_back_in_stock_on','replacement_available','replacement_terms','return_available',
+                'return_policy','seller_offering','listing_id'
+            ];
+
+            // Fetch data
+            $listing_result = $this->Excel_model->listing($where);
+
+            if (isset($listing_result['db_error'])) {
+                redirectWithMessage('Error: '.$listing_result['msg'], $controller);
+                return;
+            } elseif ($listing_result) {
+                $rowIndex = 2;
+                foreach ($listing_result as $row) {
+                    $col = 'A';
+                    foreach ($cell_column_name as $column) {
+                        $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
+                    }
+                    $rowIndex++;
+                }
+            } else {
                 redirectWithMessage('Error: no record found', $controller);
+                return;
+            }
         }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Listing');
-        $this->objPHPExcel->setActiveSheetIndex(0);
-        
-        //create and download excel sheet
+        // Set sheet title
+        $sheet->setTitle('Listing');
+
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="listing.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
-    //export address xls sheet
     public function exportTemplateForMerchant()
     {
-        //create template for address
-        $fields = 'Seller, Seller ID, Finance Available, Finance Terms, Home Delivery Available, Home Delivery Terms, Installation Available, Installation Terms, Replacement Available, Replacement Terms, Return Available, Return Policy, Seller Offering';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = [
+            'Seller','Seller ID','Finance Available','Finance Terms',
+            'Home Delivery Available','Home Delivery Terms',
+            'Installation Available','Installation Terms',
+            'Replacement Available','Replacement Terms',
+            'Return Available','Return Policy','Seller Offering'
+        ];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        // get data from databse
-        $cell_column_name = array('establishment_name', 'merchant_id', 'finance_available', 'finance_terms', 'home_delivery_available', 'home_delivery_terms', 'installation_available', 'installation_terms', 'replacement_available', 'replacement_terms', 'return_available', 'return_policy', 'seller_offering');
+        // Column mapping
+        $cell_column_name = [
+            'establishment_name','merchant_id','finance_available','finance_terms',
+            'home_delivery_available','home_delivery_terms','installation_available',
+            'installation_terms','replacement_available','replacement_terms',
+            'return_available','return_policy','seller_offering'
+        ];
 
-        $merchant_id = (isset($_GET['merchant_id']) && $_GET['merchant_id']) ? $_GET['merchant_id'] : '';
-        $state_id = (isset($_GET['state_id']) && $_GET['state_id']) ? $_GET['state_id'] : '';
-        $city_id = (isset($_GET['city_id']) && $_GET['city_id']) ? $_GET['city_id'] : '';
+        // Get filters
+        $merchant_id = $this->input->get('merchant_id') ?: '';
+        $state_id    = $this->input->get('state_id') ?: '';
+        $city_id     = $this->input->get('city_id') ?: '';
 
+        // Fetch data
         $seller_result = $this->Excel_model->merchant($merchant_id, $state_id, $city_id);
-        if (isset($seller_result['db_error'])) 
+
+        if (isset($seller_result['db_error'])) {
             redirectWithMessage('Error: '.$seller_result['msg'], 'merchantExcel');
-        else if ($seller_result) 
-        {
-            //insert data in excel sheet from database
-            $i = 2;
-            foreach($seller_result as $row)
-            {
-                $char = 'A';
-                
-                //insert data in cell for perticular column
-                foreach ($cell_column_name as $column) 
-                {
-                    $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                    $cell->setCellValue($char.$i, $row[trim($column)]);
-                    
-                    $char++;
+            return;
+        } elseif ($seller_result) {
+            $rowIndex = 2;
+            foreach ($seller_result as $row) {
+                $col = 'A';
+                foreach ($cell_column_name as $column) {
+                    $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                    $col++;
                 }
-
-                $i++;
+                $rowIndex++;
             }
-        }
-        else
+        } else {
             redirectWithMessage('Error: no record found', 'dashboard');
+            return;
+        }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Merchant');
-        $this->objPHPExcel->setActiveSheetIndex(0);
+        // Set sheet title
+        $sheet->setTitle('Merchant');
 
-        //create and download excel sheet
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="merchant.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
-    //export country xls sheet
     public function exportTemplateForCountry($withData)
     {
-        //create template for address
-        $fields = 'Country Name, Country ID, Status';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = ['Country Name','Country ID','Status'];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        if ($withData) 
-        {
-            // get data from databse
-            $cell_column_name = array('name', 'country_id', 'status');
+        if ($withData) {
+            // Column mapping
+            $cell_column_name = ['name','country_id','status'];
 
+            // Fetch data
             $country_result = $this->Admin_model->selectRecords("", 'country', 'name,country_id,status');
-            if (isset($country_result['db_error'])) 
-                redirectWithMessage('Error: '.$country_result['msg'], 'countryExcel');
-            else if ($country_result) 
-            {
-                //insert data in excel sheet from database
-                $i = 2;
-                foreach($country_result['result'] as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($cell_column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                        $cell->setCellValue($char.$i, $row[trim($column)]);
-                        
-                        $char++;
-                    }
 
-                    $i++;
+            if (isset($country_result['db_error'])) {
+                redirectWithMessage('Error: '.$country_result['msg'], 'countryExcel');
+                return;
+            } elseif ($country_result) {
+                $rowIndex = 2;
+                foreach ($country_result['result'] as $row) {
+                    $col = 'A';
+                    foreach ($cell_column_name as $column) {
+                        $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
+                    }
+                    $rowIndex++;
                 }
-            }
-            else
+            } else {
                 redirectWithMessage('Error: no record found', 'countryExcel');
+                return;
+            }
         }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Country');
-        $this->objPHPExcel->setActiveSheetIndex(0);
+        // Set sheet title
+        $sheet->setTitle('Country');
 
-        //create and download excel sheet
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="country.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
-    //export country xls sheet
     public function exportTemplateForState($withData)
     {
-        $controller = (isset($withData)) ? 'stateExcel?getStateList='.$withData: "stateExcel";
+        $controller = ($withData) ? 'stateExcel?getStateList='.$withData : 'stateExcel';
 
-        //create template for address
-        $fields = 'State Name, State ID, Status, Country ID';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = ['State Name','State ID','Status','Country ID'];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        if ($withData) 
-        {
-            // get data from databse
-            $cell_column_name = array('name', 'state_id', 'status', 'country_id');
+        if ($withData) {
+            // Column mapping
+            $cell_column_name = ['name','state_id','status','country_id'];
 
-            $where = ($withData != "ALL") ? array('country_id' => $withData) : "";
+            // Build filter
+            $where = ($withData != "ALL") ? ['country_id' => $withData] : [];
+
+            // Fetch data
             $state_result = $this->Admin_model->selectRecords($where, 'state', 'name,state_id,status,country_id');
-            if (isset($state_result['db_error'])) 
-                redirectWithMessage('Error: '.$state_result['msg'], $controller);
-            else if ($state_result) 
-            {
-                //insert data in excel sheet from database
-                $i = 2;
-                foreach($state_result['result'] as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($cell_column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                        $cell->setCellValue($char.$i, $row[trim($column)]);
-                        
-                        $char++;
-                    }
 
-                    $i++;
+            if (isset($state_result['db_error'])) {
+                redirectWithMessage('Error: '.$state_result['msg'], $controller);
+                return;
+            } elseif ($state_result) {
+                $rowIndex = 2;
+                foreach ($state_result['result'] as $row) {
+                    $col = 'A';
+                    foreach ($cell_column_name as $column) {
+                        $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
+                    }
+                    $rowIndex++;
                 }
-            }
-            else
+            } else {
                 redirectWithMessage('Error: no record found', $controller);
+                return;
+            }
         }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Country');
-        $this->objPHPExcel->setActiveSheetIndex(0);
+        // Set sheet title
+        $sheet->setTitle('State');
 
-        //create and download excel sheet
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="state.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
-    //export address xls sheet
     public function exportTemplateForProduct()
     {
-        //create template for address
-        $fields = 'Product Name, Product ID, Category Name, Category ID, Brand Name, Brand ID, Price';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = ['Product Name', 'Product ID', 'Category Name', 'Category ID', 'Brand Name', 'Brand ID', 'Price'];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        // get data from databse
-        $cell_column_name = array('product_name', 'product_id', 'category_name', 'category_id', 'brand_name', 'brand_id', 'mrp_price');
-
-        $category_id = (isset($_GET['category_id']) && $_GET['category_id']) ? $_GET['category_id'] : '';
-        $brand_id = (isset($_GET['brand_id']) && $_GET['brand_id']) ? $_GET['brand_id'] : '';
+        // Get data from database
+        $category_id = $this->input->get('category_id') ?: '';
+        $brand_id    = $this->input->get('brand_id') ?: '';
 
         $product_result = $this->Excel_model->product($category_id, $brand_id);
-        if (isset($product_result['db_error'])) 
+
+        if (isset($product_result['db_error'])) {
             redirectWithMessage('Error: '.$product_result['msg'], 'productExcel');
-        else if ($product_result) 
-        {
-            //insert data in excel sheet from database
-            $i = 2;
-            foreach($product_result as $row)
-            {
-                $char = 'A';
-                
-                //insert data in cell for perticular column
-                foreach ($cell_column_name as $column) 
-                {
-                    $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                    $cell->setCellValue($char.$i, $row[trim($column)]);
-                    
-                    $char++;
-                }
-
-                $i++;
+            return;
+        } elseif ($product_result) {
+            // Insert data rows
+            $rowIndex = 2;
+            foreach ($product_result as $row) {
+                $col = 'A';
+                $sheet->setCellValue($col++.$rowIndex, $row['product_name']);
+                $sheet->setCellValue($col++.$rowIndex, $row['product_id']);
+                $sheet->setCellValue($col++.$rowIndex, $row['category_name']);
+                $sheet->setCellValue($col++.$rowIndex, $row['category_id']);
+                $sheet->setCellValue($col++.$rowIndex, $row['brand_name']);
+                $sheet->setCellValue($col++.$rowIndex, $row['brand_id']);
+                $sheet->setCellValue($col++.$rowIndex, $row['mrp_price']);
+                $rowIndex++;
             }
-        }
-        else
+        } else {
             redirectWithMessage('Error: no record found', 'productExcel');
+            return;
+        }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('Product');
-        $this->objPHPExcel->setActiveSheetIndex(0);
+        // Set sheet title
+        $sheet->setTitle('Product');
 
-        //create and download excel sheet
+        // Clean output buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="product.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
     //import and insert excel sheet data in db(Address table)
@@ -1747,7 +1649,7 @@ class Excel_controller extends CI_Controller
         $cities = $this->getcity('', $state_id, '');
         if (isset($cities['db_error'])) 
             redirectWithMessage('Error: '.$cities['msg'], $controller);
-        else if ($cities['result']) 
+        else if ($cities && $cities['result']) 
             $data['cities'] = $cities['result'];
 
         if (isset($_GET['city_id'])) 
@@ -1758,7 +1660,7 @@ class Excel_controller extends CI_Controller
         }
 
         $country = $this->getCountry();
-        $data['countries'] = $country['result'];
+        $data['countries'] = $country ? $country['result'] : [];
 
         $this->load->view('admin/include/header');
         $this->load->view('admin/include/leftbar');
@@ -1782,78 +1684,76 @@ class Excel_controller extends CI_Controller
         return $this->Admin_model->selectRecords($where, 'city', '*', array('name' => 'ASC'));
     }
 
-    //export city xls sheet
     public function exportTemplateForCity($withData)
     {
-        $controller = (isset($_GET['getCityList'])) ? 'cityExcel?getCityList='.$_GET['getCityList']: "cityExcel";
+        $controller = ($this->input->get('getCityList'))
+            ? 'cityExcel?getCityList='.$this->input->get('getCityList')
+            : 'cityExcel';
 
-        //create template for address
-        $fields = 'City Name, City ID, Latitude, Longitude, Status, State ID';
-        $column_name = explode(',', $fields);
+        // Create new Spreadsheet
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        // create cell columns same as defined in input file
-        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-        $char = 'A';
-        foreach ($column_name as $column) 
-        {
-            if ($char == 'Z') 
-                break;
+        // Define header fields
+        $fields = ['City Name','City ID','Latitude','Longitude','Status','State ID'];
 
-            $cell->setCellValue($char.'1', $column);
-            $char++;
+        // Set header row
+        $col = 'A';
+        foreach ($fields as $field) {
+            $sheet->setCellValue($col.'1', $field);
+            $col++;
         }
 
-        if ($withData) 
-        {
-            // get data from databse
-            $cell_column_name = array('name', 'city_id', 'latitude', 'longitude', 'status', 'state_id');
+        if ($withData) {
+            // Column mapping
+            $cell_column_name = ['name','city_id','latitude','longitude','status','state_id'];
 
-            if (isset($_GET['getCityList']))
-            {
-                $ids = explode("-", $_GET['getCityList']);
+            // Build filter
+            if ($this->input->get('getCityList')) {
+                $ids = explode("-", $this->input->get('getCityList'));
                 $stateId = $ids[1];
-
-                $where = array('state_id' => $stateId);
+                $where = ['state_id' => $stateId];
+            } else {
+                $where = [];
             }
-            else
-                $where = "";
 
-            $state_result = $this->Admin_model->selectRecords($where, 'city', 'name, city_id, latitude, longitude, status, state_id');
-            if (isset($state_result['db_error'])) 
-                redirectWithMessage('Error: '.$state_result['msg'], $controller);
-            else if ($state_result) 
-            {
-                //insert data in excel sheet from database
-                $i = 2;
-                foreach($state_result['result'] as $row)
-                {
-                    $char = 'A';
-                    
-                    //insert data in cell for perticular column
-                    foreach ($cell_column_name as $column) 
-                    {
-                        $cell = $this->objPHPExcel->setActiveSheetIndex(0);
-                        $cell->setCellValue($char.$i, $row[trim($column)]);
-                        
-                        $char++;
+            // Fetch data
+            $city_result = $this->Admin_model->selectRecords($where, 'city', 'name, city_id, latitude, longitude, status, state_id');
+
+            if (isset($city_result['db_error'])) {
+                redirectWithMessage('Error: '.$city_result['msg'], $controller);
+                return;
+            } elseif ($city_result) {
+                $rowIndex = 2;
+                foreach ($city_result['result'] as $row) {
+                    $col = 'A';
+                    foreach ($cell_column_name as $column) {
+                        $sheet->setCellValue($col.$rowIndex, $row[trim($column)]);
+                        $col++;
                     }
-
-                    $i++;
+                    $rowIndex++;
                 }
-            }
-            else
+            } else {
                 redirectWithMessage('Error: no record found', $controller);
+                return;
+            }
         }
 
-        $this->objPHPExcel->getActiveSheet()->setTitle('City');
-        $this->objPHPExcel->setActiveSheetIndex(0);
+        // Set sheet title
+        $sheet->setTitle('City');
 
-        //create and download excel sheet
+        // Clean buffer
+        if (ob_get_length()) ob_end_clean();
+
+        // Send headers
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="city.xls"');
         header('Cache-Control: max-age=0');
-        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, 'Excel5');
-        $objWriter->save('php://output');
+
+        // Write file
+        $writer = new Xls($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 
     public function loadAreaExcelPage($message="", $error=array())
@@ -1912,7 +1812,7 @@ class Excel_controller extends CI_Controller
         }
 
         $country = $this->getCountry();
-        $data['countries'] = $country['result'];
+        $data['countries'] = $country ? $country['result'] : [];
 
         //load address view
         $data['message'] = $message;

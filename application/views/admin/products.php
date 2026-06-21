@@ -125,10 +125,7 @@ else
                                                 </td>
                             				</tr>";
                             		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                         <?= form_close(); ?>

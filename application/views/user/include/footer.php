@@ -29,7 +29,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 				<textarea name="message" placeholder="Message" name="message"></textarea>
 			</div>
 
-			<button type="submit" class="btn btn-success">Send</button>
+			<button type="submit" class="btn-custom btn-primary">Send</button>
 			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		</form>		
 	</div>
@@ -47,7 +47,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 			<input type="text" placeholder="email" id="email" />
 		</div>
 		<input type="hidden" id="site_code" value="<?= $site_code ?>" />
-		<button type="button" class="btn btn-success" onclick="resetPasswordMail()">Submit</button>
+		<button type="button" class="btn-custom btn-primary" onclick="resetPasswordMail()">Submit</button>
 		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 	</div>
 </div>

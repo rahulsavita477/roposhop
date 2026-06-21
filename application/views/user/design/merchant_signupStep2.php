@@ -45,7 +45,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
         </div>
         <!-- End .container -->
     </nav>
-    <div class="alert alert-warning" role="alert"><b>Warning :</b> Please complete your profile to start using your seller panel.</div>
+    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px; padding: 0px;"><b>Warning :</b> Please complete your profile to start displaying products</div>
     <form 
         method="post" 
         action="<?= base_url('updateMerchant') ?>" 
@@ -54,15 +54,12 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
     >
         <div class="row row-sm">
             <div 
-                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
-                style="padding: 5px !important;" 
+                class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto"
+                style="padding: 5px !important;"
             >
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="padding: 15px !important;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>SHOP DETAIL</h3>
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-0">
+                        <h3 style="margin-bottom: 0px;">SHOP DETAIL</h3>
                     </div>
                     
                     <input type="hidden" name="user_id" value="<?= $this->uri->segment(2) ?>" />
@@ -71,7 +68,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
 
                     <div class="form-group">
                         <label for=""><b>Establishment (Shop) Name <sup>*</sup></b></label>
-                        <input type="text" class="form-control" id="" name="comp_name" value="<?= $shop_name ?>" placeholder="Shop name *" required /> 
+                        <input type="text" class="form-control" id="" name="comp_name" value="<?= $shop_name ?>" placeholder="Shop name *" required />
                     </div>
 
                     <div class="box-body table-responsive">
@@ -79,63 +76,42 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <tbody>
                                 <tr>
                                     <td>
-                                        Business proof <sup>*</sup>
+                                        Business Proof <sup>*</sup>
                                     </td>
 
-                                    <?php
-                                    if (!empty($user['business_proof']))
-                                    {
-                                        echo 
-                                        "<td>
-                                            <a href='".$user['business_proof']."' class='btn btn-success' target='_blank'>Preview</a>
-                                        </td>";
-                                    }
-                                    else
-                                    {
-                                        echo 
-                                        '<td>
-                                            <input type="file" name="file8" id="file8" required />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile8" />
-                                        </td>';
-                                    }
-                                    ?>
+                                    <?php if (!empty($user['business_proof'])) {
+                                        echo "<td>
+                                                <a href='".$user['business_proof']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                            </td>";
+                                    } else {
+                                        echo '<td>
+                                                <input type="file" name="file8" id="file8" required />
+                                            </td>';
+                                            // '<td>
+                                            //     <img src="" id="srcfile8" />
+                                            // </td>';
+                                    } ?>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.<br />Allowed File types: PDF, JPG and PNG.</div>
+                                    <td colspan="2" style="white-space: normal;">
+                                        <span class="alert alert-warning business-proof_warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Shop Logo</td>
 
-                                    <?php
-                                    if ($user['merchant_logo']) 
-                                    {
-                                        echo 
-                                        "<td>
-                                            <a href='".$user['merchant_logo']."' class='btn btn-success' target='_blank'>Preview</a>
-                                        </td>";
-                                    }
-                                    else
-                                    {
-                                        echo 
-                                        '<td>
+                                    <?php if ($user['merchant_logo']) {
+                                        echo "<td>
+                                                <a href='".$user['merchant_logo']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                            </td>";
+                                    } else {
+                                        echo '<td>
                                             <input type="file" name="file9" id="file9" accept="image/*" />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile9" />
                                         </td>';
-                                    }
-                                    ?>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert"> Allowed file types JPG or PNG only.
-                                        </div>
-                                    </td>
+                                        // '<td>
+                                        //     <img src="" id="srcfile9" />
+                                        // </td>';
+                                    } ?>
                                 </tr>
 
                                 <?php 
@@ -155,7 +131,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                         "<tr>
                                             <td>Shop image".$i."</td>
                                             <td>
-                                                <a href='".$shop_img."' class='btn btn-success' target='_blank'>Preview</a>
+                                                <a href='".$shop_img."' class='btn-custom btn-primary' target='_blank'>Preview</a>
                                             </td>
                                         </tr>";
                                     }
@@ -167,23 +143,13 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                 {
                                     $img_cnt = $i+$avl_shop_img_cnt;
 
-                                    echo 
-                                    '<tr>
+                                    echo '<tr>
                                         <td>Shop image'.$img_cnt.'</td>
                                         <td>
                                             <input type="file" name="file'.$img_cnt.'" id="file'.$img_cnt.'" accept="image/*" />
                                         </td>
-                                        <td>
-                                            <img src="" id="srcfile'.$img_cnt.'" />
-                                        </td>
                                     </tr>';
                                 } ?>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert"> Allowed file types JPG or PNG only.
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -192,22 +158,19 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                         <label for=""><b>Shop Description</b></label>
                         <textarea 
                             class="form-control" 
+                            style="min-height: auto !important;"
                             name="description" 
                             placeholder="shop description"
+                            rows="1"
                         >
                             <?= $shop_description ?>
                         </textarea>
                     </div>
                 </div>
 
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="
-                        padding: 15px !important;
-                        margin-top: 15px;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>SHOP ADDRESS</h3>
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-1">
+                        <h3 style="margin-bottom: 0px;">SHOP ADDRESS</h3>
                     </div>
                     
                     <input type="hidden" name="address_id" value="<?= $add_id ?>" />
@@ -287,12 +250,9 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                 class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
                 style="padding: 5px !important;" 
             >
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="padding: 15px !important;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>OWNER DETAIL</h3>
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-0">
+                        <h3 style="margin-bottom: 0px;">OWNER DETAIL</h3>
                     </div>
                     <div class="form-group">
                         <label for=""><b>Owner's Full Name <sup>*</sup></b></label>
@@ -300,9 +260,13 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                     <div class="form-group">
                         <label for=""><b>Contact (Mobile) Number <sup>*</sup></b></label>
-                        +91-<input type="text" class="form-control" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text mobileCountryCode">+91-</span>
+                            </div>
+                            <input type="text" class="form-control" id="mobile" name="own_contact" maxlength="10" placeholder="Enter 10-digit number" value="<?= $own_contact ?>" required />
+                        </div>
                     </div>
-                    <div class="span5 alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
 
                     <div class="form-group">
                         <label for=""><b>Email</b></label>
@@ -317,25 +281,14 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                     <td><input type="file" name="file7" id="file7" /></td>
                                     <td><img src="" id="srcfile7" /></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert">Allowed file types JPG or PNG only.
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="
-                        padding: 15px !important;
-                        margin-top: 15px;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>SHOP MAP LOCATION</h3>
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-1">
+                        <h3>SHOP LOCATION</h3>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" name="lat" placeholder="latitude*" onkeyup="initialize();" value="<?= $add_lat ?>" id="lat" required />

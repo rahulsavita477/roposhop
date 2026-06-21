@@ -128,7 +128,7 @@ $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SER
 							<?php
 							if (!isset($_COOKIE['consumer_id'])) 
 								echo '<li>
-			 							<a href="'.$site_url.'/userLogin'.'" style="padding-right:0"><span class="btn btn-success">Login</span></a>
+			 							<a href="'.$site_url.'/userLogin'.'" style="padding-right:0"><span class="btn-custom btn-primary">Login</span></a>
 									</li>';	
 							?>
     					</ul>

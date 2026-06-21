@@ -262,7 +262,7 @@ class Admin_controller extends CI_Controller
 				$usr_roles = $this->Admin_model->selectRecords(array('usr_id' => $usr_id), 'user_type', '*');
 				if (isset($usr_roles['db_error'])) 
 					redirectWithMessage('Error: '.$usr_roles['msg'], $controller);
-				else if ($usr_details) 
+				else if ($usr_details && $usr_roles) 
 				{
 					$usr_roles = array_column($usr_roles['result'], 'type_name');
 					
@@ -414,7 +414,7 @@ class Admin_controller extends CI_Controller
 		$counts['not_varified_seller_count'] = $not_varified_seller_count['result'][0]['sel_cnt'];
 		$counts['pending_requested_product_count'] = $pending_requested_product_count['result'][0]['pen_req_prd_cnt'];
 		$counts['listed_products_count'] = $listed_products_count['result'][0]['lst_prd_cnt'];
-		$counts['last_db_backup_time'] = $last_db_backup_time['result'][0]['create_date'];
+		$counts['last_db_backup_time'] = $last_db_backup_time ? $last_db_backup_time['result'][0]['create_date'] : '';
 
 		if (($_COOKIE['site_code'] == 'seller') && isset($_COOKIE['merchant_id'])) 
 		{
@@ -450,7 +450,7 @@ class Admin_controller extends CI_Controller
 		if (isset($countries['db_error'])) 
 			redirectWithMessage('Error: '.$countries['msg'], $controller);
 
-		$data['countries'] = $countries['result'];
+		$data['countries'] = $countries ? $countries['result'] : [];
 
 		if ($pageName == "addCategory") 
 		{
@@ -501,7 +501,7 @@ class Admin_controller extends CI_Controller
 			$states = $this->getState('', '', $country_id);
 			if (isset($states['db_error'])) 
 				redirectWithMessage('Error: '.$states['msg'], $controller);
-			else if ($states['result']) 
+			else if ($states && $states['result']) 
 				$data['states'] = $states['result'];
 			else
 				$data['states'] = false;
@@ -554,7 +554,7 @@ class Admin_controller extends CI_Controller
 			$cities = $this->getcity('', $state_id, '');
 			if (isset($cities['db_error'])) 
 				redirectWithMessage('Error: '.$cities['msg'], $controller);
-			else if ($cities['result']) 
+			else if ($cities && $cities['result']) 
 				$data['cities'] = $cities['result'];
 
 			if (isset($_GET['city_id'])) 
@@ -832,6 +832,20 @@ class Admin_controller extends CI_Controller
 		$this->load->view('admin/'.$pageName, $data);
 		$this->load->view('admin/include/footer');
 		die;
+	}
+
+	public function rejectRequestedProduct($req_id) {
+		
+		$condition = array('request_id' => $req_id);
+		$data = ['status' => 'REJECTED'];
+		$isUpdated = $this->Admin_model->updateData('requested_product', $data, $condition);
+		$controller = 'page/requestedProducts';
+
+		if (isset($isUpdated['db_error'])) {
+			redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+		} else {
+			redirectWithMessage('Requested product rejected successfully!', $controller);
+		}
 	}
 
 	public function viewRequest($req_id)
@@ -2258,7 +2272,8 @@ class Admin_controller extends CI_Controller
 		for ($i = 1; $i < 7; $i++) 
 		{ 
 			$obj_name = 'file'.$i;
-			if ($_FILES[$obj_name]['name'] != '')
+			
+			if (isset($_FILES[$obj_name]) && $_FILES[$obj_name]['name'] != '')
 			{
 				$img_data['atch_url'] = $this->common_controller->single_upload($path, '', $obj_name);
 
@@ -2367,9 +2382,9 @@ class Admin_controller extends CI_Controller
 
 		$att_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 
-		if ( isset($att_res['db_error']) ) 
+		if (isset($att_res['db_error'])) 
 			return $att_res;
-		else if ($att_res['result']) 
+		else if ($att_res && $att_res['result']) 
 			return $att_res['result'];
 		else
 			return FALSE;
@@ -2622,7 +2637,7 @@ class Admin_controller extends CI_Controller
 		$brands_result = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 		if (isset($brands_result['db_error'])) 
 			return $brands_result;
-		else if ($brands_result['result']) 
+		else if ($brands_result && $brands_result['result']) 
 			return $brands_result['result'];
 		else
 			return FALSE;
@@ -2743,7 +2758,7 @@ class Admin_controller extends CI_Controller
 			if (isset($data['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);*/
 			
-			$data['products'] = json_encode($products['result']);
+			$data['products'] = $products ? json_encode($products['result']) : '';
 			$data['categories'] = $this->getAllCategories();
 
 			$data['brands'] = $this->getAllBrands();
@@ -2873,7 +2888,7 @@ class Admin_controller extends CI_Controller
 
 		if ( isset($cat_result['db_error']) ) 
 			return $cat_result;
-		if ($cat_result['result']) 
+		if ($cat_result && $cat_result['result']) 
 			return $cat_result['result'];
 		else
 			return FALSE;

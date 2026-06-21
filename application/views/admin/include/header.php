@@ -101,7 +101,7 @@ else
                                 <li class="user-header bg-light-blue">
                                     <img src="<?= $usr_profile_pic ?>" class="img-circle" alt="User Image" />
                                     <p>
-                                        <?= $_COOKIE['name'] ?>
+                                        <?= $_COOKIE['name'] ?> (<?= strtoupper($_COOKIE['site_code']) ?>)
                                         <br /><span><?= $_COOKIE['email'] ?></span>
                                     </p>
                                 </li>

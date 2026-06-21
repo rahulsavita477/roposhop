@@ -47,7 +47,7 @@
 					<textarea name="message" placeholder="Message" name="message"><?= set_value('message') ?></textarea>
 				</div>
 
-				<button type="submit" class="btn btn-success">Send</button>
+				<button type="submit" class="btn-custom btn-primary">Send</button>
 				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 			</form>		
 		</div>

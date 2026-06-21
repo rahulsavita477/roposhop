@@ -89,7 +89,7 @@ else if($pageName == "offerManagement")
             <?php if($pageName == "sellersTable"){ ?>
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="col-sm-12" style="margin: 10px 0 20px 0;">
+                        <div class="col-sm-12" style="margin-top: 10px;">
                             <a href="<?= base_url('page/addSeller') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Seller</a>
                         </div>
 
@@ -174,10 +174,7 @@ else if($pageName == "offerManagement")
                                                     </td>
                                                 </tr>";
                                         }
-                                    }
-                                    else
-                                        echo "<tr><td colspan='10' align='center'>No Record found.</td></tr>";
-                                    ?>
+                                    } ?>
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
@@ -219,12 +216,12 @@ else if($pageName == "offerManagement")
                             <div class="next-step box-footer" align="right">
                                 <?php if ($pageName == 'sellersList') 
                                 { ?>
-                                    <button class='btn btn-success' onclick="getAllProducts();">Next</button>
+                                    <button class='btn-custom btn-primary' onclick="getAllProducts();">Next</button>
                                 <?php } 
                                 else if($pageName == "offerManagement") 
                                 { ?>
                                     <a href="<?= base_url('sellers/offers') ?>" class="btn btn-default">Back</a>
-                                    <button class='btn btn-success' onclick="setMerchantSession();">Next</button>
+                                    <button class='btn-custom btn-primary' onclick="setMerchantSession();">Next</button>
                                 <?php } ?>
                             </div>
                         </div>

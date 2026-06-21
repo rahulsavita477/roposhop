@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="form-group">
-                        <textarea name="description" class="form-control" placeholder="description"></textarea>
+                        <textarea rows="1" name="description" class="form-control" placeholder="description"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -104,15 +104,15 @@
                     </div>
 
                     <div class="form-group">
-                        <textarea name="line1" class="form-control" placeholder="line1 address*" required></textarea>
+                        <textarea rows="1" name="line1" class="form-control" placeholder="line1 address*" required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <textarea name="line2" class="form-control" placeholder="line2 address"></textarea>
+                        <textarea rows="1" name="line2" class="form-control" placeholder="line2 address"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <textarea name="landmark" class="form-control" placeholder="landmark"></textarea>
+                        <textarea rows="1" name="landmark" class="form-control" placeholder="landmark"></textarea>
                     </div>
 
                     <div class="form-group">

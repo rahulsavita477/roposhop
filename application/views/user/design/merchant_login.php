@@ -4,16 +4,16 @@
         <div class="container">
             <ol class="breadcrumb mt-0">
                 <li class="breadcrumb-item"><a href="index.php"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">User SignUp</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Seller SignUp</a></li>
             </ol>
         </div>
         <!-- End .container -->
     </nav>
     <div class="row row-sm">
-        <div class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto">
+        <div class="col-md-6 pt-1 pb-5 pl-5 pr-5 mx-auto">
             <div class="bdr-d pt-2 pb-2">
                 <div class="text-center pb-2 mt-1">
-                    <h3>SELLER SIGN UP</h3>
+                    <h3 style="margin-bottom: 0px;">SELLER SIGN UP</h3>
                 </div>
                 <form method="post" class="pl-5 pt-3" action="<?= base_url('insertSeller') ?>">
                     <div class="form-group">
@@ -35,8 +35,7 @@
                         <input type="password" class="form-control" name="password" value="<?= set_value('password'); ?>" required /> 
                         <?= UC_error_label('password') ?>
                     </div>
-                    <div class="alert alert-warning" role="alert">Password should be minimum 5 characters of length.</div>
-
+                    
                     <div class="form-group">
                         <label for="">Confirm Password <sup>*</sup></label>
                         <input type="password" class="form-control" name="confirm_password" value="<?= set_value('confirm_password') ?>" required /> 
@@ -45,21 +44,26 @@
 
                     <div class="form-group">
                         <label for="">Contact (Mobile) Number <sup>*</sup></label>
-                        <input type="password" class="form-control" name="contact_number" value="<?= set_value('contact_number') ?>" required /> 
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text mobileCountryCode">+91-</span>
+                            </div>
+                            <input type="text" class="form-control" id="mobile" name="contact_number" maxlength="10" placeholder="Enter 10-digit number" value="<?= set_value('contact_number') ?>" required />
+                        </div>
                         <?= UC_error_label('contact_number') ?>
                     </div>
-                    <div class="alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
                     <center>
-                        <button class="btn btn-success">Sign Up</button>
+                        <button class="btn-custom btn-success">Create Seller Account</button>
                     </center>
                 </form>
             </div>
         </div>
 
-        <div class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto">
+        <div class="col-md-6 pt-1 pb-5 pl-5 pr-5 mx-auto">
             <div class="bdr-d pt-2 pb-2">
                 <div class="text-center pb-2 mt-1">
-                    <h3>SIGN IN</h3>
+                    <h3 style="margin-bottom: 0px;">SIGN IN</h3>
                 </div>
                 <form method="post" class="pl-5 pt-3" action="<?= base_url('merchantLogin') ?>">
                     <div class="form-group">
@@ -71,7 +75,7 @@
                         <input type="password" class="form-control" id="" name="password" required /> 
                     </div>
                     <center>
-                        <button class="btn btn-success">Login</button>
+                        <button class="btn-custom btn-primary">Login</button>
                         <a href="#resetPassword" data-toggle="modal">Forgot password?</a>
                     </center>
                 </form>

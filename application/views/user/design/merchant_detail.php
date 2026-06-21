@@ -382,7 +382,7 @@ function open_modal(merchant_id, establishment_name)
                                                     </div>
 
                                                     <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">Send</button>
+                                                        <button type="submit" class="btn-custom btn-primary">Send</button>
                                                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                                                     </div>
                                                 </form>

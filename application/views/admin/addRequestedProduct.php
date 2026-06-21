@@ -255,7 +255,7 @@ $page_title = 'Add requested product';
 	                        			<label>Product Description*:</label>	
 	                        		</div>
 	                        		<div class="col-sm-8">
-	                        			<textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -264,7 +264,7 @@ $page_title = 'Add requested product';
 	                        			<label>In The Box:</label>	
 	                        		</div>
 	                        		<div class="col-sm-8">
-	                        			<textarea class="form-control" rows="5" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
 	                        		</div>
 	                        	</div>
 								
@@ -311,7 +311,7 @@ $page_title = 'Add requested product';
 								</div>
 
 								<div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
+				                    <table class="table table-bordered table-striped">
 				                        <thead>
 				                            <tr>
 				                                <th colspan="3"><center>Product Images</center></th>
@@ -321,7 +321,7 @@ $page_title = 'Add requested product';
 					                        <?php for ($i = 1, $j = 0; $i < 7; $i++, $j++) { ?>
 					                        	<tr>
 					                        		<td>
-					                        			<div class="btn btn-success btn-file">
+					                        			<div class="btn btn-primary btn-file">
 						                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 						                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 						                                </div>
@@ -356,7 +356,7 @@ $page_title = 'Add requested product';
 
 				            	<div style="margin-bottom: 20px;">
 	                        		<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 		                                            <th colspan="3">Product varients
@@ -406,7 +406,7 @@ $page_title = 'Add requested product';
 					            </div>
 								
 								<div class="box-body table-responsive">
-	                                <table class="table table-bordered table-striped data-pagination-table">
+	                                <table class="table table-bordered table-striped">
 	                                    <thead>
 	                                        <tr>
 	                                            <th colspan="2">
@@ -440,16 +440,13 @@ $page_title = 'Add requested product';
 	                                                        </td>
 	                                                    </tr>";
 	                                            }
-	                                        }
-	                                        else
-	                                            echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-	                                        ?>
+	                                        } ?>
 	                                    </tbody>
 	                                </table>
 	                            </div><!-- /.box-body -->
 
 	                            <div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
+				                    <table class="table table-bordered table-striped">
 				                        <thead>
 				                        	<tr>
 				                        		<th colspan="4">
@@ -473,7 +470,7 @@ $page_title = 'Add requested product';
 												if ($link) 
 												{
 													$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-			                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+			                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 												}
 												else
 													$buttons = '';
@@ -577,7 +574,7 @@ $page_title = 'Add requested product';
 						    	<label>Finance Terms:</label>    
 						    </div>
 						    <div class="col-sm-8">
-						    	<textarea class="form-control" rows="5" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
+						    	<textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
 						    </div>
 						</div>
 
@@ -610,7 +607,7 @@ $page_title = 'Add requested product';
                             	<label>Home Delievery Terms:</label>
                             </div>
                           	<div class="col-sm-8">
-                                <textarea class="form-control" rows="5" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+                                <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
                           	</div>
                         </div>
 
@@ -643,7 +640,7 @@ $page_title = 'Add requested product';
                                 <label>Installation Terms:</label>  
                           	</div>
                           	<div class="col-sm-8">
-                          		<textarea class="form-control" rows="5" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
+                          		<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
                           	</div>
                         </div>
 
@@ -717,7 +714,7 @@ $page_title = 'Add requested product';
                                 <label>Replacement Terms:</label>   
                           	</div>
                           	<div class="col-sm-8">
-                          		<textarea class="form-control" rows="5" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
+                          		<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
                           	</div>
                         </div>
 
@@ -750,7 +747,7 @@ $page_title = 'Add requested product';
                                 <label>Return Terms:</label>
                           	</div>
                           	<div class="col-sm-8">
-                          		<textarea class="form-control" rows="5" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
+                          		<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
                           	</div>
                         </div>
 
@@ -759,7 +756,7 @@ $page_title = 'Add requested product';
                                 <label>Seller Offerings:</label>    
                           	</div>
                           	<div class="col-sm-8">
-                                <textarea class="form-control" rows="5" name="seller_offering" placeholder="Please enter offering..."><?= $seller_offering ?></textarea>
+                                <textarea class="form-control" rows="1" name="seller_offering" placeholder="Please enter offering..."><?= $seller_offering ?></textarea>
                           	</div>
                         </div>
 

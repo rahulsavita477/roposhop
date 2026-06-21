@@ -21,7 +21,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="row" style="margin: 20px;">
+                    <div class="row" style="margin: 10px 0px 0px 10px;">
                         <div class="col-sm-1" style="padding-left: 0px;">
                             <label>Filter user:</label>
                         </div>
@@ -129,10 +129,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                                                 </td>
                             				</tr>";
                             		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='6' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                         <?= form_close(); ?>

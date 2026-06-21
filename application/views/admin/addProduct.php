@@ -602,7 +602,7 @@ else
 		                        			<label>Product Description*:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -611,7 +611,7 @@ else
 		                        			<label>In The Box:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
 		                        		</div>
 		                        	</div>
 									
@@ -658,7 +658,7 @@ else
 									</div>
 
 									<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                            <tr>
 					                                <th colspan="3"><center>Product Images</center></th>
@@ -668,7 +668,7 @@ else
 						                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 						                        	<tr>
 						                        		<td>
-						                        			<div class="btn btn-success btn-file">
+						                        			<div class="btn btn-primary btn-file">
 							                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 							                                </div>
@@ -755,7 +755,7 @@ else
 						            </div>
 									
 									<div class="box-body table-responsive">
-		                                <table class="table table-bordered table-striped data-pagination-table">
+		                                <table class="table table-bordered table-striped">
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">
@@ -789,16 +789,13 @@ else
 		                                                        </td>
 		                                                    </tr>";
 		                                            }
-		                                        }
-		                                        else
-		                                            echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-		                                        ?>
+		                                        } ?>
 		                                    </tbody>
 		                                </table>
 		                            </div><!-- /.box-body -->
 
 		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">
@@ -822,7 +819,7 @@ else
 													if ($link) 
 													{
 														$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 													}
 													else
 														$buttons = '';
@@ -997,7 +994,7 @@ else
 		                        			<label>Product Description*:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -1006,7 +1003,7 @@ else
 		                        			<label>In The Box:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
 		                        		</div>
 		                        	</div>
 									
@@ -1076,10 +1073,10 @@ else
 									<?php if ($product_varients) { ?>
 		                        		<div style="margin-bottom: 20px;">
 			                        		<div class="box-body table-responsive">
-							                    <table class="table table-bordered table-striped data-pagination-table">
+							                    <table class="table table-bordered table-striped">
 							                        <thead>
 							                        	<tr>
-				                                            <th colspan="3"><center>Product varients</center></th>
+				                                            <th colspan="2"><center>Product varients</center></th>
 				                                        </tr>
 							                            <tr>
 							                                <th>Varient name </th>
@@ -1111,7 +1108,7 @@ else
 									<div class="form-group" id="att_fields" style="display: none;"></div>
 									
 									<div class="box-body table-responsive">
-		                                <table class="table table-bordered table-striped data-pagination-table">
+		                                <table class="table table-bordered table-striped">
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">
@@ -1128,21 +1125,16 @@ else
 							                            </div>
 		                                    		</td>
 		                                    	</tr>
-		                                        <?php
-		                                        if ($key_features) 
-		                                        {
+		                                        <?php if ($key_features) {
 		                                            foreach ($key_features['result'] as $feature_value) 
 		                                            	echo '<tr><td><input type="text" class="form-control" name="key_feature_values[]" value="'.$feature_value['feature'].'" /></td></tr>';
-		                                        }
-		                                        else
-		                                            echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-		                                        ?>
+		                                        } ?>
 		                                    </tbody>
 		                                </table>
 		                            </div><!-- /.box-body -->
 
 		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">
@@ -1166,7 +1158,7 @@ else
 													if ($link) 
 													{
 														$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 													}
 													else
 														$buttons = '';

@@ -168,10 +168,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                                                     </div>
                                                 </div>';
                             		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='22' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

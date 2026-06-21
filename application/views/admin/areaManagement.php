@@ -111,8 +111,10 @@ $status = isset($area['status']) ? $area['status'] : 1;
 
                 <?php if (!isset($_GET['addNewArea'])) { ?>
                     <div class="box">
-                        <div class="box-header">
-                            <h3>Area <small>List</small></h3>
+                        <div class="box-header" style="padding-bottom:0px">
+                            <div class="box-title">
+                                <h3 style="margin: 0px;">Area <small>List</small></h3>
+                            </div>
                         </div>
                         <div class="box-body table-responsive">
                             <table class="table table-bordered table-striped data-pagination-table">
@@ -161,10 +163,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                                     </td>
                                                 </tr>";
                                         }
-                                    }
-                                    else
-                                        echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
-                                    ?>
+                                    } ?>
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
@@ -211,7 +210,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                             <input type="text" name="long" class="form-control" placeholder="Enter Longitude" value="<?= $long ?>" required />
                                         </div>
                                         <div class="col-sm-12" align="right">
-                                            <button type="button" class="btn btn-success" onclick="getLatLongFromArea();">Get Lat-Long from area</button>
+                                            <button type="button" class="btn-custom btn-primary" onclick="getLatLongFromArea();">Get Lat-Long from area</button>
                                             <a href='<?= base_url("page/areaManagement?getAreaList=".$_GET['addNewArea']) ?>' class='btn btn-default'>Cancel</a>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>

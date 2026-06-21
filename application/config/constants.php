@@ -88,15 +88,15 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 include_once('environment.php');
 
 //FODLER PATHS
-define('PRODUCT_ATTATCHMENTS_PATH', 'assets/product/');
-define('CATEGORY_ATTACHMENT_PATH', 'assets/category/');
-define('BRAND_ATTATCHMENTS_PATH', 'assets/brand/');
-define('SELLER_ATTATCHMENTS_PATH', 'assets/seller/');
-define('PROFILE_PIC_PATH', 'assets/profile_pics/');
-define('OFFER_ATTATCHMENTS_PATH', 'assets/offer/');
-define('HTML_FILES_PATH', 'assets/html_files/');
-define('DB_BACKUP_PATH', 'assets/db_backup/');
-define('TEMP_FOLDER_PATH', 'assets/temp/');
+define('PRODUCT_ATTATCHMENTS_PATH', 'assets/product');
+define('CATEGORY_ATTACHMENT_PATH', 'assets/category');
+define('BRAND_ATTATCHMENTS_PATH', 'assets/brand');
+define('SELLER_ATTATCHMENTS_PATH', 'assets/seller');
+define('PROFILE_PIC_PATH', 'assets/profile_pics');
+define('OFFER_ATTATCHMENTS_PATH', 'assets/offer');
+define('HTML_FILES_PATH', 'assets/html_files');
+define('DB_BACKUP_PATH', 'assets/db_backup');
+define('TEMP_FOLDER_PATH', 'assets/temp');
 
 //ERROR CODES
 define('CODE_SUCCESS', 1000);

@@ -38,8 +38,27 @@
                             $count = 1;
                             foreach ($req_products as $req_product) 
                             {
-                                if ($req_product['merchant_id'] == $_COOKIE['merchant_id'] && !$req_product['isLinked']) 
+                                if ($req_product['merchant_id'] == $_COOKIE['merchant_id']) 
                                 {
+
+                                    $editRequestedProductBtn = "<a href='".base_url("editRequestedProduct").'/'.$req_product['request_id']."' class='btn btn-primary'>Edit</a>";
+                                    $deleteRequestedProductBtn = "<a href='".base_url("deleteRequestProduct").'/'.$req_product['request_id']."' class='btn btn-danger'>Delete</a>";
+
+                                    if ($req_product['isLinked'] == 1)
+                                    {
+                                        $status = "<span class='label label-success'>CREATED</span>";
+                                        $editRequestedProductBtn = '';
+                                        $deleteRequestedProductBtn = '';
+
+                                    } elseif ($req_product['requestProductStatus'] == "PENDING")
+                                    {
+                                        $status = "<span class='label label-warning'>".$req_product['requestProductStatus']."</span>";
+
+                                    } elseif ($req_product['requestProductStatus'] == "REJECTED")
+                                    {
+                                        $status = "<span class='label label-danger'>".$req_product['requestProductStatus']."</span>";
+                                    }
+
                                     $available = true;
                                     if ( $req_product['in_stock'] )
                                         $in_stock = "<span class='label label-success'>Yes</span>";
@@ -53,21 +72,17 @@
                                             <td>".$req_product['prd_price']."</td>
                                             <td>".$req_product['sell_price']."</td>
                                             <td>".$in_stock."</td>
-                                            <td><span class='label label-warning'>Pending</span></td>
+                                            <td>".$status."</td>
                                             <td>
-                                                <a href='".base_url("editRequestedProduct").'/'.$req_product['request_id']."' class='btn btn-primary'>Edit</a>
-                                                <a href='".base_url("deleteRequestProduct").'/'.$req_product['request_id']."' class='btn btn-danger'>Delete</a>
+                                                ".$editRequestedProductBtn."
+                                                ".$deleteRequestedProductBtn."
                                             </td>
                                         </tr>";
 
                                     $count++;
                                 }
                             }
-                        }
-
-                        if (!$products || !$available) 
-                            echo "<tr><td colspan='8' align='center'>No Record found.</td></tr>";
-                        ?>
+                        } ?>
                     </tbody>
                 </table>
             </div><!-- /.box-body -->

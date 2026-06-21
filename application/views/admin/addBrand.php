@@ -175,7 +175,7 @@ else
 					<div class="box-body">
 						<div class="row form-group">
 							<div class="col-sm-2">
-								<label>Brand Logo*:</label>
+								<label>Brand Logo:</label>
 							</div>
 							<div class="col-sm-9">
 								<div class="col-sm-6">
@@ -187,7 +187,7 @@ else
 								<div class="col-sm-3">
 									<?php if ($brand_logo) { ?>
 									<input type="hidden" name="brand_logo" value="<?= $brand_logo; ?>">
-									<img src="<?= $brand_images_dir." /".$brand_logo; ?>" width="100px">
+									<img alt="" src="<?= $brand_images_dir." /".$brand_logo; ?>" width="100px">
 									<?php } ?>
 								</div>
 							</div>
@@ -209,7 +209,7 @@ else
 								<label>Description:</label>
 							</div>
 							<div class="col-sm-9">
-								<textarea class="form-control" rows="5" name="brand_desc"
+								<textarea class="form-control" rows="1" name="brand_desc"
 									placeholder="Please enter brand description ..."><?= $brand_desc; ?></textarea>
 							</div>
 						</div>
@@ -227,7 +227,7 @@ else
 									<?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 									<tr>
 										<td>
-											<div class="btn btn-success btn-file">
+											<div class="btn btn-primary btn-file">
 												<i class="fa fa-paperclip"></i> Image
 												<?= $i ?>
 												<input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
@@ -264,7 +264,7 @@ else
 						</div>
 
 						<div class="box-body table-responsive">
-							<table class="table table-bordered table-striped data-pagination-table">
+							<table class="table table-bordered table-striped">
 								<thead>
 									<tr>
 										<th colspan="4">
@@ -288,7 +288,7 @@ else
 												if ( $link ) 
 												{
 													$buttons = "<a href='".base_url("deleteLink/$link_id/$brand_id/BRAND")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-															<a href='".base_url(HTML_FILES_PATH.$link)."' class='btn btn-success' target='_blank'>Preview</a>";
+															<a href='".base_url(HTML_FILES_PATH.$link)."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 												}
 												else
 													$buttons = '';
@@ -313,7 +313,7 @@ else
 								<label>Meta Keywords:</label>
 							</div>
 							<div class="col-sm-10">
-								<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+								<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
 							</div>
 						</div>
 
@@ -322,7 +322,7 @@ else
 								<label>Meta Description:</label>
 							</div>
 							<div class="col-sm-10">
-								<textarea class="form-control" placeholder="please enter meta description"
+								<textarea rows="1" class="form-control" placeholder="please enter meta description"
 									name="meta_description"><?= $meta_description ?></textarea>
 							</div>
 						</div>

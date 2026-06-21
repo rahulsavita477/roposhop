@@ -69,7 +69,7 @@ else
                                                       <label>Description:</label>	
                                                 </div>
                                                 <div class="col-sm-9">
-                                                      <textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description ..."><?= $description ?></textarea>
+                                                      <textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description ..."><?= $description ?></textarea>
                                                 </div>
                                           </div>
 

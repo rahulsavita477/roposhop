@@ -180,10 +180,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                                 <td>".$area_value['city_id']."</td>
                                             </tr>";
                                     }
-                                }
-                                else
-                                    echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
-                                ?>
+                                } ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

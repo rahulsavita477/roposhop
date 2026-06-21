@@ -34,7 +34,7 @@
                     <select class="form-control mx-auto" id="state_cities" style="display: none;"></select>
                 </div>
                 
-                <button type="button" onclick="saveLocation()" class="btn btn-success">Submit</button>
+                <button type="button" onclick="saveLocation()" class="btn-custom btn-primary">Submit</button>
             </form>
         </div>
     </div>  

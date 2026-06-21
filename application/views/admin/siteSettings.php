@@ -49,7 +49,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Title:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter home page title" name="home_page_title" required><?= $home_page_title ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter home page title" name="home_page_title" required><?= $home_page_title ?></textarea>
 									</div>
 								</div>
 
@@ -58,7 +58,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Meta Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter home page meta description" name="home_page_meta_description" required><?= $home_page_meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter home page meta description" name="home_page_meta_description" required><?= $home_page_meta_description ?></textarea>
 									</div>
 								</div>
 
@@ -67,7 +67,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Key Words:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter home page key words" name="home_page_key_words" required><?= $home_page_key_words ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter home page key words" name="home_page_key_words" required><?= $home_page_key_words ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -79,7 +79,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Product:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter product title suffix" name="product_title_suffix"><?= $product_title_suffix ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter product title suffix" name="product_title_suffix"><?= $product_title_suffix ?></textarea>
 									</div>
 								</div>
 
@@ -88,7 +88,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Merchant:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchant title suffix" name="merchant_title_suffix"><?= $merchant_title_suffix ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter merchant title suffix" name="merchant_title_suffix"><?= $merchant_title_suffix ?></textarea>
 									</div>
 								</div>
 
@@ -97,7 +97,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Category:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter category title suffix" name="category_title_suffix"><?= $category_title_suffix ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter category title suffix" name="category_title_suffix"><?= $category_title_suffix ?></textarea>
 									</div>
 								</div>
 
@@ -106,7 +106,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Brand:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brand title suffix" name="brand_title_suffix"><?= $brand_title_suffix ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter brand title suffix" name="brand_title_suffix"><?= $brand_title_suffix ?></textarea>
 									</div>
 								</div>
 
@@ -115,7 +115,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Listing:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter listing title suffix" name="listing_title_suffix"><?= $listing_title_suffix ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter listing title suffix" name="listing_title_suffix"><?= $listing_title_suffix ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -127,7 +127,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Title:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brands title" name="brands_meta_title"><?= $brands_meta_title ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter brands title" name="brands_meta_title"><?= $brands_meta_title ?></textarea>
 									</div>
 								</div>
 
@@ -136,7 +136,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brands description" name="brands_meta_description"><?= $brands_meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter brands description" name="brands_meta_description"><?= $brands_meta_description ?></textarea>
 									</div>
 								</div>
 
@@ -145,7 +145,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Key Words:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brands meta keywords" name="brands_meta_keywords"><?= $brands_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter brands meta keywords" name="brands_meta_keywords"><?= $brands_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -157,7 +157,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Title:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter products title" name="products_meta_title"><?= $products_meta_title ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter products title" name="products_meta_title"><?= $products_meta_title ?></textarea>
 									</div>
 								</div>
 
@@ -166,7 +166,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter products description" name="products_meta_description"><?= $products_meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter products description" name="products_meta_description"><?= $products_meta_description ?></textarea>
 									</div>
 								</div>
 
@@ -175,7 +175,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Key Words:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter products meta keywords" name="products_meta_keywords"><?= $products_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter products meta keywords" name="products_meta_keywords"><?= $products_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -187,7 +187,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Title:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter categories title" name="categories_meta_title"><?= $categories_meta_title ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter categories title" name="categories_meta_title"><?= $categories_meta_title ?></textarea>
 									</div>
 								</div>
 
@@ -196,7 +196,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter categories description" name="categories_meta_description"><?= $categories_meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter categories description" name="categories_meta_description"><?= $categories_meta_description ?></textarea>
 									</div>
 								</div>
 
@@ -205,7 +205,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Key Words:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter categories meta keywords" name="categories_meta_keywords"><?= $categories_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter categories meta keywords" name="categories_meta_keywords"><?= $categories_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -217,7 +217,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Title:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchants title" name="merchants_meta_title"><?= $merchants_meta_title ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter merchants title" name="merchants_meta_title"><?= $merchants_meta_title ?></textarea>
 									</div>
 								</div>
 
@@ -226,7 +226,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchants description" name="merchants_meta_description"><?= $merchants_meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter merchants description" name="merchants_meta_description"><?= $merchants_meta_description ?></textarea>
 									</div>
 								</div>
 
@@ -235,7 +235,7 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 										<label>Key Words:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchants meta keywords" name="merchants_meta_keywords"><?= $merchants_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter merchants meta keywords" name="merchants_meta_keywords"><?= $merchants_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>

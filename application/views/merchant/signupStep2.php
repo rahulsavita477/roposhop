@@ -72,7 +72,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                     {
                                         echo 
                                         "<td>
-                                            <a href='".$user['business_proof']."' class='btn btn-success' target='_blank'>Preview</a>
+                                            <a href='".$user['business_proof']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
                                         </td>";
                                     }
                                     else
@@ -95,25 +95,18 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                 <tr>
                                     <td>Shop Logo</td>
 
-                                    <?php
-                                    if ($user['merchant_logo']) 
-                                    {
-                                        echo 
-                                        "<td>
-                                            <a href='".$user['merchant_logo']."' class='btn btn-success' target='_blank'>Preview</a>
-                                        </td>";
-                                    }
-                                    else
-                                    {
-                                        echo 
-                                        '<td>
-                                            <input type="file" name="file9" id="file9" accept="image/*" />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile9" />
-                                        </td>';
-                                    }
-                                    ?>
+                                    <?php if ($user['merchant_logo']) {
+                                        echo "<td>
+                                                <a href='".$user['merchant_logo']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                            </td>";
+                                    } else {
+                                        echo '<td>
+                                                <input type="file" name="file9" id="file9" accept="image/*" />
+                                            </td>';
+                                            // '<td>
+                                            //     <img src="" id="srcfile9" />
+                                            // </td>';
+                                    } ?>
                                 </tr>
 
                                 <tr>
@@ -140,7 +133,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                         "<tr>
                                             <td>Shop image".$i."</td>
                                             <td>
-                                                <a href='".$shop_img."' class='btn btn-success' target='_blank'>Preview</a>
+                                                <a href='".$shop_img."' class='btn-custom btn-primary' target='_blank'>Preview</a>
                                             </td>
                                         </tr>";
                                     }
@@ -178,7 +171,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <label class="control-label"><b>Shop Description</b></label>
                         </div>
                         <div class="span6">
-                            <textarea name="description" placeholder="shop description" cols="75"><?= $shop_description ?></textarea>
+                            <textarea rows="1" name="description" placeholder="shop description" cols="75"><?= $shop_description ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -315,7 +308,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <label class="control-label"><b>Contact (Mobile) Number <sup>*</sup></b></label>
                         </div>
                         <div class="span6">
-                            91<input type="text" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
+                            +91-<input type="text" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
                         </div>
                         <div class="span5 alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
                     </div>

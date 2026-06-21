@@ -150,10 +150,7 @@ $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : "";
                                                 </div>
                                             </div>';
                             		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='22' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

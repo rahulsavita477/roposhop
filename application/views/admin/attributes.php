@@ -17,12 +17,12 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="col-sm-12" style="margin-top: 10px;">
+                    <div class="col-sm-12" style="margin: 10px 0px;">
                         <a href="<?= base_url('page/addAttribute') ?>" class="btn btn-primary pull-right">
                             <i class="fa fa-plus"></i> Add New Attribute</a> 
                     </div>
 
-                    <div class="box-body table-responsive">
+                    <div class="box-body">
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
@@ -51,10 +51,7 @@
                                                 </td>
                                             </tr>";
                                     }
-                            	}
-                            	else
-                            		echo "<tr><td colspan='3' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

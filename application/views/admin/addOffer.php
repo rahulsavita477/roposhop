@@ -323,7 +323,7 @@ else
 					            		<label>Offer Description*:</label>	
 					            	</div>
 					                <div class="col-sm-8">
-					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="10" required /><?= $offer_desc; ?></textarea>
+					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="1" required /><?= $offer_desc; ?></textarea>
 					                </div>
 					            </div>
 
@@ -339,7 +339,7 @@ else
 						                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 						                        	<tr>
 						                        		<td>
-						                        			<div class="btn btn-success btn-file">
+						                        			<div class="btn btn-primary btn-file">
 							                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 							                                </div>
@@ -376,7 +376,7 @@ else
 
 					            <?php if ($_COOKIE['site_code'] == 'admin') { ?>
 									<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">
@@ -400,7 +400,7 @@ else
 													if ( $link ) 
 													{
 														$buttons = "<a href='".base_url("deleteLink/$link_id/$offer_id/OFFER")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 													}
 													else
 														$buttons = '';

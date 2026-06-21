@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web&display=swap');
 
+/* body,
+h1, h2, h3, h4, h5, h6,
+p, a, span, li, td, th,
+input, button, select, textarea,
+.h3, .h4, .h5,
+.btn, .nav, .menu,
+.product-title, .product-details,
+.info-box-content,
+.home-slide-content {
+    font-family: 'Open Sans', sans-serif !important;
+} */
+
 .home-btn-custom {
     border: 1px solid #08c;
     padding: 2px 8px;
@@ -36,7 +48,7 @@ a.btn-custom{
 
 .owl-stage-outer .owl-item {
     
-    min-height: 150px;
+    /* min-height: 150px; */
     text-align: center;
     margin: 0 auto;
 }
@@ -123,15 +135,6 @@ a.btn-custom{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffbb450',endColorstr='#fff89406',GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);  
 }
-
-.btn-warning:hover, .btn-primary:hover, .btn-danger:hover, .btn-success:hover  {
-    color: #000 !important;
-    background-color: #e0a800;
-    border-color: #d39e00;
-    box-shadow: 1px 2px 3px #000;
-    cursor: pointer;
-}
-
 
 .btn-primary{
     color: #fff;
@@ -269,55 +272,19 @@ a.btn-custom{
     position: relative;
 }
 .h3{
-    font-family: 'Titillium Web', sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
     position: relative;
-   /* border-bottom:2px solid #08c; 
-    padding-bottom: 2px;*/
-
 }
-
-/*.line {
-    height: 3px;
-    width: 200px;
-    background: #08c;
-    position: absolute;
-    top: 50px;
-}*/
 
 a.partner:hover{
     text-decoration: none;
 }
 
-
 #page-home .product-default img{
-            height:150px;
-            width:auto;
-            margin: 0 auto;
-
-          } 
-
-/*#page-home .partners-carousel{
-              height:80px;
-              width: auto !important;
-              min-height: 80px;
-              max-height: 80px;
-          }
-
-#page-home .min-123 a{
-            height:100px;
-              width: auto !important;
-              min-height: 80px;
-              max-height: 80px;
-          }
-
-#page-home .partners-carousel img{
-              height:70px;
-              width: auto !important;
-               padding-top:2px;
-
-          }
-*/
-
+    height:150px;
+    width:auto;
+    margin: 0 auto;
+} 
 
 #page-home .product-default:hover {
     box-shadow: 0 25px 27px -24px rgba(0, 0, 0, 0.1);
@@ -332,7 +299,7 @@ a.partner:hover{
 }
 
 #page-home .sethr{
-    margin:0px 0px 20px 0px !important;
+    margin:0px 0px 5px 0px !important;
     position: relative; 
 }
 #page-home .sethr:before {
@@ -374,7 +341,6 @@ a.partner:hover{
 .rounded-btn {
     border: 2px solid #08c;
     padding: 5px 18px;
-    margin-right: 15px;
     font-size: 12px;
     border-radius: 19px;
     color: #08c;
@@ -416,7 +382,6 @@ a.partner:hover{
     border: 1px solid #25aae1;
     background: #ffffff;
     border-radius: 5px;
-    box-shadow: 0px 1px 8px 0px #000000;
 }
 .col-md-2.text-center a{
     text-decoration: none;
@@ -642,6 +607,30 @@ form.form-inline input.w-50 {
     border: 1px solid #dae2e6;
     border-radius: 4px 0px 0px 4px;
     padding-left: 5px !important;
+}
+
+.modal-header, .modal-footer {
+    padding: 0px 1rem !important;
+    height: 50px;
+}
+
+.business-proof_warning {
+    padding: 0px; 
+    font-size: 10px; 
+    margin: 0px;
+}
+
+.form-control {
+    max-width: 100%;
+    height: 4rem;
+}
+
+.mobileCountryCode {
+    font-size: 1.3rem;
+}
+
+.table td {
+    white-space: nowrap;
 }
 
 /*==============

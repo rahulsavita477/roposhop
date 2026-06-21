@@ -61,10 +61,7 @@
                                                 </td>
                                             </tr>";
                                     }
-                            	}
-                            	else
-                            		echo "<tr><td colspan='9' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

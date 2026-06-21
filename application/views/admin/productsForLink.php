@@ -62,7 +62,7 @@
                         
                         <?php endif; ?>
 
-                        <div class="row" style="margin: 10px 0 10px -5px;">
+                        <div class="row" style="margin: 0px 0 10px -5px;">
                             <!-- select requested product for linking -->
                             <?php if ($req_products && isset($_GET['list_new_product']) && $_COOKIE['site_code'] == "seller") { ?>
                                 <div class="col-sm-12 form-group">
@@ -176,21 +176,18 @@
                                                     if ($sel_id) 
                                                     {
                                                         echo "<td>
-                                                                <a href='".base_url("getProductDetail/$prd_id/$sel_id/0/false")."' class='btn btn-success'>Link</a>
+                                                                <a href='".base_url("getProductDetail/$prd_id/$sel_id/0/false")."' class='btn-custom btn-primary'>Link</a>
                                                             </td>";
                                                     }
                                                     else
                                                         echo "<td>
-                                                                <button type='button' class='btn btn-success'>Select seller to link</button>
+                                                                <button type='button' class='btn-custom btn-primary'>Select seller to link</button>
                                                             </td>";
 
                                                     echo "</tr>";
                                                 }
                                             }
-                                        }
-                                        else
-                                            echo "<tr><td colspan='10' align='center'>No Record found.</td></tr>";
-                                        ?>
+                                        } ?>
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
@@ -209,12 +206,12 @@
 
                     <?php if (!isset($_GET['list_new_product'])) { ?>
                     
-                    <div class="box-header" style="position:unset;">
+                    <div class="box-header" style="position:unset; padding-bottom:0px">
                         <h3 class="box-title">Listed Products</h3>
                     </div><!-- /.box-header -->
 
                     <?php if ($_COOKIE['site_code'] == 'admin'): ?>
-                    <div class="row" style="margin: 10px 0 10px -5px;">
+                    <div class="row" style="margin: 0px 0 10px -5px;">
                         <div class="col-sm-3">
                             <select class="form-control" name="merchant_id">
                                 <?php
@@ -319,11 +316,7 @@
                                                 $count++;
                                             }
                                         }
-                                    }
-
-                                    elseif (!$products || !$available) 
-                                        echo "<tr><td colspan='11' align='center'>No Record found.</td></tr>";
-                                    ?>
+                                    } ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

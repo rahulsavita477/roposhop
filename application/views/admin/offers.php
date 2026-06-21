@@ -87,7 +87,7 @@ else
                             </thead>
                             <tbody>
                                 <?php
-                                if ($merchant_offers) 
+                                if (isset($merchant_offers) && $merchant_offers) 
                                 {
                                     $count = 1;
 
@@ -116,10 +116,7 @@ else
 
                                         $count++;
                                     }
-                                }
-                                else
-                                    echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
-                                ?>
+                                } ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

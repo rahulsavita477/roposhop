@@ -63,15 +63,15 @@ else
                             <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
 
                             <div class="form-group">
-                                <textarea name="line1" class="form-control" placeholder="line1 address*" required><?= $line1 ?></textarea>
+                                <textarea rows="1" name="line1" class="form-control" placeholder="line1 address*" required><?= $line1 ?></textarea>
                             </div>
 
 					    	<div class="form-group">
-		                        <textarea name="line2" class="form-control" placeholder="line2 address"><?= $line2 ?></textarea>
+		                        <textarea rows="1" name="line2" class="form-control" placeholder="line2 address"><?= $line2 ?></textarea>
 		                    </div>
 
 		                    <div class="form-group">
-		                        <textarea name="landmark" class="form-control" placeholder="landmark"><?= $landmark ?></textarea>
+		                        <textarea rows="1" name="landmark" class="form-control" placeholder="landmark"><?= $landmark ?></textarea>
 		                    </div>
 
 		                    <div class="form-group">

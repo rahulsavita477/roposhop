@@ -152,8 +152,8 @@ else
                     } 
                     ?>  
 
-                    <li><a href="<?= base_url('brands') ?>">Brands</a></li>
-                    <li><a href="<?= base_url('merchants') ?>">Sellers</a></li>
+                    <li><a href="<?= $site_url ?>/brands">Brands</a></li>
+                    <li><a href="<?= $site_url ?>/merchants">Sellers</a></li>
                 </ul>
             </nav>
         </div><!-- End .header-bottom -->

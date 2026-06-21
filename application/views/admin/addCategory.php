@@ -267,7 +267,7 @@ $cat_name_data = array(
 				                        	<?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
 				                        	<tr>
 				                        		<td>
-				                        			<div class="btn btn-success btn-file">
+				                        			<div class="btn btn-primary btn-file">
 					                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
 					                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
 					                                </div>
@@ -327,7 +327,7 @@ $cat_name_data = array(
 												if ($link) 
 												{
 													$buttons = "<a href='".base_url("deleteLink/$link_id/$cat_id/CATEGORY")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-			                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
+			                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 												}
 												else
 													$buttons = '';
@@ -379,7 +379,7 @@ $cat_name_data = array(
 										<label>Meta Keywords:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
 									</div>
 								</div>
 
@@ -388,7 +388,7 @@ $cat_name_data = array(
 										<label>Meta Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
 									</div>
 								</div>
 
