@@ -178,7 +178,7 @@
             <a href="<?= base_url('brands') ?>" class="rounded-btn float-right">View All</a>
             <div class="clearfix"></div><br>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
-            <div class="partners-container pt-1 pb-1 ">
+            <div class="partners-container" style="padding-top:0;padding-bottom:0;">
                 <div class="container">
                     <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
                         'margin': 20,
@@ -221,7 +221,7 @@
             <a href="<?= base_url('merchants') ?>" class="rounded-btn float-right">View All</a>
             <div class="clearfix"></div><br>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
-            <div class="partners-container pt-1 pb-1 ">
+            <div class="partners-container" style="padding-top:0;padding-bottom:0;">
                 <div class="container">
                     <div id="brands" class="partners-carousel owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
                         'margin': 20,
