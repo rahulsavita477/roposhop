@@ -639,6 +639,11 @@ form.form-inline input.w-50 {
     height: 50px;
 }
 
+.business-proof_warning {
+    padding: 0px; 
+    font-size: 10px; 
+    margin: 0px;
+}
 /*==============
 
 ===============*/

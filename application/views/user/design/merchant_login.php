@@ -44,7 +44,13 @@
 
                     <div class="form-group">
                         <label for="">Contact (Mobile) Number <sup>*</sup></label>
-                        <input type="password" class="form-control" name="contact_number" value="<?= set_value('contact_number') ?>" required /> 
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">+91-</span>
+                            </div>
+                            <input type="text" class="form-control" id="mobile" name="contact_number" maxlength="10" placeholder="Enter 10-digit number" value="<?= set_value('contact_number') ?>" required />
+                        </div>
                         <?= UC_error_label('contact_number') ?>
                     </div>
                     <center>

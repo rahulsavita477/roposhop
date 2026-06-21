@@ -315,7 +315,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <label class="control-label"><b>Contact (Mobile) Number <sup>*</sup></b></label>
                         </div>
                         <div class="span6">
-                            91<input type="text" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
+                            +91-<input type="text" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
                         </div>
                         <div class="span5 alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
                     </div>

@@ -41,7 +41,7 @@
 					<div class="control-group">
 						<label class="control-label">Contact (Mobile) Number <sup>*</sup></label>
 						<div class="controls">
-							91<input class="span3" type="text" name="contact_number" value="<?= set_value('contact_number') ?>" required />
+							+91-<input class="span3" type="text" name="contact_number" value="<?= set_value('contact_number') ?>" required />
 						</div>
 						<?= UC_error_label('contact_number') ?>
 					</div>
