@@ -202,7 +202,7 @@
                                     <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width:auto;">
                                 </a>
                             <?php } else { ?>
-                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:80px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
                                     <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($brand['name']) ?></span>
                                 </a>
                             <?php }
@@ -248,7 +248,7 @@
                             }
                             else
                             {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="display:flex;align-items:center;justify-content:center;height:80px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;"><span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'.htmlspecialchars($merchant['establishment_name']).'</span></a>';
+                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;"><span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'.htmlspecialchars($merchant['establishment_name']).'</span></a>';
                             }
                             ?>
                         <?php } ?>
