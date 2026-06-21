@@ -195,9 +195,18 @@
                             }
                         }
                     }">
-                        <?php foreach ($brands['result'] as $brand) { ?>
-                            <a href="<?= base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']) ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width: auto;"></a>
-                        <?php } ?>
+                        <?php foreach ($brands['result'] as $brand) {
+                            $brand_url = base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']);
+                            if (!empty($brand['brand_logo'])) { ?>
+                                <a href="<?= $brand_url ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
+                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width:auto;">
+                                </a>
+                            <?php } else { ?>
+                                <a href="<?= $brand_url ?>" class="partner" style="display:inline-flex;align-items:center;justify-content:center;width:auto;height:90px;max-height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:10px 20px;">
+                                    <h3 style="color:#fff;margin:0;font-size:16px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($brand['name']) ?></h3>
+                                </a>
+                            <?php }
+                        } ?>
                     </div><!-- End .partners-carousel -->
                 </div><!-- End .container -->
             </div><!-- End .partners-container -->
@@ -239,7 +248,7 @@
                             }
                             else
                             {
-                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;background:red"><h3 style="color:#fff">'.$merchant['establishment_name'].'</h3></a>';
+                                echo '<a href="'.base_url('merchants/'. url_title($merchant['establishment_name'], '-', true).'?merchant_id='.$merchant['merchant_id']).'" class="partner" style="display:inline-flex;align-items:center;justify-content:center;width:auto;height:90px;max-height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:10px 20px;"><h3 style="color:#fff;margin:0;font-size:16px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'.htmlspecialchars($merchant['establishment_name']).'</h3></a>';
                             }
                             ?>
                         <?php } ?>
