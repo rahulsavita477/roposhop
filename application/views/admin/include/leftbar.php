@@ -113,28 +113,28 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- category -->
                     <li class="<?= $category_page ?>">
                         <a href="<?= base_url('category') ?>">
-                            <i class="fa fa-list-alt"></i> <span>Category</span>
+                            <i class="fa fa-list"></i> <span>Category</span>
                         </a>
                     </li>
 
                     <!-- attributes -->
                     <li class="<?= $attributes_page ?>">
                         <a href="<?= base_url('page/attributes') ?>">
-                            <i class="fa fa-list-alt"></i> <span>Attributes</span>
+                            <i class="fa fa-tags"></i> <span>Attributes</span>
                         </a>
                     </li>
 
                     <!-- brand -->
                     <li class="<?= $brand_page ?>">
                         <a href="<?= base_url('brand') ?>">
-                            <i class="fa fa-xing-square"></i> <span>Brand</span>
+                            <i class="fa fa-briefcase"></i> <span>Brand</span>
                         </a>
                     </li>
 
                     <!-- products -->
                     <li class="<?= $products_page ?>">
                         <a href="<?= base_url('products') ?>">
-                            <i class="fa fa-weibo"></i> <span>Product</span>
+                            <i class="fa fa-archive"></i> <span>Product</span>
                         </a>
                     </li>
 
@@ -147,20 +147,20 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- seller -->
                     <li class="treeview <?= $seller_page ?>" id="treeview1" onclick="openTreeView('#treeview1');">
                         <a href="#">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-user"></i>
                             <span>Seller</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?= $seller_management ?>">
                                 <a href="<?= base_url('sellers/sellersTable') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-users"></i>
                                     Seller Management
                                 </a>
                             </li>
                             <li class="<?= $product_seller_linking ?>">
                                 <a href="<?= base_url('getAllProducts/0') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-th-list"></i> 
                                     Product Listing
                                 </a>
                             </li>
@@ -170,35 +170,35 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- place -->
                     <li class="treeview <?= $place_management ?>" id="treeview2" onclick="openTreeView('#treeview2');">
                         <a href="#">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-map-marker"></i>
                             <span>Place Management</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?= $countryManagement ?>">
                                 <a href="<?= base_url('page/countryManagement') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-flag"></i> 
                                     Country Management
                                 </a>
                             </li>
 
                             <li class="<?= $stateManagement ?>">
                                 <a href="<?= base_url('page/stateManagement') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-globe"></i> 
                                     State Management
                                 </a>
                             </li>
 
                             <li class="<?= $cityManagement ?>">
                                 <a href="<?= base_url('page/cityManagement') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-home"></i>
                                     City Management
                                 </a>
                             </li>
 
                             <li class="<?= $areaManagement ?>">
                                 <a href="<?= base_url('page/areaManagement') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-location-arrow"></i>
                                     Area Management
                                 </a>
                             </li>
@@ -208,14 +208,14 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- user management -->
                     <li class="<?= $userManagement ?>">
                         <a href="<?= base_url('page/userManagement') ?>">
-                            <i class="fa fa-weibo"></i> <span>User Management</span>
+                            <i class="fa fa-user-md"></i> <span>User Management</span>
                         </a>
                     </li>
 
                     <!-- claimed request management -->
                     <li class="<?= $claimed_request ?>">
                         <a href="<?= base_url('page/claimedRequest') ?>">
-                            <i class="fa fa-angle-double-right"></i> 
+                            <i class="fa fa-check"></i>
                             Claimed Request
                         </a>
                     </li>
@@ -223,34 +223,34 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- offer management -->
                     <li class="<?= $offerManagement ?>">
                         <a href="<?= base_url('sellers/offers') ?>">
-                            <i class="fa fa-weibo"></i> <span>Offer Management</span>
+                            <i class="fa fa-gift"></i> <span>Offer Management</span>
                         </a>
                     </li>
 
                     <!-- Requested product management -->
                     <li class="<?= $requestProduct ?>">
                         <a href="<?= base_url('page/requestedProducts') ?>">
-                            <i class="fa fa-weibo"></i> <span>Requested Products</span>
+                            <i class="fa fa-shopping-cart"></i> <span>Requested Products</span>
                         </a>
                     </li>
 
                     <!-- review -->
                     <li class="treeview <?= $review ?>" id="treeview3" onclick="openTreeView('#treeview3');">
                         <a href="#">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-comments"></i>
                             <span>Review</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?= $merchantReview ?>">
                                 <a href="<?= base_url('review/merchant') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-thumbs-up"></i> 
                                     Merchant
                                 </a>
                             </li>
                             <li class="<?= $productReview ?>">
                                 <a href="<?= base_url('review/product') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-star"></i> 
                                     Product
                                 </a>
                             </li>
@@ -260,56 +260,56 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- review -->
                     <li class="treeview <?= $data_import_export ?>" id="treeview4" onclick="openTreeView('#treeview4');">
                         <a href="#">
-                            <i class="fa fa-bar-chart-o"></i>
+                            <i class="fa fa-exchange"></i>
                             <span>Import/Export</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?= $productExcel ?>">
                                 <a href="<?= base_url('productExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-archive"></i> 
                                     Product
                                 </a>
                             </li>
                             <li class="<?= $merchantExcel ?>">
                                 <a href="<?= base_url('merchantExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-user"></i> 
                                     Merchant
                                 </a>
                             </li>
                             <li class="<?= $listingExcel ?>">
                                 <a href="<?= base_url('listingExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-th-list"></i> 
                                     Listing
                                 </a>
                             </li>
                             <li class="<?= $addressExcel ?>">
                                 <a href="<?= base_url('addressExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-envelope"></i> 
                                     Address
                                 </a>
                             </li>
                             <li class="<?= $countryExcel ?>">
                                 <a href="<?= base_url('countryExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-flag"></i> 
                                     Country
                                 </a>
                             </li>
                             <li class="<?= $stateExcel ?>">
                                 <a href="<?= base_url('stateExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-globe"></i> 
                                     State
                                 </a>
                             </li>
                             <li class="<?= $cityExcel ?>">
                                 <a href="<?= base_url('cityExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-home"></i> 
                                     City
                                 </a>
                             </li>
                             <li class="<?= $areaExcel ?>">
                                 <a href="<?= base_url('areaExcel') ?>">
-                                    <i class="fa fa-angle-double-right"></i> 
+                                    <i class="fa fa-location-arrow"></i> 
                                     Area
                                 </a>
                             </li>
@@ -319,14 +319,14 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- site settings -->
                     <li class="<?= $siteSettings ?>">
                         <a href="<?= base_url('page/siteSettings') ?>">
-                            <i class="fa fa-weibo"></i> <span>Settings</span>
+                            <i class="fa fa-cogs"></i> <span>Settings</span>
                         </a>
                     </li>
 
                     <!-- site maintenance -->
                     <li class="<?= $maintenance ?>">
                         <a href="<?= base_url('page/maintenance') ?>">
-                            <i class="fa fa-weibo"></i> <span>Maintenance</span>
+                            <i class="fa fa-wrench"></i> <span>Maintenance</span>
                         </a>
                     </li>
                 </ul>
@@ -336,17 +336,6 @@ if (isset($_COOKIE['shop_logo']))
         <aside class="left-side sidebar-offcanvas">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <!-- Sidebar user panel -->
-                <div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="<?= $shop_logo ?>" class="img-circle" alt="User Image" />
-                    </div>
-                    <div class="pull-left info">
-                        <p><?php print_r(strtoupper($_COOKIE['shop_name'])); ?></p>
-                        <?= strtoupper($_COOKIE['site_code']) ?>
-                    </div>
-                </div>
-
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <!-- dashboard -->

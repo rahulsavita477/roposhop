@@ -563,7 +563,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                                    <label>Finance Terms:</label>    
 		                                </div>
 		                                <div class="col-sm-9">
-		                                    <textarea class="form-control" rows="5" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
+		                                    <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
 		                                </div>
 		                            </div>
 
@@ -596,7 +596,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                        			<label>Home Delievery Terms:</label>	
 		                        		</div>
 		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="5" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -629,7 +629,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                        			<label>Installation Terms:</label>	
 		                        		</div>
 		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="5" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -662,7 +662,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                        			<label>Replacement Terms:</label>	
 		                        		</div>
 		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="5" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -695,7 +695,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 		                        			<label>Return Terms:</label>	
 		                        		</div>
 		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="5" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
 		                        		</div>
 		                        	</div>
 

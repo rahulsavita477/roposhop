@@ -467,7 +467,7 @@ else
 					            		<label>Description:</label>	
 					            	</div>
 					                <div class="col-sm-9">
-					                	<textarea name="description" rows="5" class="form-control address" placeholder="Enter description"><?= $description ?></textarea>
+					                	<textarea name="description" rows="1" class="form-control address" placeholder="Enter description"><?= $description ?></textarea>
 					                </div>
 					            </div>
 
@@ -527,7 +527,7 @@ else
 	                                    <label>Finance Terms:</label>    
 	                                </div>
 	                                <div class="col-sm-9">
-	                                    <textarea class="form-control" rows="5" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
+	                                    <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
 	                                </div>
 	                            </div>
 
@@ -560,7 +560,7 @@ else
 	                        			<label>Home Delievery Terms:</label>	
 	                        		</div>
 	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="5" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -593,7 +593,7 @@ else
 	                        			<label>Installation Terms:</label>	
 	                        		</div>
 	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="5" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -626,7 +626,7 @@ else
 	                        			<label>Replacement Terms:</label>	
 	                        		</div>
 	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="5" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -659,7 +659,7 @@ else
 	                        			<label>Return Terms:</label>	
 	                        		</div>
 	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="5" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -752,7 +752,7 @@ else
 	                        			<label>Meta Keyword:</label>	
 	                        		</div>
 	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="5" name="meta_keyword" placeholder="Please enter meta Keyword"><?= $meta_keyword ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="meta_keyword" placeholder="Please enter meta Keyword"><?= $meta_keyword ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -761,7 +761,7 @@ else
 	                        			<label>Meta Description:</label>	
 	                        		</div>
 	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="5" name="meta_description" placeholder="Please enter meta description"><?= $meta_description ?></textarea>
+	                        			<textarea class="form-control" rows="1" name="meta_description" placeholder="Please enter meta description"><?= $meta_description ?></textarea>
 	                        		</div>
 	                        	</div>
 
@@ -771,7 +771,7 @@ else
 						            		<label>Line1 address*:</label>	
 						            	</div>
 						                <div class="col-sm-9">
-						                	<textarea name="line1" rows="5" class="form-control address" placeholder="Enter Line1 Address" required></textarea>
+						                	<textarea name="line1" rows="1" class="form-control address" placeholder="Enter Line1 Address" required></textarea>
 						                </div>
 						            </div>
 
@@ -780,7 +780,7 @@ else
 						            		<label>Line2 address:</label>	
 						            	</div>
 						                <div class="col-sm-9">
-						                	<textarea name="line2" rows="5" class="form-control address" placeholder="Enter Line2 Address"></textarea>
+						                	<textarea name="line2" rows="1" class="form-control address" placeholder="Enter Line2 Address"></textarea>
 						                </div>
 						            </div>
 
@@ -789,7 +789,7 @@ else
 						            		<label>Landmark:</label>	
 						            	</div>
 						                <div class="col-sm-9">
-						                	<textarea name="landmark" rows="5" class="form-control address" placeholder="Enter Landmark"></textarea>
+						                	<textarea name="landmark" rows="1" class="form-control address" placeholder="Enter Landmark"></textarea>
 						                </div>
 						            </div>
 

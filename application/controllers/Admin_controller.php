@@ -297,7 +297,6 @@ class Admin_controller extends CI_Controller
         setcookie('email', $usr_details[0]['email'], null, "/");
         setcookie('status', $usr_details[0]['status'], null, "/");
         setcookie('name', $usr_details[0]['first_name'], null, "/");
-        setcookie('lname', $usr_details[0]['last_name'], null, "/");
         setcookie('image', $usr_details[0]['profile_image'], null, "/");
 
         if (isset($usr_details['merchant_id'])) 
@@ -2273,7 +2272,8 @@ class Admin_controller extends CI_Controller
 		for ($i = 1; $i < 7; $i++) 
 		{ 
 			$obj_name = 'file'.$i;
-			if ($_FILES[$obj_name]['name'] != '')
+			
+			if (isset($_FILES[$obj_name]) && $_FILES[$obj_name]['name'] != '')
 			{
 				$img_data['atch_url'] = $this->common_controller->single_upload($path, '', $obj_name);
 

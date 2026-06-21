@@ -379,7 +379,7 @@ $cat_name_data = array(
 										<label>Meta Keywords:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
 									</div>
 								</div>
 
@@ -388,7 +388,7 @@ $cat_name_data = array(
 										<label>Meta Description:</label>
 									</div>
 									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
 									</div>
 								</div>
 

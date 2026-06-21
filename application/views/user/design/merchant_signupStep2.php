@@ -54,14 +54,11 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
     >
         <div class="row row-sm">
             <div 
-                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
-                style="padding: 5px !important;" 
+                class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto"
+                style="padding: 5px !important;"
             >
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="padding: 15px !important;"
-                >
-                    <div class="text-center pb-0 mt-1">
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-0">
                         <h3 style="margin-bottom: 0px;">SHOP DETAIL</h3>
                     </div>
                     
@@ -71,7 +68,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
 
                     <div class="form-group">
                         <label for=""><b>Establishment (Shop) Name <sup>*</sup></b></label>
-                        <input type="text" class="form-control" id="" name="comp_name" value="<?= $shop_name ?>" placeholder="Shop name *" required /> 
+                        <input type="text" class="form-control" id="" name="comp_name" value="<?= $shop_name ?>" placeholder="Shop name *" required />
                     </div>
 
                     <div class="box-body table-responsive">
@@ -96,8 +93,8 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                     } ?>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning business-proof_warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.</div>
+                                    <td colspan="2" style="white-space: normal;">
+                                        <span class="alert alert-warning business-proof_warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -146,14 +143,10 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                 {
                                     $img_cnt = $i+$avl_shop_img_cnt;
 
-                                    echo 
-                                    '<tr>
+                                    echo '<tr>
                                         <td>Shop image'.$img_cnt.'</td>
                                         <td>
                                             <input type="file" name="file'.$img_cnt.'" id="file'.$img_cnt.'" accept="image/*" />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile'.$img_cnt.'" />
                                         </td>
                                     </tr>';
                                 } ?>
@@ -175,12 +168,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                 </div>
 
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="
-                        padding: 15px !important;
-                        margin-top: 15px;"
-                >
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
                     <div class="text-center pb-0 mt-1">
                         <h3 style="margin-bottom: 0px;">SHOP ADDRESS</h3>
                     </div>
@@ -262,11 +250,8 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                 class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
                 style="padding: 5px !important;" 
             >
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="padding: 15px !important;"
-                >
-                    <div class="text-center pb-0 mt-1">
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-0">
                         <h3 style="margin-bottom: 0px;">OWNER DETAIL</h3>
                     </div>
                     <div class="form-group">
@@ -277,7 +262,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                         <label for=""><b>Contact (Mobile) Number <sup>*</sup></b></label>
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">+91-</span>
+                                <span class="input-group-text mobileCountryCode">+91-</span>
                             </div>
                             <input type="text" class="form-control" id="mobile" name="own_contact" maxlength="10" placeholder="Enter 10-digit number" value="<?= $own_contact ?>" required />
                         </div>
@@ -301,12 +286,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                 </div>
 
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="
-                        padding: 15px !important;
-                        margin-top: 15px;"
-                >
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
                     <div class="text-center pb-0 mt-1">
                         <h3>SHOP LOCATION</h3>
                     </div>

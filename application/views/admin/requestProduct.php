@@ -163,7 +163,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Description:</label>
                                           </div>
                                           <div class="col-sm-9">
-                                                <textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description ..." <?= ($disableProductDetailFrom ? 'disabled' : '') ?>><?= $description ?></textarea>
+                                                <textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description ..." <?= ($disableProductDetailFrom ? 'disabled' : '') ?>><?= $description ?></textarea>
                                           </div>
                                     </div>
 
@@ -196,7 +196,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>In The Box:</label>
                                           </div>
                                           <div class="col-sm-9">
-                                                <textarea class="form-control" rows="5" name="in_the_box" placeholder="What you have provided in the product box..." <?= ($disableProductDetailFrom ? 'disabled' : '') ?>><?= $in_the_box ?></textarea>
+                                                <textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..." <?= ($disableProductDetailFrom ? 'disabled' : '') ?>><?= $in_the_box ?></textarea>
                                           </div>
                                     </div>
 
@@ -319,7 +319,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Finance Terms:</label>    
                                           </div>
                                           <div class="col-sm-8">
-                                                <textarea class="form-control" rows="5" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
+                                                <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
                                           </div>
                                     </div>
 
@@ -352,7 +352,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Home Delievery Terms:</label>    
                                           </div>
                                           <div class="col-sm-8">
-                                                <textarea class="form-control" rows="5" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+                                                <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
                                           </div>
                                     </div>
 
@@ -385,7 +385,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Installation Terms:</label>  
                                           </div>
                                           <div class="col-sm-8">
-                                                <textarea class="form-control" rows="5" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
+                                                <textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
                                           </div>
                                     </div>
 
@@ -459,7 +459,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Replacement Terms:</label>   
                                           </div>
                                           <div class="col-sm-8">
-                                                <textarea class="form-control" rows="5" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
+                                                <textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
                                           </div>
                                     </div>
 
@@ -492,7 +492,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Return Terms:</label>    
                                           </div>
                                           <div class="col-sm-8">
-                                                <textarea class="form-control" rows="5" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
+                                                <textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
                                           </div>
                                     </div>
 
@@ -501,7 +501,7 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                                 <label>Seller Offerings:</label>    
                                           </div>
                                           <div class="col-sm-8">
-                                                <textarea class="form-control" rows="5" name="seller_offering" placeholder="Please enter offering..."><?= $seller_offering ?></textarea>
+                                                <textarea class="form-control" rows="1" name="seller_offering" placeholder="Please enter offering..."><?= $seller_offering ?></textarea>
                                           </div>
                                     </div>
 

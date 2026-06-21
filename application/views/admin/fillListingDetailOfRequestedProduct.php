@@ -47,7 +47,7 @@ $merchant_id = $_COOKIE['merchant_id'];
                                     <label>Finance Terms:</label>    
                                 </div>
                                 <div class="col-sm-9">
-                                    <textarea class="form-control" rows="5" name="finance_terms" placeholder="Please enter finance terms..."></textarea>
+                                    <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."></textarea>
                                 </div>
                             </div>
 
@@ -68,7 +68,7 @@ $merchant_id = $_COOKIE['merchant_id'];
                         			<label>Home Delievery Terms:</label>	
                         		</div>
                         		<div class="col-sm-9">
-                        			<textarea class="form-control" rows="5" name="delievery_terms" placeholder="Please enter delievery terms..."></textarea>
+                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."></textarea>
                         		</div>
                         	</div>
 
@@ -89,7 +89,7 @@ $merchant_id = $_COOKIE['merchant_id'];
                         			<label>Installation Terms:</label>	
                         		</div>
                         		<div class="col-sm-9">
-                        			<textarea class="form-control" rows="5" name="installation_terms" placeholder="Please enter installation terms..."></textarea>
+                        			<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."></textarea>
                         		</div>
                         	</div>
 
@@ -131,7 +131,7 @@ $merchant_id = $_COOKIE['merchant_id'];
                         			<label>Replacement Terms:</label>	
                         		</div>
                         		<div class="col-sm-9">
-                        			<textarea class="form-control" rows="5" name="replacement_terms" placeholder="Please enter replacement terms..."></textarea>
+                        			<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."></textarea>
                         		</div>
                         	</div>
 
@@ -152,7 +152,7 @@ $merchant_id = $_COOKIE['merchant_id'];
                         			<label>Return Terms:</label>	
                         		</div>
                         		<div class="col-sm-9">
-                        			<textarea class="form-control" rows="5" name="return_policy" placeholder="Please enter return terms..."></textarea>
+                        			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."></textarea>
                         		</div>
                         	</div>
 

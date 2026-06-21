@@ -323,7 +323,7 @@ else
 					            		<label>Offer Description*:</label>	
 					            	</div>
 					                <div class="col-sm-8">
-					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="10" required /><?= $offer_desc; ?></textarea>
+					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="1" required /><?= $offer_desc; ?></textarea>
 					                </div>
 					            </div>
 
@@ -376,7 +376,7 @@ else
 
 					            <?php if ($_COOKIE['site_code'] == 'admin') { ?>
 									<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">

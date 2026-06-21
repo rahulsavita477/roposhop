@@ -602,7 +602,7 @@ else
 		                        			<label>Product Description*:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -611,7 +611,7 @@ else
 		                        			<label>In The Box:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
 		                        		</div>
 		                        	</div>
 									
@@ -795,7 +795,7 @@ else
 		                            </div><!-- /.box-body -->
 
 		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">
@@ -994,7 +994,7 @@ else
 		                        			<label>Product Description*:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
 		                        		</div>
 		                        	</div>
 
@@ -1003,7 +1003,7 @@ else
 		                        			<label>In The Box:</label>	
 		                        		</div>
 		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="5" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
 		                        		</div>
 		                        	</div>
 									
@@ -1134,7 +1134,7 @@ else
 		                            </div><!-- /.box-body -->
 
 		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
+					                    <table class="table table-bordered table-striped">
 					                        <thead>
 					                        	<tr>
 					                        		<th colspan="4">

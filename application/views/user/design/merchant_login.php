@@ -47,7 +47,7 @@
 
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">+91-</span>
+                                <span class="input-group-text mobileCountryCode">+91-</span>
                             </div>
                             <input type="text" class="form-control" id="mobile" name="contact_number" maxlength="10" placeholder="Enter 10-digit number" value="<?= set_value('contact_number') ?>" required />
                         </div>

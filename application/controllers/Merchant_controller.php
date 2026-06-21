@@ -113,7 +113,7 @@ class Merchant_controller extends CI_Controller
                 $seller_data['contact'] = $this->input->post('contact_number');
                 $seller_data['establishment_name'] = $this->input->post('shop_name');
                 $seller_data['is_verified'] = 0;
-                $seller_data['status'] = 0;
+                $seller_data['status'] = 1;
                 $seller_data['create_date'] = $this->current_date;
                 $seller_data['update_date'] = $this->current_date;
 
