@@ -36,7 +36,20 @@
                                 }
                                 else
                                 {
-                                    $seller_logo_text = '<h3 style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">'.$merchant['establishment_name'].'</h3>';
+                                    $name_words = explode(' ', trim($merchant['establishment_name']));
+                                    $initials = strtoupper(substr($name_words[0], 0, 1));
+                                    if (count($name_words) > 1) {
+                                        $initials .= strtoupper(substr(end($name_words), 0, 1));
+                                    }
+                                    $colors = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f39c12', '#1abc9c', '#e67e22', '#16a085'];
+                                    $color_index = crc32($merchant['establishment_name']) % count($colors);
+                                    $bg_color = $colors[abs($color_index)];
+
+                                    $seller_logo_text = '
+                                        <div style="width:80px; height:80px; border-radius:50%; background:'.$bg_color.'; display:flex; align-items:center; justify-content:center; margin:5px auto 8px;">
+                                            <span style="color:#fff; font-size:28px; font-weight:700; letter-spacing:1px;">'.$initials.'</span>
+                                        </div>
+                                        <h3 style="margin:0; font-size:13px; color:#333; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding:0 5px;">'.htmlspecialchars($merchant['establishment_name']).'</h3>';
                                 }
 
                                 echo '<div class="col-md-2 text-center mb-3">
