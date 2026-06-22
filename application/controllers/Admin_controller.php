@@ -4148,13 +4148,18 @@ class Admin_controller extends CI_Controller
 		$address_data['contact'] = $this->input->post('contact');
 		$address_data['business_days'] = $this->input->post('business_days');
 		$address_data['business_hours'] = $this->input->post('business_hours');
-		$address_data['latitude'] = $this->input->post('lat');
-		$address_data['longitude'] = $this->input->post('long');
+		// $address_data['latitude'] = $this->input->post('lat');
+		// $address_data['longitude'] = $this->input->post('long');
 		$address_data['country_id'] = $this->input->post('country_id');
 		$address_data['state_id'] = $this->input->post('state_id');
 		$address_data['city_id'] = $this->input->post('city_id');
 		$address_data['update_date'] = $this->current_date;
-
+		
+		// 22.721379, 75.862146
+		$lat_long = $this->get_lat_long_from_address($address_data);
+		$address_data['latitude'] = $lat_long['lat'];
+		$address_data['longitude'] = $lat_long['lng'];
+		
 		//set null for blank fields
 		setNULLToBlank($address_data);
 
@@ -4179,6 +4184,37 @@ class Admin_controller extends CI_Controller
 				return false;
 		}
 	}
+
+	private function get_lat_long_from_address($address_data) {
+		
+		// Build address string from your existing array
+		$address_string  = '';
+		$address_string .= !empty($address_data['address_line_1']) ? $address_data['address_line_1'] . ', ' : '';
+		$address_string .= !empty($address_data['address_line_2']) ? $address_data['address_line_2'] . ', ' : '';
+		$address_string .= !empty($address_data['landmark'])       ? $address_data['landmark'] . ', ' : '';
+		$address_string .= !empty($address_data['locality'])       ? $address_data['locality'] . ', ' : '';
+		$address_string .= !empty($address_data['country_id'])     ? $address_data['country_id'] . ', ' : '';
+		$address_string .= !empty($address_data['state_id'])       ? $address_data['state_id'] . ', ' : '';
+		$address_string .= !empty($address_data['city_id'])        ? $address_data['city_id'] : '';
+		$address_string .= !empty($address_data['pin'])            ? '-' . $address_data['pin'] : '';
+
+		// Trim trailing comma/space if any
+		$address_string = rtrim($address_string, ', ');
+
+        $address = str_replace(" ", "+", $address_string);
+        $apiKey  = "AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI";
+
+        $json = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".$address."&key=".$apiKey);
+        $data = json_decode($json);
+
+        if (!empty($data->results)) {
+            $lat = $data->results[0]->geometry->location->lat;
+            $lng = $data->results[0]->geometry->location->lng;
+            return ['lat' => $lat, 'lng' => $lng];
+        } else {
+            return ['lat' => 0, 'lng' => 0]; // fallback if not found
+        }
+    }
 
 	public function sellers($type)
 	{

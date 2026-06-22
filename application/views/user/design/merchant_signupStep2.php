@@ -54,6 +54,88 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
     >
         <div class="row row-sm">
             <div 
+                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
+                style="padding: 5px !important;" 
+            >
+                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                    <div class="text-center pb-0 mt-1">
+                        <h3 style="margin-bottom: 0px;">SHOP ADDRESS</h3>
+                    </div>
+                    
+                    <input type="hidden" name="address_id" value="<?= $add_id ?>" />
+
+                    <div class="form-group">
+                        <label for=""><b>Address Line 1 <sup>*</sup></b></label>
+                        <input type="text" class="form-control" name="line1" placeholder="Address Line 1*" value="<?= $add_line1 ?>" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>Address Line 2</b></label>
+                        <input type="text" class="form-control" name="line2" placeholder="Address Line 2" value="<?= $add_line2 ?>" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>Landmark</b></label>
+                        <input type="text" class="form-control" name="landmark" placeholder="Landmark" value="<?= $add_land ?>" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>Country <sup>*</sup></b></label>
+                        <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
+                            <?php
+                            if ($countries) 
+                            {
+                                echo "<option value=''>Please select country!!</option>";
+
+                                foreach ($countries as $cnt_value) 
+                                {
+                                    if ($cnt_value['country_id'] == $add_cnt_id)
+                                        $cnt_id_selected = 'selected="selected"';
+                                    else
+                                        $cnt_id_selected = "";
+
+                                    echo "<option value='".$cnt_value['country_id']."' ".$cnt_id_selected.">".$cnt_value['name']."</option>";
+                                }
+                            }
+                            else
+                                echo "<option>country not available!</option>";
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>State <sup>*</sup></b></label>
+                        <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>City <sup>*</sup></b></label>
+                        <select class="form-control" name="city_id" id="state_cities" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>PIN Code</b></label>
+                        <input type="text" class="form-control" name="pin" placeholder="pin code" value="<?= $add_pin ?>"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>Shop Contact Number (for consumers)</b></label>
+                        <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>Business Days</b></label>
+                        <input type="text" class="form-control" name="business_days" placeholder="Business days" value="<?= $business_days ?>" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><b>Business Hours</b></label>
+                        <input type="text" class="form-control" name="business_hours" placeholder="Business hours" value="<?= $business_hours ?>" />
+                    </div>
+                </div>
+            </div>
+
+            <div 
                 class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto"
                 style="padding: 5px !important;"
             >
@@ -167,155 +249,15 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                         </textarea>
                     </div>
                 </div>
-
-                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
-                    <div class="text-center pb-0 mt-1">
-                        <h3 style="margin-bottom: 0px;">SHOP ADDRESS</h3>
-                    </div>
-                    
-                    <input type="hidden" name="address_id" value="<?= $add_id ?>" />
-
-                    <div class="form-group">
-                        <label for=""><b>Address Line 1 <sup>*</sup></b></label>
-                        <input type="text" class="form-control" name="line1" placeholder="Address Line 1*" value="<?= $add_line1 ?>" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Address Line 2</b></label>
-                        <input type="text" class="form-control" name="line2" placeholder="Address Line 2" value="<?= $add_line2 ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Landmark</b></label>
-                        <input type="text" class="form-control" name="landmark" placeholder="Landmark" value="<?= $add_land ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Country <sup>*</sup></b></label>
-                        <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
-                            <?php
-                            if ($countries) 
-                            {
-                                echo "<option value=''>Please select country!!</option>";
-
-                                foreach ($countries as $cnt_value) 
-                                {
-                                    if ($cnt_value['country_id'] == $add_cnt_id)
-                                        $cnt_id_selected = 'selected="selected"';
-                                    else
-                                        $cnt_id_selected = "";
-
-                                    echo "<option value='".$cnt_value['country_id']."' ".$cnt_id_selected.">".$cnt_value['name']."</option>";
-                                }
-                            }
-                            else
-                                echo "<option>country not available!</option>";
-                            ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>State <sup>*</sup></b></label>
-                        <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>City <sup>*</sup></b></label>
-                        <select class="form-control" name="city_id" id="state_cities" required></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>PIN Code</b></label>
-                        <input type="text" class="form-control" name="pin" placeholder="pin code" value="<?= $add_pin ?>"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Shop Contact Number (for consumers)</b></label>
-                        <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Business Days</b></label>
-                        <input type="text" class="form-control" name="business_days" placeholder="Business days" value="<?= $business_days ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Business Hours</b></label>
-                        <input type="text" class="form-control" name="business_hours" placeholder="Business hours" value="<?= $business_hours ?>" />
-                    </div>
-                </div>
+            
+            <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
+            <a href="<?= base_url('merchantLoginSignup') ?>" class="btn btn-default">Cancel</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-
-            <div 
-                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
-                style="padding: 5px !important;" 
-            >
-                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
-                    <div class="text-center pb-0 mt-0">
-                        <h3 style="margin-bottom: 0px;">OWNER DETAIL</h3>
-                    </div>
-                    <div class="form-group">
-                        <label for=""><b>Owner's Full Name <sup>*</sup></b></label>
-                        <input type="text" class="form-control" name="first_name" value="<?= $own_name ?>" placeholder="Full Name *" required />
-                    </div>
-                    <div class="form-group">
-                        <label for=""><b>Contact (Mobile) Number <sup>*</sup></b></label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text mobileCountryCode">+91-</span>
-                            </div>
-                            <input type="text" class="form-control" id="mobile" name="own_contact" maxlength="10" placeholder="Enter 10-digit number" value="<?= $own_contact ?>" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Email</b></label>
-                        <input type="text" class="form-control" value="<?= $user['email'] ?>" name="email" readonly />
-                    </div>
-
-                    <div class="box-body table-responsive">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td>Profile Picture</td>
-                                    <td><input type="file" name="file7" id="file7" /></td>
-                                    <td><img src="" id="srcfile7" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
-                    <div class="text-center pb-0 mt-1">
-                        <h3>SHOP LOCATION</h3>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="lat" placeholder="latitude*" onkeyup="initialize();" value="<?= $add_lat ?>" id="lat" required />
-                        <?= UC_error_label('lat') ?>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="long" id="long"  value="<?= $add_lon ?>" placeholder="longitude*" onkeyup="initialize();" required />
-                        <?= UC_error_label('long') ?>
-                    </div>
-
-                    <div class="alert alert-warning" role="alert">Only decimals are allowed for <b>Latitude </b> & <b>Longitude</b>.</div>
-
-                    <div class="form-group">
-                        <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>&nbsp;&nbsp;&nbsp; <span style="color: darkgray;"><b>Or Select On Map Below</b></span><br /><br />
-                    </div>
-
-                    <!-- google map -->
-                    <center>
-                        <div id="googleMap" style="width:90%;height:400px; margin: 20px;"></div>
-                   
-                        <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
-                        <a href="<?= base_url('merchantLoginSignup') ?>" class="btn btn-default">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </center>
-                </div>
-            </div>
+            
+            <input type="hidden" name="first_name" value="<?= $own_name ?>" />
+            <input type="hidden" name="own_contact" value="<?= $own_contact ?>" />
+            <input type="hidden" name="email" value="<?= $user['email'] ?>" />
         </div>
     </form>
 </div>
@@ -429,105 +371,6 @@ $(function() {
     });
 });
 
-function getLatLongFromAddress() 
-{
-    geocoder = new google.maps.Geocoder();
-    line1 = ($('[name="line1"]').val()) ? $('[name="line1"]').val()+', ' : '';
-    line2 = ($('[name="line2"]').val()) ? $('[name="line2"]').val()+', ' : '';
-    landmark = ($('[name="landmark"]').val()) ? $('[name="landmark"]').val()+', ' : '';
-    country = ($("#cnt_id option:selected").html()) ? $("#cnt_id option:selected").html()+', ' : '';
-    state = ($("#states option:selected").html()) ? $("#states option:selected").html()+', ' : '';
-    city = ($("#state_cities option:selected").html()) ? $("#state_cities option:selected").html() : '';
-    pin = ($('[name="pin"]').val()) ? '-'+$('[name="pin"]').val() : '';
-    address = line1+line2+landmark+country+state+city+pin;
-    
-    //debugger;
-    geocoder.geocode({'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            //get lat-long
-            latitude = results[0].geometry.location.lat().toFixed(6);
-            longitude = results[0].geometry.location.lng().toFixed(6);
-
-            //set lat-long in text fields
-            $('[name="lat"]').val(latitude);
-            $('[name="long"]').val(longitude);
-
-            //call map for map initialization
-            initialize();
-        } 
-        else
-            alert('Shop address fields are not valid, Please check them!');
-    }); 
-}
-
-//initialize google map
-function initialize() 
-{
-    var lat = ($('[name="lat"]').val()) ? $('[name="lat"]').val() : 22.7196;
-    var long = ($('[name="long"]').val()) ? $('[name="long"]').val() : 75.8577;
-
-    //set location on google map using lat long
-    var myLatlng = new google.maps.LatLng(lat, long);
-    var mapOptions = {
-                        zoom: 15,
-                        center: myLatlng,
-                        draggable: true
-                    }
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
-    setMarkerOnClickMap(myLatlng, map);
-
-    google.maps.event.addListener(map, 'click', function (e) {
-        lat1 = (e.latLng.lat()).toFixed(6);
-        long1 = (e.latLng.lng()).toFixed(6);
-
-        $('[name="lat"]').val(lat1);
-        $('[name="long"]').val(long1);
-
-        setMarkerOnClickMap(e.latLng, map);
-    });
-}
-
-var gmarkers = [];
-
-//set marker on click map
-function setMarkerOnClickMap(latLng, map) 
-{
-    //remove old markers from map
-    for(i=0; i<gmarkers.length; i++)
-        gmarkers[i].setMap(null);
-
-    //set marker on google map
-    var marker = new google.maps.Marker({
-                    position: latLng
-                });
-
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
-
-    //push old marker in array
-    gmarkers.push(marker);
-
-    //show info window for address
-    marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
-
-    //show address div on click marker
-    showFormattedAddress((latLng.lat()), (latLng.lng()));
-}
-
-//show address div on click marker
-function showFormattedAddress(lat, long) 
-{
-    infowindow = new google.maps.InfoWindow();
-    latlng = new google.maps.LatLng(lat, long);
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) 
-            infowindow.setContent(results[0].formatted_address);
-    });
-}
-
 //get state of country
 function getState(cnt_id)
 {
@@ -608,34 +451,6 @@ function getCity(state_id)
     }
 }
 
-//check form validation
-function validateForm() 
-{
-    //for owner mobile number
-    var isValid = mobileValidation($("input[name='own_contact']").val());
-    if (!isValid) 
-    {
-        alert("Contact (Mobile) Number is not valid!");
-        return false;
-    }
-
-    //for address lat
-    var isValid = floatValidation($("input[name='lat']").val());
-    if (!isValid) 
-    {
-        alert("wrong latitude!");
-        return false;
-    }
-
-    //for address long
-    var isValid = floatValidation($("input[name='long']").val());
-    if (!isValid) 
-    {
-        alert("wrong longitude!");
-        return false;
-    }
-}
-
 $(document).ready(function() {
     cnt_id = $('#cnt_id').val();
     if (parseInt(cnt_id)) 
@@ -677,7 +492,5 @@ select{
     width: 90%;
 }
 </style>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI&callback=initialize"></script>
 
 <?php include dirname(__FILE__).'/../../js_form_validation.php'; ?>
