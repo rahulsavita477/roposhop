@@ -639,7 +639,7 @@ print_r($tables); die;
 
     public function getNearestAddress($where='')
     {
-        $sql = "SELECT address_id , (3956 * 2 * ASIN(SQRT( POWER(SIN(( ".$_COOKIE['lat']." - latitude) *  pi()/180 / 2), 2) +COS( ".$_COOKIE['lat']." * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(( ".$_COOKIE['long']." - longitude) * pi()/180 / 2), 2) ))) as distance from address ".$where." order by distance DESC";
+        $sql = "SELECT address_id , (3956 * 2 * ASIN(SQRT( POWER(SIN(( ".$_COOKIE['latitude']." - latitude) *  pi()/180 / 2), 2) +COS( ".$_COOKIE['latitude']." * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(( ".$_COOKIE['longitude']." - longitude) * pi()/180 / 2), 2) ))) as distance from address ".$where." order by distance DESC";
         $query = $this->db->query($sql);
         
         $isDbError = $this->dbError();

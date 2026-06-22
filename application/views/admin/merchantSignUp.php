@@ -1,7 +1,7 @@
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
-        <title>ROPO SHOP | Mechant signup</title>
+        <title>RopoShop | Mechant signup</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').'assets/4d_logo.ico' ?>">
         <!-- bootstrap 3.0.2 -->
@@ -140,7 +140,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="pin" class="form-control" placeholder="pin code"/>
+                        <input type="number" name="pin" class="form-control" placeholder="postal code" required/>
                     </div>
 
                     <div class="form-group">

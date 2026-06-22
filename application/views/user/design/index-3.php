@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Roposhop</title>
+    <title>RopoShop</title>
 
     <meta name="" content="HTML5 Template" />
     <meta name="" content="P">
@@ -1469,28 +1469,28 @@
 
                     }">
                        <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                            <img src="https://www.roposhop.com/assets/brand/20/1547141057.jpeg" alt="" style="height:80px;width: auto;">
+                            <img src="https://www.RopoShop.com/assets/brand/20/1547141057.jpeg" alt="" style="height:80px;width: auto;">
                         </a>
                         <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                            <img src="https://www.roposhop.com/assets/brand/21/1547141107.png" alt="" style="height:80px;width: auto;">
+                            <img src="https://www.RopoShop.com/assets/brand/21/1547141107.png" alt="" style="height:80px;width: auto;">
                         </a>
                         <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                             <img src="https://www.roposhop.com/assets/brand/22/1549906444.png" alt="" style="height:80px;width: auto;">
+                             <img src="https://www.RopoShop.com/assets/brand/22/1549906444.png" alt="" style="height:80px;width: auto;">
                         </a>
                        <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                           <img src="https://www.roposhop.com/assets/brand/23/1550291698.png" alt="" style="height:80px;width: auto;">
+                           <img src="https://www.RopoShop.com/assets/brand/23/1550291698.png" alt="" style="height:80px;width: auto;">
                         </a>
                         <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                             <img src="https://www.roposhop.com/assets/brand/24/1550424601.jpeg" alt="" style="height:80px;width: auto;">
+                             <img src="https://www.RopoShop.com/assets/brand/24/1550424601.jpeg" alt="" style="height:80px;width: auto;">
                         </a>
                          <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                           <img src="https://www.roposhop.com/assets/brand/25/1550427470.png" alt="">
+                           <img src="https://www.RopoShop.com/assets/brand/25/1550427470.png" alt="">
                         </a>
                        <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;background:#08c">
                            <h3 style="color:#fff">Oppo fsdfdfdfdfdfd</h3>
                         </a>
                         <a href="#" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                            <img src="https://www.roposhop.com/assets/brand/26/1550431333.png" alt="" >
+                            <img src="https://www.RopoShop.com/assets/brand/26/1550431333.png" alt="" >
                         </a>
                         
                     </div><!-- End .partners-carousel -->
@@ -1594,7 +1594,7 @@
                 <div class="container">
                    <div class="row">
                      <div class="col-md-12 lg-12 col-12 pt-2 pb-5">
-                      <h3> ABOUT Roposhop</h3><P>About Roposhop – India’s Ultimate Online Shopping Site Roposhop’s vision is to create India’s most reliable and frictionless commerce ecosystem that creates life-changing experiences for buyers and sellers. In February 2010, Kunal Bahl along with Rohit Bansal, started Roposhop.com - India’s largest online shopping marketplace, with the widest assortment of 35 million plus products across 800 plus diverse categories from over 125,000 regional, national, and international brands and retailers. With millions of users and more than 300,000 sellers, Roposhop is the online shopping site for Internet users across the country, delivering to 6000+ cities and towns in India. In its journey till now, Roposhop has partnered with several global marquee investors and individuals such as SoftBank, BlackRock, Temasek, Foxconn, Alibaba, eBay Inc., Premji Invest, Intel Capital, Bessemer Venture Partners, Mr. Ratan Tata, among others. Online Shopping – A Boon The trend of online shopping is becoming a household name and so is Roposhop. Roposhop is the preferred choice of hundreds of thousands of online shoppers given its mammoth assortment of 15 million+ products, quick delivery even to the remotest corners of the country, and daily deals, discounts & offers to make products available at slashed down prices to our valuable customers. Get Started! Shop Online Today at Roposhop If you have been missing out on all the fun of online shopping thinking it requires one to be a technology aficionado then we have good news for you. Shopping online particularly at Roposhop is a child’s play; all you need is a mobile phone or laptop or tablet with Internet connection to get started. Simply log into Roposhop.com and browse through the wide assortment of products across categories. Once you have zeroed in on your favorite products, simply place the order by filling in the details; the products will be delivered right at your doorstep. Fulfill Your Entrepreneurial Dreams! Sell Today at Roposhop Thanks to easy-to-understand, flexible policies and SD Advisors to help sellers at each step, anyone from a manufacturer to wholesaler to retailer can sell on Roposhop.</P>
+                      <h3> ABOUT RopoShop</h3><P>About RopoShop – India’s Ultimate Online Shopping Site RopoShop’s vision is to create India’s most reliable and frictionless commerce ecosystem that creates life-changing experiences for buyers and sellers. In February 2010, Kunal Bahl along with Rohit Bansal, started RopoShop.com - India’s largest online shopping marketplace, with the widest assortment of 35 million plus products across 800 plus diverse categories from over 125,000 regional, national, and international brands and retailers. With millions of users and more than 300,000 sellers, RopoShop is the online shopping site for Internet users across the country, delivering to 6000+ cities and towns in India. In its journey till now, RopoShop has partnered with several global marquee investors and individuals such as SoftBank, BlackRock, Temasek, Foxconn, Alibaba, eBay Inc., Premji Invest, Intel Capital, Bessemer Venture Partners, Mr. Ratan Tata, among others. Online Shopping – A Boon The trend of online shopping is becoming a household name and so is RopoShop. RopoShop is the preferred choice of hundreds of thousands of online shoppers given its mammoth assortment of 15 million+ products, quick delivery even to the remotest corners of the country, and daily deals, discounts & offers to make products available at slashed down prices to our valuable customers. Get Started! Shop Online Today at RopoShop If you have been missing out on all the fun of online shopping thinking it requires one to be a technology aficionado then we have good news for you. Shopping online particularly at RopoShop is a child’s play; all you need is a mobile phone or laptop or tablet with Internet connection to get started. Simply log into RopoShop.com and browse through the wide assortment of products across categories. Once you have zeroed in on your favorite products, simply place the order by filling in the details; the products will be delivered right at your doorstep. Fulfill Your Entrepreneurial Dreams! Sell Today at RopoShop Thanks to easy-to-understand, flexible policies and SD Advisors to help sellers at each step, anyone from a manufacturer to wholesaler to retailer can sell on RopoShop.</P>
                    </div> 
                 </div>    
             </div>

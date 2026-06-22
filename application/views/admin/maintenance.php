@@ -3,7 +3,7 @@
     <!-- bread crumb -->
     <section class="content-header">
         <h1>
-            Roposhop
+            RopoShop
             <small>Maintanance</small>
         </h1>
         <ol class="breadcrumb">

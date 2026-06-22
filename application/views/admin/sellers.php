@@ -136,7 +136,7 @@ else if($pageName == "offerManagement")
                                                 $change_verify_status_btn = '<button type="button" class="btn btn-warning" data-toggle="modal" onclick="openVerifyModal('.$merchant_id.', '.$user_id.', '.$shop_name.')">Do - varify</button>';
                                             }
 
-                                            $is_completed = ($seller_value['is_completed']) ? "<span class='label label-success'>Completed</span>" : "<span class='label label-danger'>Not Completed</span>";
+                                            $is_completed = ($seller_value['is_completed']) ? "<span class='label label-success'>Completed</span>" : "<span class='label label-danger'>Incomplete</span>";
 
                                             if ($seller_value['status']) 
                                             {

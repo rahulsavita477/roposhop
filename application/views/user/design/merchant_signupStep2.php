@@ -114,8 +114,8 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
 
                     <div class="form-group">
-                        <label for=""><b>PIN Code</b></label>
-                        <input type="text" class="form-control" name="pin" placeholder="pin code" value="<?= $add_pin ?>"/>
+                        <label for=""><b>Postal Code<sup>*</sup></b></label>
+                        <input type="number" class="form-control" name="pin" placeholder="postal code" value="<?= $add_pin ?>" required />
                     </div>
 
                     <div class="form-group">

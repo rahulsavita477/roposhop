@@ -106,7 +106,7 @@ else
 		                    </div>
 
 		                    <div class="form-group">
-		                        <input type="text" name="pin" value="<?= $pin ?>" class="form-control" placeholder="pin code"/>
+		                        <input type="number" name="pin" value="<?= $pin ?>" class="form-control" placeholder="postal code" required/>
 		                    </div>
 
                             <div class="form-group">

@@ -633,6 +633,13 @@ form.form-inline input.w-50 {
     white-space: nowrap;
 }
 
+.product-single-container {
+    margin-bottom: 0px;
+}
+
+.featured-products-section {
+    padding-top: 0px;
+}
 /*==============
 
 ===============*/

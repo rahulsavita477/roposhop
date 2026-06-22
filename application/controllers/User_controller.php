@@ -530,7 +530,7 @@ class User_controller extends CI_Controller
                 $i = 0;
                 foreach ($sold_by_merchants['result'] as $merchant) 
                 {
-                    if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+                    if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
                     {
                         $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant['userId']);
                         $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
@@ -779,7 +779,7 @@ class User_controller extends CI_Controller
 
             //merchant nearest address
             $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
-            if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+            if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
             {
                 $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant_detail['result'][0]['userId']);
                 $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
@@ -867,10 +867,10 @@ class User_controller extends CI_Controller
             $data['tree_list'] = $this->tree_list; //get categories in tree format
 
             //meta data
-            $data['meta_data']['title'] = 'user login | ROPOshop';
-            $data['meta_data']['keywords'] = 'roposhop';
-            $data['meta_data']['description'] = 'roposhop';
-            $data['meta_data']['image'] = 'roposhop';
+            $data['meta_data']['title'] = 'user login | RopoShop';
+            $data['meta_data']['keywords'] = 'RopoShop';
+            $data['meta_data']['description'] = 'RopoShop';
+            $data['meta_data']['image'] = 'RopoShop';
 
             //load user register view
             $this->load->view('user/design/include/header', $data);
@@ -1168,12 +1168,16 @@ class User_controller extends CI_Controller
             $where = array('merchant_id' => $merchant_id);
             $merchant_detail = $this->am1->selectRecords($where, 'merchant', '*');
             $merchants['merchant_detail'] = $merchant_detail['result'][0];
-
+            
             $data['establishment_name'] = $merchant_detail['result'][0]['establishment_name'];
-
+            
             //merchant logo
             if ($merchant_detail['result'][0]['merchant_logo'])
                 array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_detail['result'][0]['merchant_logo']);
+
+            // get merchant's user detail
+            $userDetails = $this->am1->selectRecords(['userId' => $merchant_detail['result'][0]['userId']], 'user', '*');
+            $data['userDetail'] = $userDetails['result'][0];
 
             //get merchant shop images
             $product_imgs = $this->attatchments($merchant_id, "SELLER");
@@ -1193,16 +1197,18 @@ class User_controller extends CI_Controller
 
             //merchant nearest address
             $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
-            if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+            if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
             {
                 $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant_detail['result'][0]['userId']);
-                $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
+                if($getNearestAddressId) {
+                    $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
+                }
             }
             else
                 $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
 
-            $merchants['address']['nearest_address'] = $getAddress ? $getAddress['result'][0] : null;
-            $merchants['address']['total_address'] = $getAddress ? $getAddress['count'] : 0;
+            $merchants['address']['nearest_address'] = isset($getAddress) ? $getAddress['result'][0] : null;
+            $merchants['address']['total_address'] = isset($getAddress) ? $getAddress['count'] : 0;
 
             //get product reviews
             $merchant_reviews = $this->am1->merchantReviews(array('merchant_review.merchant_id' => $merchant_id), 3, 0);
@@ -1249,7 +1255,7 @@ class User_controller extends CI_Controller
         $data['meta_data']['image'] = $metaData['metaImage'];
 
         // echo "<pre>"; print_r($merchants);die;
-        //echo "<pre>"; print_r($data);die;
+        // echo "<pre>"; print_r($data);die;
         // echo $page; die;
 
         //load view
@@ -1624,7 +1630,7 @@ class User_controller extends CI_Controller
                 $i = 0;
                 foreach ($merchants['result'] as $merchant) 
                 {
-                    if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+                    if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
                     {
                         $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant['userId']);
                         $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);

@@ -385,7 +385,7 @@ else
                                             <button class="btn btn-default" data-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
-                                    <?= form_close() ?>                                     
+                                    <?= form_close() ?>
                                 </div>
                             </div>
                         </div>
@@ -482,19 +482,19 @@ else
 
 					            <div class="row form-group">
 					            	<div class="col-sm-3">
-					            		<label>Business days*:</label>	
+					            		<label>Business days:</label>	
 					            	</div>
 					                <div class="col-sm-5">
-					                	<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" required />
+					                	<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" />
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
 					            	<div class="col-sm-3">
-					            		<label>Business hours*:</label>	
+					            		<label>Business hours:</label>	
 					            	</div>
 					                <div class="col-sm-5">
-					                	<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" required />
+					                	<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" />
 					                </div>
 					            </div>
 
@@ -667,7 +667,7 @@ else
 				                    <table class="table table-bordered table-striped data-pagination-table">
 				                        <thead>
 				                            <tr>
-				                                <th colspan="3"><center>Company Images</center></th>
+				                                <th colspan="3"><center>Shop Images</center></th>
 				                            </tr>
 				                        </thead>
 				                        <tbody>
@@ -840,10 +840,10 @@ else
 
 						            <div class="row form-group">
 						            	<div class="col-sm-3">
-						            		<label>PIN:</label>	
+						            		<label>Postal Code<sup>*</sup>:</label>	
 						            	</div>
 						                <div class="col-sm-5">
-						                	<input type="text" name="pin" class="form-control" placeholder="PIN Code" />
+						                	<input type="number" name="pin" class="form-control" placeholder="postal code" required />
 						                </div>
 						            </div>
 

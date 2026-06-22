@@ -61,9 +61,9 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 
                 <div class="col-md-3 widget-social">
                     <div class="social-icons">
-                        <a href="https://www.facebook.com/roposhop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
-                        <a href="https://twitter.com/roposhop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
-                        <a href="https://www.linkedin.com/company/roposhop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
+                        <a href="https://www.facebook.com/RopoShop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
+                        <a href="https://twitter.com/RopoShop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/RopoShop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
                     </div><!-- End .social-icons -->
                 </div><!-- End .col-md-3 -->
             </div><!-- End .row -->
@@ -82,7 +82,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                 <span class="contact-info-label">Phone:</span>+91-73891-02962</a>
                             </li>
                             <li>
-                                <span class="contact-info-label">Email:</span> <a href="mailto:roposhop.app@gmail.com">roposhop.app@gmail.com</a>
+                                <span class="contact-info-label">Email:</span> <a href="mailto:RopoShop.app@gmail.com">RopoShop.app@gmail.com</a>
                             </li>
                         </ul>
                     </div><!-- End .widget -->
@@ -145,7 +145,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     </div><!-- End .row -->
 
                     <div class="footer-bottom">
-                        <p class="footer-copyright">ROPOshop &copy;  2020.  All Rights Reserved</p>
+                        <p class="footer-copyright">RopoShop &copy;  2020.  All Rights Reserved</p>
                     </div><!-- End .footer-bottom -->
                 </div><!-- End .col-lg-9 -->
             </div><!-- End .row -->
@@ -243,10 +243,10 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
     // Your web app's Firebase configuration
     var firebaseConfig = {
         apiKey: "AIzaSyB56KWSL4OQPiP5t_sm5Qk1BMAFbqILq5A",
-        authDomain: "roposhop-8b514.firebaseapp.com",
-        databaseURL: "https://roposhop-8b514.firebaseio.com",
-        projectId: "roposhop-8b514",
-        storageBucket: "roposhop-8b514.appspot.com",
+        authDomain: "RopoShop-8b514.firebaseapp.com",
+        databaseURL: "https://RopoShop-8b514.firebaseio.com",
+        projectId: "RopoShop-8b514",
+        storageBucket: "RopoShop-8b514.appspot.com",
         messagingSenderId: "99824770445",
         appId: "1:99824770445:web:c840baa0cb7daa452071c4"
     };

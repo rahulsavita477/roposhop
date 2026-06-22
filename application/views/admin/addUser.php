@@ -25,6 +25,7 @@ $comp_name = isset($merchant['establishment_name']) ? $merchant['establishment_n
 $cno = isset($merchant['contact']) ? $merchant['contact'] : '';
 $business_days = isset($merchant['business_days']) ? $merchant['business_days'] : '';
 $business_hours = isset($merchant['business_hours']) ? $merchant['business_hours'] : '';
+$description = isset($merchant['description']) ? $merchant['description'] : '';
 $finance_available = (isset($merchant['finance_available']) && $merchant['finance_available']) ? 'Yes' : 'No';
 $finance_terms = isset($merchant['finance_terms']) ? $merchant['finance_terms'] : '';
 $home_delivery_available = (isset($merchant['home_delivery_available']) && $merchant['home_delivery_available']) ? 'Yes' : 'No';
@@ -204,8 +205,32 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					                <div class="col-sm-9">
 					                	<?= $comp_name ?>
 					                </div>
+								</div>
+								<div class="row form-group">
+									<div class="col-sm-3">
+					            		<label>Business Days:</label>	
+					            	</div>
+					                <div class="col-sm-9">
+					                	<?= $business_days ?>
+					                </div>
+								</div>
+								<div class="row form-group">
+									<div class="col-sm-3">
+					            		<label>Business Hours:</label>	
+					            	</div>
+					                <div class="col-sm-9">
+					                	<?= $business_hours ?>
+					                </div>
+								</div>
+								<div class="row form-group">
+									<div class="col-sm-3">
+					            		<label>Description:</label>	
+					            	</div>
+					                <div class="col-sm-9">
+					                	<?= $description ?>
+					                </div>
 					            </div>
-
+								
 						        <?php 
 		                        if (!empty($seller_images)) 
 		                        {
@@ -483,6 +508,33 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 						            	</div>
 						                <div class="col-sm-6">
 						                	<input type="text" name="comp_name" class="form-control" placeholder="Enter Shop Name" value="<?= $comp_name ?>" required />
+						                </div>
+						            </div>
+
+									<div class="row form-group">
+						            	<div class="col-sm-3">
+						            		<label>Business Days:</label>
+						            	</div>
+						                <div class="col-sm-6">
+						                	<input type="text" name="business_days" class="form-control" placeholder="Please enter business days" value="<?= $business_days ?>" />
+						                </div>
+						            </div>
+
+									<div class="row form-group">
+						            	<div class="col-sm-3">
+						            		<label>Business Hours:</label>
+						            	</div>
+						                <div class="col-sm-6">
+						                	<input type="text" name="business_hours" class="form-control" placeholder="Please enter business hours" value="<?= $business_hours ?>" />
+						                </div>
+						            </div>
+
+									<div class="row form-group">
+						            	<div class="col-sm-3">
+						            		<label>Description:</label>	
+						            	</div>
+						                <div class="col-sm-6">
+											<textarea class="form-control" rows="1" name="description" placeholder="Please enter shop description..."><?= $description ?></textarea>
 						                </div>
 						            </div>
 

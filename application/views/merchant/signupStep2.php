@@ -255,10 +255,10 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
 
                     <div class="row">
                         <div class="span6">
-                            <label class="control-label"><b>PIN Code</b></label>
+                            <label class="control-label"><b>Postal Code<sup>*</sup></b></label>
                         </div>
                         <div class="span6">
-                            <input type="text" name="pin" placeholder="pin code" value="<?= $add_pin ?>"/>
+                            <input type="number" name="pin" placeholder="postal code" value="<?= $add_pin ?>" required />
                         </div>
                     </div>
 

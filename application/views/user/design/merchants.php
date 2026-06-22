@@ -32,11 +32,12 @@
 
                                 if ($merchant['merchant_logo']) 
                                 {
-                                    $seller_logo_text = '<img src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'" style="min-width: 100%;min-height: auto;"><h3>'.$merchant['establishment_name'].'</h3>';
+                                    $seller_logo_text = '<img src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'" style="min-width: 100%;min-height: auto;"><h4>'.$merchant['establishment_name'].'</h4>';
                                 }
                                 else
                                 {
-                                    $seller_logo_text = '<h3 style="position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);">'.$merchant['establishment_name'].'</h3>';
+
+                                    $seller_logo_text = '<img src="'.base_url('assets/user/assets2/images/store.png').'" alt="'.$merchant['establishment_name'].'" style="min-width: 100%;min-height: auto;"><h4>'.$merchant['establishment_name'].'</h4>';
                                 }
 
                                 echo '<div class="col-md-2 text-center mb-3">

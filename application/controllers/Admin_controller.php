@@ -42,6 +42,7 @@ class Admin_controller extends CI_Controller
 
      	$this->ci = get_instance();
         $this->ci->load->library('form_validation');
+		$this->site_code = $this->input->cookie('site_code', true);
 	}
 
 	public function trimAllColumnsValue()
@@ -1107,7 +1108,7 @@ class Admin_controller extends CI_Controller
 		}
 
 		$seller_data['user'] = $user[0];
-		
+		// echo "<pre>"; print_r($seller_data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/addUser', $seller_data);
@@ -1268,7 +1269,12 @@ class Admin_controller extends CI_Controller
 		$data['first_name'] = $this->input->post('fname');
 		$data['update_date'] = $this->current_date;
 		$data['status'] = 1;
-		$controller = 'page/userManagement';
+		
+        if($this->site_code == 'admin') {
+			$controller = 'page/userManagement';
+		} else {
+			$controller = 'editUser/'.$usr_id.'?view';
+		}		
 
 		//set null for blank fields
 		setNULLToBlank($data);

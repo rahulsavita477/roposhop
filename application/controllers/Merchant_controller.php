@@ -59,8 +59,8 @@ class Merchant_controller extends CI_Controller
 
         $data['meta_data']['title'] = 'Seller Login';
         $data['meta_data']['keywords'] = '';
-        $data['meta_data']['description'] = 'Ropo Shop Seller login';
-        $data['meta_data']['image'] = 'roposhop';
+        $data['meta_data']['description'] = 'RopoShop Seller login';
+        $data['meta_data']['image'] = 'RopoShop';
 
         //load user register view
         // $this->load->view('user/include/header', $data);
@@ -188,7 +188,7 @@ class Merchant_controller extends CI_Controller
 
             $data['meta_data']['title'] = 'Seller signup';
             $data['meta_data']['keywords'] = '';
-            $data['meta_data']['description'] = 'Ropo Shop signup step 2';
+            $data['meta_data']['description'] = 'RopoShop signup step 2';
 
             //load user register view
             // $this->load->view('user/include/header', $data);
