@@ -169,9 +169,15 @@ else
 							</div>
 						</div>
 					</div><!-- /.box-body -->
-					<?php } else { ?>
-					<!-- form start -->
-					<?= form_open_multipart('addBrand') ?>
+					<?php
+					} else {
+					if ($page_label == 'edit') {
+						$attributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+					} else {
+						$attributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+					}
+					echo form_open_multipart('addBrand', $attributes);
+					?>
 					<div class="box-body">
 						<div class="row form-group">
 							<div class="col-sm-2">

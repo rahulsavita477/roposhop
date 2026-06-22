@@ -32,6 +32,10 @@
         <script src="<?= $this->config->item('site_url').'assets/admin/js/plugins/iCheck/icheck.min.js' ?>" type="text/javascript"></script>        
 
         <script type="text/javascript">
+        function confirmSave(msg) {
+            return confirm(msg);
+        }
+
         $(function() {
             $(".data-pagination-table").each(function() {
                 var $table = $(this);

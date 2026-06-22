@@ -185,7 +185,7 @@
                             $brand_url = base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']);
                             if (!empty($brand['brand_logo'])) { ?>
                                 <a href="<?= $brand_url ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width:auto;">
+                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" alt="<?= $brand['brand_logo'] ?>" style="height:80px;width:auto;">
                                 </a>
                             <?php } else { ?>
                                 <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
@@ -202,6 +202,7 @@
     <?php endif; ?>
 
     <?php if($merchants): ?>
+    <div class="mt-2"></div><!-- margin -->
     <div class="featured-products-section carousel-section">
         <div class="container">
             <h2 class="h3 title float-left">Nearby Sellers</h2>
