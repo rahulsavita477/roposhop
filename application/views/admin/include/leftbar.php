@@ -348,28 +348,28 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- offer management -->
                     <li class="<?= $offerManagement ?>">
                         <a href="<?= base_url('page/offerManagement') ?>">
-                            <i class="fa fa-weibo"></i> <span>Offer Management</span>
+                            <i class="fa fa-gift"></i> <span>Offer Management</span>
                         </a>
                     </li>
 
                     <!-- request for product -->
                     <li class="<?= $requestProduct ?>">
                         <a href="<?= base_url('page/merchantRequestedProducts') ?>">
-                            <i class="fa fa-weibo"></i> <span>Request product</span>
+                            <i class="fa fa-shopping-cart"></i> <span>Request product</span>
                         </a>
                     </li>
 
                     <!-- view review -->
                     <li class="<?= $merchantReview ?>">
                         <a href="<?= base_url('page/merchantReview') ?>">
-                            <i class="fa fa-weibo"></i> <span>Review</span>
+                            <i class="fa fa-comments"></i> <span>Review</span>
                         </a>
                     </li>
 
                     <!-- product linking -->
                     <li class="<?= $product_seller_linking ?>">
                         <a href="<?= base_url().'getAllProducts/'.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-angle-double-right"></i> 
+                            <i class="fa fa-th-list"></i> 
                             Product Listing
                         </a>
                     </li>
@@ -377,15 +377,15 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- Address management -->
                     <li class="<?= $address_management ?>">
                         <a href="<?= base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-angle-double-right"></i> 
+                            <i class="fa fa-home"></i> 
                             Address Management
                         </a>
                     </li>
 
-                    <!-- Address management -->
+                    <!-- seller default values -->
                     <li class="<?= $seller_default_values ?>">
                         <a href="<?= base_url('page/default_values') ?>">
-                            <i class="fa fa-angle-double-right"></i> 
+                            <i class="fa fa-cog"></i> 
                             Default values
                         </a>
                     </li>

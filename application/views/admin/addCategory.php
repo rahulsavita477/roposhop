@@ -303,7 +303,7 @@ $cat_name_data = array(
 				                </div>
 
 							    <div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
+				                    <table class="table table-bordered table-striped">
 				                        <thead>
 				                        	<tr>
 				                        		<th colspan="4">

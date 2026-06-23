@@ -53,84 +53,89 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
         onsubmit="return validateForm()"
     >
         <div class="row row-sm">
-            <div 
-                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
-                style="padding: 5px !important;" 
-            >
-                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
-                    <div class="text-center pb-0 mt-1">
+            <div class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto" style="padding: 5px !important;">
+                <div class="bdr-d" style="padding: 10px;">
+                    <div class="text-center">
                         <h3 style="margin-bottom: 0px;">SHOP ADDRESS</h3>
                     </div>
                     
-                    <input type="hidden" name="address_id" value="<?= $add_id ?>" />
-
                     <div class="form-group">
                         <label for=""><b>Address Line 1 <sup>*</sup></b></label>
-                        <input type="text" class="form-control" name="line1" placeholder="Address Line 1*" value="<?= $add_line1 ?>" required />
+                        <input type="text" class="form-control" name="line1" placeholder="Address Line 1*" value="<?= $add_line1 ?>" id="" required />
                     </div>
 
-                    <div class="form-group">
-                        <label for=""><b>Address Line 2</b></label>
-                        <input type="text" class="form-control" name="line2" placeholder="Address Line 2" value="<?= $add_line2 ?>" />
+                    <div class="row row-sm">
+                        <div class="col-md-6">
+                            <label for=""><b>Country <sup>*</sup></b></label>
+                            <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
+                                <?php if ($countries) {
+
+                                    echo "<option value=''>Please select country!!</option>";
+
+                                    foreach ($countries as $cnt_value) 
+                                    {
+                                        if ($cnt_value['country_id'] == $add_cnt_id)
+                                            $cnt_id_selected = 'selected="selected"';
+                                        else
+                                            $cnt_id_selected = "";
+
+                                        echo "<option value='".$cnt_value['country_id']."' ".$cnt_id_selected.">".$cnt_value['name']."</option>";
+                                    }
+                                } else
+                                    echo "<option>country not available!</option>";
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for=""><b>State <sup>*</sup></b></label>
+                            <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for=""><b>Landmark</b></label>
-                        <input type="text" class="form-control" name="landmark" placeholder="Landmark" value="<?= $add_land ?>" />
+                    <div class="row row-sm">
+                        <div class="col-md-6">
+                            <label for=""><b>City <sup>*</sup></b></label>
+                            <select class="form-control" name="city_id" id="state_cities" required></select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for=""><b>Postal Code<sup>*</sup></b></label>
+                            <input type="number" class="form-control" name="pin" placeholder="postal code" value="<?= $add_pin ?>" required />
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for=""><b>Country <sup>*</sup></b></label>
-                        <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
-                            <?php
-                            if ($countries) 
-                            {
-                                echo "<option value=''>Please select country!!</option>";
+                    <!-- Toggle button/link -->
+                    <a class="btn btn-link" data-toggle="collapse" href="#additionalAddressDetails" aria-expanded="false" aria-controls="additionalAddressDetails">+ Better shop finding (Recommended)</a>
+                    
+                    <!-- Collapsible content -->
+                    <div class="collapse" id="additionalAddressDetails">
+                        <div class="well">
+                            <div class="form-group">
+                                <label for=""><b>Address Line 2</b></label>
+                                <input type="text" class="form-control" name="line2" placeholder="Address Line 2" value="<?= $add_line2 ?>" />
+                            </div>
 
-                                foreach ($countries as $cnt_value) 
-                                {
-                                    if ($cnt_value['country_id'] == $add_cnt_id)
-                                        $cnt_id_selected = 'selected="selected"';
-                                    else
-                                        $cnt_id_selected = "";
+                            <div class="form-group">
+                                <label for=""><b>Landmark</b></label>
+                                <input type="text" class="form-control" name="landmark" placeholder="Landmark" value="<?= $add_land ?>" />
+                            </div>
 
-                                    echo "<option value='".$cnt_value['country_id']."' ".$cnt_id_selected.">".$cnt_value['name']."</option>";
-                                }
-                            }
-                            else
-                                echo "<option>country not available!</option>";
-                            ?>
-                        </select>
-                    </div>
+                            <div class="form-group">
+                                <label for=""><b>Shop Contact Number (for consumers)</b></label>
+                                <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
+                            </div>
 
-                    <div class="form-group">
-                        <label for=""><b>State <sup>*</sup></b></label>
-                        <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
-                    </div>
+                            <div class="form-group">
+                                <label for=""><b>Business Days</b></label>
+                                <input type="text" class="form-control" name="business_days" placeholder="Business days" value="<?= $business_days ?>" />
+                            </div>
 
-                    <div class="form-group">
-                        <label for=""><b>City <sup>*</sup></b></label>
-                        <select class="form-control" name="city_id" id="state_cities" required></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Postal Code<sup>*</sup></b></label>
-                        <input type="number" class="form-control" name="pin" placeholder="postal code" value="<?= $add_pin ?>" required />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Shop Contact Number (for consumers)</b></label>
-                        <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Business Days</b></label>
-                        <input type="text" class="form-control" name="business_days" placeholder="Business days" value="<?= $business_days ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Business Hours</b></label>
-                        <input type="text" class="form-control" name="business_hours" placeholder="Business hours" value="<?= $business_hours ?>" />
+                            <div class="form-group">
+                                <label for=""><b>Business Hours</b></label>
+                                <input type="text" class="form-control" name="business_hours" placeholder="Business hours" value="<?= $business_hours ?>" />
+                            </div>  
+                        </div>
                     </div>
                 </div>
             </div>
@@ -139,14 +144,10 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                 class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto"
                 style="padding: 5px !important;"
             >
-                <div class="bdr-d" style="margin-top: 15px; padding: 10px;">
+                <div class="bdr-d" style="padding: 10px;">
                     <div class="text-center pb-0 mt-0">
                         <h3 style="margin-bottom: 0px;">SHOP DETAIL</h3>
                     </div>
-                    
-                    <input type="hidden" name="user_id" value="<?= $this->uri->segment(2) ?>" />
-                    <input type="hidden" name="is_default_address" value="1" />
-                    <input type="hidden" name="merchant_id" value="<?= $this->uri->segment(3) ?>" />
 
                     <div class="form-group">
                         <label for=""><b>Establishment (Shop) Name <sup>*</sup></b></label>
@@ -179,82 +180,100 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                         <span class="alert alert-warning business-proof_warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.</span>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Shop Logo</td>
-
-                                    <?php if ($user['merchant_logo']) {
-                                        echo "<td>
-                                                <a href='".$user['merchant_logo']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
-                                            </td>";
-                                    } else {
-                                        echo '<td>
-                                            <input type="file" name="file9" id="file9" accept="image/*" />
-                                        </td>';
-                                        // '<td>
-                                        //     <img src="" id="srcfile9" />
-                                        // </td>';
-                                    } ?>
-                                </tr>
-
-                                <?php 
-                                if (
-                                    isset($user['shop_image']) && 
-                                    is_array($user['shop_image']) && 
-                                    count($user['shop_image']) > 0
-                                ) 
-                                {
-                                    $avl_shop_img_cnt = count($user['shop_image']);
-
-                                    for ($i=1; $i <= $avl_shop_img_cnt; $i++) 
-                                    { 
-                                        $shop_img = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$user['merchant_id'].'/'.$user['shop_image'][$i-1]['atch_url'];
-
-                                        echo 
-                                        "<tr>
-                                            <td>Shop image".$i."</td>
-                                            <td>
-                                                <a href='".$shop_img."' class='btn-custom btn-primary' target='_blank'>Preview</a>
-                                            </td>
-                                        </tr>";
-                                    }
-                                }
-                                else
-                                    $avl_shop_img_cnt = 0;
-
-                                for ($i=1; $i<7-$avl_shop_img_cnt; $i++)
-                                {
-                                    $img_cnt = $i+$avl_shop_img_cnt;
-
-                                    echo '<tr>
-                                        <td>Shop image'.$img_cnt.'</td>
-                                        <td>
-                                            <input type="file" name="file'.$img_cnt.'" id="file'.$img_cnt.'" accept="image/*" />
-                                        </td>
-                                    </tr>';
-                                } ?>
-                            </tbody>
+                            </body>
                         </table>
-                    </div>
 
-                    <div class="form-group">
-                        <label for=""><b>Shop Description</b></label>
-                        <textarea 
-                            class="form-control" 
-                            style="min-height: auto !important;"
-                            name="description" 
-                            placeholder="shop description"
-                            rows="1"
-                        >
-                            <?= $shop_description ?>
-                        </textarea>
+                        <!-- Toggle button/link -->
+                        <a class="btn btn-link" data-toggle="collapse" href="#additionalBrandingDetails" aria-expanded="false" aria-controls="additionalBrandingDetails">+ Improve Customer Trust (Recommended)</a>
+                        
+                        <!-- Collapsible content -->
+                        <div class="collapse" id="additionalBrandingDetails">
+                            <div class="well">
+                                <table class="table table-striped">
+                                    <body>
+                                        <tr>
+                                            <td>Shop Logo</td>
+
+                                            <?php if ($user['merchant_logo']) {
+                                                echo "<td>
+                                                        <a href='".$user['merchant_logo']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                                    </td>";
+                                            } else {
+                                                echo '<td>
+                                                    <input type="file" name="file9" id="file9" accept="image/*" />
+                                                </td>';
+                                                // '<td>
+                                                //     <img src="" id="srcfile9" />
+                                                // </td>';
+                                            } ?>
+                                        </tr>
+
+                                        <?php 
+                                        if (
+                                            isset($user['shop_image']) && 
+                                            is_array($user['shop_image']) && 
+                                            count($user['shop_image']) > 0
+                                        ) 
+                                        {
+                                            $avl_shop_img_cnt = count($user['shop_image']);
+
+                                            for ($i=1; $i <= $avl_shop_img_cnt; $i++) 
+                                            { 
+                                                $shop_img = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$user['merchant_id'].'/'.$user['shop_image'][$i-1]['atch_url'];
+
+                                                echo 
+                                                "<tr>
+                                                    <td>Shop image".$i."</td>
+                                                    <td>
+                                                        <a href='".$shop_img."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                                    </td>
+                                                </tr>";
+                                            }
+                                        }
+                                        else
+                                            $avl_shop_img_cnt = 0;
+
+                                        for ($i=1; $i<7-$avl_shop_img_cnt; $i++)
+                                        {
+                                            $img_cnt = $i+$avl_shop_img_cnt;
+
+                                            echo '<tr>
+                                                <td>Shop image'.$img_cnt.'</td>
+                                                <td>
+                                                    <input type="file" name="file'.$img_cnt.'" id="file'.$img_cnt.'" accept="image/*" />
+                                                </td>
+                                            </tr>';
+                                        } ?>
+                                    </tbody>
+                                </table>
+
+                                <div class="form-group">
+                                    <label for=""><b>Shop Description</b></label>
+                                    <textarea 
+                                        class="form-control" 
+                                        style="min-height: auto !important;"
+                                        name="description" 
+                                        placeholder="shop description"
+                                        rows="1"
+                                    >
+                                        <?= $shop_description ?>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             
-            <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
-            <a href="<?= base_url('merchantLoginSignup') ?>" class="btn btn-default">Cancel</a>
-            <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block mt-1">Continue</button>
+                <div class="d-flex justify-content-center">
+                    <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
+                </div>
             </div>
             
+            <input type="hidden" name="user_id" value="<?= $this->uri->segment(2) ?>" />
+            <input type="hidden" name="is_default_address" value="1" />
+            <input type="hidden" name="merchant_id" value="<?= $this->uri->segment(3) ?>" />
+            <input type="hidden" name="address_id" value="<?= $add_id ?>" />
             <input type="hidden" name="first_name" value="<?= $own_name ?>" />
             <input type="hidden" name="own_contact" value="<?= $own_contact ?>" />
             <input type="hidden" name="email" value="<?= $user['email'] ?>" />
