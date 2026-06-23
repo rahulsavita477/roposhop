@@ -62,83 +62,80 @@
                         
                         <?php endif; ?>
 
-                        <div class="row" style="margin: 0px 0 10px -5px;">
+                        <div class="box-body">
                             <!-- select requested product for linking -->
                             <?php if ($req_products && isset($_GET['list_new_product']) && $_COOKIE['site_code'] == "seller") { ?>
-                                <div class="col-sm-12 form-group">
-                                    <div class="col-sm-3">
-                                        <label>Requested products available for link:</label>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <select class="form-control" id="req_prd_id">
-                                            <?php
-                                            $count = 0;
-                                            foreach ($req_products as $req_prd_value) 
+                            <div class="row" style="margin-bottom:1%;">
+                                <div class="col-sm-3">
+                                    <label>Requested products available for link:</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="req_prd_id">
+                                        <?php
+                                        $count = 0;
+                                        foreach ($req_products as $req_prd_value) 
+                                        {
+                                            if (!$req_prd_value['isLinked'] && $req_prd_value['merchant_id'] !== $_COOKIE['merchant_id'] && $req_prd_value['linkedMerchantId'] !== $_COOKIE['merchant_id'])
                                             {
-                                                if (!$req_prd_value['isLinked'] && $req_prd_value['merchant_id'] !== $_COOKIE['merchant_id'] && $req_prd_value['linkedMerchantId'] !== $_COOKIE['merchant_id'])
-                                                {
-                                                    $count++;
+                                                $count++;
 
-                                                    if ($count == 1)
-                                                        echo "<option value=''>Select requested product!!</option>";
+                                                if ($count == 1)
+                                                    echo "<option value=''>Select requested product!!</option>";
 
-                                                    echo "<option value='".$req_prd_value['req_prd_id']."'>".$req_prd_value['product_name']."</option>";
-                                                }
+                                                echo "<option value='".$req_prd_value['req_prd_id']."'>".$req_prd_value['product_name']."</option>";
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <?php if ($count > 0) { ?>
+                                    <div class="col-sm-2">
+                                        <button class='btn btn-primary'
+                                            onclick="fillListingDetailOfRequestedProduct();">Next</button>
+                                    </div>
+                                <?php }
+                            echo "</div>";
+                            } ?>
+                            <div class="row">
+                                <form action="getAllProducts/<?= $sel_id ?>" method="get">
+                                    <input type="hidden" name="list_new_product" value="Yes" />
+                                    <div class="col-sm-3">
+                                        <select class="form-control" name="category_id">
+                                            <option value="">--select category--</option>
+                                            <?php
+                                            foreach ($categories['result'] as $category) 
+                                            {
+                                                if ($category['category_id'] == $_GET['category_id']) 
+                                                    $selected = "selected='selected'";
+                                                else
+                                                    $selected = '';
+
+                                                echo "<option value='".$category['category_id']."' ".$selected.">".$category['category_name']."</option>";    
                                             }
                                             ?>
                                         </select>
                                     </div>
-                                    <?php if ($count > 0) { ?>
-                                        <div class="col-sm-2">
-                                            <button class='btn btn-primary'
-                                                onclick="fillListingDetailOfRequestedProduct();">Next</button>
-                                        </div>
-                                    <?php }
-                                echo "</div>";
-                            } ?>
-                            
-                            <div class="col-sm-8">
-                                <div class="row">
-                                    <?= form_open('getAllProducts/'.$sel_id, array('method' => 'get')) ?>
-                                        <input type="hidden" name="list_new_product" value="Yes" />
-                                        <div class="col-sm-4">
-                                            <select class="form-control" name="category_id">
-                                                <option value="">--select category--</option>
-                                                <?php
-                                                foreach ($categories['result'] as $category) 
-                                                {
-                                                    if ($category['category_id'] == $_GET['category_id']) 
-                                                        $selected = "selected='selected'";
-                                                    else
-                                                        $selected = '';
+                                    <div class="col-sm-3">
+                                        <select class="form-control" name="brand_id">
+                                            <option value="">--select brand--</option>
+                                            <?php
+                                            foreach ($brands['result'] as $brand) 
+                                            {
+                                                if ($brand['brand_id'] == $_GET['brand_id'])
+                                                    $selected = "selected='selected'";
+                                                else
+                                                    $selected = '';
 
-                                                    echo "<option value='".$category['category_id']."' ".$selected.">".$category['category_name']."</option>";    
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select class="form-control" name="brand_id">
-                                                <option value="">--select brand--</option>
-                                                <?php
-                                                foreach ($brands['result'] as $brand) 
-                                                {
-                                                    if ($brand['brand_id'] == $_GET['brand_id'])
-                                                        $selected = "selected='selected'";
-                                                    else
-                                                        $selected = '';
-
-                                                    echo "<option value='".$brand['brand_id']."' ".$selected.">".$brand['name']."</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <button class="btn btn-primary" onclick="searchProduct();">Find product</button>
-                                            <a href="<?= base_url('getAllProducts/'.$sel_id.'?list_new_product=Yes') ?>" class='btn btn-default'>Remove filter</a>
-                                        </div>
-                                    <?= form_close() ?>
-                                </div>
+                                                echo "<option value='".$brand['brand_id']."' ".$selected.">".$brand['name']."</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button class="btn btn-primary" onclick="searchProduct();">Find product</button>
+                                        <a href="<?= base_url('getAllProducts/'.$sel_id.'?list_new_product=Yes') ?>" class='btn btn-default'>Remove filter</a>
+                                    </div>
+                                <form>
                             </div>
                         </div>
                         

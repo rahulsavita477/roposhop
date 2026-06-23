@@ -39,13 +39,13 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <div class="container">
             <ol class="breadcrumb mt-0">
-                <li class="breadcrumb-item"><a href="index.php"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Seller signup</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Shop Info</a></li>
             </ol>
         </div>
         <!-- End .container -->
     </nav>
-    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px; padding: 0px;"><b>Warning :</b> Please complete your profile to start displaying products</div>
+    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px; padding: 0px;"><b>Warning :</b> Finish your profile to boost buyer confidence</div>
     <form 
         method="post" 
         action="<?= base_url('updateMerchant') ?>" 
@@ -264,7 +264,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                     </div>
                 </div>
             
-                <button type="submit" class="btn btn-primary btn-block mt-1">Continue</button>
+                <button type="submit" class="btn btn-primary btn-block mt-1">save & continue</button>
                 <div class="d-flex justify-content-center">
                     <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
                 </div>

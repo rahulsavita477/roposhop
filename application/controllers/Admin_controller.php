@@ -710,7 +710,7 @@ class Admin_controller extends CI_Controller
 			if (isset($data['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
 			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
-			$data['products'] = json_encode($products['result']);
+			$data['products'] = $products ? json_encode($products['result']) : [];
 			$data['categories'] = $this->getAllCategories();
 		}
 		else if ($pageName == "requestedProducts") 
