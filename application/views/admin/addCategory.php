@@ -213,7 +213,12 @@ $cat_name_data = array(
 				            </div>
 						</div><!-- /.box-body -->	
 				    <?php } else {
-				    	echo form_open_multipart('addCategory'); 
+						if ($cat_id) {
+							$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+						} else {
+							$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+						}
+				    	echo form_open_multipart('addCategory', $formAttributes); 
 				    ?>
 				        	<div class="box-body">
 					    		<div class="row form-group">

@@ -1,4 +1,3 @@
-
 <?php 
 $product_id = isset($product_id) ? $product_id : false;
 $product_name = isset($product_name) ? $product_name : set_value('prd_name');
@@ -74,7 +73,7 @@ else
             <?php if (isset($_GET['req_prd_id']))
             	echo '<div class="col-md-7">';
             else
-           		echo '<div class="col-md-12">';
+           		echo '<div class="col-md-8 col-md-offset-2">';
            	?>
 					<!-- general form elements -->
 					<div class="box box-primary">
@@ -500,8 +499,9 @@ else
 						    		<!-- select category -->
 			                        <div class="row form-group">
 		                        		<div class="col-sm-3">
-		                        			<label>Category *</label>
-											
+		                        			<label>Category*:</label>	
+		                        		</div>
+		                        		<div class="col-sm-5">
 		                        			<?php
 		                        			if ($page_label == 'add') 
 		                        			{
@@ -515,7 +515,7 @@ else
 
 									    		if ($status) 
 									    		{
-									    			echo "<option value=''>Select Category</option>";
+									    			echo "<option value=''>Please select an category!!</option>";
 
 									    			foreach ($categories as $cat_key => $cat_value) 
 									    			{
@@ -528,16 +528,21 @@ else
 									    			echo "<option>No parent category available!</option>";
 								    		
 								    		echo "</select>";
-								    		?>
+								    		?>			
 		                        		</div>
+			                        </div>
 
-										<div class="col-sm-3">
-		                        			<label>Brand *</label>
+			                        <!-- select brand -->
+			                        <div class="row form-group">
+		                        		<div class="col-sm-3">
+		                        			<label>Brand*:</label>	
+		                        		</div>
+		                        		<div class="col-sm-5">
 		                        			<?php
 								    		echo '<select class="form-control" name="brand_id" required>';
 								    		if ($status) 
 								    		{
-								    			echo "<option value=''>Select Brand</option>";
+								    			echo "<option value=''>Please select a brand!!</option>";
 
 								    			foreach ($brands as $brand_key => $brands_value) 
 								    			{
@@ -549,86 +554,21 @@ else
 								    		else
 								    			echo "<option>No brand available!</option>";
 								    		
-								    		echo "</select>";
+								    		echo "</select>
+								    			</div>";
 								    		?>
 		                        		</div>
 
-										<div class="col-sm-3">
-		                        			<label>Product Name *</label>
-											<input type="text" id="autosearch_product" class="form-control" placeholder="Enter product name" name="prd_name" value="<?= $product_name ?>" required />
-		                        		</div>
-
-										<div class="col-sm-3">
-		                        			<label>Product Price *</label>
-											<input type="number" class="form-control" placeholder="Enter product price" name="prd_price" value="<?= $mrp_price; ?>" required />
-										</div>
-
-										<div class="col-sm-6 nextFormLine">
-		                        			<label>Product Description *</label>
-											<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
-										</div>
-
-										<div class="col-sm-6 nextFormLine">
-		                        			<label>In The Box</label>
-		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
-		                        		</div>
-
-										<div class="col-sm-3">
-											<div class="table-responsive" id="att_fields" style="display: none;"></div>
-										</div>
-
-										<div class="col-sm-12">
-											<div class="table-responsive">
-												<table class="table table-bordered table-striped dataTable">
-												<tbody>
-													<tr>
-														<td class="text-align-center" colspan="6">Product Images</td>
-													</tr>
-													<tr>
-														<?php for ($i=1, $j=0; $i<7; $i++, $j++) { ?>
-														<td class="text-align-center">
-						                        			<div class="btn btn-primary btn-file">
-							                                    <i class="fa fa-paperclip"></i> Upload Image <?= $i ?>
-							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
-							                                </div>
-															
-															<div id="preview<?= $i ?>" class="image-preview" style="display:none;">
-																<div class="file<?= $i ?>"></div>
-																<span class="remove-icon" onclick="removeImage(<?= $i ?>)">
-																	<i class="fa fa-trash-o"></i>
-																</span>
-															</div>
-							                            </td>
-						                        		<?php 
-						                        		if ($page_label == "'edit'") 
-						                        		{
-							                        		echo "<td>";
-							                        			if (isset($images[$j]))
-								                        		{
-								                        			$img_src = $product_images_dir.'/'.$images[$j]['atch_url'];
-									                        		
-									                        		echo '<div class="thumbnail">
-									                        				<figure>
-																				<img src="'.$img_src.'">
-																				<center>
-																		    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/editProduct/'.$product_id.'" class="btn btn-danger">DELETE</a></figcaption>
-																		    	</center>
-																		    </figure>
-																		</div>
-
-																		<input type="hidden" name="remove_img'.$i.'" value="'.$images[$j]['atch_url'].'" />';
-									                        	}
-									                        echo "</td>";
-								                        } ?>
-													<?php } ?>
-													</tr>
-												</tbody>
-												</table>
-											</div>
-										</div>
-			                        </div>
-		                        		
 							    	<input type="hidden" name="prd_id" value="<?= $product_id; ?>">
+
+							    	<div class="row form-group">
+		                        		<div class="col-sm-3">
+		                        			<label>Product Name*:</label>	
+		                        		</div>
+		                        		<div class="col-sm-5">
+		                        			<input type="text" id="autosearch_product" class="form-control" placeholder="Enter product name..." name="prd_name" value="<?= $product_name ?>" required/>
+		                        		</div>
+		                        	</div>
 
 		                        	<div class="row form-group">
 		                        		<div class="col-sm-3">
@@ -645,6 +585,33 @@ else
 		                        		</div>
 		                        		<div class="col-sm-5">
 		                        			<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
+		                        		</div>
+		                        	</div>
+
+			                        <div class="row form-group">
+		                        		<div class="col-sm-3">
+		                        			<label>Product Price*:</label>	
+		                        		</div>
+		                        		<div class="col-sm-5">
+		                        			<input type="text" class="form-control" placeholder="Enter product price..." name="prd_price" value="<?= $mrp_price; ?>" required/>
+		                        		</div>
+		                        	</div>
+								    
+			                        <div class="row form-group" style="clear: both;">
+		                        		<div class="col-sm-3">
+		                        			<label>Product Description*:</label>	
+		                        		</div>
+		                        		<div class="col-sm-8">
+		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+		                        		</div>
+		                        	</div>
+
+		                        	<div class="row form-group" style="clear: both;">
+		                        		<div class="col-sm-3">
+		                        			<label>In The Box:</label>	
+		                        		</div>
+		                        		<div class="col-sm-8">
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
 		                        		</div>
 		                        	</div>
 									
@@ -689,8 +656,54 @@ else
 			                                </span>
 										</div>
 									</div>
+
+									<div class="box-body table-responsive">
+					                    <table class="table table-bordered table-striped">
+					                        <thead>
+					                            <tr>
+					                                <th colspan="3"><center>Product Images</center></th>
+					                            </tr>
+					                        </thead>
+					                        <tbody>
+						                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
+						                        	<tr>
+						                        		<td>
+						                        			<div class="btn btn-primary btn-file">
+							                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
+							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
+							                                </div>
+							                            </td>
+						                        		<?php 
+						                        		if ($page_label == "'edit'") 
+						                        		{
+							                        		echo "<td>";
+							                        			if (isset($images[$j]))
+								                        		{
+								                        			$img_src = $product_images_dir.'/'.$images[$j]['atch_url'];
+									                        		
+									                        		echo '<div class="thumbnail">
+									                        				<figure>
+																				<img src="'.$img_src.'">
+																				<center>
+																		    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/editProduct/'.$product_id.'" class="btn btn-danger">DELETE</a></figcaption>
+																		    	</center>
+																		    </figure>
+																		</div>
+
+																		<input type="hidden" name="remove_img'.$i.'" value="'.$images[$j]['atch_url'].'" />';
+									                        	}
+									                        echo "</td>";
+								                        } ?>
+						                        		<td><div class="file<?= $i ?>"></div></td>
+						                        	</tr>
+						                        <?php } ?>
+					                    	</tbody>
+					                    </table>
+					                </div>
 						            
-						            <div style="margin-bottom: 20px;">
+						            <div class="box-body table-responsive" id="att_fields" style="display: none;"></div>
+
+					            	<div style="margin-bottom: 20px;">
 		                        		<div class="box-body table-responsive">
 						                    <table class="table table-bordered table-striped data-pagination-table">
 						                        <thead>
@@ -1302,7 +1315,7 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 	            	
 	            	if (resp.length > 0) 
 	    			{
-	    				fields += '<table class="table table-bordered table-striped dataTable"><tr class="text-align-center"><td colspan=2>Product attributes</td></tr>';
+	    				fields += '<table class="table table-bordered table-striped dataTable"><tr><th colspan=2><center>Product attributes</center></th></tr>';
 
 	    				for (var i = 0; i < resp.length; i++) 
 		            	{
@@ -1371,8 +1384,27 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-.nextFormLine {
-	margin-top: 10px;
+label{
+	float: left;
+	margin-right: 20px;
+}
+
+span.bigcheck-target {
+	font-family: FontAwesome;
+	color: #D35400;
+}
+
+input[type='checkbox'].bigcheck {
+  position: relative;
+  left: -999em;
+}
+
+input[type='checkbox'].bigcheck + span.bigcheck-target:after {
+  content: "\f096";
+}
+
+input[type='checkbox'].bigcheck:checked + span.bigcheck-target:after {
+  content: "\f046";
 }
 
 .thumbnail img {

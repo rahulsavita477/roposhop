@@ -16,6 +16,10 @@ th::after {
     content: "\00a0 \00a0 ";
 }
 
+.text-align-center {
+    text-align: center;
+}
+
 .table-responsive {
     width: 100%;
     overflow-y: hidden;
@@ -44,4 +48,40 @@ th::after {
 
 .label_hide {
     visibility: hidden;
+}
+
+.btn-file {
+    width: auto !important;
+}
+
+.image-preview {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1px auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.remove-icon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.remove-icon i {
+  color: #e63946;
+  font-size: 16px;
 }

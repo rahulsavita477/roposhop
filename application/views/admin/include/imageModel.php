@@ -20,6 +20,8 @@
 function removeImage(image_no='')
 {
     $('.file'+image_no).empty();
+    $('#preview'+image_no).hide();
+    
     document.getElementById("file"+image_no).value = null;
 }
 
@@ -53,7 +55,8 @@ $(function() {
                     }
 
                     $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
-                    $('<button type="button" class="btn btn-danger" onclick="removeImage('+image_no+');">Remove</button>').appendTo(placeToInsertImagePreview);
+                    $('#preview'+image_no).show();
+                    // $('<button type="button" class="btn btn-danger" onclick="removeImage('+image_no+');">Remove</button>').appendTo(placeToInsertImagePreview);
                 }
 
                 reader.readAsDataURL(input.files[i]);
@@ -114,11 +117,11 @@ img {
 }
 
 .file img, .file1 img, .file2 img, .file3 img, .file4 img, .file5 img, .file6 img, .file7 img, .file8 img{
-	height: 50px;
+	/* height: 50px; */
 	cursor: default;
 }
 
 .file img{
-    margin: 2px;   
+    margin: 2px;
 }
 </style>

@@ -172,11 +172,11 @@ else
 					<?php
 					} else {
 					if ($page_label == 'edit') {
-						$attributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+						$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
 					} else {
-						$attributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+						$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
 					}
-					echo form_open_multipart('addBrand', $attributes);
+					echo form_open_multipart('addBrand', $formAttributes);
 					?>
 					<div class="box-body">
 						<div class="row form-group">

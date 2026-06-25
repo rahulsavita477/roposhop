@@ -79,7 +79,7 @@ a.btn-custom{
     background-color: #faa732;
 }
 
-.btn-primary, .btn-primary:hover {
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary.focus {
     background-color: #3364b0;
 }
 
@@ -344,12 +344,6 @@ form.form-inline input.w-50 {
 .modal-header, .modal-footer {
     padding: 0px 1rem !important;
     height: 50px;
-}
-
-.business-proof_warning {
-    padding: 0px; 
-    font-size: 10px; 
-    margin: 0px;
 }
 
 .form-control {

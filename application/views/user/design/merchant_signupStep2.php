@@ -159,14 +159,21 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <tbody>
                                 <tr>
                                     <td>
-                                        Business Proof <sup>*</sup>
+                                        <?php if (!empty($user['business_proof'])): ?>
+                                            <a href='<?= $user['business_proof'] ?>' target='_blank'><i class='fa fa-paperclip text-secondary'></i> Click here to view uploaded Business Proof</a>
+                                        <?php else: ?>
+                                            <b>Business Proof</b>
+                                            <!-- Tooltip icon -->
+                                            <i class="fa fa-info-circle text-primary"
+                                                data-toggle="tooltip"
+                                                data-placement="right"
+                                                title="Allowed Business proof: GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque."
+                                            ></i>
+                                            <b><sup>*</sup></b>
+                                        <?php endif; ?>
                                     </td>
 
-                                    <?php if (!empty($user['business_proof'])) {
-                                        echo "<td>
-                                                <a href='".$user['business_proof']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
-                                            </td>";
-                                    } else {
+                                    <?php if (empty($user['business_proof'])) {
                                         echo '<td>
                                                 <input type="file" name="file8" id="file8" required />
                                             </td>';
@@ -174,11 +181,6 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                             //     <img src="" id="srcfile8" />
                                             // </td>';
                                     } ?>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="white-space: normal;">
-                                        <span class="alert alert-warning business-proof_warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.</span>
-                                    </td>
                                 </tr>
                             </body>
                         </table>
@@ -196,7 +198,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
 
                                             <?php if ($user['merchant_logo']) {
                                                 echo "<td>
-                                                        <a href='".$user['merchant_logo']."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                                        <a href='".$user['merchant_logo']."' target='_blank'><i class='fa fa-paperclip text-secondary'></i></a>
                                                     </td>";
                                             } else {
                                                 echo '<td>
@@ -208,30 +210,27 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                             } ?>
                                         </tr>
 
-                                        <?php 
-                                        if (
+                                        <?php if (
                                             isset($user['shop_image']) && 
                                             is_array($user['shop_image']) && 
                                             count($user['shop_image']) > 0
-                                        ) 
-                                        {
+                                        ) {
                                             $avl_shop_img_cnt = count($user['shop_image']);
 
-                                            for ($i=1; $i <= $avl_shop_img_cnt; $i++) 
-                                            { 
+                                            for ($i=1; $i <= $avl_shop_img_cnt; $i++) {
+                                                
                                                 $shop_img = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$user['merchant_id'].'/'.$user['shop_image'][$i-1]['atch_url'];
 
-                                                echo 
-                                                "<tr>
+                                                echo "<tr>
                                                     <td>Shop image".$i."</td>
                                                     <td>
-                                                        <a href='".$shop_img."' class='btn-custom btn-primary' target='_blank'>Preview</a>
+                                                        <a href='".$shop_img."' target='_blank'><i class='fa fa-paperclip text-secondary'></i></a>
                                                     </td>
                                                 </tr>";
                                             }
-                                        }
-                                        else
+                                        } else {
                                             $avl_shop_img_cnt = 0;
+                                        }
 
                                         for ($i=1; $i<7-$avl_shop_img_cnt; $i++)
                                         {
@@ -249,15 +248,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
 
                                 <div class="form-group">
                                     <label for=""><b>Shop Description</b></label>
-                                    <textarea 
-                                        class="form-control" 
-                                        style="min-height: auto !important;"
-                                        name="description" 
-                                        placeholder="shop description"
-                                        rows="1"
-                                    >
-                                        <?= $shop_description ?>
-                                    </textarea>
+                                    <textarea class="form-control" style="min-height: auto !important;" name="description" placeholder="shop description" rows="1" id=""><?= $shop_description ?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -478,10 +469,6 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-img {
-    cursor: zoom-in;
-}
-
 .file img, .file1 img, .file2 img, .file3 img, .file4 img, .file5 img, .file6 img, .file7 img, .file8 img{
     height: 50px;
     cursor: default;
