@@ -485,7 +485,7 @@ class User_controller extends CI_Controller
             else
                 $data['product']['varients'] = false;
 
-            //get product key features
+            //get Product Features
             $prd_feature = $this->am1->selectRecords(array('product_id' => $product_id), 'product_key_features', 'feature');
             if ($prd_feature) 
             {
@@ -807,7 +807,7 @@ class User_controller extends CI_Controller
             $data['product']['brand_name'] = $brand['result'][0]['name'];
             $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
 
-            //get product key features
+            //get Product Features
             $prd_feature = $this->am1->selectRecords(array('product_id' => $product_id), 'product_key_features', 'feature');
             $key_features = array();
             if ($prd_feature) 
@@ -1596,7 +1596,7 @@ class User_controller extends CI_Controller
                 {
                     $key_features = array();
 
-                    //get product key features
+                    //get Product Features
                     $prd_feature = $this->am1->selectRecords(array('product_id' => $value['product_id']), 'product_key_features', 'feature');
                     if ($prd_feature) 
                     {

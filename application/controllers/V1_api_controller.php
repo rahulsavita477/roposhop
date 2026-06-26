@@ -414,7 +414,7 @@ class V1_api_controller extends CI_Controller
 				else
 					$res['products'][$i]['varients'] = array();
 
-				//get product key features
+				//get Product Features
 				$key_features = array();
 				$prd_feature = $this->am3->selectRecords(array('product_id' => $prd_id), 'product_key_features', 'feature');
 				if ($prd_feature) 

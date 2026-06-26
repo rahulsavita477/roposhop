@@ -21,6 +21,7 @@ function removeImage(image_no='')
 {
     $('.file'+image_no).empty();
     $('#preview'+image_no).hide();
+    $('#fileUploadDiv'+image_no).show();
     
     document.getElementById("file"+image_no).value = null;
 }
@@ -56,6 +57,7 @@ $(function() {
 
                     $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
                     $('#preview'+image_no).show();
+                    $('#fileUploadDiv'+image_no).hide();
                     // $('<button type="button" class="btn btn-danger" onclick="removeImage('+image_no+');">Remove</button>').appendTo(placeToInsertImagePreview);
                 }
 

@@ -352,7 +352,7 @@ else
 
 									<div class="row form-group" style="clear: both;">
 		                        		<div class="col-sm-3">
-		                        			<label>Product key features:</label>	
+		                        			<label>Product Features:</label>	
 		                        		</div>
 		                        		<div class="col-sm-9">
 		                        			<?php
@@ -759,7 +759,7 @@ else
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">
-		                                                Product Key Features
+		                                                Product Features
 		                                                <button type="button" class="btn btn-warning pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i> Add product Key Feature</button>
 		                                            </th>
 		                                        </tr>
@@ -1112,7 +1112,7 @@ else
 		                                    <thead>
 		                                        <tr>
 		                                            <th colspan="2">
-		                                                Product Key Features
+		                                                Product Features
 		                                                <button type="button" class="btn btn-warning pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i> Add product Key Feature</button>
 		                                            </th>
 		                                        </tr>

@@ -371,3 +371,39 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     else
         return false;
 }
+
+function render_images($images, $images_dir, $entity_id, $slots = 6) {
+    $html = '';
+    for ($i = 1, $j = 0; $i <= $slots; $i++, $j++) {
+        $html .= '<td class="text-align-center">';
+        if (isset($images[$j])) {
+            $img_src = $images_dir . '/' . $images[$j]['atch_url'];
+            $html .= '
+                <div id="preview'.$i.'" class="image-preview">
+                    <div class="file'.$i.'">
+                        <img src="'.$img_src.'" alt="Product Image '.$i.'">
+                    </div>
+                    <span class="remove-icon">
+                        <a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/editProduct/'.$entity_id.'" onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </span>
+                </div>
+                <input type="hidden" name="remove_img'.$i.'" value="'.$images[$j]['atch_url'].'" />';
+        } else {
+            $html .= '
+                <div class="btn btn-primary btn-file" id="fileUploadDiv'.$i.'">
+                    <i class="fa fa-paperclip"></i> Upload Image '.$i.'
+                    <input type="file" name="file'.$i.'" id="file'.$i.'" />
+                </div>
+                <div id="preview'.$i.'" class="image-preview" style="display:none;">
+                    <div class="file'.$i.'"></div>
+                    <span class="remove-icon" onclick="removeImage('.$i.')">
+                        <i class="fa fa-trash-o"></i>
+                    </span>
+                </div>';
+        }
+        $html .= '</td>';
+    }
+    return $html;
+}

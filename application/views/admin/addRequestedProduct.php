@@ -410,7 +410,7 @@ $page_title = 'Add requested product';
 	                                    <thead>
 	                                        <tr>
 	                                            <th colspan="2">
-	                                                Product Key Features
+	                                                Product Features
 	                                                <button type="button" class="btn btn-warning pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i> Add product Key Feature</button>
 	                                            </th>
 	                                        </tr>

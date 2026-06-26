@@ -1656,7 +1656,7 @@ class Admin_controller extends CI_Controller
 			if (!$isUploaded) 
 				redirectWithMessage('Error: unable to upload image', $controller);
 
-			//insert product key features
+			//insert Product Features
 			if ($seller_offering) 
 			{
 				$seller_offering_data = array();
@@ -3569,7 +3569,7 @@ class Admin_controller extends CI_Controller
 					}
 				}
 
-				//insert product key features
+				//insert Product Features
 				if ($key_features) 
 				{
 					$key_feature_data = array();
