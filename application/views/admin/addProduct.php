@@ -574,12 +574,15 @@ else
 										<div class="col-sm-12">
 											<div class="table-responsive editTable">
 												<table class="table table-bordered dataTable">
-													<thead>
+													<thead data-toggle="collapse" data-target="#productImages_tableBody" style="cursor:pointer;">
 														<tr>
-															<th class="text-align-center" colspan="6">Product Images</th>
+															<th class="text-align-center" colspan="6">
+																Product Images
+																<i class="fa fa-chevron-down toggle-icon"></i>
+															</th>
 														</tr>
 													</thead>
-													<tbody style="height: auto;">
+													<tbody style="height: auto;" id="productImages_tableBody" class="collapse in">
 														<tr>
 														<?php echo render_images($images, $product_images_dir, $product_id, 6); ?>
 														</tr>
@@ -597,15 +600,16 @@ else
 										<div class="col-sm-6">
 											<div class="table-responsive editTable">
 												<table class="table table-bordered table-striped dataTable">
-													<thead>
+													<thead data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;">
 														<tr>
 															<th colspan="2" class="text-align-center">
 																Product Features
+																<i class="fa fa-chevron-down toggle-icon"></i>
 																<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
 															</th>
 														</tr>
 													</thead>
-													<tbody>
+													<tbody id="productFeatures_tableBody" class="collapse in">
 														<tr>
 															<td>
 																<div class="row form-group">
@@ -1266,11 +1270,11 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 	            	if (resp.length > 0) {
 
 	    				fields += '<table class="table table-bordered table-striped dataTable">'+
-							'<thead>'+
+							'<thead data-toggle="collapse" data-target="#productAttributes_tableBody" style="cursor:pointer;">'+
 								'<tr>'+
-									'<th colspan=2 class="text-align-center">Product Attributes</th>'+
+									'<th colspan=2 class="text-align-center">Product Attributes<i class="fa fa-chevron-down toggle-icon"></i></th>'+
 								'</tr>'+
-							'</thead><tbody>';
+							'</thead><tbody id="productAttributes_tableBody" class="collapse in">';
 
 	    				for (var i = 0; i < resp.length; i++) 
 		            	{

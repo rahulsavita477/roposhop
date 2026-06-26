@@ -22,7 +22,7 @@ th::after {
 
 .editTable tbody {
   display: block;          /* make tbody a block container */
-  height: 200px;       /* set desired height */
+  max-height: 200px;       /* set desired height */
   overflow-y: auto;        /* enable vertical scrolling */
   /* overflow-x: hidden; */
 }
@@ -140,3 +140,18 @@ textarea.form-control {
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
+
+.toggle-icon {
+    margin-left: 8px;
+    /* transition: transform 0.3s ease; */
+}
+
+/* down */
+/* .collapse.in + tr .toggle-icon {
+    transform: rotate(0deg);
+} */
+
+/* up */
+/* .collapse + tr .toggle-icon {
+    transform: rotate(180deg); 
+} */

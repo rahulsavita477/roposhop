@@ -37,6 +37,15 @@
         }
 
         $(function() {
+
+            // $('#tableBody').on('shown.bs.collapse', function () {
+            //     $('.toggle-icon').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            // });
+
+            // $('#tableBody').on('hidden.bs.collapse', function () {
+            //     $('.toggle-icon').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            // });
+
             $(".data-pagination-table").each(function() {
                 var $table = $(this);
                 var $headerRow = $table.find('thead tr:last');
