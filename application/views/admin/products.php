@@ -110,18 +110,21 @@ else
                                         $prd_id = $prd_value['product_id'];
                                         $cat_id = $prd_value['category_id'];
                                         
+                                        // Below is the URL for product view in read only mode. But design need to be improve
+                                        // <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
+                                        
                                         echo "<tr>
                                                 <td>".$prd_id."</td>
-                            					<td>".$status."</td>
-                                                <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
+                            					<td class='statusLabel'>".$status."</td>
+                                                <td>".$prd_value['product_name']."</td>
                                                 <td>".$prd_value['category_name']."</td>
                                                 <td>".$prd_value['brand_name']."</td>
                                                 <td>".$prd_value['mrp_price']."</td>
                                                 <td>
-                                                    <a href='".base_url("editProduct/$prd_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' class='btn btn-warning'>Duplcate</a>
-                                                    <a href='".base_url("deleteProduct/$prd_id")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' class='btn btn-default' onclick='return confirm(\"Do you want to change the product status?\")'>Change Status</a>
+                                                    <a href='".base_url("editProduct/$prd_id/edit")."' class='btn btn-primary' title='Edit'><i class='fa fa-edit'></i></a>
+                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' class='btn btn-warning' title='Create Duplicate Product'><i class='fa fa-copy'></i></a>
+                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' class='btn btn-default' onclick='return confirm(\"Do you want to change the product status?\")'title='Change Status'><i class='fa fa-check-circle'></i></a>
+                                                    <a href='".base_url("deleteProduct/$prd_id")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
                                                 </td>
                             				</tr>";
                             		}

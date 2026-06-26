@@ -26,6 +26,21 @@ function removeImage(image_no='')
     document.getElementById("file"+image_no).value = null;
 }
 
+function removeStaticImage(index) {
+    
+    // Hide preview
+    document.getElementById('preview' + index).style.display = 'none';
+
+    // Show upload again
+    document.getElementById('fileUploadDiv' + index).style.display = 'inline-block';
+
+    // Remove hidden input element itself
+    const hiddenInputs = document.querySelectorAll('input[name="remove_img[]"]');
+    if (hiddenInputs && hiddenInputs[index-1]) {
+        hiddenInputs[index-1].remove();
+    }
+}
+
 $(function() {
     $('img').on('click', function() {
 		$('.enlargeImageModalSource').attr('src', $(this).attr('src'));

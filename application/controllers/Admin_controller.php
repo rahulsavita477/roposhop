@@ -3432,7 +3432,9 @@ class Admin_controller extends CI_Controller
 		$key_features = $this->input->post('key_feature_values');
 		$old_prd_id = $this->input->post('old_prd_id');
 		$prd_id = $this->input->post('prd_id');
+		$copiedImages = $this->input->post('remove_img'); // array of copied image id from original product
 
+		echo "<pre>"; print_r($this->input->post()); print_r($_FILES);
 		if ($request_id) 
 			$controller = 'page/requestedProducts';
 		else
@@ -3443,7 +3445,7 @@ class Admin_controller extends CI_Controller
 
 		if (count(array_filter($data)) >= 5) 
 		{
-			if ($prd_id) //update product
+			if ($prd_id && !$old_prd_id) // update existing product if not a duplicate product 
 			{
 				$condition = array('product_id' => $prd_id);
 				$isUpdated = $this->Admin_model->updateData('product', $data, $condition);
@@ -3479,14 +3481,13 @@ class Admin_controller extends CI_Controller
 
 				if ($old_prd_id) 
 				{
-					//Copy all images from one product folder to another product folder
+					// Copy all images from one product folder to another product folder
 					$from_folder = PRODUCT_ATTATCHMENTS_PATH.$old_prd_id;
 					$to_folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
-					$files = $this->common_controller->cloneData($from_folder, $to_folder);
+					$files = $this->common_controller->cloneData($from_folder, $to_folder, $copiedImages);
 
 					//insert images into the database
-					if (!$files) 
-						die('Error: Unable to copy images');
+					if (!$files) die('Error: Unable to copy images');
 					else
 					{
 						foreach ($files as $file) 

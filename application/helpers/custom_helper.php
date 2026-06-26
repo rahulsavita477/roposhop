@@ -407,3 +407,46 @@ function render_images($images, $images_dir, $entity_id, $slots = 6) {
     }
     return $html;
 }
+
+function renderDuplicateProductImages($images, $images_dir, $slots = 6) {
+
+    $html = '';
+
+    for ($i = 1; $i <= $slots; $i++) {
+
+        $html .= '<td class="text-align-center">';
+        $hasImage = isset($images[$i-1]); // Check if image exists
+        $img_src  = $hasImage ? $images_dir . '/' . $images[$i-1]['atch_url'] : '';
+
+        // Upload button (hidden if image exists)
+        $html .= '
+            <div class="btn btn-primary btn-file" id="fileUploadDiv'.$i.'" '.($hasImage ? 'style="display:none;"' : '').'>
+                <i class="fa fa-paperclip"></i> Upload Image '.$i.'
+                <input type="file" name="file'.$i.'" id="file'.$i.'" />
+            </div>';
+
+        // Preview block (visible if image exists)
+        $html .= '
+            <div id="preview'.$i.'" class="image-preview" '.(!$hasImage ? 'style="display:none;"' : '').'>
+                <div class="file'.$i.'">';
+
+        if ($hasImage) {
+            $html .= '<img src="'.$img_src.'" alt="Product Image '.$i.'">';
+        }
+
+        $html .= '</div>
+                <span class="remove-icon" onclick="removeStaticImage('.$i.')">
+                    <i class="fa fa-trash-o"></i>
+                </span>
+            </div>';
+
+        // Hidden input for image name (only if image exists)
+        if ($hasImage) {
+            $html .= '<input type="hidden" name="remove_img[]" value="'.$images[$i-1]['atch_url'].'" />';
+        }
+
+        $html .= '</td>';
+    }
+
+    return $html;
+}

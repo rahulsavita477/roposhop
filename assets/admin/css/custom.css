@@ -143,15 +143,8 @@ textarea.form-control {
 
 .toggle-icon {
     margin-left: 8px;
-    /* transition: transform 0.3s ease; */
 }
 
-/* down */
-/* .collapse.in + tr .toggle-icon {
-    transform: rotate(0deg);
-} */
-
-/* up */
-/* .collapse + tr .toggle-icon {
-    transform: rotate(180deg); 
-} */
+.statusLabel {
+    vertical-align: middle !important;
+}

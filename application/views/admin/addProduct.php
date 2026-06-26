@@ -1,5 +1,4 @@
-
-<?php 
+<?php
 $product_id = isset($product_id) ? $product_id : false;
 $product_name = isset($product_name) ? $product_name : set_value('prd_name');
 $amazon_prd_id = isset($amazon_prd_id) ? $amazon_prd_id : set_value('amazon_prd_id');
@@ -19,14 +18,13 @@ $meta_keyword = isset($meta_keyword) ? $meta_keyword : set_value('meta_keyword')
 $meta_description = isset($meta_description) ? $meta_description : set_value('meta_description');
 $notes = isset($notes) ? $notes : set_value('notes');
 
-if (isset($page_label) && $page_label == "edit") 
+if (isset($page_label) && $page_label == "edit") {
 	$page_title = 'Edit product';
-else if (isset($page_label) && $page_label == "view") 
+} elseif (isset($page_label) && $page_label == "view") {
 	$page_title = 'View product';
-else if (isset($page_label) && $page_label == "duplicate") 
+} elseif (isset($page_label) && $page_label == "duplicate") {
 	$page_title = 'Create duplicate product';
-else
-{
+} else {
 	$page_label = "add";
 	$page_title = 'Add product';
 }
@@ -39,7 +37,7 @@ else
 	    <section class="content-header">
 	        <h1>
 	            Product
-	            <small><?= $page_label ?></small>
+	            <small><?= ucfirst($page_label) ?></small>
 	        </h1>
 	        <ol class="breadcrumb">
 	            <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -52,7 +50,7 @@ else
 	    <section class="content-header">
 	        <h1>
 	            Product
-	            <small><?= $page_label ?></small>
+	            <small><?= ucfirst($page_label) ?></small>
 	        </h1>
 	        <ol class="breadcrumb">
 	            <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -112,13 +110,12 @@ else
 			                                <button class="btn btn-default" data-dismiss="modal">Close</button>
 			                                <button type="submit" class="btn btn-primary" id="varientSubmitBtn" disabled>Submit</button>
 			                            </div>
-			                            <?= form_close() ?>			                            
+			                            <?= form_close() ?>
 			                        </div>
 			                    </div>
 			                </div>
 
 <!---------------------########### START PRODUCT VIEW FORM ###################------------------>
-
 					        <?php if ($page_label == "view") { ?>
 						        <div class="box-footer" align="right">
 						            <a href='<?= base_url("products") ?>' class='btn btn-default'>Back</a>
@@ -443,9 +440,9 @@ else
 							    </div>
 
 <!---------------------########### END PRODUCT VIEW FORM ###################-------------------->
-<!----------------########### START PRODUCT ADD OR EDIT FORM ###################---------------->
 
-					    <?php } else if ($page_label == "edit" || $page_label == "add") { ?>
+<!----------------########### START PRODUCT ADD OR EDIT FORM ###################---------------->
+					    <?php } elseif ($page_label == "edit" || $page_label == "add") { ?>
 					    	<!-- Key Feature Modal -->
 	                        <div class="modal fade" id="keyFeatureModal">
 	                            <div class="modal-dialog">
@@ -548,7 +545,13 @@ else
 		                        		</div>
 
 										<div class="col-sm-3">
-		                        			<label>Product Name *</label>
+		                        			Product Name
+											<!-- Tooltip icon -->
+											<i class="fa fa-info-circle text-primary"
+												data-toggle="tooltip"
+												data-placement="right"
+												title="Duplicate product name not allowed"
+											></i>*
 											<input type="text" id="autosearch_product" class="form-control" placeholder="Enter product name" name="prd_name" value="<?= $product_name ?>" required />
 		                        		</div>
 									
@@ -574,11 +577,11 @@ else
 										<div class="col-sm-12">
 											<div class="table-responsive editTable">
 												<table class="table table-bordered dataTable">
-													<thead data-toggle="collapse" data-target="#productImages_tableBody" style="cursor:pointer;">
+													<thead>
 														<tr>
 															<th class="text-align-center" colspan="6">
 																Product Images
-																<i class="fa fa-chevron-down toggle-icon"></i>
+																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productImages_tableBody" style="cursor:pointer;"></i>
 															</th>
 														</tr>
 													</thead>
@@ -594,17 +597,33 @@ else
 
 									<div class="row">
 										<div class="col-sm-6">
-											<div class="table-responsive editTable" id="att_fields" style="display: none;"></div>
+											<div class="table-responsive editTable">
+												<table class="table table-bordered table-striped dataTable">
+													<thead>
+														<tr>
+															<th colspan=2 class="text-align-center">
+																Product Attributes
+																<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#att_fields" style="cursor:pointer;"></i>
+															</th>
+														</tr>
+													</thead>
+													<tbody class="collapse in" id="att_fields">
+														<tr>
+															<td>No Attribute Found</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 
 										<div class="col-sm-6">
 											<div class="table-responsive editTable">
 												<table class="table table-bordered table-striped dataTable">
-													<thead data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;">
+													<thead>
 														<tr>
 															<th colspan="2" class="text-align-center">
 																Product Features
-																<i class="fa fa-chevron-down toggle-icon"></i>
+																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
 																<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
 															</th>
 														</tr>
@@ -653,10 +672,11 @@ else
 															<thead>
 																<tr>
 																	<th colspan="3" class="text-align-center">Product varients
+																	<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
 																	<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button></th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody id="productVarients_tableBody" class="collapse in">
 																<?php if (isset($product_varients) && $product_varients) {
 
 																	echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
@@ -692,7 +712,7 @@ else
 																	}
 																}
 																else
-																	echo "<tr><td colspan=3><center>Not available</center></td>";
+																	echo "<tr><td colspan=3>Not Varient Found</td>";
 																?>
 															</tbody>
 														</table>
@@ -704,10 +724,12 @@ else
 														<table class="table table-bordered dataTable">
 															<thead>
 																<tr>
-																	<th colspan="3" class="text-align-center">Tags</th>
+																	<th colspan="3" class="text-align-center">
+																		Tags<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productTags_tableBody" style="cursor:pointer;"></i>
+																	</th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody id="productTags_tableBody" class="collapse in">
 																<tr>
 																	<td class="tags-cell">
 																		<?php if (count($tags) > 0) {
@@ -784,7 +806,9 @@ else
 														<table class="table table-bordered dataTable">
 															<thead>
 																<tr>
-																	<th colspan="4" class="text-align-center">HTML Files For Category</th>
+																	<th colspan="4" class="text-align-center">
+																		HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFilesCategory_tableBody" style="cursor:pointer;"></i>
+																	</th>
 																</tr>
 																<tr>
 																	<th></th>
@@ -793,7 +817,7 @@ else
 																	<th id="">Action</th>
 																</tr>
 															</thead>
-															<tbody>
+															<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
 																<?php
 																for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
 																{
@@ -843,19 +867,19 @@ else
 						    <?= form_close() ?>
 						
 <!----------------########### END PRODUCT ADD OR EDIT FORM ###################---------------->
-<!----------------########### START PRODUCT DUPLICATE FORM ###################---------------->
 
+<!----------------########### START PRODUCT DUPLICATE FORM ###################---------------->
 						<?php } elseif ($page_label == "duplicate") { ?>
 							<!-- form start -->
 						    <?= form_open_multipart('insertProduct') ?>
+
 						    	<input type="hidden" name="old_prd_id" value="<?= $product_id ?>" />
+
 						    	<div class="box-body">
-						    		<!-- select category -->
-			                        <div class="row form-group">
+			                        <div class="row">
+						    			<!-- select category -->
 		                        		<div class="col-sm-3">
-		                        			<label>Category*:</label>	
-		                        		</div>
-		                        		<div class="col-sm-5">
+		                        			<label>Category *</label>
 		                        			<?php
 											echo '<select class="form-control" name="parent_cat_id" onchange="getCategoryAttribtes(this.value, '.$product_id.');" required>';
 
@@ -874,263 +898,323 @@ else
 									    			echo "<option>No parent category available!</option>";
 								    		
 								    		echo "</select>";
-								    		?>			
+								    		?>	
 		                        		</div>
-			                        </div>
 
-			                        <!-- select brand -->
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Brand*:</label>	
-		                        		</div>
-		                        		<div class="col-sm-5">
-		                        			<?php
-								    		echo '<select class="form-control" name="brand_id" required>';
-								    		if ($status) 
-								    		{
-								    			echo "<option value=''>Please select a brand!!</option>";
+										<!-- select brand -->
+										<div class="col-sm-3">
+											<label>Brand *</label>
+											<?php
+											echo '<select class="form-control" name="brand_id" required>';
 
-								    			foreach ($brands as $brands_value) 
-								    			{
-								    				$selected = $brands_value['name'] == $brand_name ? 'selected' : '';
+											if ($status) {
 
-								    				echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
-								    			}
-								    		}
-								    		else
-								    			echo "<option>No brand available!</option>";
-								    		
-								    		echo "</select>";
-								    		?>
-		                        		</div>
-		                        	</div>
-							    	<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Product Name*:</label>	
-		                        		</div>
-		                        		<div class="col-sm-5">
-		                        			<input type="text" class="form-control" placeholder="Enter product name..." name="prd_name" value="<?= $product_name ?>" required/>
-		                        		</div>
-		                        		<div class="col-sm-4">
-		                        			(Same product name is not allowed)
-		                        		</div>
-		                        	</div>
+												echo "<option value=''>Please select a brand!!</option>";
 
-		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Amazon Product ID:</label>	
-		                        		</div>
-		                        		<div class="col-sm-5">
-		                        			<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" />
-		                        		</div>
-		                        	</div>
+												foreach ($brands as $brands_value) {
+													
+													$selected = $brands_value['name'] == $brand_name ? 'selected' : '';
 
-		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Flipkart Product ID:</label>	
-		                        		</div>
-		                        		<div class="col-sm-5">
-		                        			<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" />
-		                        		</div>
-		                        	</div>
-
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Product Price*:</label>	
-		                        		</div>
-		                        		<div class="col-sm-5">
-		                        			<input type="text" class="form-control" placeholder="Enter product price..." name="prd_price" value="<?= $mrp_price ?>" required/>
-		                        		</div>
-		                        	</div>
-								    
-			                        <div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
-		                        			<label>Product Description*:</label>	
-		                        		</div>
-		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
-		                        		</div>
-		                        	</div>
-
-		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
-		                        			<label>In The Box:</label>	
-		                        		</div>
-		                        		<div class="col-sm-8">
-		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
-		                        		</div>
-		                        	</div>
-									
-									<div class="row form-group">
-								    	<div class="col-sm-3">
-											<label>Tags:</label>
+													echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
+												}
+											} else {
+												echo "<option>No brand available!</option>";
+											}
+											
+											echo "</select>";
+											?>
 										</div>
-										<div class="col-sm-8">
-											<span class="bigcheck">
-												<?php
-			                                	if (count($tags)>0) 
-					    						{
-					    							function array_value_exist($product_tags, $value)
-													{
-														if (count($product_tags)>0) 
-					    								{
-														    foreach ($product_tags as $prd_tag_value) 
-														    {
-						    									if ( $prd_tag_value['tag_id'] == $value ) 
-						    									{
-						    										return "checked";
-						    										break;
-						    									}
-						    								}
-						    							}
+										
+										<div class="col-sm-3">
+		                        			<label>
+												Product Name
+												<!-- Tooltip icon -->
+												<i class="fa fa-info-circle text-primary"
+													data-toggle="tooltip"
+													data-placement="right"
+													title="Duplicate product name not allowed"
+												></i>*
+											</label>
+											
+		                        			<input type="text" class="form-control" placeholder="Enter product name" name="prd_name" value="<?= $product_name ?>" id="" required/>
+		                        		</div>
 
-					    								return "";
-													}
+										<div class="col-sm-3">
+											<label>Product Price*:</label>
+											
+											<input type="text" class="form-control" placeholder="Enter product price" name="prd_price" value="<?= $mrp_price ?>" required/>
+										</div>
+			                        </div>
+								    
+			                        <div class="row nextFormLine">
+		                        		<div class="col-sm-6">
+		                        			<label>Product Description*:</label>
+		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Enter product description" id="" required><?= $description ?></textarea>
+		                        		</div>
 
-					    							foreach ($tags as $tag_value)
-					    							{
-					    								$checked = array_value_exist($product_tags, $tag_value['tag_id']);
-
-					    								echo '<div> <label class="bigcheck">
-														    	<input type="checkbox" class="bigcheck" name="selected_tag_ids[]" value="'.$tag_value['tag_id'].'"'.$checked.' />
-														    	<span class="bigcheck-target"></span>&nbsp;&nbsp;
-														    	'.$tag_value['tag_name'].'
-														  	</label></div>';
-					    							}
-					    						}
-			                                	?>	                                    
-			                                </span>
+		                        		<div class="col-sm-6">
+		                        			<label>In The Box:</label>
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box" id=""><?= $in_the_box ?></textarea>
+		                        		</div>
+		                        	</div>
+										
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="table-responsive editTable">
+												<table class="table table-bordered dataTable">
+													<thead>
+														<tr>
+															<th class="text-align-center" colspan="6">
+																Product Images
+																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productImages_tableBody" style="cursor:pointer;"></i>
+															</th>
+														</tr>
+													</thead>
+													<tbody style="height: auto;" id="productImages_tableBody" class="collapse in">
+														<tr>
+														<?php echo renderDuplicateProductImages($images, $product_images_dir, 6); ?>
+														</tr>
+													</tbody>
+												</table>
+											</div>
 										</div>
 									</div>
 
-									<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Product Images:</label>	
-		                        		</div>
-		                        		<div class="col-sm-9">
-		                        			<?php 
-		                        			if (!empty($images)) 
-					                        {
-					                        	foreach ($images as $img_value) 
-					                        		echo '<div class="thumbnail">
-					                        				<figure>
-																<img src="'.$product_images_dir.'/'.$img_value['atch_url'].'" height="80">
-														    </figure>
-														</div>';
-					                        }
-					                        else
-					                        	echo "Not available";
-					                        ?>
-		                        		</div>
-		                        	</div>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="table-responsive editTable">
+												<table class="table table-bordered table-striped dataTable">
+													<thead>
+														<tr>
+															<th colspan=2 class="text-align-center">
+																Product Attributes
+																<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#att_fields" style="cursor:pointer;"></i>
+															</th>
+														</tr>
+													</thead>
+													<tbody class="collapse in" id="att_fields">
+														<tr>
+															<td>No Attribute Found</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
 
-									<?php if ($product_varients) { ?>
-		                        		<div style="margin-bottom: 20px;">
-			                        		<div class="box-body table-responsive">
-							                    <table class="table table-bordered table-striped">
-							                        <thead>
-							                        	<tr>
-				                                            <th colspan="2"><center>Product varients</center></th>
-				                                        </tr>
-							                            <tr>
-							                                <th>Varient name </th>
-							                                <th>Varient value</th>
-							                            </tr>
-							                        </thead>
-							                        <tbody>
-							                        	<?php	
-							                        	$i = 1;
-						                        		foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) 
-						                        		{
-						                        			$rowspan = count($prd_vrnt_values)+1;
-						                        			echo "<tr>
-						                        					<td rowspan=".$rowspan.">".$prd_vrnt_key."</td></tr>";
+										<div class="col-sm-6">
+											<div class="table-responsive editTable">
+												<table class="table table-bordered table-striped dataTable">
+													<thead>
+														<tr>
+															<th colspan="2" class="text-align-center">
+																Product Features
+																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
+																<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
+															</th>
+														</tr>
+													</thead>
+													<tbody id="productFeatures_tableBody" class="collapse in">
+														<tr>
+															<td>
+																<div class="row form-group">
+																	<div class="col-sm-8" id="key_feature_input_field_div"></div>
+																</div>
+															</td>
+														</tr>
+														<?php if ($key_features) {
+															foreach ($key_features['result'] as $feature_value) 
+																echo '<tr><td><input type="text" class="form-control" name="key_feature_values[]" value="'.$feature_value['feature'].'" /></td></tr>';
+														} ?>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
 
-						                        			foreach ($prd_vrnt_values as $vrnt_value) 
-						                        				echo "<tr><td>".
-							                            				"<input type='hidden' value='".$vrnt_value['vrnt_id']."' name='vrnt_ids[]'>
-						                                            	<input type='text' class='vrnt_values' placeholder='Enter attibute value...' name='vrnt_values[]' value='".$vrnt_value['att_value']."' />"
-								                            		."</td></tr>";
-						                                }
-							                        	?>
-							                        </tbody>
-							                    </table>
-							                </div><!-- /.box-body -->
-							            </div>
-		                			<?php } ?>
+									<!-- Toggle button/link -->
+        							<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
 
-									<div class="form-group" id="att_fields" style="display: none;"></div>
-									
-									<div class="box-body table-responsive">
-		                                <table class="table table-bordered table-striped">
-		                                    <thead>
-		                                        <tr>
-		                                            <th colspan="2">
-		                                                Product Features
-		                                                <button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i> Add product Key Feature</button>
-		                                            </th>
-		                                        </tr>
-		                                    </thead>
-		                                    <tbody>
-		                                    	<tr>
-		                                    		<td>
-		                                    			<div class="row form-group">
-							                                <div class="col-sm-8" id="key_feature_input_field_div"></div>
-							                            </div>
-		                                    		</td>
-		                                    	</tr>
-		                                        <?php if ($key_features) {
-		                                            foreach ($key_features['result'] as $feature_value) 
-		                                            	echo '<tr><td><input type="text" class="form-control" name="key_feature_values[]" value="'.$feature_value['feature'].'" /></td></tr>';
-		                                        } ?>
-		                                    </tbody>
-		                                </table>
-		                            </div><!-- /.box-body -->
+									<!-- Collapsible content -->
+									<div class="collapse" id="additionalDetails">
+										<div class="well">
 
-		                            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped">
-					                        <thead>
-					                        	<tr>
-					                        		<th colspan="4">
-					                        			<center>HTML FILES FOR CATEGORY</center>
-					                        		</th>
-					                        	</tr>
-					                            <tr>
-					                                <th></th>
-					                                <th>Prefix Path</th>
-					                                <th>File Path</th>
-					                                <th>Action</th>
-					                            </tr>
-					                        </thead>
-					                        <tbody>
-					                        	<?php
-					                        	for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-					                        	{
-					                        		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
-													$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
+											<div class="row">
+												<div class="col-sm-6">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="3" class="text-align-center">
+																		Product varients
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
+																		<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button>
+																	</th>
+																</tr>
+															</thead>
+															<tbody id="productVarients_tableBody" class="collapse in">
+																<?php if (isset($product_varients) && $product_varients) {
 
-													if ($link) 
-													{
-														$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
-													}
-													else
-														$buttons = '';
-													
-					                                echo "<tr>
-				                        					<td>HTML LINK".$i."</td>
-				                        					<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
-				                                            <td>
-				                                            	<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-				                                            	<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-				                                            </td>
-				                                            <td>".$buttons."</td>
-				                        				</tr>";
-					                        	}
-					                        	?>
-					                        </tbody>
-					                    </table>
-					                </div><!-- /.box-body -->
+																	echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
+
+																	$i = 1;
+																	foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) 
+																	{
+																		$rowspan = count($prd_vrnt_values)+1;
+																		echo "<tr>
+																				<td>".$prd_vrnt_key."</td><td>";
+
+																		foreach ($prd_vrnt_values as $vrnt_value) {
+																			$vrnt_id = $vrnt_value['vrnt_id'];
+
+																			echo "<div id='vrnt_row".$vrnt_id."' 
+																					style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
+																				<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
+																				<input type='text'
+																					class='form-control vrnt_values'
+																					placeholder='Enter attribute value'
+																					name='vrnt_values[]'
+																					value='".$vrnt_value['att_value']."'
+																					style='width:200px;' />
+																				<button type='button' class='btn btn-danger' onclick='removeVariant(".$vrnt_id.")'>
+																					<i class='fa fa-trash-o'></i>
+																				</button>
+																			</div><br />";
+																		}
+																		echo "</td></tr>";
+																	}
+																} else {
+																	echo "<tr><td colspan=3>Not Varient Found</td>";
+																} ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+
+												<div class="col-sm-6">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="3" class="text-align-center">
+																		Tags<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productTags_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+															</thead>
+															<tbody id="productTags_tableBody" class="collapse in">
+																<tr>
+																	<td class="tags-cell">
+																		<?php if (count($tags) > 0) {
+
+																			function array_value_exist($product_tags, $value){
+
+																				if (count($product_tags)>0) {
+
+																					foreach ($product_tags as $prd_tag_value) {
+
+																						if ( $prd_tag_value['tag_id'] == $value ) {
+
+																							return "checked";
+																							break;
+																						}
+																					}
+																				}
+
+																				return "";
+																			}
+
+																			foreach ($tags as $tag_value) {
+																				$checked = array_value_exist($product_tags, $tag_value['tag_id']);
+																				$tagName = htmlspecialchars($tag_value['tag_name'], ENT_QUOTES);
+
+																				echo '<label class="bigcheck tag-label" title="'.$tagName.'">
+																					<input type="checkbox" class="bigcheck" 
+																						name="selected_tag_ids[]" 
+																						value="'.$tag_value['tag_id'].'" '.$checked.' />
+																					<span class="bigcheck-target"></span>&nbsp;&nbsp;
+																					<span class="tag-text">'.$tagName.'</span>
+																				</label>';
+																			}
+																		} ?>
+																	</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+
+											<div class="row nextFormLine">
+												<div class="col-sm-4">
+													<label>Meta Title</label>
+													<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" required />
+												</div>
+
+												<div class="col-sm-4">
+													<label>Meta Keywords</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+												</div>
+
+												<div class="col-sm-4">
+													<label>Meta Description:</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+												</div>
+											</div>
+											
+											<div class="row nextFormLine">
+												<div class="col-sm-4">
+													<label>Notes</label>
+													<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+												</div>
+
+												<div class="col-sm-4">
+													<label>Amazon Product ID:</label>
+													<input type="text" class="form-control" placeholder="Enter amazon product id" name="amazon_prd_id" />
+												</div>
+												
+												<div class="col-sm-4">
+													<label>Flipkart Product ID:</label>
+													<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" />
+												</div>
+											</div>
+											
+											<div class="row nextFormLine">
+												<div class="col-sm-12">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="3" class="text-align-center">
+																		HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFilesCategory_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+																<tr>
+																	<th></th>
+																	<th id="">Prefix Path</th>
+																	<th id="">File Path</th>
+																</tr>
+															</thead>
+															<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
+																<?php 
+																for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+																	$link_id = isset($html_files['result'][$j]['html_file_id']) ? $html_files['result'][$j]['html_file_id'] : '';
+																	$link    = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
+
+																	echo "<tr>
+																			<td>HTML Link".$i."</td>
+																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td>
+																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																			</td>
+																		</tr>";
+																} ?>
+															</tbody>
+														</table>
+													</div><!-- /.box-body -->
+												</div>
+											</div>
+										</div>
+									</div>
 
 									<div class="box-footer" align="right">
 										<a href='<?= base_url("products") ?>' class='btn btn-default'>Cancel</a>
@@ -1139,14 +1223,13 @@ else
 							    </div>
 						    <?= form_close() ?>
 						<?php } ?>
-
 <!----------------########### END PRODUCT DUPLICATE FORM ###################---------------->
+
 					</div><!-- /.box -->
 				</div>   <!-- /.row -->
 			</div>
 
 <!----------------########### START REQUESTED PRODUCT FORM ###################---------------->
-
 			<?php if (isset($_GET['req_prd_id'])) { ?>
 	            <div class="col-md-5">
 					<!-- general form elements -->
@@ -1240,8 +1323,8 @@ else
 					</div>
 				</div>
 			<?php } ?>
-
 <!----------------########### END REQUESTED PRODUCT FORM ###################---------------->
+
         </section><!-- /.content -->
     </aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
@@ -1269,13 +1352,6 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 	            	
 	            	if (resp.length > 0) {
 
-	    				fields += '<table class="table table-bordered table-striped dataTable">'+
-							'<thead data-toggle="collapse" data-target="#productAttributes_tableBody" style="cursor:pointer;">'+
-								'<tr>'+
-									'<th colspan=2 class="text-align-center">Product Attributes<i class="fa fa-chevron-down toggle-icon"></i></th>'+
-								'</tr>'+
-							'</thead><tbody id="productAttributes_tableBody" class="collapse in">';
-
 	    				for (var i = 0; i < resp.length; i++) 
 		            	{
 		            		if (resp[i].mp_id != null) 
@@ -1285,8 +1361,9 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 		            			att_id = resp[i].att_id;
 		            			att_name_label = resp[i].att_name;
 		            			att_val = '';
-		            			if (page_label != "add") 
-		            			{
+
+		            			if (page_label != "add") {
+
 		            				att_val = resp[i].att_value;
 		            				if (att_val == null)
 		            					att_val = '';
@@ -1294,44 +1371,42 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 
 		            			fields += '<tr><td>'+att_name_label+'</td>';
 
-		                		if (page_label == "view") 
-		                			fields += '<td>'+att_val+'</td>';
-		                		else
-		                			fields += '<td>'+
-			                    					'<input type="text" name="'+att_id+'" class="form-control att_values" placeholder="Enter '+att_name_label+' value" value="'+att_val+'" />'+
-			                    				'</td></tr>';
+		                		if (page_label == "view") {
+									fields += '<td>'+att_val+'</td>';
+								} else {
+									fields += '<td>'+
+										'<input type="text" name="'+att_id+'" class="form-control att_values" placeholder="Enter '+att_name_label+' value" value="'+att_val+'" />'+
+									'</td></tr>';
+								}
 		            		}
 						}
-
-						fields += '</tbody></table>'
 	    			}
 
-	            	$('#att_fields').append(fields);
-	            	$('#att_fields').show();
+					$('#att_fields').html(fields);
 	            }
 
 	            $('#divLoading').hide();
 	        },
-	    });	
+	    });
 	} else if(cat_id != '') {
+
 		alert('Could not found category id!');
 		$('#divLoading').hide();
 	}
-}	
+}
 
 $(document).ready(function() {
+
 	prd_id = <?= (!empty($product_id) ? json_encode($product_id) : '""'); ?>;
 	page_label = <?= (!empty($page_label) ? json_encode($page_label) : '""'); ?>;
 	
-	if (prd_id) 
-	{
-		if (page_label == "view") 
-			cat_id = parseInt($("#par_cat_id").val());
-		else
-			cat_id = $("[name='parent_cat_id'] option:selected").val();
+	if (prd_id) {
 
-		if (cat_id && cat_id != 0) 
-		{
+		if (page_label == "view") cat_id = parseInt($("#par_cat_id").val());
+		else cat_id = $("[name='parent_cat_id'] option:selected").val();
+
+		if (cat_id && cat_id != 0) {
+
 			setTimeout(function(){ 
 				getCategoryAttribtes(cat_id, prd_id, page_label);
 			}, 2000);
@@ -1430,4 +1505,16 @@ function removeBtn(id)
 {
 	$('#con'+id).remove();
 }
+
+function removeVariant(id) {
+  // Find the row div and remove it
+  const row = document.getElementById('vrnt_row' + id);
+  if (row) row.remove();
+}
+
+function clearField(fieldName) {
+  const field = document.getElementsByName(fieldName)[0];
+  if (field) field.value = '';
+}
+
 </script>

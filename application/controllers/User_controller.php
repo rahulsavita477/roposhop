@@ -521,7 +521,7 @@ class User_controller extends CI_Controller
 
             //get product listing information
             $sold_by_merchants = $this->am1->getProductListings(array('product_listing.product_id' => $product_id));
-            $data['product']['sold_by_merchants'] = $sold_by_merchants['result'];
+            $data['product']['sold_by_merchants'] = $sold_by_merchants ? $sold_by_merchants['result'] : [];
 
             if ($sold_by_merchants) 
             {

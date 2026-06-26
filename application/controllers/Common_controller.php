@@ -324,18 +324,29 @@ class Common_controller extends CI_Controller
     }
 
     //copy data from one folder to another folder
-    public function cloneData($from, $to)
+    public function cloneData($from, $to, $specificFiles = [])
     {
         $this->createFolder($to);
-        $files = glob($from.'/*.*');
 
-        foreach($files as $file) 
-        {
+        // Agar specific files diye gaye hain
+        if (!empty($specificFiles)) {
+            $files = [];
+            foreach ($specificFiles as $fileName) {
+                $filePath = $from . '/' . $fileName;
+                if (file_exists($filePath)) {
+                    $files[] = $filePath;
+                }
+            }
+        } else {
+            // Default: copy all files
+            $files = glob($from.'/*.*');
+        }
+
+        foreach ($files as $file) {
             $file_to_go = str_replace($from, "", $file);
             $isCopied = copy($file, $to.$file_to_go);
 
-            if (!$isCopied) 
-                return false;
+            if (!$isCopied) return false;
         }
 
         return $files;
