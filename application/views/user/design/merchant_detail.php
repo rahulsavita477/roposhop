@@ -148,12 +148,6 @@ if($merchant_detail['business_hours']) {
     .hi{
         display: none;
     }
-    #more{
-        display: none;
-    }
-    #more1{
-        display: none;
-    }
     .height-100{
         height: 100px;
     }

@@ -123,7 +123,7 @@ else
                     else
                     {
                         echo "<a href='".$site_url."/userProfile' class='btn-info btn-custom'><i class='icon-user'></i></a>&nbsp;";
-                        echo "&nbsp;<a href='".$site_url."/userLogout' class='btn-warning btn-custom'><i class='fas fa-power-off'></i></a>";   
+                        echo "&nbsp;<a href='".$site_url."/userLogout' class='btn-default btn-custom' title='logout'><i class='fas fa-power-off'></i></a>";   
                     }
                     ?>        
                 </div>

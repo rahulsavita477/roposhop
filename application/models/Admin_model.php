@@ -827,7 +827,7 @@ print_r($tables); die;
 
     public function getConsumer($consumer_id)
     {
-        $query = $this->db->query("SELECT user.userId as user_id, email, first_name as full_name, consumer_id, gender, phone, birthday, IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."', picture), '') as profile_image, auth_token, status AS enabled FROM user inner JOIN consumer ON consumer.userId = user.userId AND consumer_id = ".$consumer_id);
+        $query = $this->db->query("SELECT user.userId as user_id, email, first_name as full_name, consumer_id, gender, phone, birthday, IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."', picture), '') as profile_image, auth_token, status AS enabled FROM user inner JOIN consumer ON consumer.userId = user.userId AND consumer.consumer_id = ".$consumer_id);
 
         $isDbError = $this->dbError();
 

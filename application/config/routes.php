@@ -132,6 +132,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['addProductVarient'] = $admin_controller.'addProductVarient';
 	$route['sellers/(:any)'] = $admin_controller.'sellers/$1';
 	$route['deleteProductVarientValue/(:num)/(:num)'] = $admin_controller.'deleteProductVarientValue/$1/$2';
+	$route['deleteProductVarient/(:num)/(:num)'] = $admin_controller.'deleteProductVarient/$1/$2';
 	$route['addSeller'] = $admin_controller.'addSeller';
 	$route['seller/(:num)/(:any)'] = $admin_controller.'seller/$1/$2';
 	$route['changeSellerStatus/(:num)/(:num)/(:any)'] = $admin_controller.'changeSellerStatus/$1/$2/$3';

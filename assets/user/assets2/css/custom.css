@@ -14,7 +14,7 @@ a.btn-custom{
 
 .owl-stage-outer .owl-item {
     text-align: center;
-    margin: 0 auto;
+    margin-right: 0px !important;
 }
 
 .partner {
@@ -245,7 +245,12 @@ a.partner:hover{
 
 .sidebar-shop .widget {
     margin: 0px !important;
+    padding: 10px;
     border: 1px solid #dae2e6 !important;
+}
+
+.sidebar-shop .widget-body {
+    padding: 0px;
 }
 
 .exb{
@@ -288,7 +293,7 @@ a.partner:hover{
 .filt .checkbox-label{
     display: initial;
     position: relative;
-    padding-left: 30px;
+    padding-left: 5px;
     line-height: 1.7;
     margin-bottom: 8px;
     user-select: none;
@@ -366,7 +371,61 @@ form.form-inline input.w-50 {
     padding-top: 0px;
 }
 
+.product-single-collapse p {
+    margin-bottom: 0px;
+}
 
+.product-collapse-panel {
+    padding-bottom: 10px;
+}
+
+.tableSeconday {
+    margin-bottom: 0px;
+}
+
+.collapse-body-wrapper {
+    padding-bottom: 0px;
+}
+
+/* CSS for view more and less content  */
+
+#more{
+    display: none;
+}
+
+a.morelink {
+    text-decoration:none;
+    outline: none;
+    color: #08c;
+    font-weight: bold;
+}
+
+.morecontent span {
+    display: none;
+}
+
+.less{
+    color: #08c;
+    font-weight: bold;
+}
+
+.more{
+    text-align: justify;
+}
+
+.product-title {
+    max-width: 200px;
+}
+
+.product-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.info-boxes-container {
+    margin-bottom: 15px;
+}
 /*==============
 
 ===============*/

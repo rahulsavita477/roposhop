@@ -184,23 +184,6 @@ function myFunction() {
     }
 }
 
-function myFunction1() {
-    var dotss = document.getElementById("dots1");
-    var moreText = document.getElementById("more1");
-    var btnText = document.getElementById("myBtn1");
-
-    if (dots.style.display === "none") {
-        dots.style.display = "inline";
-        btnText.innerHTML = "Read more"; 
-        moreText.style.display = "none";
-    } 
-    else {
-        dots.style.display = "none";
-        btnText.innerHTML = "Read less"; 
-        moreText.style.display = "inline";
-    }
-}
-
 //get reset password mail
 function resetPasswordMail()
 {
@@ -229,6 +212,81 @@ function resetPasswordMail()
     else
         alert('Please provide email');
 }
+
+//show limited character
+var showChar = 500;
+var ellipsestext = "...";
+var moretext = "View More";
+var lesstext = "View Less";
+
+$(document).ready(function() {
+    
+    const toggleBtn = document.getElementById('specificationTableToggleBtn');
+    const allRows = document.querySelectorAll('#specTableBody .spec-row');
+
+    if (toggleBtn) {
+        // Agar rows 4 ya usse kam hain → button hide kar do
+        if (allRows.length <= 4) {
+            toggleBtn.style.display = 'none';
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            const hiddenRows = document.querySelectorAll('#specTableBody .spec-row.d-none');
+
+            if (hiddenRows.length > 0) {
+                // Show all rows
+                hiddenRows.forEach(row => row.classList.remove('d-none'));
+                this.innerHTML = '<strong>Show Less</strong>';
+            } else {
+                // Hide rows after 4
+                allRows.forEach((row, index) => {
+                    if (index >= 4) row.classList.add('d-none');
+                });
+                this.innerHTML = '<strong>View More</strong>';
+            }
+        });
+    }
+
+
+    $('.more').each(function() {
+
+        var content = $(this).html();
+
+        if(content.length > showChar) {
+
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar);
+
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '</span>'
+                + '<span class="morecontent"><span>' + h + '</span> '
+                + '<a href="javascript:void(0);" class="morelink"><strong>' + moretext + '</strong></a></span>';
+
+            $(this).html(html);
+        }
+    });
+});
+
+$(document).on('click', '.morelink', function(e) {
+
+    e.preventDefault();
+    var $this = $(this);
+
+    if($this.hasClass("less")) {
+
+        $this.removeClass("less");
+        $this.html('<strong>' + moretext + '</strong>');
+        $this.prev().hide(); // hide extra text
+        $this.closest('.morecontent').prev('.moreellipses').show(); // show ellipses
+
+    } else {
+
+        $this.addClass("less");
+        $this.html('<strong>' + lesstext + '</strong>');
+        $this.prev().show(); // show extra text
+        $this.closest('.morecontent').prev('.moreellipses').hide(); // hide ellipses
+    }
+});
+
 </script>
     
 <!-- The core Firebase JS SDK is always required and must be listed first -->

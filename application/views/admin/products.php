@@ -121,10 +121,10 @@ else
                                                 <td>".$prd_value['brand_name']."</td>
                                                 <td>".$prd_value['mrp_price']."</td>
                                                 <td>
-                                                    <a href='".base_url("editProduct/$prd_id/edit")."' class='btn btn-primary' title='Edit'><i class='fa fa-edit'></i></a>
-                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' class='btn btn-warning' title='Create Duplicate Product'><i class='fa fa-copy'></i></a>
-                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' class='btn btn-default' onclick='return confirm(\"Do you want to change the product status?\")'title='Change Status'><i class='fa fa-check-circle'></i></a>
-                                                    <a href='".base_url("deleteProduct/$prd_id")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
+                                                    <a href='".base_url("editProduct/$prd_id/edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' title='Create Duplicate Product'><i class='fa fa-copy'></i></a>&nbsp;
+                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")'title='Change Status'><i class='fa fa-check-circle'></i></a>&nbsp;
+                                                    <a href='".base_url("deleteProduct/$prd_id")."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
                                                 </td>
                             				</tr>";
                             		}

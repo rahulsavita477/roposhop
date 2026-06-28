@@ -23,38 +23,48 @@ else
 <style type="text/css" media="screen">
 html {
     scroll-behavior: smooth;
-}         
+}
+
 .product-default:hover figure {
     box-shadow:none;
-} 
+}
+
 .color-change {
     color: #08c !important;
 }
+
 #pro-img .product-default img {
     height: 150px;
     width: auto;
     margin: 0 auto;
-} 
+}
+
 #scs button.owl-prev, #scs button.owl-next{
     width: 20px !important;
     height: 20px !important;
-}  
+}
+
 .fa-star{
     color:#000;
 }
+
 .ratt {
     position: absolute;
     margin: -4px 18px 0px;
 }
+
 .ratt:hover{
     color: #fff;
 }
+
 .ratt:hover .fa-star {
     color: #1278bd;
 }
+
 a.text-active {
     color: #08c;
 }
+
 .rating-left {
     float: left;
     position: absolute;
@@ -64,42 +74,54 @@ a.text-active {
     color: #fff;
     padding: 2px;
 }
+
 .fa-star {
     color: #fff;
 }
+
 .fa-star {
     color: #fff;
 }
+
 .widget-body button.owl-next{
     background:transparent !important;
 }
+
 .widget-body button.owl-prev{
     background:transparent !important;
 }
+
 h2.product-title.text-black {
     text-align: left;
 }
+
 .featured-col a:hover{
     text-decoration: none;
 }
+
 .form-control{
     max-width: 100%;
 }
+
 textarea.form-control{
     max-width: 100%;
 }
+
 .s {
     font-size: 14px;
     padding: 4px;
     margin: 0px;
     color: #fff;
 }
+
 .product-default:hover{
   border:none;
 }
+
 .product-filters-container {
     padding-left: 5px;
 }
+
 .price-box {
     text-align: left !important;
     font-weight: 600;
@@ -108,102 +130,36 @@ textarea.form-control{
     margin: 0px;
     padding-left: 5px;
 }
+
 .under-l:before {
     content: '';
     left: 10px;
 }
+
 .under-l:after {
     content: '';
     left: 10px;
 }
+
 .hi{
     display: none;
 }
-#more{
-    display: none;
-}
-#more1{
-    display: none;
-}
+
 .height-100{
     height: 100px;
 }
-
 
 .viewSection a{
     color: #08c;
     font-weight: bold;
 }
 
-a.morelink {
-    text-decoration:none;
-    outline: none;
-    color: #08c;
-    font-weight: bold;
-}
-.morecontent span {
-    display: none;
-}
-.less{
-    color: #08c;
-    font-weight: bold;
-}
-.more{
-    text-align: justify;
-}
 #rating_text{
-    color: #08c;  
-    text-decoration: none; 
+    color: #08c;
+    text-decoration: none;
     pointer-events: none;
 }
 </style>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.tableSeconday').each(function () {
-        $(this).find('tr:gt(14)').hide();
-    });
-
-    $(".viewSection a").click(function () {
-        var $table = $(this).parent().prevAll('div').find('.tableSeconday');
-        $table.find('tr:gt(14)').toggle();
-        $(this).html($(this).html() == 'view less' ? 'view more' : 'view less');
-    });
-
-    //show limited character
-    var showChar = 1000;
-    var ellipsestext = "...";
-    var moretext = "view more";
-    var lesstext = "view less";
-    $('.more').each(function() {
-        var content = $(this).html();
-
-        if(content.length > showChar) {
-
-            var c = content.substr(0, showChar);
-            var h = content.substr(showChar-1, content.length - showChar);
-
-            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink"><strong>' + moretext + '</strong></a></span>';
-
-            $(this).html(html);
-        }
-
-    });
-
-    $(".morelink").click(function(){
-        if($(this).hasClass("less")) {
-            $(this).removeClass("less");
-            $(this).html(moretext);
-        } else {
-            $(this).addClass("less");
-            $(this).html(lesstext);
-        }
-        $(this).parent().prev().toggle();
-        $(this).prev().toggle();
-        return false;
-    });
-});
-</script>
 
 <body id="page-details" class="loaded">
     <div class="page-wrapper">
@@ -323,16 +279,29 @@ $(document).ready(function() {
                                 </tbody>
                             </table>
 
-                            <a class="small-brand" href="<?= base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']) ?>">
-                                <div style="height: 400px; width: 300px;">
-                                    <img style="width: auto; max-width: 100%; height: auto; max-height: 100%" class="img-fluid" src="<?= $product['brand_logo'] ?>" alt="brand_logo" />
-                                </div>
-                            </a>           
+                            <a class="small-brand" href="<?= base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']) ?>" style="text-decoration: none;">
+                                <?php if($product['brand_logo']): ?>
+                                    <img style="max-height: 50px" class="img-fluid" src="<?= $product['brand_logo'] ?>" alt="brand_logo" />
+                                <?php else: ?>
+                                    <div style="display:inline-block;
+                                        background:#007BFF;
+                                        border-radius:8px;
+                                        text-decoration:none;
+                                        padding:5px 15px;
+                                        box-sizing:border-box;
+                                        color:#fff;
+                                        margin:0;
+                                        font-size:14px;
+                                        font-weight:600;"
+                                    ><?= $product['brand_name'] ?></div>
+                                <?php endif; ?>
+                            </a>
                         </div><!-- End .product-single-details -->
                     </div><!-- End .col-md-6 -->
                 </div><!-- End .row -->
                      
-                <div class="featured-products-section carousel-section" style="margin-top: 70px;">
+                <div class="featured-products-section carousel-section">
+                    <?php if($product['sold_by_merchants']): ?>
                     <div class="container">
                         <h2 class="h3 title float-left">Offered By</h2>
                         <div class="under-l"></div>
@@ -408,73 +377,71 @@ $(document).ready(function() {
                                     ?>
                                 </div>
                             </div>
-                        </div>    
-                    </div> 
-
-                    <div class="row pt-5">
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="row">
                         <div class="col-lg-9">
                             <div class="product-single-collapse" id="productAccordion">
                                 <div class="product-collapse-panel">
                                     <h3 class="product-collapse-title" style="padding-bottom: 0px;">
-                                        <a class="collapsed" data-toggle="collapse" href="#product-specifications" role="button" aria-expanded="false" aria-controls="product-collapse-reviews">Specifications</a>
+                                        <a class="collapsed" data-toggle="collapse" href="#product-specifications" role="button" aria-expanded="false" aria-controls="product-specifications">Specifications</a>
+
                                     </h3>
 
-                                    <div class="product-collapse-body collapse show" id="product-specifications" data-parent="#productAccordion">
+                                    <div class="product-collapse-body collapse show" id="product-specifications" data-parent="#product-specifications">
                                         <div class="collapse-body-wrapper" style="padding-top: 0px;">
                                             <div class="product-specifications">
                                                 <div class="add-product-review">
                                                     <div class="childTable">
                                                         <table class="table show tableSeconday">
-                                                            <tbody>
+                                                            <tbody id="specTableBody">
                                                                 <?php
-                                                                if($product['specifications']) {
-                                                                    
+                                                                $rowCount = 0;
+                                                                if ($product['specifications']) {
                                                                     foreach ($product['specifications'] as $spec_value) {
-                                                                     
                                                                         if ($spec_value['value']) {
-                                                                        
-                                                                            echo '<tr><td>'.$spec_value['spec'].'</td><td>'.$spec_value['value'].'</td></tr>';
+                                                                            $rowCount++;
+                                                                            echo '<tr class="spec-row'.($rowCount > 4 ? ' d-none' : '').'">
+                                                                                    <td>'.$spec_value['spec'].'</td>
+                                                                                    <td>'.$spec_value['value'].'</td>
+                                                                                </tr>';
                                                                         }
                                                                     }
                                                                 }
 
-                                                                if ($product['varients'])
-                                                                {
-                                                                    foreach ($product['varients'] as $vrnt_key_name => $vrnt_values) 
-                                                                    {
-                                                                        echo '<tr><td>'.$vrnt_key_name.'</td><td>';
-
-                                                                        $i = 0;
-                                                                        foreach ($vrnt_values as $vrnt_value) 
-                                                                        {
-                                                                            if ($i > 0) 
-                                                                                echo ", ";
-
-                                                                            echo $vrnt_value;
-
-                                                                            $i++;
-                                                                        }
-
-                                                                        echo '</td></tr>';
+                                                                if ($product['varients']) {
+                                                                    foreach ($product['varients'] as $vrnt_key_name => $vrnt_values) {
+                                                                        $rowCount++;
+                                                                        echo '<tr class="spec-row'.($rowCount > 4 ? ' d-none' : '').'">
+                                                                                <td>'.$vrnt_key_name.'</td>
+                                                                                <td>'.implode(", ", $vrnt_values).'</td>
+                                                                            </tr>';
                                                                     }
                                                                 }
                                                                 ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="viewSection"><a href="javascript:void(0)" style="color: #08c"><strong>view more</strong></a></div>
+
+                                                    <div class="viewSection">
+                                                        <a href="javascript:void(0)" id="specificationTableToggleBtn" style="color:#08c">
+                                                            <strong>View More</strong>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
 
                                 <div class="product-collapse-panel">
                                     <h3 class="product-collapse-title">
                                         <a class="collapsed" data-toggle="collapse" href="#product-collapse-description" role="button" aria-expanded="false" aria-controls="product-collapse-description">Description</a>
                                     </h3>
 
-                                    <div class="product-collapse-body collapse show" id="product-collapse-description" data-parent="#productAccordion">
+                                    <div class="product-collapse-body collapse show" id="product-collapse-description" data-parent="#product-collapse-description">
                                         <p class="more">
                                             <?= isset($product['description']) ? $product['description'] : "" ?>
                                         </p>

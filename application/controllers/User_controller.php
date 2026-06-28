@@ -459,7 +459,7 @@ class User_controller extends CI_Controller
                 $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
                 $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
                 $data['product']['brand_name'] = $brand ? $brand['result'][0]['name']: "";
-                $data['product']['brand_logo'] = $brand ? base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']) : "";
+                $data['product']['brand_logo'] = ($brand && $brand['result'][0]['brand_logo']) ? base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']) : "";
             }
 
             //get product attributes
@@ -573,7 +573,6 @@ class User_controller extends CI_Controller
                 }
             }
         }
-
 
         //load product detail view
         /*$this->load->view('user/include/header', $data);
@@ -938,6 +937,7 @@ class User_controller extends CI_Controller
     public function insertUser()
     {
         $user_id = $this->input->post('user_id');
+        $consumer_id = $this->input->post('consumer_id');
         
         $user_data = array();
         $consumer_data = array();
@@ -947,37 +947,43 @@ class User_controller extends CI_Controller
         $dob = $this->input->post('dob');
         $consumer_data['phone'] = $this->input->post('phone');
 
-        if ($dob) 
-            $consumer_data['birthday'] = date("d-m-Y", strtotime($dob));
+        if ($dob) {
+            $consumer_data['birthday'] = date("Y-m-d", strtotime($dob));
+        }
 
         $user_data['status'] = 1;
-        $user_data['first_name'] = $this->input->post('full_name');    
+        $user_data['first_name'] = $this->input->post('full_name');
 
-        if ($user_id) 
-        {
-            if ($_FILES['file']['name'] != '')
+        // request came from user update profile
+        if($consumer_id) {
+            $userDeatils = $this->am1->selectRecords(array('consumer_id' => $consumer_id), 'consumer', 'userId');
+            $user_id = $userDeatils['result'][0]['userId'];
+        }
+
+        if ($user_id) {
+
+            if ($_FILES['file']['name'] != '') {
                 $user_data['picture'] = $this->common_controller->single_upload(PROFILE_PIC_PATH);
+            }
 
             $condition = array('userId' => $user_id);
             $this->am1->updateData('user', $user_data, $condition);
 
-            //check consumer detail is already exist or not
+            // check consumer detail is already exist or not
             $isConsumerExist = $this->am1->selectRecords(array('userId' => $user_id), 'consumer', 'userId');
-            if ($isConsumerExist) 
+            if ($isConsumerExist) {
                 $this->am1->updateData('consumer', $consumer_data, $condition);
-            else
-            {
+            } else {
                 $consumer_data['userId'] = $user_id;
+
+                print_r($consumer_data);
                 $this->am1->insertData('consumer', $consumer_data);
             }
 
-            //get user detail
-            $usr_details = $this->am1->getUser($user_id, 1);
+            $this->redirect('Profile updated successfully', 'userProfile');
 
-            $this->redirect('Profile updated successfully', 'userProfile?profile=view');
-        }
-        else
-        {
+        } else {
+
             $user_data['email'] = $this->input->post('email');
             $user_data['password'] = $this->input->post('password');
             $confirm_password = $this->input->post('confirm_password');
@@ -1034,7 +1040,7 @@ class User_controller extends CI_Controller
                                     $this->redirect('Error: '.$consumer['msg'], $controller);
 
                                 $_COOKIE['consumer_id'] = $consumer['result'][0]['consumer_id'];
-                                redirect('userProfile?profile=view', 'refresh');
+                                redirect('userProfile', 'refresh');
                             }
                             else
                                 $this->redirect('Error: Not authorised for login!', $controller);
@@ -1130,10 +1136,10 @@ class User_controller extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
-    public function userProfile()
-    {
-        if (!isset($_COOKIE['consumer_id'])) 
-        {   
+    public function userProfile() {
+        
+        if (!isset($_COOKIE['consumer_id'])) {
+            
             $this->login_page();
             die;
         }
@@ -1144,11 +1150,17 @@ class User_controller extends CI_Controller
 
         $user = $this->am1->getConsumer($_COOKIE['consumer_id']);
 
+        // echo "<pre>"; print_r($user); die;
+
         //load view
-        $this->load->view('user/include/header', $data);
-        $this->load->view('user/include/sidebar', $data);
+        $this->load->view('user/design/include/header', $data);
         $this->load->view('user/userProfile', $user);
-        $this->load->view('user/include/footer');
+        $this->load->view('user/design/include/footer');
+
+        // $this->load->view('user/include/header', $data);
+        // $this->load->view('user/include/sidebar', $data);
+        // $this->load->view('user/userProfile', $user);
+        // $this->load->view('user/include/footer');
     }
 
     public function merchants()
@@ -1362,9 +1374,9 @@ class User_controller extends CI_Controller
         // echo "<pre>"; prin        $this->l        $this->load->view('user/design/category', $data);   
         
         $this->load->view('user/design/include/header', $data);
-        $this->load->view('ajaxFunctions', $data);             
+        $this->load->view('ajaxFunctions', $data);
         $this->load->view('user/design/merchant_addresses', $data);
-        $this->load->view('ajaxFunctions', $data);             
+        $this->load->view('ajaxFunctions', $data);
         $this->load->view('user/design/include/footer');
     }
 
@@ -1380,7 +1392,12 @@ class User_controller extends CI_Controller
             $brands['brand'] = $brand['result'][0];
 
             $attatchments = array();
-            array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$_GET['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+
+            // if brand logo available then push into the array with path
+            if($brand['result'][0]['brand_logo']) {
+
+                array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$_GET['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+            }
 
             //get product images
             $brand_id = $brand['result'][0]['brand_id'];
@@ -1420,6 +1437,7 @@ class User_controller extends CI_Controller
             // $this->load->view('user/include/footer');
 
             //load view
+            // echo "<pre>"; print_r($brands); die;
             $this->load->view('user/design/include/header', $data);
             $this->load->view('user/design/brand_detail', $brands);
             $this->load->view('ajaxFunctions');

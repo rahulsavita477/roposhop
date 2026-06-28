@@ -20,7 +20,7 @@
                     </div><!-- End .header-search -->
                 </div><!-- End .headeer-center -->
                 
-                <div class="container mt-3 mb-3">
+                <div class="container mt-1">
                     <div class="row row-sm">
                         <?php
                         if (isset($result)) 

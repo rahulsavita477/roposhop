@@ -110,13 +110,12 @@
                             }
                         }
                     }">
-                        <?php 
-                        foreach ($category['products'] as $product)
-                        { 
+                        <?php foreach ($category['products'] as $product) {
+
                             $product_name = $product['product_name'];
-                            $tt_prd_name = (strlen($product_name) > 35) ? substr($product_name, 0, 35).'...' : ((strlen($product_name) < 22) ? $product_name."<br />" : $product_name);
+                            // $tt_prd_name = (strlen($product_name) > 28) ? substr($product_name, 0, 28).'...' : ((strlen($product_name) < 22) ? $product_name."<br />" : $product_name);
                         ?>
-                            <div class="product-default" style="width:200px">
+                            <div class="product-default">
                                 <a href="<?= base_url('products/'.url_title($product_name, '-', true).'?prd_id='.$product['product_id']) ?>">
 
                                     <?php
@@ -129,7 +128,7 @@
                                     <figure><img src="<?= $product['products_images'][0] ?>" alt="product"></figure>
                                     <div class="product-details text-left">
                                         <h2 class="product-title text-black">
-                                            <span data-toggle="tooltip" title="<?= $product_name ?>"><?= $tt_prd_name ?></span><br />
+                                            <span data-toggle="tooltip" title="<?= $product_name ?>"><?= $product_name ?></span><br />
 
                                             <?php if ($product['offer_price']) { ?>
                                                 <strong>
@@ -153,7 +152,7 @@
             <?php }
         } ?>
     </div>
-    <div class="mb-2"></div><!-- margin -->
+    <div class="mb-3"></div><!-- margin -->
     <?php endif; ?>
 
     <?php if($brands): ?>
@@ -198,7 +197,7 @@
             </div><!-- End .partners-container -->
         </div>
     </div>
-    <div class="mb-2"></div><!-- margin -->
+    <div class="mb-3"></div><!-- margin -->
     <?php endif; ?>
 
     <?php if($merchants): ?>

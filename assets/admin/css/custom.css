@@ -4,7 +4,13 @@
     margin-top: 10px;
 }
 
-.Products_search_add_div, .Merchant_Excel_search_add_div, .Product_Excel_search_add_div, .Excel_Listing_search_add_div, .Excel_Address_search_add_div, .Excel_Country_search_add_div, .Excel_State_forms {
+.Products_search_add_div,
+.Merchant_Excel_search_add_div,
+.Product_Excel_search_add_div,
+.Excel_Listing_search_add_div,
+.Excel_Address_search_add_div,
+.Excel_Country_search_add_div,
+.Excel_State_forms {
     padding-left: 0px;
 }
 
@@ -21,37 +27,47 @@ th::after {
 }
 
 .editTable tbody {
-  display: block;          /* make tbody a block container */
-  max-height: 200px;       /* set desired height */
-  overflow-y: auto;        /* enable vertical scrolling */
-  /* overflow-x: hidden; */
+    display: block;
+    /* make tbody a block container */
+    max-height: 200px;
+    /* set desired height */
+    overflow-y: auto;
+    /* enable vertical scrolling */
+    /* overflow-x: hidden; */
 }
 
 .editTable thead,
 .editTable tbody tr {
-  display: table;          /* keep rows aligned */
-  width: 100%;             /* ensure full width */
-  table-layout: fixed;     /* consistent column widths */
+    display: table;
+    /* keep rows aligned */
+    width: 100%;
+    /* ensure full width */
+    table-layout: fixed;
+    /* consistent column widths */
 }
 
 /* Excel page css */
-.Excel_Listing_import_form, .Excel_Address_import_form {
+.Excel_Listing_import_form,
+.Excel_Address_import_form {
     margin-left: 3px;
 }
 
-.Excel_Listing_forms_row, .Excel_Address_forms_row {
+.Excel_Listing_forms_row,
+.Excel_Address_forms_row {
     margin: 20px 0 10px 0;
 }
 
-.Excel_State_forms{
+.Excel_State_forms {
     margin-top: 20px;
 }
 
-.Excel_Listing_forms_div, .Excel_Address_forms_div {
+.Excel_Listing_forms_div,
+.Excel_Address_forms_div {
     display: flex;
 }
 
-.Excel_Listing_search_add_row, .Excel_Address_search_add_row {
+.Excel_Listing_search_add_row,
+.Excel_Address_search_add_row {
     margin: 10px 0 10px 0;
 }
 
@@ -64,35 +80,43 @@ th::after {
 }
 
 .image-preview {
-  position: relative;
-  height: 120px;
+    position: relative;
+    height: 120px;
 }
 
 .image-preview img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .remove-icon {
-  position: absolute;
-  top: 0px;
-  right: 4px;
-  background: rgba(255,255,255,0.8);
-  border-radius: 50%;
-  cursor: pointer;
+    position: absolute;
+    top: 0px;
+    right: 4px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-.remove-icon i {
-  color: #e63946;
-  font-size: 16px;
+.fa {
+    vertical-align: middle;
+}
+.fa-trash-o {
+    color: #e63946;
+    font-size: 16px;
+}
+
+.fa-edit {
+    color:#3364b0;
 }
 
 .modal-header .close {
     margin-top: 0px;
 }
 
-.modal-header, .modal-footer {
+.modal-header,
+.modal-footer {
     padding: 5px 15px;
 }
 
@@ -100,37 +124,46 @@ th::after {
     margin-top: 0px;
 }
 
-form, .form-group {
+form,
+.form-group {
     margin-bottom: 0px;
 }
 
 .modal-dialog {
-  margin: auto;
+    margin: auto;
 }
 
 .tags-cell {
-  display: flex;
-  flex-wrap: wrap;   /* allow wrapping to next line */
-  gap: 12px;         /* spacing between tags */
-  border: none;
+    display: flex;
+    flex-wrap: wrap;
+    /* allow wrapping to next line */
+    gap: 12px;
+    /* spacing between tags */
+    border: none;
 }
 
 .tag-label {
-  display: inline-flex;
-  align-items: center;
-  width: 150px;          /* fixed width for each label */
-  overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    width: 150px;
+    /* fixed width for each label */
+    overflow: hidden;
 }
 
 .tag-text {
-  white-space: nowrap;   /* prevent breaking */
-  overflow: hidden;      /* hide overflow */
-  text-overflow: ellipsis; /* show ... */
-  flex: 1;               /* take remaining space */
+    white-space: nowrap;
+    /* prevent breaking */
+    overflow: hidden;
+    /* hide overflow */
+    text-overflow: ellipsis;
+    /* show ... */
+    flex: 1;
+    /* take remaining space */
 }
 
 textarea.form-control {
-  resize: vertical;   /* allow only vertical resize */
+    resize: vertical;
+    /* allow only vertical resize */
 }
 
 .well {
@@ -147,4 +180,17 @@ textarea.form-control {
 
 .statusLabel {
     vertical-align: middle !important;
+}
+
+#enlargeImageModal .modal-body {
+    padding: 0px;
+    text-align: center;
+}
+
+#enlargeImageModal img {
+    max-height: 50vh;
+}
+
+.fa-times {
+    color: #f56954;
 }

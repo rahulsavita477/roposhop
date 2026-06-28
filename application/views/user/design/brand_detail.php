@@ -97,12 +97,6 @@
     .hi{
         display: none;
     }
-    #more{
-        display: none;
-    }
-    #more1{
-        display: none;
-    }
     .height-100{
         height: 100px;
     }
@@ -292,27 +286,31 @@ function open_modal(merchant_id, establishment_name)
                     <div class="row">
                         <div class="col-lg-5 product-single-gallery">
                             <div class="sticky-slider">
+                                <?php if(count($brand_images) == 0): ?>
+                                    <div style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                        <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                            <?= $brand['name'] ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+
                                 <div class="product-slider-container product-item">
                                     <div class="product-single-carousel owl-carousel">
-                                        <?php
-                                        foreach ($brand_images as $key => $imgs) 
-                                        {
+                                        <?php foreach ($brand_images as $key => $imgs) {
                                             echo '<div class="product-item">
-                                                    <img 
-                                                        style="    
-                                                            width: auto;
-                                                            max-width: 343px;
-                                                            margin-left: auto;
-                                                            margin-right: auto;
-                                                            height: auto;
-                                                            max-height: 400px;" 
-                                                        class="product-single-image" 
-                                                        src="'.$imgs.'" 
-                                                        data-zoom-image="'.$imgs.'" 
-                                                        alt="'.$brand['name'].'_'.$key.'" />
-                                                </div>';
-                                        }
-                                        ?>
+                                                <img
+                                                    style="width: auto;
+                                                        max-width: 343px;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        height: auto;
+                                                        max-height: 400px;" 
+                                                    class="product-single-image" 
+                                                    src="'.$imgs.'" 
+                                                    data-zoom-image="'.$imgs.'" 
+                                                    alt="'.$brand['name'].'_'.$key.'" />
+                                            </div>';
+                                        } ?>
                                     </div>
                                     <!-- End .product-single-carousel -->
                                     <span class="prod-full-screen">
@@ -347,14 +345,14 @@ function open_modal(merchant_id, establishment_name)
                                 <h2 class="product"><?= $brand['name'] ?></h2>
                             </div>
 
-                            <?= "<p><p>".$brand['brand_desc']."</p></p>" ?>
+                            <?= '<p class="more">'.$brand['brand_desc'].'</p>' ?>
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
-</main>   
+</main>
 
 <div class="container">
     <div class="row">
@@ -401,11 +399,7 @@ function open_modal(merchant_id, establishment_name)
                     echo '<div class="col-6 col-md-4 pl-1 pr-1">
                         <div class="product-default w-set">
                             <a id="listing_product_url'.$i.'">
-                                <span 
-                                    class="rating" 
-                                    style="background:#28a745"
-                                    id="product_rating_div'.$i.'"
-                                >
+                                <span class="rating" style="background:#28a745" id="product_rating_div'.$i.'">
                                     <span id="product_avg_rating'.$i.'"></span>&nbsp;
                                     <i class="fa fa-star"></i> (<span id="product_rating_count'.$i.'"></span>)
                                 </span>
@@ -434,8 +428,7 @@ function open_modal(merchant_id, establishment_name)
                             </a>
                         </div>
                     </div>';
-                } 
-                ?>
+                } ?>
             </div>
             <nav class="toolbox toolbox-pagination mt-2">
                 <div class="toolbox-item toolbox-show">
@@ -550,6 +543,7 @@ async function setBrandProductData(listing_products, paging)
             $("#listing_product_url"+i).css("display", "none");
     } 
 
+    console.log(listing_products);
     //set products
     for (var i=0,j=1; i < listing_products.length; i++) 
     {
@@ -557,21 +551,35 @@ async function setBrandProductData(listing_products, paging)
 
         let k=i+1;
 
-        //set product-listing href link
-        $("#listing_product_url"+k).attr("href", "<?= base_url('listings/'.url_title('establishment_name', '-', true).'?') ?>"+'list_id='+listing_products[i].listing_id+'&prd_id='+listing_products[i].product_id);
+        if(listing_products[i].listing_id) { // set product-listing href link
+            
+            $("#listing_product_url"+k).attr("href", "<?= base_url('listings/'.url_title('establishment_name', '-', true).'?') ?>"+'list_id='+listing_products[i].listing_id+'&prd_id='+listing_products[i].product_id);
+        } else { // set product href link
+            $("#listing_product_url" + k).attr(
+                "href",
+                "<?= base_url('products/') ?>" +
+                listing_products[i].product_name.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase() +
+                "?prd_id=" + listing_products[i].product_id
+            );
+        }
 
         //set data in products page
         $.when(getProduct(listing_products[i].product_id)).done(function(product){
+            
+            console.log(product);
+
             resp = JSON.parse(product);
             
             //add one line break if charater has less than 37 charaters
             $("#product"+j+"_name").html(resp.product.product_name.substr(0, 35));
-            $("#listing"+j+"_price").html(resp.product.offer_price);
-            $("#product"+j+"_img").prop('src', resp.product.image);  
+            $("#product"+j+"_img").prop('src', resp.product.image);
             $("#product"+j+"_img").prop('att', resp.product.product_name);
 
-            if (resp.product.discount_price > 0) 
-            {
+            if(resp.product.offer_price > 0) $("#listing"+j+"_price").html(resp.product.offer_price);
+            else $("#listing"+j+"_price").html(resp.product.mrp_price);
+
+            if (resp.product.discount_price > 0) {
+
                 $("#product"+j+"_price").html(resp.product.mrp_price);
                 $("#product"+j+"_off").html(resp.product.off);
                 $("#product"+j+"_discount").html(resp.product.discount_price);
@@ -579,9 +587,9 @@ async function setBrandProductData(listing_products, paging)
                 //show price & discount div
                 $("#product"+j+"_price_div").css('display', 'show');
                 $("#product"+j+"_discount_div").css('display', 'show');
-            }
-            else
-            {
+            
+            } else {
+
                 //hide price & discount div
                 $("#product"+j+"_price_div").css('display', 'none');
                 $("#product"+j+"_discount_div").css('display', 'none');

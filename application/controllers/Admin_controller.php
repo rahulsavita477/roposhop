@@ -3027,6 +3027,59 @@ class Admin_controller extends CI_Controller
 		else $this->products();
 	}
 
+	public function addProductVarient()
+	{
+		$this->isLoggedIn();
+
+		$cat_id = $this->input->post('cat_id');
+		$prd_id = $this->input->post('prd_id');
+		$request_id = $this->input->post('request_id');
+		$att_id = $this->input->post('att_id');
+		$page_label = $this->input->post('page_label');
+		$vrnt_vals = $this->input->post('vrnt_vals');
+
+		$tbl_name = 'category_attribute_mp';
+		$columns  = 'mp_id';
+		$where = array('cat_id' => $cat_id, 'att_id' => $att_id);
+
+		$mp_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
+		
+		if ($mp_res['result']) 
+		{
+			$tbl_name = "category_attribute_value";
+			$where = array('cat_att_mp_id' => $mp_res['result'][0]['mp_id'], 'prd_id' => $prd_id);
+			$this->Admin_model->deleteRecord($tbl_name, $where);
+		}
+
+		$data = array();
+		$data['prd_id'] = $prd_id;
+		$data['att_id'] = $att_id;
+
+		if ($vrnt_vals) 
+		{
+			foreach ($vrnt_vals as $vrnt_key => $vrnt_value) 
+			{
+				$data['att_value'] = $vrnt_value;
+				$this->Admin_model->insertData('product_varient', $data);
+			}
+		}
+
+		//update product table for hasVarient
+		$prd_data = array();
+		$condition = array('product_id' => $prd_id);
+		$prd_data['hasVarient'] = 1;
+		$prd_data['update_date'] = $this->current_date;
+	
+		$this->Admin_model->updateData('product', $prd_data, $condition);
+		
+		if ($request_id) //this is for requested product
+			$controller = 'addProduct?req_prd_id='.$request_id;
+		else
+			$controller = 'admin/editProduct/'.$prd_id.'/'.$page_label;
+
+		redirectWithMessage('Attribute varient added successfully!!!', $controller);
+	}
+
 	public function updateProductVarientValue()
 	{
 		$this->isLoggedIn();
@@ -3052,12 +3105,57 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
+	public function copyProductVarient($new_prd_id) {
+
+		$this->isLoggedIn();
+
+		$vrnt_att_ids = $this->input->post('vrnt_att_ids');
+		$vrnt_values = $this->input->post('vrnt_values');	
+
+		if ($vrnt_att_ids && $vrnt_values && $new_prd_id) {
+
+			for($i=0; $i<=count($vrnt_att_ids)-1;$i++) {
+
+				if($vrnt_values[$i]) {
+
+					$data = array(
+						'prd_id' => $new_prd_id,
+						'att_id' => $vrnt_att_ids[$i],
+						'att_value' => $vrnt_values[$i]
+					);
+					
+					$inserted = $this->Admin_model->insertData('product_varient', $data);
+
+					if (isset($inserted['db_error'])) redirectWithMessage('Error: '.$inserted['msg'], 'products');
+				}
+			}
+		}
+	}
+
 	public function deleteProductVarientValue($vrnt_id, $prd_id)
 	{
 		$this->isLoggedIn();
 
 		$tbl_name = 'product_varient';
 		$where = array('vrnt_id' => $vrnt_id);
+		$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
+		if (isset($isDeleted['db_error'])) 
+			redirectWithMessage('Error: '.$isDeleted['msg'], 'products');
+
+		$this->updateTableDate('product', array('product_id' => $prd_id));
+
+		if (isset($_GET['req_prd_id'])) 
+			redirectWithMessage('Varient value deleted successfully!', 'addProduct?req_prd_id='.$_GET['req_prd_id']);
+		else
+			redirectWithMessage('Varient value deleted successfully!', 'editProduct/'.$prd_id.'/edit');
+	}
+
+	public function deleteProductVarient($att_id, $prd_id)
+	{
+		$this->isLoggedIn();
+
+		$tbl_name = 'product_varient';
+		$where = array('att_id' => $att_id, 'prd_id' => $prd_id);
 		$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
 		if (isset($isDeleted['db_error'])) 
 			redirectWithMessage('Error: '.$isDeleted['msg'], 'products');
@@ -3434,19 +3532,28 @@ class Admin_controller extends CI_Controller
 		$prd_id = $this->input->post('prd_id');
 		$copiedImages = $this->input->post('remove_img'); // array of copied image id from original product
 
-		echo "<pre>"; print_r($this->input->post()); print_r($_FILES);
-		if ($request_id) 
-			$controller = 'page/requestedProducts';
-		else
-			$controller = 'products';
+		// if varient attribute id and values are available then need to add hasVarient=1 for product else set hasVarient=0
+		$vrnt_att_ids = $this->input->post('vrnt_att_ids');
+		$vrnt_values = $this->input->post('vrnt_values');	
+		// print_r($vrnt_att_ids);
+		if($vrnt_att_ids && $vrnt_values) {
+			$data['hasVarient'] = 1;
+		} else {
+			$data['hasVarient'] = 0;
+		}
+		
+		// echo "<pre>"; print_r($this->input->post()); print_r($_FILES); die;
+		
+		if ($request_id) $controller = 'page/requestedProducts';
+		else $controller = 'products';
 
 		//set null for blank fields
 		setNULLToBlank($data);
 
 		if (count(array_filter($data)) >= 5) 
 		{
-			if ($prd_id && !$old_prd_id) // update existing product if not a duplicate product 
-			{
+			if ($prd_id && !$old_prd_id) { // update existing product if not a duplicate product 
+			
 				$condition = array('product_id' => $prd_id);
 				$isUpdated = $this->Admin_model->updateData('product', $data, $condition);
 
@@ -3454,22 +3561,19 @@ class Admin_controller extends CI_Controller
 					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
 
 				$msg = 'Product succesfully updated!';
-			}
-			else //insert new product
-			{
+			
+			} else { //insert new/duplicate product
+			
 				$where = array('product_name' => $data['product_name']);
 				$prd_res = $this->Admin_model->selectRecords($where, 'product', 'product_id');	
-				if ($prd_res)
-					redirectWithMessage('Error: Please enter new product name!', $controller);
+				if ($prd_res) redirectWithMessage('Error: Duplicate product name not allowed', $controller);
 
 				$data['create_date'] = $this->current_date;
 
 				$prd_id = $this->Admin_model->insertData('product', $data);
 
-				if (isset($prd_id['db_error'])) 
-					redirectWithMessage('Error: '.$prd_id['msg'], $controller);
-				else
-					$msg = 'Product inserted successfully!!';
+				if (isset($prd_id['db_error'])) redirectWithMessage('Error: '.$prd_id['msg'], $controller);
+				else $msg = 'Product created successfully';
 			}
 
 			if ($prd_id) 
@@ -3478,20 +3582,20 @@ class Admin_controller extends CI_Controller
 				$img_data['link_id'] = $prd_id;
 				$img_data['atch_type'] = "IMAGE";
 				$img_data['atch_for'] = "PRODUCT";
+				$prd_folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
+					
+				if ($old_prd_id && count($copiedImages) > 0) {
 
-				if ($old_prd_id) 
-				{
 					// Copy all images from one product folder to another product folder
 					$from_folder = PRODUCT_ATTATCHMENTS_PATH.$old_prd_id;
-					$to_folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
-					$files = $this->common_controller->cloneData($from_folder, $to_folder, $copiedImages);
+					$files = $this->common_controller->cloneData($from_folder, $prd_folder, $copiedImages);
 
-					//insert images into the database
+					// insert images into the database
 					if (!$files) die('Error: Unable to copy images');
-					else
-					{
-						foreach ($files as $file) 
-						{
+					else {
+
+						foreach ($files as $file) {
+
 							$file_to_go = str_replace(PRODUCT_ATTATCHMENTS_PATH.$old_prd_id.'/', "", $file);
 							$img_data['atch_url'] = $file_to_go;
 
@@ -3500,25 +3604,18 @@ class Admin_controller extends CI_Controller
 								redirectWithMessage('Error: '.$isInserted['msg'], $controller);
 						}
 					}
-				}
-				else
-				{
-					//product folder attachment path
-					$folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
+				} 
+				
+				//insert product images
+				$isUploaded = $this->upload_image($prd_folder, $img_data);
+				if (isset($isUploaded['db_error'])) redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
 
-					//insert product images
-					$isUploaded = $this->upload_image($folder, $img_data);
-					if (isset($isUploaded['db_error'])) 
-						redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
-				}
-
-				//insert or update product attribute values
-				//insert product category attribute
+				// insert or update product attribute values
+				// insert product category attribute
 				$category_attributes_res = $this->Admin_model->categoryAttributes($data['category_id'], $prd_id);	
 
 				$category_attributes = array();
-				if ($category_attributes_res)
-					$category_attributes = $category_attributes_res;
+				if ($category_attributes_res) $category_attributes = $category_attributes_res;
 
 				$tbl_name = 'category_attribute_value';
 				$i = 0;
@@ -3534,7 +3631,7 @@ class Admin_controller extends CI_Controller
 						
 						$att_values_data['cat_att_mp_id'] = $att_value['mp_id'];
 						$att_values_data['prd_id'] = $prd_id;
-						$att_values_data['att_value'] = $att_field_value;	
+						$att_values_data['att_value'] = $att_field_value ? $att_field_value : '';	
 						
 						if (isset($prd_att_res['db_error'])) 
 							redirectWithMessage('Error: '.$prd_att_res['msg'], $controller);
@@ -3550,8 +3647,12 @@ class Admin_controller extends CI_Controller
 					}
 				}
 
-				//update product varient values
-				$this->updateProductVarientValue();
+				// if original product id available to create new product
+				if ($old_prd_id) {
+					$this->copyProductVarient($prd_id);
+				} else { // update product varient values
+					$this->updateProductVarientValue();
+				}
 
 				//delete all old tags of product
 				$isDeleted = $this->Admin_model->deleteRecord('product_tags', array('prd_id' => $prd_id));
@@ -3578,13 +3679,16 @@ class Admin_controller extends CI_Controller
 
 					foreach ($key_features as $key_feature_value)
 					{
-						$key_feature_data['feature'] = $key_feature_value;
-						$key_feature_id = $this->Admin_model->insertData('product_key_features', $key_feature_data);
+						if($key_feature_value) {
 
-						if (isset($key_feature_id['db_error'])) 
-							redirectWithMessage('Error: '.$key_feature_id['msg'], $controller);
-						else if (!$key_feature_id)
-							redirectWithMessage('Error: Unable to insert product feature!', $controller);
+							$key_feature_data['feature'] = $key_feature_value;
+							$key_feature_id = $this->Admin_model->insertData('product_key_features', $key_feature_data);
+
+							if (isset($key_feature_id['db_error'])) 
+								redirectWithMessage('Error: '.$key_feature_id['msg'], $controller);
+							else if (!$key_feature_id)
+								redirectWithMessage('Error: Unable to insert product feature!', $controller);
+						}
 					}
 				}
 
@@ -4015,59 +4119,6 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage($msg, 'sellers/sellersTable');
 		else
 			redirectWithMessage($msg, 'seller/'.$merchant_id.'/edit');
-	}
-
-	public function addProductVarient()
-	{
-		$this->isLoggedIn();
-
-		$cat_id = $this->input->post('cat_id');
-		$prd_id = $this->input->post('prd_id');
-		$request_id = $this->input->post('request_id');
-		$att_id = $this->input->post('att_id');
-		$page_label = $this->input->post('page_label');
-		$vrnt_vals = $this->input->post('vrnt_vals');
-
-		$tbl_name = 'category_attribute_mp';
-		$columns  = 'mp_id';
-		$where = array('cat_id' => $cat_id, 'att_id' => $att_id);
-
-		$mp_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
-		
-		if ($mp_res['result']) 
-		{
-			$tbl_name = "category_attribute_value";
-			$where = array('cat_att_mp_id' => $mp_res['result'][0]['mp_id'], 'prd_id' => $prd_id);
-			$this->Admin_model->deleteRecord($tbl_name, $where);
-		}
-
-		$data = array();
-		$data['prd_id'] = $prd_id;
-		$data['att_id'] = $att_id;
-
-		if ($vrnt_vals) 
-		{
-			foreach ($vrnt_vals as $vrnt_key => $vrnt_value) 
-			{
-				$data['att_value'] = $vrnt_value;
-				$this->Admin_model->insertData('product_varient', $data);
-			}
-		}
-
-		//update product table for hasVarient
-		$prd_data = array();
-		$condition = array('product_id' => $prd_id);
-		$prd_data['hasVarient'] = 1;
-		$prd_data['update_date'] = $this->current_date;
-	
-		$this->Admin_model->updateData('product', $prd_data, $condition);
-		
-		if ($request_id) //this is for requested product
-			$controller = 'addProduct?req_prd_id='.$request_id;
-		else
-			$controller = 'admin/editProduct/'.$prd_id.'/'.$page_label;
-
-		redirectWithMessage('Attribute varient added successfully!!!', $controller);
 	}
 	
 	public function addAddress()

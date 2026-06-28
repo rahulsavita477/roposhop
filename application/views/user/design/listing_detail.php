@@ -133,12 +133,6 @@ textarea.form-control{
 .hi{
     display: none;
 }
-#more{
-    display: none;
-}
-#more1{
-    display: none;
-}
 .height-100{
     height: 100px;
 }

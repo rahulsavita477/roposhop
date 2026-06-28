@@ -478,14 +478,12 @@ if (isset($page_label) && $page_label == "edit") {
 
 						    <!-- form start -->
 						    <?php 
-						    echo form_open_multipart('insertProduct'); 
+						    echo form_open_multipart('insertProduct');
 
-						    if (isset($_GET['req_prd_id'])) 
-						    {
+						    if (isset($_GET['req_prd_id'])) {
 						    	echo "<input type='hidden' value='".$_GET['req_prd_id']."' name='req_prd_id' />";
 						    	echo "<input type='hidden' value='".$req_prds['merchant_id']."' name='merchant_id' />";
-						    }
-						    ?>
+						    } ?>
 
 						    	<div class="box-body">
 						    		<!-- select category -->
@@ -494,18 +492,19 @@ if (isset($page_label) && $page_label == "edit") {
 		                        			<label>Category *</label>
 											
 		                        			<?php
-		                        			if ($page_label == 'add') 
-		                        			{
+		                        			if ($page_label == 'add') {
+
 		                        				$product_id = 0;
 		                        				$page_label = "'add'";
-		                        			}
-		                        			else
-		                        				$page_label = "'edit'";
+		                        			
+											} else {
+												$page_label = "'edit'";
+											}
 
 											echo '<select class="form-control" name="parent_cat_id" onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
 
-									    		if ($status) 
-									    		{
+									    		if ($status) {
+
 									    			echo "<option value=''>Select Category</option>";
 
 									    			foreach ($categories as $cat_key => $cat_value) 
@@ -515,8 +514,6 @@ if (isset($page_label) && $page_label == "edit") {
 									    				echo "<option value='".$cat_value['category_id']."' ".$selected.">".$cat_value['category_name']."</option>";
 									    			}
 									    		}
-									    		else
-									    			echo "<option>No parent category available!</option>";
 								    		
 								    		echo "</select>";
 								    		?>
@@ -632,7 +629,7 @@ if (isset($page_label) && $page_label == "edit") {
 														<tr>
 															<td>
 																<div class="row form-group">
-																	<div class="col-sm-8" id="key_feature_input_field_div"></div>
+																	<div class="col-sm-12" id="key_feature_input_field_div"></div>
 																</div>
 															</td>
 														</tr>
@@ -646,9 +643,10 @@ if (isset($page_label) && $page_label == "edit") {
 																$params = $feature_id.', "'.$feature.'", '.$product_id;
 
 																echo "<tr>
-																		<td>".$feature."
-																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' class='btn btn-danger pull-right' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>
-																			<button type='button' class='btn btn-primary pull-right' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></button>
+																		<td>
+																			<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
+																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
+																			".$feature."
 																		</td>
 																	</tr>";
 															}
@@ -659,198 +657,204 @@ if (isset($page_label) && $page_label == "edit") {
 										</div>
 		                        	</div>
 
-									<!-- Toggle button/link -->
-                    				<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
-                    
-									<!-- Collapsible content -->
-									<div class="collapse" id="additionalDetails">
-										<div class="well">
-											<div class="row">
-												<div class="col-sm-6">
-													<div class="table-responsive editTable">
-														<table class="table table-bordered dataTable">
-															<thead>
-																<tr>
-																	<th colspan="3" class="text-align-center">Product varients
-																	<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
-																	<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button></th>
-																</tr>
-															</thead>
-															<tbody id="productVarients_tableBody" class="collapse in">
-																<?php if (isset($product_varients) && $product_varients) {
+									<?php if ($page_label == "'edit'"): ?>
+										<!-- Toggle button/link -->
+										<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
+						
+										<!-- Collapsible content -->
+										<div class="collapse" id="additionalDetails">
+											<div class="well">
+												<div class="row">
+													<div class="col-sm-6">
+														<div class="table-responsive editTable">
+															<table class="table table-bordered dataTable">
+																<thead>
+																	<tr>
+																		<th colspan="3" class="text-align-center">Product varients
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
+																		<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button></th>
+																	</tr>
+																</thead>
+																<tbody id="productVarients_tableBody" class="collapse in">
+																	<?php if (isset($product_varients) && $product_varients) {
 
-																	echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
+																		echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
+																		
+																		$i = 1;
+																		foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) {
 
-																	$i = 1;
-																	foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) 
-																	{
-																		$rowspan = count($prd_vrnt_values)+1;
-																		echo "<tr>
-																				<td>".$prd_vrnt_key."</td><td>";
+																			$att_id = $product_varients[$prd_vrnt_key][0]['att_id'];
+																			$vrnt_del_link = base_url('deleteProductVarient/'.$att_id.'/'.$product_id);
+																			$rowspan = count($prd_vrnt_values)+1;
+																			echo "<tr>
+																				<td><a href='".$vrnt_del_link."'>
+																					<i class='fa fa-trash-o' onclick='return confirm(\"Are you sure?\")'></i>
+																				</a>&nbsp;".$prd_vrnt_key."
+																				</td><td>";
 
-																		foreach ($prd_vrnt_values as $vrnt_value) 
-																		{
-																			$vrnt_id = $vrnt_value['vrnt_id'];
-																			$vrnt_del_link = base_url('deleteProductVarientValue/'.$vrnt_id.'/'.$product_id);
+																				foreach ($prd_vrnt_values as $vrnt_value) {
 
-																			echo "<div style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
-																				<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
-																				<input type='text' 
-																					class='form-control vrnt_values'
-																					placeholder='Enter attribute value...' 
-																					name='vrnt_values[]' 
-																					value='".$vrnt_value['att_value']."' 
-																					style='width:200px;' 
-																				/>
-																				<a href='".$vrnt_del_link."' class='btn btn-danger'>
-																					<i class='fa fa-trash-o'></i>
-																				</a>
-																			</div><br />";
+																					$vrnt_id = $vrnt_value['vrnt_id'];
+																					$vrnt_value_del_link = base_url('deleteProductVarientValue/'.$vrnt_id.'/'.$product_id);
+
+																					echo "<div style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
+																						<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
+																						<input type='text' 
+																							class='form-control vrnt_values'
+																							placeholder='Enter attribute value'
+																							name='vrnt_values[]'
+																							value='".$vrnt_value['att_value']."'
+																						/>
+																						<a href='".$vrnt_value_del_link."'>
+																							<i class='fa fa-times' onclick='return confirm(\"Are you sure?\")'></i>
+																						</a>
+																					</div><br />";
+																				}
+
+																			echo "</td></tr>";
 																		}
-
-																		echo "</td></tr>";
 																	}
-																}
-																else
-																	echo "<tr><td colspan=3>Not Varient Found</td>";
-																?>
-															</tbody>
-														</table>
-													</div><!-- /.box-body -->
-												</div>
+																	else
+																		echo "<tr><td colspan=3>Not Varient Found</td>";
+																	?>
+																</tbody>
+															</table>
+														</div><!-- /.box-body -->
+													</div>
 
-												<div class="col-sm-6">
-													<div class="table-responsive editTable">
-														<table class="table table-bordered dataTable">
-															<thead>
-																<tr>
-																	<th colspan="3" class="text-align-center">
-																		Tags<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productTags_tableBody" style="cursor:pointer;"></i>
-																	</th>
-																</tr>
-															</thead>
-															<tbody id="productTags_tableBody" class="collapse in">
-																<tr>
-																	<td class="tags-cell">
-																		<?php if (count($tags) > 0) {
+													<div class="col-sm-6">
+														<div class="table-responsive editTable">
+															<table class="table table-bordered dataTable">
+																<thead>
+																	<tr>
+																		<th colspan="3" class="text-align-center">
+																			Tags<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productTags_tableBody" style="cursor:pointer;"></i>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody id="productTags_tableBody" class="collapse in">
+																	<tr>
+																		<td class="tags-cell">
+																			<?php if (count($tags) > 0) {
 
-																			function array_value_exist($product_tags, $value) {
-																				if (count($product_tags) > 0) {
-																					foreach ($product_tags as $prd_tag_value) {
-																						if ($prd_tag_value['tag_id'] == $value) {
-																							return "checked";
+																				function array_value_exist($product_tags, $value) {
+																					if (count($product_tags) > 0) {
+																						foreach ($product_tags as $prd_tag_value) {
+																							if ($prd_tag_value['tag_id'] == $value) {
+																								return "checked";
+																							}
 																						}
 																					}
+																					return "";
 																				}
-																				return "";
-																			}
 
-																			foreach ($tags as $tag_value) {
-																				$checked = array_value_exist($product_tags, $tag_value['tag_id']);
-																				$tagName = htmlspecialchars($tag_value['tag_name'], ENT_QUOTES);
+																				foreach ($tags as $tag_value) {
+																					$checked = array_value_exist($product_tags, $tag_value['tag_id']);
+																					$tagName = htmlspecialchars($tag_value['tag_name'], ENT_QUOTES);
 
-																				echo '<label class="bigcheck tag-label" title="'.$tagName.'">
-																					<input type="checkbox" class="bigcheck" 
-																						name="selected_tag_ids[]" 
-																						value="'.$tag_value['tag_id'].'" '.$checked.' />
-																					<span class="bigcheck-target"></span>&nbsp;&nbsp;
-																					<span class="tag-text">'.$tagName.'</span>
-																				</label>';
-																			}
-																		} ?>
-																	</td>
-																</tr>
-															</tbody>
-														</table>
+																					echo '<label class="bigcheck tag-label" title="'.$tagName.'">
+																						<input type="checkbox" class="bigcheck" 
+																							name="selected_tag_ids[]" 
+																							value="'.$tag_value['tag_id'].'" '.$checked.' />
+																						<span class="bigcheck-target"></span>&nbsp;&nbsp;
+																						<span class="tag-text">'.$tagName.'</span>
+																					</label>';
+																				}
+																			} ?>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+
+												<div class="row nextFormLine">
+													<div class="col-sm-4">
+														<label>Meta Title</label>
+														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" required />
+													</div>
+
+													<div class="col-sm-4">
+														<label>Meta Keywords</label>
+														<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+													</div>
+
+													<div class="col-sm-4">
+														<label>Meta Description:</label>
+														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+													</div>
+												</div>
+
+												<div class="row nextFormLine">
+													<div class="col-sm-4">
+														<label>Notes</label>
+														<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+													</div>
+
+													<div class="col-sm-4">
+														<label>Amazon Product ID</label>
+														<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
+													</div>
+
+													<div class="col-sm-4">
+														<label>Flipkart Product ID</label>
+														<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
+													</div>
+												</div>
+
+												<div class="row nextFormLine">
+													<div class="col-sm-12">
+														<div class="table-responsive editTable">
+															<table class="table table-bordered dataTable">
+																<thead>
+																	<tr>
+																		<th colspan="4" class="text-align-center">
+																			HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFilesCategory_tableBody" style="cursor:pointer;"></i>
+																		</th>
+																	</tr>
+																	<tr>
+																		<th></th>
+																		<th id="">Prefix Path</th>
+																		<th id="">File Path</th>
+																		<th id="">Action</th>
+																	</tr>
+																</thead>
+																<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
+																	<?php
+																	for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
+																	{
+																		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
+																		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
+
+																		if ($link) {
+
+																			$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+																			<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
+																		} else {
+																			$buttons = '';
+																		}
+																		
+																		echo "<tr>
+																				<td>HTML Link".$i."</td>
+																				<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																				<td>
+																					<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																					<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																				</td>
+																				<td>".$buttons."</td>
+																			</tr>";
+																	}
+																	?>
+																</tbody>
+															</table>
+														</div><!-- /.box-body -->
 													</div>
 												</div>
 											</div>
-
-											<div class="row nextFormLine">
-												<div class="col-sm-4">
-													<label>Meta Title</label>
-													<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" required />
-												</div>
-
-												<div class="col-sm-4">
-													<label>Meta Keywords</label>
-													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
-												</div>
-
-												<div class="col-sm-4">
-													<label>Meta Description:</label>
-													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
-												</div>
-											</div>
-
-											<div class="row nextFormLine">
-												<div class="col-sm-4">
-													<label>Notes</label>
-													<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
-												</div>
-
-												<div class="col-sm-4">
-													<label>Amazon Product ID</label>
-													<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
-												</div>
-
-												<div class="col-sm-4">
-													<label>Flipkart Product ID</label>
-													<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
-												</div>
-											</div>
-
-											<div class="row nextFormLine">
-												<div class="col-sm-12">
-													<div class="table-responsive editTable">
-														<table class="table table-bordered dataTable">
-															<thead>
-																<tr>
-																	<th colspan="4" class="text-align-center">
-																		HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFilesCategory_tableBody" style="cursor:pointer;"></i>
-																	</th>
-																</tr>
-																<tr>
-																	<th></th>
-																	<th id="">Prefix Path</th>
-																	<th id="">File Path</th>
-																	<th id="">Action</th>
-																</tr>
-															</thead>
-															<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
-																<?php
-																for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-																{
-																	$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
-																	$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
-
-																	if ($link) 
-																	{
-																		$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-primary' target='_blank'><i class='fa fa-paperclip'></i></a>
-																		<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
-																	}
-																	else
-																		$buttons = '';
-																	
-																	echo "<tr>
-																			<td>HTML Link".$i."</td>
-																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
-																			<td>
-																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-																			</td>
-																			<td>".$buttons."</td>
-																		</tr>";
-																}
-																?>
-															</tbody>
-														</table>
-													</div><!-- /.box-body -->
-												</div>
-											</div>
 										</div>
-									</div>
-
+									<?php endif; ?>
+									
 							    	<input type="hidden" name="prd_id" value="<?= $product_id; ?>">
 									
 									<div class="box-footer" align="right">
@@ -1017,7 +1021,7 @@ if (isset($page_label) && $page_label == "edit") {
 														<tr>
 															<td>
 																<div class="row form-group">
-																	<div class="col-sm-8" id="key_feature_input_field_div"></div>
+																	<div class="col-sm-12" id="key_feature_input_field_div"></div>
 																</div>
 															</td>
 														</tr>
@@ -1047,7 +1051,6 @@ if (isset($page_label) && $page_label == "edit") {
 																	<th colspan="3" class="text-align-center">
 																		Product varients
 																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
-																		<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button>
 																	</th>
 																</tr>
 															</thead>
@@ -1056,29 +1059,31 @@ if (isset($page_label) && $page_label == "edit") {
 
 																	echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
 
-																	$i = 1;
-																	foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) 
-																	{
+																	foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) {
+
 																		$rowspan = count($prd_vrnt_values)+1;
 																		echo "<tr>
 																				<td>".$prd_vrnt_key."</td><td>";
 
 																		foreach ($prd_vrnt_values as $vrnt_value) {
+
 																			$vrnt_id = $vrnt_value['vrnt_id'];
+																			$att_id = $vrnt_value['att_id'];
 
 																			echo "<div id='vrnt_row".$vrnt_id."' 
-																					style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
-																				<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
+																				style='display:flex; align-items:center; gap:6px; margin-bottom: 8px;'>
+																				<input type='hidden' value='".$att_id."' name='vrnt_att_ids[]'>
 																				<input type='text'
 																					class='form-control vrnt_values'
 																					placeholder='Enter attribute value'
 																					name='vrnt_values[]'
 																					value='".$vrnt_value['att_value']."'
 																					style='width:200px;' />
-																				<button type='button' class='btn btn-danger' onclick='removeVariant(".$vrnt_id.")'>
-																					<i class='fa fa-trash-o'></i>
-																				</button>
-																			</div><br />";
+																				<a href='javascript:void(0);' 
+																				onclick='removeVariant(".$vrnt_id.")'>
+																				<i class='fa fa-times'></i>
+																				</a>
+																			</div>";
 																		}
 																		echo "</td></tr>";
 																	}
@@ -1447,24 +1452,23 @@ $(document).ready(function() {
     $('.prd_ids').on('change', function(){
         $('#addVarientBtn').prop('disabled', true);
 
-        $.each($(".prd_ids"), function(){            
-            if (this.checked)
-                $('#addVarientBtn').prop('disabled', false);
-        });  
+        $.each($(".prd_ids"), function(){
+            if (this.checked) $('#addVarientBtn').prop('disabled', false);
+        });
     })
 
     var count = 1;
     $('#createVarientFieldBtn').click(function () {
-        $('#input_field_div').append('<div class="row" style="margin-top:10px;" id="con'+count+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="vrnt_vals[]" placeholder="Varient value" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove'+count+'" onclick="removeBtn('+count+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
-        
+        $('#input_field_div')
+		.append('<div class="row" style="margin-top:10px;" id="con'+count+'">'+
+			'<div class="col-sm-9">'+
+				'<input type="text" class="form-control" name="vrnt_vals[]" placeholder="Varient value" required/>' + 
+			'</div>'+
+			'<div class="col-sm-3">'+
+				'<button type="button" class="btn btn-danger" id="btnRemove'+count+'" onclick="removeBtn('+count+')">Remove</button>'+
+			'</div>'+
+		'</div>');
+
         count++;
     });
 
@@ -1487,16 +1491,16 @@ $(document).ready(function() {
     var count1 = 1;
     var count2 = 1;
     $('#createKeyFeatureFieldBtn').click(function () {
-        $('#key_feature_input_field_div').append('<div class="row" style="margin-top:10px;" id="con1'+count1+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="key_feature_values[]" placeholder="Feature'+count1+'" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
-        
+        $('#key_feature_input_field_div').append(
+  			'<div class="row" id="con1'+count1+'" style="margin-bottom: 5px;">'+
+    			'<div class="col-sm-12" style="display:flex; align-items:center;">'+
+      				'<input type="text" class="form-control" name="key_feature_values[]" placeholder="Enter feature" required style="flex:1;" />'+
+      				'<a href="javascript:void(0);" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')" style="margin-left:8px;">'+
+        				'<i class="fa fa-minus-circle text-danger"></i>'+
+      				'</a>'+
+    			'</div>'+
+  			'</div>');
+
         count1++;
     });
 });
@@ -1516,5 +1520,4 @@ function clearField(fieldName) {
   const field = document.getElementsByName(fieldName)[0];
   if (field) field.value = '';
 }
-
 </script>
