@@ -2079,7 +2079,6 @@ class Admin_controller extends CI_Controller
 		$data['meta_keyword'] = $this->input->post('meta_keyword');
 		$data['meta_description'] = $this->input->post('meta_description');
 		$data['update_date'] = $this->current_date;
-		$controller = 'category';
 
 		if ($parent_cat_id != 0) 
 		{
@@ -2095,26 +2094,27 @@ class Admin_controller extends CI_Controller
 		//set null for blank fields
 		setNULLToBlank($data);
 
-		if (!empty($cat_id)) 
-		{
+		if (!empty($cat_id)) {
+
 			$condition = array('category_id' => $cat_id);
 			$isUpdated = $this->Admin_model->updateData('product_category', $data, $condition);
 
-			$msg = "Category updated successfully!!";
+			$msg = "Category updated successfully";
+			$controller = 'editCategory/'.$cat_id.'/edit';
 			
 			if (isset($isUpdated['db_error'])) 
-				$this->redirect('Error: '.$isUpdated['msg'], $controller);
-		}
-		else
-		{
+				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+		} else {
+
 			$data['create_date'] = $this->current_date;
 
 			$cat_id = $this->Admin_model->insertData('product_category', $data);
 
-			$msg = "Category inserted successfully!!";
+			$msg = "Category inserted successfully";
+			$controller = 'page/addCategory';
 
 			if (isset($cat_id['db_error'])) 
-				$this->redirect('Error: '.$cat_id['msg'], $controller);
+				redirectWithMessage('Error: '.$cat_id['msg'], $controller);
 		}
 		
 		if ($cat_id) 
@@ -2129,13 +2129,13 @@ class Admin_controller extends CI_Controller
 			//insert category images
 			$isUploaded = $this->upload_image( $folder, $img_data );
 			if (isset($isUploaded['db_error'])) 
-				$this->redirect('Error: '.$isUploaded['msg'], $controller);
+				redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
 
 			//select att_id from db
 			$where = array('cat_id' => $cat_id);
 			$db_att_res = $this->Admin_model->selectRecords($where, 'category_attribute_mp', 'att_id' );
 			if (isset($db_att_res['db_error'])) 
-				$this->redirect('Error: '.$db_att_res['msg'], $controller);
+				redirectWithMessage('Error: '.$db_att_res['msg'], $controller);
 
 			//db attribute result
 			$db_att_ids = array();
@@ -2174,7 +2174,7 @@ class Admin_controller extends CI_Controller
 					$isDeleted = $this->Admin_model->deleteRecord('category_attribute_mp', $where);
 
 					if (isset($isDeleted['db_error'])) 
-						$this->redirect('Error: '.$isDeleted['msg'], $controller);
+						redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 				}	
 			}
 			
@@ -3075,7 +3075,7 @@ class Admin_controller extends CI_Controller
 		if ($request_id) //this is for requested product
 			$controller = 'addProduct?req_prd_id='.$request_id;
 		else
-			$controller = 'admin/editProduct/'.$prd_id.'/'.$page_label;
+			$controller = 'editProduct/'.$prd_id.'/'.$page_label;
 
 		redirectWithMessage('Attribute varient added successfully!!!', $controller);
 	}

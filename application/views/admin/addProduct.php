@@ -92,7 +92,7 @@ if (isset($page_label) && $page_label == "edit") {
 
 			                                    if (isset($attributes)) 
 			                                    {
-			                                        echo "<option value='0'>Select an attribute to make varients!!</option>";
+			                                        echo "<option value='0'>Select an attribute to make varients!</option>";
 
 			                                        foreach ($attributes as $att_value)
 			                                            echo "<option value='".$att_value['att_id']."'>".$att_value['att_name']."</option>";

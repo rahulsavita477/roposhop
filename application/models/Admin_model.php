@@ -1052,10 +1052,10 @@ print_r($tables); die;
         catch (Exception $e) 
         {
             $arrayResponse['db_error'] = TRUE;
-            $arrayResponse['code'] = $db_error['message'];
-            $arrayResponse['msg'] = str_replace("'", "", $db_error['code']);
+            $arrayResponse['code'] = str_replace("'", "", $db_error['code']);
+            $arrayResponse['msg'] = $db_error['message'];
 
-            if ($this->controller_name == 'admin_controller') 
+            if (strtolower($this->controller_name) == 'admin_controller') 
                 return $arrayResponse;
             else
             {
