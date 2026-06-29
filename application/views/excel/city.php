@@ -33,12 +33,11 @@ $query_string_cnt_id = "";
                                 <!-- select category -->
                                 <div class="row">
                                     <div class="col-sm-4 input-field">
-                                        <label>Select country*:</label> 
+                                        <label>Select country*:</label>
                                         <select class="form-control" id="cnt_id">
                                             <option value="">Select country</option>
-                                            <?php
-                                            foreach ($countries as $cnt_value) 
-                                            {
+                                            <?php foreach ($countries as $cnt_value) {
+
                                                 $cntry_id = $cnt_value['country_id'];
 
                                                 $selected = '';
@@ -47,7 +46,7 @@ $query_string_cnt_id = "";
 
                                                 echo "<option value='".$cntry_id."' ".$selected.">".$cnt_value['name']."</option>";
                                             }
-                                            ?>          
+                                            ?>
                                         </select>
                                     </div>
                                     

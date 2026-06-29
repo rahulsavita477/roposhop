@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="col-sm-12" style="margin: 10px 0px;">
+                    <div class="col-sm-12" style="margin: 10px 0px; padding-right: 10px;">
                         <a href="<?= base_url('page/addAttribute') ?>" class="btn btn-primary pull-right">
                             <i class="fa fa-plus"></i> Add New Attribute</a> 
                     </div>

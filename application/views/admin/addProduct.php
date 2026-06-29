@@ -756,7 +756,7 @@ if (isset($page_label) && $page_label == "edit") {
 																						<input type="checkbox" class="bigcheck" 
 																							name="selected_tag_ids[]" 
 																							value="'.$tag_value['tag_id'].'" '.$checked.' />
-																						<span class="bigcheck-target"></span>&nbsp;&nbsp;
+																						<span class="bigcheck-target"></span>
 																						<span class="tag-text">'.$tagName.'</span>
 																					</label>';
 																				}
@@ -821,9 +821,7 @@ if (isset($page_label) && $page_label == "edit") {
 																	</tr>
 																</thead>
 																<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
-																	<?php
-																	for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-																	{
+																	<?php for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
 																		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
 																		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 
@@ -1135,7 +1133,7 @@ if (isset($page_label) && $page_label == "edit") {
 																					<input type="checkbox" class="bigcheck" 
 																						name="selected_tag_ids[]" 
 																						value="'.$tag_value['tag_id'].'" '.$checked.' />
-																					<span class="bigcheck-target"></span>&nbsp;&nbsp;
+																					<span class="bigcheck-target"></span>
 																					<span class="tag-text">'.$tagName.'</span>
 																				</label>';
 																			}
@@ -1419,23 +1417,6 @@ $(document).ready(function() {
 	}
 });
 </script>
-
-<style type="text/css">
-.nextFormLine {
-	margin-top: 10px;
-}
-
-.thumbnail img {
-    height:50px;
-    float: left;
-}
-
-.thumbnail {
-	border: none;
-    float: left;
-    margin-bottom: 0px;
-}
-</style>
 
 <?php require_once('include/imageModel.php'); ?>
 

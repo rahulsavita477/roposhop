@@ -13,48 +13,44 @@
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">   
+                <div class="box">
                     <form method="post" action="<?= base_url('changeParentCategory') ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <!-- select sub category -->
-                        <div class="col-sm-12 Category_search_add_div">
-                            <div class="col-sm-3">
-                                <label>Move selected to parent category: </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <select class="form-control" name="parent_cat_id" >
-                                    <?php
-                                    if ($success) 
-                                    {
-                                        echo "<option value='0'>Please choose parent category!</option>";
-
-                                        foreach ($categories as $cat_value) 
-                                            echo "<option value='".$cat_value['category_id']."'>".$cat_value['category_name']."</option>";
+                        <div class="row Category_search_add_div">
+                            <div class="col-sm-8">
+                                <div class="form-inline">
+                                <label style="margin-right:10px;">Bulk Actions</label>
+                                <select class="form-control" name="parent_cat_id" style="margin-right:10px;">
+                                    <?php if ($success) {
+                                    echo "<option value='0'>Move selected to parent category</option>";
+                                    foreach ($categories as $cat_value) {
+                                        echo "<option value='".$cat_value['category_id']."'>".$cat_value['category_name']."</option>";
                                     }
-                                    else
-                                        echo "<option value='0'>No parent category available!</option>";
-                                    ?>
+                                    } else {
+                                    echo "<option value='0'>No parent category available!</option>";
+                                    } ?>
                                 </select>
-                            </div>
-                            
-                            <div class="col-sm-2">
-                                <button type="submit" class="btn btn-default">Go</button>
+                                <button type="submit" class="btn btn-primary">Apply</button>
+                                </div>
                             </div>
 
-                            <div class="col-sm-3 pull-right">
-                                <a href="<?= base_url('page/addCategory');?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Category</a> 
+                            <div class="col-sm-4 text-right">
+                                <a href="<?= base_url('page/addCategory');?>" class="btn btn-primary">
+                                <i class="fa fa-plus"></i> Add New Category
+                                </a>
                             </div>
                         </div>
 
-                        <div class="box-body table-responsive" style="margin-top: 20px;">
-                            <table class="table table-bordered table-striped data-pagination-table" style="margin-top: 40px;">
+                        <div class="box-body table-responsive">
+                            <table class="table table-bordered table-striped data-pagination-table">
                                 <thead>
                                     <tr>
+                                        <th>Bulk Action</th>
                                         <th>S.No.</th>
                                         <th>Category ID</th>
                                         <th>Category</th>
                                         <th>Parent Category</th>
                                         <th>Action</th>
-                                        <th>Move selected</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,16 +62,16 @@
                                         {
                                             $cat_id = $cat_value['category_id'];
                                             echo "<tr>
+                                                    <td>
+                                                        <input type='checkbox' value='".$cat_id."' name='selected_sub_category_ids[]'>
+                                                    </td>
                                                     <td>".$count++."</td>
                                                     <td>".$cat_value['category_id']."</td>
                                                     <td><a href='".base_url("editCategory/$cat_id/view")."'>".$cat_value['category_name']."</a></td>
                                                     <td>".$cat_value['parent_cat']."</td>
                                                     <td>
-                                                        <a href='".base_url("editCategory/$cat_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                        <a href='".base_url("deleteCategory/$cat_id")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-                                                    </td>
-                                                    <td>
-                                                        <input type='checkbox' value='".$cat_id."' name='selected_sub_category_ids[]'>
+                                                        <a href='".base_url("editCategory/$cat_id/edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+                                                        <a href='".base_url("deleteCategory/$cat_id")."' onclick='return confirm(\"Are you sure?\")'title='Delete'><i class='fa fa-trash-o'></i></a>
                                                     </td>
                                                 </tr>";
                                         }

@@ -51,26 +51,41 @@ else
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
-                <div class="box">
-                    <div class="row" style="margin: 10px 0 10px 0;">
-                        <div class="col-sm-11 Products_search_add_div">
-                            <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="category_id">
-                                        <?= $category_options ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="brand_id">
-                                        <?= $brand_options ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-primary">Find product</button>
-                                    <a href="<?= base_url('products') ?>" class='btn btn-default'>Remove filter</a>
-                                </div>
-                            </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <div class="row">
+                                    <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
+                                        <div class="col-sm-3 input-field">
+                                            <label>Category:</label>
+                                            <select class="form-control" name="category_id">
+                                                <?= $category_options ?>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="col-sm-3 input-field" style="padding-left: 0px;">
+                                            <label>Brand:</label>
+                                            <select class="form-control" name="brand_id">
+                                                <?= $brand_options ?>
+                                            </select>
+                                        </div> 
+
+                                        <div class="col-sm-3" style="padding-left: 0px;">
+                                            <label class="label_hide">make space equal to label</label><br />
+                                            <a href="<?= base_url('products') ?>" class="btn btn-default">Remove Filter</a>
+                                            <button class="btn btn-primary" type="submit">Find product</button>
+                                        </div>
+                                    </form>
+                                </div>  
+                            </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="row" style="margin: 5px -5px 0px 0;">
+                        <div class="col-sm-11"></div>
                         <div class="col-sm-1">
                             <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
                         </div>

@@ -205,7 +205,7 @@ $status = isset($city['status']) ? $city['status'] : 1;
 <style type="text/css">
 .input-field{
     margin-bottom: 10px;
-}    
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

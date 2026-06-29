@@ -1,6 +1,5 @@
 .Category_search_add_div {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0px 10px;
     margin-top: 10px;
 }
 
@@ -18,32 +17,21 @@
     white-space: nowrap;
 }
 
-th::after {
-    content: "\00a0 \00a0 ";
-}
-
 .text-align-center {
     text-align: center;
 }
 
 .editTable tbody {
     display: block;
-    /* make tbody a block container */
     max-height: 200px;
-    /* set desired height */
     overflow-y: auto;
-    /* enable vertical scrolling */
-    /* overflow-x: hidden; */
 }
 
 .editTable thead,
 .editTable tbody tr {
     display: table;
-    /* keep rows aligned */
     width: 100%;
-    /* ensure full width */
     table-layout: fixed;
-    /* consistent column widths */
 }
 
 /* Excel page css */
@@ -136,10 +124,9 @@ form,
 .tags-cell {
     display: flex;
     flex-wrap: wrap;
-    /* allow wrapping to next line */
-    gap: 12px;
-    /* spacing between tags */
+    gap: 15px 0px;
     border: none;
+    padding: 5px !important;
 }
 
 .tag-label {
@@ -148,22 +135,18 @@ form,
     width: 150px;
     /* fixed width for each label */
     overflow: hidden;
+    margin-bottom: 0px;
 }
 
 .tag-text {
     white-space: nowrap;
-    /* prevent breaking */
     overflow: hidden;
-    /* hide overflow */
     text-overflow: ellipsis;
-    /* show ... */
     flex: 1;
-    /* take remaining space */
 }
 
 textarea.form-control {
     resize: vertical;
-    /* allow only vertical resize */
 }
 
 .well {
@@ -193,4 +176,72 @@ textarea.form-control {
 
 .fa-times {
     color: #f56954;
+}
+
+.box {
+    margin-bottom: 10px;
+}
+
+.attributes-header-right .dataTables_filter {
+  margin: 0;
+}
+
+.attributes-header-right label {
+  margin: 0;          /* remove label margin */
+  font-weight: normal;
+}
+
+.attributes-header-right input[type="search"] {
+  height: 24px;       /* smaller input height */
+  font-size: 13px;
+  padding: 2px 6px;
+}
+
+.attributes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px; /* compact */
+  line-height: 1.2; /* reduce vertical height */
+}
+
+.bigcheck-target {
+  margin-right: 5px; /* spacing instead of non-breaking spaces */
+}
+
+span.bigcheck-target {
+	font-family: FontAwesome;
+	color: #D35400;
+}
+
+input[type='checkbox'].bigcheck {
+  position: relative;
+  left: -999em;
+}
+
+input[type='checkbox'].bigcheck + span.bigcheck-target:after {
+  content: "\f096";
+}
+
+input[type='checkbox'].bigcheck:checked + span.bigcheck-target:after {
+  content: "\f046";
+}
+
+.thumbnail img {
+    height:50px;
+    float: left;
+}
+
+.thumbnail {
+	border: none;
+    float: left;
+    margin-bottom: 0px;
+}
+
+.nextFormLine {
+	margin-top: 10px;
+}
+
+label {
+    font-weight: normal;
 }
