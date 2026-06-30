@@ -117,19 +117,19 @@ if (isset($page_label) && $page_label == "edit") {
 
 <!---------------------########### START PRODUCT VIEW FORM ###################------------------>
 					        <?php if ($page_label == "view") { ?>
-						        <div class="box-footer" align="right">
-						            <a href='<?= base_url("products") ?>' class='btn btn-default'>Back</a>
-						            <a href='<?= base_url("editProduct/$product_id/edit") ?>' class='btn btn-primary'>Edit</a>
-						            <a href='<?= base_url("deleteProduct/$product_id") ?>' class='btn btn-danger'>Delete</a>
+						        <div class="box-footer" align="right">									
+						            <a href='<?= base_url("products") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+						            <a href='<?= base_url("editProduct/$product_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+						            <a href='<?= base_url("deleteProduct/$product_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
 						    	</div>
 
 								<div class="box-body">
 						    		<!-- select category -->
 			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Category:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?php
 											if ($status) 
 								    		{
@@ -151,10 +151,10 @@ if (isset($page_label) && $page_label == "edit") {
 
 									<!-- select brand -->
 			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Brand:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?php
 								    		if ($status) 
 								    		{
@@ -176,64 +176,64 @@ if (isset($page_label) && $page_label == "edit") {
 							    	<input type="hidden" name="prd_id" value="<?= $product_id; ?>">
 
 							    	<div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Product Name:</label>
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $product_name ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Amazon Product ID:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $amazon_prd_id ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Flipkart Product ID:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $flipkart_prd_id ?>
 		                        		</div>
 		                        	</div>
 
 			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Product Price*:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $mrp_price ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Product Description:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $description ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>In The Box:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $in_the_box ?>
 		                        		</div>
 		                        	</div>
 									
 									<div class="row form-group">
-								    	<div class="col-sm-3">
+								    	<div class="col-sm-2">
 											<label>Tags:</label>
 										</div>
-										<div class="col-sm-9">
+										<div class="col-sm-10">
 											<span class="bigcheck">
 												<?php
 												$count = 0;	
@@ -280,10 +280,10 @@ if (isset($page_label) && $page_label == "edit") {
 									</div>
 
 		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Product Images:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?php 
 					                        if (!empty($images)) 
 					                        {
@@ -343,10 +343,10 @@ if (isset($page_label) && $page_label == "edit") {
 									<div class="form-group" id="att_fields" style="display: none;"></div>
 
 									<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Product Features:</label>
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?php
 			                                if ($key_features) 
 			                                {
@@ -364,10 +364,10 @@ if (isset($page_label) && $page_label == "edit") {
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Product HTMLs:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<ul>
 			                        			<?php
 					                        	for ($i = 1, $j = 0; $i <= 5; $i++, $j++)
@@ -385,55 +385,55 @@ if (isset($page_label) && $page_label == "edit") {
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Meta Title:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $meta_title ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Meta Keywords:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $meta_keyword ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Meta Description:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $meta_description ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Notes:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= $notes ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Create Date:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= convert_to_user_date($create_date) ?>
 		                        		</div>
 		                        	</div>
 
 		                        	<div class="row form-group" style="clear: both;">
-		                        		<div class="col-sm-3">
+		                        		<div class="col-sm-2">
 		                        			<label>Update Date:</label>	
 		                        		</div>
-		                        		<div class="col-sm-9">
+		                        		<div class="col-sm-10">
 		                        			<?= convert_to_user_date($update_date) ?>
 		                        		</div>
 		                        	</div>

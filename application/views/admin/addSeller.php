@@ -2,7 +2,7 @@
 $merchant_id = isset($data['merchant_id']) ? $data['merchant_id'] : '';
 $usr_id = isset($data['userId']) ? $data['userId'] : '';
 $first_name = isset($data['first_name']) ? $data['first_name'] : '';
-$comp_name = isset($data['establishment_name']) ? $data['establishment_name'] : '';
+$shop_name = isset($data['establishment_name']) ? $data['establishment_name'] : '';
 $description = isset($data['description']) ? $data['description'] : '';
 $cno = isset($data['contact']) ? $data['contact'] : '';
 $business_days = isset($data['business_days']) ? $data['business_days'] : '';
@@ -72,14 +72,14 @@ else
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <div class="box-header">
 				        <div class='box-footer' align='right'>
 					        <?php if ($page_label == "view") {
-					    	    echo "<a href='../../sellers/sellersTable' class='btn btn-default'>Back</a>
-					            	<a href='../../seller/$merchant_id/edit' class='btn btn-primary'>Edit</a>";
+					    	    echo "<a href='../../sellers/sellersTable' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
+					            	<a href='../../seller/$merchant_id/edit' title='Edit'><i class='fa fa-edit'></i></a>";
 						    } elseif ( $page_label == "edit" )
 						    	echo "<a href='../../page/addressManagement?user_id=$usr_id&merchant_id=$merchant_id' class='btn btn-primary'>Manage Address</a>";
 						    ?>
@@ -89,44 +89,44 @@ else
 				    <?php if ($page_label == "view") { ?>
 			    		<div class="box-body">
 			    			<div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Seller logo:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				            		<?php 
 						            if (isset($merchant_logo)) 
 							            echo '<div class="row form-group">
-									            	<div class="col-sm-3">
-									      				<img src="'.$merchant_logo.'" width="80">
-									            	</div>
-									            </div>';
+											<div class="col-sm-3">
+												<img src="'.$merchant_logo.'" width="80">
+											</div>
+										</div>';
 								    ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Owner's Full Name:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $first_name ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Establishment (Shop) Name:</label>	
 				            	</div>
-				                <div class="col-sm-9">
-				                	<?= $comp_name ?>
+				                <div class="col-sm-10">
+				                	<?= $shop_name ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Shop images:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?php 
 			                        if (!empty($seller_images)) 
 			                        {
@@ -142,127 +142,127 @@ else
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Description:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $description ?>
 				                </div>
 				            </div>
 
 	                        <div class="row form-group" style="clear: both;">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Contact number:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $cno ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Business days:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $business_days ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Business hours:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $business_hours ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>finance available:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $finance_available ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>finance terms:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $finance_terms ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Home delivery available:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $home_delivery_available ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Home delivery terms:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $home_delivery_terms ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Installation available:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $installation_available ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Installation terms:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $installation_terms ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Replacement available:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $replacement_available ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Replacement terms:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $replacement_terms ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Return available:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $return_available ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Return policy:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $return_policy ?>
 				                </div>
 				            </div>
@@ -311,7 +311,7 @@ else
 							            	<div class="col-sm-3">
 							            		<label>Address '.$sno.':</label>	
 							            	</div>
-							                <div class="col-sm-9">'.
+							                <div class="col-sm-10">'.
 							                	$line1.$line2.$landmark.$city_name.$pin.$state_name.$country_name."<br />Shop no: ".$address_value['contact']
 							                .'</div>
 							            </div>';
@@ -321,37 +321,37 @@ else
 				            } ?>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Meta Keyword:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $meta_keyword ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Meta Description:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $meta_description ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Create date:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $create_date ?>
 				                </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Update date:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $update_date ?>
 				                </div>
 				            </div>
@@ -397,89 +397,82 @@ else
 					        <input type="hidden" name="usr_id" value="<?= $usr_id; ?>">
 					        <input type="hidden" name="is_default_address" value="1" />
 
-				        	<div class="box-body">
-				        		<div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Shop Logo:</label>
-					            	</div>
-					            	<div class="col-sm-9">
-					            		<div class="col-sm-4">	
-					            			<input type="file" name="file8" id="file8" />
-					            		</div>
-					            		<div class="col-sm-4">
-						            		<?php if ($merchant_logo)
-												echo '<img src="'.$merchant_logo.'" width="100px">';
-											?>
-						        		</div>		        			
-						        		<div class="col-sm-4 file8"></div>
-					            	</div>
-					            </div>
+				        	<div>
+				        		<div class="row">
+									<div class="col-sm-6">
+										<div class="col-sm-12">
+											<label>Establishment (Shop) Name *</label>
+											<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $shop_name ?>" required />
+										</div>
 
-					            <div class="row form-group">
-                                      <div class="col-sm-12">
-                                            <div class="alert alert-warning" role="alert">Allowed file types JPG or PNG only.</div>
-                                      </div>
-                                </div>
+										<div class="col-sm-6 nextFormLine">
+											<label>Contact number *</label>
+											<input type="text" name="contact_no" class="form-control" placeholder="Enter Company contact number" value="<?= $cno ?>" required />
+										</div>
+										
+										<div class="col-sm-6 nextFormLine">
+											<label>Owner's Full Name<?= $star ?></label>
+											<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> />
+										</div>
+								
+										<div class="col-sm-12 nextFormLine">
+											<label>Shop Description</label>
+											<textarea name="description" rows="1" class="form-control address" placeholder="Enter description"><?= $description ?></textarea>
+										</div>
+									</div>
 
-				        		<div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Business proof:</label>
-					            	</div>
-					            	<div class="col-sm-9">
-					            		<div class="col-sm-4">	
-					            			<input type="file" name="file9" accept=".gif, .jpg, .png, .pdf, .jpeg, .pdf" />
-					            		</div>
-					            		<div class="col-sm-4">
-					            			<?php
-					            			if (isset($data['business_proof']))
-    											echo '<a href="'.$data['business_proof'].'" class="btn btn-default" target="_blank">Preview</a>';
-					            			?>
-						        		</div>		        			
-					            	</div>
-					            </div>
+									<div class="col-sm-3">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered dataTable">
+												<thead>
+													<tr>
+														<th class="text-align-center">Shop Logo</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<?php
+														echo renderSingleImage($merchant_logo, $seller_images_dir, $merchant_id, 'sellerLogo', $shop_name, 8);
+														if ($merchant_logo) {
+															echo '<input type="hidden" name="merchant_logo" value="'.$merchant_logo.'">';
+														} ?>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered dataTable">
+												<thead>
+													<tr>
+														<th class="text-align-center">
+															Business Proof
+															<!-- Tooltip icon -->
+															<i class="fa fa-info-circle text-primary"
+																data-toggle="tooltip"
+																data-placement="right"
+																title="Allowed Business proof: GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque."
+															></i>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<?php
+														echo renderSingleImage($data['business_proof'], $seller_images_dir, $merchant_id, 'businessProof', $shop_name, 9, ".gif, .jpg, .png, .pdf, .jpeg, .pdf");
 
-					            <div class="row form-group">
-                                      <div class="col-sm-12">
-                                            <div class="alert alert-warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.<br />Allowed File types: PDF, JPG and PNG.</div>
-                                      </div>
-                                </div>
-                                
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Owner's Full Name<?= $star ?>:</label>	
-					            	</div>
-					                <div class="col-sm-5">
-					                	<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> />
-					                </div>
-					            </div>
-
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Establishment (Shop) Name*:</label>	
-					            	</div>
-					                <div class="col-sm-5">
-					                	<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $comp_name ?>" required />
-					                </div>
-					            </div>
-
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Description:</label>	
-					            	</div>
-					                <div class="col-sm-9">
-					                	<textarea name="description" rows="1" class="form-control address" placeholder="Enter description"><?= $description ?></textarea>
-					                </div>
-					            </div>
-
-					            <div class="row form-group" style="clear: both;">
-					            	<div class="col-sm-3">
-					            		<label>Contact number*:</label>	
-					            	</div>
-					                <div class="col-sm-5">
-					                	<input type="text" name="contact_no" class="form-control" placeholder="Enter Company contact number" value="<?= $cno ?>" required />
-					                </div>
-					            </div>
-
+														if ($data['business_proof']) {
+														
+															echo '<input type="hidden" name="business_proof" value="'.$data['business_proof'].'">';
+														} ?>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+				        		
 					            <div class="row form-group">
 					            	<div class="col-sm-3">
 					            		<label>Business days:</label>	

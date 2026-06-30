@@ -393,7 +393,7 @@ function renderImages($images, $images_dir, $entity_id, $method, $slots = 6) {
         } else {
             $html .= '
                 <div class="btn btn-primary btn-file" id="fileUploadDiv'.$i.'">
-                    <i class="fa fa-paperclip"></i> Upload Image '.$i.'
+                    <i class="fa fa-paperclip"></i> Upload '.$i.'
                     <input type="file" name="file'.$i.'" id="file'.$i.'" />
                 </div>
                 <div id="preview'.$i.'" class="image-preview" style="display:none;">
@@ -409,32 +409,43 @@ function renderImages($images, $images_dir, $entity_id, $method, $slots = 6) {
 }
 
 // image7 is treating as: brand logo
-function renderSingleImage($image, $images_dir, $entity_id, $method, $alt) {
+function renderSingleImage($file, $dir, $entity_id, $method, $alt, $fileNo) {
+
     $html = '<td class="text-align-center">';
 
-    if (!empty($image)) {
-        $img_src = $images_dir . '/' . $image;
-        $html .= '
-            <div id="preview7" class="image-preview">
-                <div class="file7">
-                    <img src="'.$img_src.'" alt="'.$alt.'">
-                </div>
-                <span class="remove-icon">
-                    <a href="'.base_url().'deleteAttactchment/'.$image.'/'.$method.'/'.$entity_id.'" onclick="return confirmSave(\'' . DELETE_MSG . '\');">
-                        <i class="fa fa-trash-o"></i>
-                    </a>
-                </span>
-            </div>
-            <input type="hidden" name="remove_img7" value="'.$image.'" />';
+    if (!empty($file)) {
+
+        $img_src = $dir . '/' . $file;
+        $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $html .= '<div id="preview'.$fileNo.'" class="image-preview"><div class="file'.$fileNo.'">';
+
+        // Check if file is image type
+        if (in_array($file_ext, ['pdf'])) {
+            $html .= '<a href="'.$img_src.'" target="_blank" class="btn btn-info btn-sm">
+                <i class="fa fa-eye"></i> Preview
+            </a>';
+        } else {
+            $html .= '<img src="'.$img_src.'" alt="'.$alt.'" style="max-width:150px;">';
+        }
+
+        $html .= '</div>
+            <span class="remove-icon">
+                <a href="'.base_url().'deleteAttactchment/'.$file.'/'.$method.'/'.$entity_id.'" 
+                onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </span>
+        </div>
+        <input type="hidden" name="remove_img'.$fileNo.'" value="'.$file.'" />';
     } else {
         $html .= '
-            <div class="btn btn-primary btn-file" id="fileUploadDiv7">
-                <i class="fa fa-paperclip"></i> Upload Image
-                <input type="file" name="file7" id="file7" />
+            <div class="btn btn-primary btn-file" id="fileUploadDiv'.$fileNo.'">
+                <i class="fa fa-paperclip"></i> Upload
+                <input type="file" name="file'.$fileNo.'" id="file'.$fileNo.'" />
             </div>
-            <div id="preview7" class="image-preview" style="display:none;">
-                <div class="file7"></div>
-                <span class="remove-icon" onclick="removeImage(7)">
+            <div id="preview'.$fileNo.'" class="image-preview" style="display:none;">
+                <div class="file'.$fileNo.'"></div>
+                <span class="remove-icon" onclick="removeImage('.$fileNo.')">
                     <i class="fa fa-trash-o"></i>
                 </span>
             </div>';
@@ -457,7 +468,7 @@ function renderDuplicateProductImages($images, $images_dir, $slots = 6) {
         // Upload button (hidden if image exists)
         $html .= '
             <div class="btn btn-primary btn-file" id="fileUploadDiv'.$i.'" '.($hasImage ? 'style="display:none;"' : '').'>
-                <i class="fa fa-paperclip"></i> Upload Image '.$i.'
+                <i class="fa fa-paperclip"></i> Upload '.$i.'
                 <input type="file" name="file'.$i.'" id="file'.$i.'" />
             </div>';
 

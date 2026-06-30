@@ -99,15 +99,19 @@ function mobileValidation(value)
 function fileValidation(fileName, isFile=false) 
 {
     var fileExtention = fileName.substr((fileName.lastIndexOf('.') + 1));
-    var validExtentions = ['png', 'jpg', 'jpeg'];
+    var validExtentions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
     
-    if (isFile) 
+    if (isFile) {
         validExtentions.push("pdf");
+    }
 
     var isFile = validExtentions.includes(fileExtention.toLowerCase());
-    if (isFile)
-        return true;
-    else
+    if (isFile) return true;
+    else {
+
+        let msg = "Allowed File: "+validExtentions.join(', ');
+        alert(msg);
         return false;
+    }
 }
 </script>

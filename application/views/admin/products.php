@@ -129,12 +129,11 @@ else
                                         $cat_id = $prd_value['category_id'];
                                         
                                         // Below is the URL for product view in read only mode. But design need to be improve
-                                        // <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
                                         
                                         echo "<tr>
                                                 <td>".$prd_id."</td>
                             					<td class='statusLabel'>".$status."</td>
-                                                <td>".$prd_value['product_name']."</td>
+                                                <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
                                                 <td>".$prd_value['category_name']."</td>
                                                 <td>".$prd_value['brand_name']."</td>
                                                 <td>".$prd_value['mrp_price']."</td>

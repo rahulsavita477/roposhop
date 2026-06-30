@@ -3953,14 +3953,29 @@ class Admin_controller extends CI_Controller
 			$data = ['brand_logo' => null, 'update_date' => $this->current_date]; 
 			$this->Admin_model->updateData('brand', $data, $condition);
 			$folder_name = BRAND_ATTATCHMENTS_PATH;
-			// $this->updateTableDate('brand', array('brand_id' => $id));
-
-		} else if ($controller == "seller")
-		{
+		
+		} else if ($controller == "seller") {
+	
 			$folder_name = SELLER_ATTATCHMENTS_PATH;
 			$this->updateTableDate('merchant', array('merchant_id' => $id));
-		}
-		else if ($controller == "editOffer")
+		
+		}  else if ($controller == "sellerLogo" || $controller == "businessProof") {
+
+		 	// This block needs to be deleted once all images can be deleted from post methood only. Not need to have delete attachemtn method
+			$redirect_path = 'seller'.'/'.$id.'/edit';
+			$condition = array('merchant_id' => $id);
+			$data = ['update_date' => $this->current_date];
+			
+			if($controller == "sellerLogo") {
+				$data['merchant_logo'] = null;
+			} elseif ($controller == "businessProof") {
+				$data['business_proof'] = null; 
+			}
+			
+			$this->Admin_model->updateData('merchant', $data, $condition);
+			$folder_name = SELLER_ATTATCHMENTS_PATH;
+		
+		} else if ($controller == "editOffer")
 		{
 			$folder_name = OFFER_ATTATCHMENTS_PATH;
 			$this->updateTableDate('product_listing_offer', array('offer_id' => $id));

@@ -35,42 +35,37 @@ else if($pageName == "offerManagement")
                 <?= form_open_multipart('verifySeller') ?>
 
                     <input type="hidden" name="merchant_id" id="merchant_id" />
-
                     <input type="hidden" name="user_id" id="user_id" />
 
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label class="control-label">Shop Name <sub>*</sub></label>
-                            <div>
-                                <input type="text" class="form-control input-sm" id="shop_name" name="establishment_name" required="required" />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Establishment (Shop) Name <sup>*</sup></label>
+                                <input type="text" class="form-control" id="shop_name" name="establishment_name" required="required" />
+                            </div>
+                        
+                            <div class="col-sm-6">
+                                <label>E-Mail Address <sup>*</sup></label>
+                                <input type="email" class="form-control" id="email" name="email" required="required" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label">E-Mail Address <sub>*</sub></label>
-                            <div>
-                                <input type="email" class="form-control input-sm" name="email" required="required" />
+                        <div class="row nextFormLine">
+                            <div class="col-sm-6">
+                                <label>Owner's Full Name</label>
+                                <input type="text" class="form-control" id="owner_name" name="name" required="required" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Contact Number</label>
+                                <input type="text" class="form-control" id="owner_contact" name="contact" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label">Name <sub>*</sub></label>
-                            <div>
-                                <input type="text" class="form-control input-sm" name="name" required="required" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label">Contact No <sub>*</sub></label>
-                            <div>
-                                <input type="text" class="form-control input-sm" name="contact" required="required" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label">Business Proof <sub>*</sub></label>
-                            <div>
-                                <input type="file" class="form-control input-lg" name="file9" required="required" />
+                        <div class="row nextFormLine">
+                            <div class="col-sm-6">
+                                <label>Business Proof</label>
+                                <input type="file" class="form-control" name="file9" required />
                             </div>
                         </div>
                     </div>
@@ -89,7 +84,7 @@ else if($pageName == "offerManagement")
             <?php if($pageName == "sellersTable"){ ?>
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="col-sm-12" style="margin-top: 10px;">
+                        <div class="col-sm-12" style="margin: 10px 0px; padding-right: 10px;">
                             <a href="<?= base_url('page/addSeller') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Seller</a>
                         </div>
 
@@ -97,80 +92,81 @@ else if($pageName == "offerManagement")
                             <table class="table table-bordered table-striped data-pagination-table">
                                 <thead>
                                     <tr>
-                                        <th>S.No.</th>
-                                        <th>Seller ID</th>
+                                        <!-- <th>S.No.</th>
+                                        <th>Seller ID</th> -->
                                         <th>Business Name</th>
                                         <th>Owner Name</th>
                                         <th>Email</th>
                                         <th>Contact number</th>
                                         <th>City</th>
-                                        <th>State</th>
-                                        <th>Country</th>
-                                        <th>isVarified</th>
-                                        <th>Profile Status</th>
-                                        <th>Status</th>
+                                        <!-- <th>State</th>
+                                        <th>Country</th> -->
+                                        <th>Business Verification</th>
+                                        <th>Profile Completion</th>
+                                        <th>Visibility Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    if ($success) 
-                                    {
+                                    <?php if ($success) {
+
                                         $count = 1;
-                                        foreach ($data as $seller_value)
-                                        {
+                                        
+                                        foreach ($data as $seller_value) {
+
                                             $merchant_id = $seller_value['merchant_id'];
                                             $user_id = $seller_value['userId'];
                                             $shop_name = "'".$seller_value['establishment_name']."'";
 
-                                            if ($seller_value['is_verified']) 
-                                            {
-                                                $isVarified = "<span class='label label-success'>Varified</span>";
+                                            if ($seller_value['is_verified']) {
 
+                                                $isApproved = "<span class='label label-success'>Approved</span>";
                                                 $change_verify_status_btn = "";
-                                            }
-                                            else
-                                            {
-                                                $isVarified = "<span class='label label-danger'>Not varified</span>";
 
-                                                $change_verify_status_btn = '<button type="button" class="btn btn-warning" data-toggle="modal" onclick="openVerifyModal('.$merchant_id.', '.$user_id.', '.$shop_name.')">Do - varify</button>';
+                                            } else {
+
+                                                $isApproved = "<span class='label label-danger'>Not Approve</span>";
+
+                                                $change_verify_status_btn = '<a href="javascript:void(0);" onclick="openVerifyModal('.$merchant_id.', '.$user_id.', '.$shop_name.', \''.$seller_value['first_name'].'\', \''.$seller_value['contact'].'\', \''.$seller_value['email'].'\')" class="text-warning" title="Verify Business"><i class="fa fa-shield"></i></a>';
+
                                             }
 
                                             $is_completed = ($seller_value['is_completed']) ? "<span class='label label-success'>Completed</span>" : "<span class='label label-danger'>Incomplete</span>";
 
-                                            if ($seller_value['status']) 
-                                            {
+                                            if ($seller_value['status']) {
+
                                                 $current_status = '<span class="label label-success">Enabled</span>';
                                                 $status_value = 0;
-                                            }
-                                            else
-                                            {
+                                            
+                                            } else {
+                                                
                                                 $current_status = '<span class="label label-danger">Disabled</span>';
                                                 $status_value = 1;
                                             }
 
+                                            // <td>".$count++."</td>
+                                            // <td>".$merchant_id."</td>
+                                            // <td>".$seller_value['address'][0]['state_name']."</td>
+                                            // <td>".$seller_value['address'][0]['country_name']."</td>
+                                            
                                             echo "<tr>
-                                                    <td>".$count++."</td>
-                                                    <td>".$merchant_id."</td>
                                                     <td><a href='".base_url("seller/$merchant_id/view")."'>".$seller_value['establishment_name']."</a></td>
                                                     <td>".$seller_value['first_name']."</td>
                                                     <td>".$seller_value['email']."</td>
                                                     <td>".$seller_value['contact']."</td>";
                                                     if ($seller_value['address']) 
-                                                        echo "<td>".$seller_value['address'][0]['city_name']."</td>
-                                                            <td>".$seller_value['address'][0]['state_name']."</td>
-                                                            <td>".$seller_value['address'][0]['country_name']."</td>";
+                                                        echo "<td>".$seller_value['address'][0]['city_name']."</td>";
                                                     else
-                                                        echo "<td></td><td></td><td></td>";
+                                                        echo "<td></td>";
                                                     
-                                                echo "<td>".$isVarified."</td>
+                                                echo "<td>".$isApproved."</td>
                                                     <td>".$is_completed."</td>
                                                     <td>".$current_status."</td>
                                                     <td>
                                                         ".$change_verify_status_btn."
-                                                        <a href='".base_url("seller/$merchant_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                        <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' class='btn btn-success'>Change status</a>
-                                                        <a href='".base_url("deleteMerchant/$merchant_id/$user_id")."' class='btn btn-danger'>Delete</a>
+                                                        <a href='".base_url("seller/$merchant_id/edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+                                                        <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' onclick='return confirm(\"Do you want to change the seller visibility status?\")'title='Change Status'><i class='fa fa-check-circle'></i></a>&nbsp;
+                                                        <a href='".base_url("deleteMerchant/$merchant_id/$user_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
                                                     </td>
                                                 </tr>";
                                         }
@@ -254,11 +250,33 @@ function setMerchantSession()
         alert('Error: please select the seller');
 }
 
-function openVerifyModal(merchant_id, user_id, shop_name) 
-{
+function openVerifyModal(merchant_id, user_id, shop_name, owner_name, owner_contact, email) {
+
     $("#merchant_id").val(merchant_id);
     $("#user_id").val(user_id);
+    
     $("#shop_name").val(shop_name);
+    if(shop_name) $("#shop_name").prop('disabled', true);
+    else $("#shop_name").prop('disabled', false);
+    
+    $("#owner_name").val(owner_name);
+    if(owner_name) $("#owner_name").prop('disabled', true);
+    else $("#owner_name").prop('disabled', false);
+    
+    $("#owner_contact").val(owner_contact);
+    if(owner_contact) $("#owner_contact").prop('disabled', true);
+    else $("#owner_contact").prop('disabled', false);
+
+    $("#email").val(email);
+    if(email) $("#email").prop('disabled', true);
+    else $("#email").prop('disabled', false);
+
     $('#verifyModal').modal('show');
 }
 </script>
+
+<style>
+.table-responsive table {
+    white-space: normal;
+}
+</style>

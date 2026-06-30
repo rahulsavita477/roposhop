@@ -65,13 +65,9 @@ $(function() {
 
                 reader.onload = function(event) {
                     var isValid = fileValidation(input.files[0]['name'], isFile);
-                    var allowedFileTypes = 'JPG and PNG are allowed.';
-                    if (isFile)
-                        allowedFileTypes = 'PDF, '+allowedFileTypes;
-
-                    if (!isValid)
-                    {
-                        alert(allowedFileTypes);
+                    
+                    if (!isValid) {
+                        
                         removeImage(image_no);
                         return;
                     }

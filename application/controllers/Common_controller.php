@@ -235,15 +235,15 @@ class Common_controller extends CI_Controller
     {
         $this->createFolder($path);
         
-        $allowed_types = array('jpg', 'png', 'jpeg', 'pdf');
+        // $allowed_types = array('jpg', 'jpeg', 'png', 'gif', 'webp');
         $file_type = $_FILES[$obj_name]['type'];
         $extension = explode("/", $file_type);
 
-        if (!in_array($extension[1], $allowed_types)) 
-        {
-            echo "Error: allowed file types are => jpg, png, pdf";
-            die;
-        }
+        // if (!in_array($extension[1], $allowed_types)) 
+        // {
+        //     echo "Error: allowed file types are => jpg, jpeg, png, gif, webp";
+        //     die;
+        // }
 
         $_FILES['attatchment']['name'] = ($name) ? $name.'.'.$extension[1] : time().".".$extension[1];
         $_FILES['attatchment']['type'] = $file_type;

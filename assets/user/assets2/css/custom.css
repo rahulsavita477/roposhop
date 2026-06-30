@@ -438,8 +438,8 @@ a.morelink {
       
      .addrespons {
         border-collapse: collapse;
-    table-layout: fixed;
-    width: 385%;
+        table-layout: fixed;
+        width: 385%;
       }
 
       .under-l:after{

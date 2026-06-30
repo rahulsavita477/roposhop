@@ -375,8 +375,7 @@ $cat_name_data = array(
 																			</td>
 																			<td>".$buttons."</td>
 																		</tr>";
-																}
-																?>
+																} ?>
 															</tbody>
 														</table>
 													</div>

@@ -436,7 +436,7 @@ print_r($tables); die;
         if ($sel_id)
             $where = "WHERE merchant_id = ".$sel_id;
         
-        $query = $this->db->query("SELECT merchant_id, merchant.userId, establishment_name, description, meta_keyword, meta_description, is_verified, is_completed, contact, business_days, business_hours, email, first_name, merchant.create_date, merchant.update_date, IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, IF(business_proof, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', business_proof), '') as business_proof, merchant.status, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering FROM merchant INNER JOIN user ON user.userId = merchant.userId ".$where);
+        $query = $this->db->query("SELECT merchant_id, merchant.userId, establishment_name, description, meta_keyword, meta_description, is_verified, is_completed, contact, business_days, business_hours, email, first_name, merchant.create_date, merchant.update_date, merchant_logo, business_proof, merchant.status, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering FROM merchant INNER JOIN user ON user.userId = merchant.userId ".$where);
 
         $isDbError = $this->dbError();
 

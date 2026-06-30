@@ -200,7 +200,7 @@ else
 									<table class="table table-bordered dataTable">
 										<thead>
 											<tr>
-												<th class="text-align-center" colspan="6">
+												<th class="text-align-center">
 													Brand Logo
 													<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#brandLogo_tableBody" style="cursor:pointer;"></i>
 												</th>
@@ -209,7 +209,7 @@ else
 										<tbody style="height: auto;" id="brandLogo_tableBody" class="collapse in">
 											<tr>
 												<?php 
-												echo renderSingleImage($brand_logo, $brand_images_dir, $brand_id, 'brandLogo', $brand_name);
+												echo renderSingleImage($brand_logo, $brand_images_dir, $brand_id, 'brandLogo', $brand_name, 7);
 												if ($brand_logo) {
 													echo '<input type="hidden" name="brand_logo" value="'.$brand_logo.'">';
 												} ?>
