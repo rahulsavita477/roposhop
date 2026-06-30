@@ -35,7 +35,7 @@ $cat_name_data = array(
 <aside class="right-side">
 	<!-- bread crumb -->
     <section class="content-header">
-        <h1>Category<small><?= $page_label ?></small></h1>
+        <h1>Category<small><?= ucfirst($page_label) ?></small></h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="<?= base_url('category') ?>">Category Management</a></li>
@@ -53,9 +53,9 @@ $cat_name_data = array(
 				    <div class="box-header">
 				        <?php if ($page_label == "view") { ?>
 					        <div class="box-footer" align="right">
-					            <a href='<?= base_url("category") ?>' class='btn btn-default'>Back</a>
-					            <a href='<?= base_url("editCategory/$cat_id/edit") ?>' class='btn btn-primary'>Edit</a>
-					            <a href='<?= base_url("deleteCategory/$cat_id") ?>' class='btn btn-danger'>Delete</a>
+					            <a href='<?= base_url("category") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+					            <a href='<?= base_url("editCategory/$cat_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+					            <a href='<?= base_url("deleteCategory/$cat_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
 					        </div>
 					    <?php } ?>
 				    </div><!-- /.box-header -->
@@ -64,20 +64,20 @@ $cat_name_data = array(
 				    <?php if ($page_label == "view") { ?>
 				    	<div class="box-body">
 				    		<div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Category:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $cat_name ?>
 				    			</div>
 				            </div>
 				        
 	    	 				<!-- select category -->
 	                        <div class="row form-group">
-	                        	<div class="col-sm-3">
+	                        	<div class="col-sm-2">
 	                            	<label>Parent Category:</label>
 	                            </div>
-	                            <div class="col-sm-9">
+	                            <div class="col-sm-10">
 		                   		 	<?php
 		                   		 	$par_cat_name = '-';
 						    		if ($status) 
@@ -98,10 +98,10 @@ $cat_name_data = array(
 						    </div>
 
 						    <div class="row form-group">
-						    	<div class="col-sm-3">
+						    	<div class="col-sm-2">
 	                            	<label>Category Images:</label>
 	                            </div>
-	                            <div class="col-sm-9">
+	                            <div class="col-sm-10">
 		                    		<?php 
 			                        if (!empty($images)) 
 			                        {
@@ -123,10 +123,10 @@ $cat_name_data = array(
 	                        </div>
 	                        
                         	<div class="row form-group">
-						    	<div class="col-sm-3">
+						    	<div class="col-sm-2">
 									<label>HTML File(s):</label>
 								</div>
-								<div class="col-sm-9">
+								<div class="col-sm-10">
 									<span class="bigcheck">
 										<?php
 										for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
@@ -142,10 +142,10 @@ $cat_name_data = array(
 							</div>
 
 							<div class="row form-group">
-						    	<div class="col-sm-3">
+						    	<div class="col-sm-2">
 									<label>Attributes:</label>
 								</div>
-								<div class="col-sm-9">
+								<div class="col-sm-10">
 									<span class="bigcheck">
 										<?php
 										if ($attributes) 
@@ -177,37 +177,37 @@ $cat_name_data = array(
 							</div>
 
 							<div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Meta keywords:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $meta_keyword ?>
 				    			</div>
 				            </div>
 
 				            <div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Meta Description:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $meta_description ?>
 				    			</div>
 				            </div>
 
 							<div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Create date:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $create_date ?>
 				    			</div>
 				            </div>
 
 				            <div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Update date:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $update_date ?>
 				    			</div>
 				            </div>
@@ -314,7 +314,7 @@ $cat_name_data = array(
 															</thead>
 															<tbody style="height: auto;" id="categoryImages_tableBody" class="collapse in">
 																<tr>
-																	<?php echo render_images($images, $category_images_dir, $cat_id, 6); ?>
+																	<?php echo renderImages($images, $category_images_dir, $cat_id, 'editCategory', 6); ?>
 																</tr>
 															</tbody>
 														</table>
@@ -336,12 +336,13 @@ $cat_name_data = array(
 											
 											<div class="row nextFormLine">
 												<div class="col-sm-12">
-													<div class="table-responsive">
+													<div class="table-responsive editTable">
 														<table class="table table-bordered table-striped">
 															<thead>
 																<tr>
 																	<th colspan="4" class="text-align-center">
-																		HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
 																	</th>
 																</tr>
 																<tr>
@@ -351,7 +352,7 @@ $cat_name_data = array(
 																	<th id="">Action</th>
 																</tr>
 															</thead>
-															<tbody id="HTMLFiles_tableBody" class="collapse in">
+															<tbody id="HTMLFiles_tableBody" class="in">
 																<?php for($i = 1, $j = 0; $i <= 5; $i++, $j++) {
 
 																	$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
@@ -367,7 +368,7 @@ $cat_name_data = array(
 																	
 																	echo "<tr>
 																			<td>HTML LINK".$i."</td>
-																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
+																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
 																			<td>
 																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

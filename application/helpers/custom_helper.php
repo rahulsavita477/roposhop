@@ -372,7 +372,7 @@ function sendEmail($to='', $subject='', $message='', $atch='')
         return false;
 }
 
-function render_images($images, $images_dir, $entity_id, $slots = 6) {
+function renderImages($images, $images_dir, $entity_id, $method, $slots = 6) {
     $html = '';
     for ($i = 1, $j = 0; $i <= $slots; $i++, $j++) {
         $html .= '<td class="text-align-center">';
@@ -384,7 +384,7 @@ function render_images($images, $images_dir, $entity_id, $slots = 6) {
                         <img src="'.$img_src.'" alt="Product Image '.$i.'">
                     </div>
                     <span class="remove-icon">
-                        <a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/editProduct/'.$entity_id.'" onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                        <a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/'.$method.'/'.$entity_id.'" onclick="return confirmSave(\'' . DELETE_MSG . '\');">
                             <i class="fa fa-trash-o"></i>
                         </a>
                     </span>
@@ -405,6 +405,42 @@ function render_images($images, $images_dir, $entity_id, $slots = 6) {
         }
         $html .= '</td>';
     }
+    return $html;
+}
+
+// image7 is treating as: brand logo
+function renderSingleImage($image, $images_dir, $entity_id, $method, $alt) {
+    $html = '<td class="text-align-center">';
+
+    if (!empty($image)) {
+        $img_src = $images_dir . '/' . $image;
+        $html .= '
+            <div id="preview7" class="image-preview">
+                <div class="file7">
+                    <img src="'.$img_src.'" alt="'.$alt.'">
+                </div>
+                <span class="remove-icon">
+                    <a href="'.base_url().'deleteAttactchment/'.$image.'/'.$method.'/'.$entity_id.'" onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </span>
+            </div>
+            <input type="hidden" name="remove_img7" value="'.$image.'" />';
+    } else {
+        $html .= '
+            <div class="btn btn-primary btn-file" id="fileUploadDiv7">
+                <i class="fa fa-paperclip"></i> Upload Image
+                <input type="file" name="file7" id="file7" />
+            </div>
+            <div id="preview7" class="image-preview" style="display:none;">
+                <div class="file7"></div>
+                <span class="remove-icon" onclick="removeImage(7)">
+                    <i class="fa fa-trash-o"></i>
+                </span>
+            </div>';
+    }
+
+    $html .= '</td>';
     return $html;
 }
 

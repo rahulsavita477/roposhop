@@ -37,7 +37,7 @@ else
 		<h1>
 			Brand
 			<small>
-				<?= $page_label ?>
+				<?= ucfirst($page_label) ?>
 			</small>
 		</h1>
 		<ol class="breadcrumb">
@@ -53,15 +53,15 @@ else
 	<section class="content">
 		<div class="row">
 			<!-- left column -->
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 					<div class="box-header">
 						<?php if ($page_label == "view") { ?>
 						<div class="box-footer" align="right">
-							<a href='<?= base_url("brand") ?>' class='btn btn-default'>Back</a>
-							<a href='<?= base_url("editBrand/$brand_id/edit") ?>' class='btn btn-primary'>Edit</a>
-							<a href='<?= base_url("deleteBrand/$brand_id") ?>' class='btn btn-danger'>Delete</a>
+							<a href='<?= base_url("brand") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+							<a href='<?= base_url("editBrand/$brand_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+							<a href='<?= base_url("deleteBrand/$brand_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
 						</div>
 						<?php } ?>
 
@@ -178,160 +178,137 @@ else
 					}
 					echo form_open_multipart('addBrand', $formAttributes);
 					?>
-					<div class="box-body">
-						<div class="row form-group">
-							<div class="col-sm-2">
-								<label>Brand Logo:</label>
-							</div>
-							<div class="col-sm-9">
-								<div class="col-sm-6">
-									<input type="file" name="file" id="file" />
-								</div>
-								<div class="col-sm-3">
-									<div class="file"></div>
-								</div>
-								<div class="col-sm-3">
-									<?php if ($brand_logo) { ?>
-									<input type="hidden" name="brand_logo" value="<?= $brand_logo; ?>">
-									<img alt="" src="<?= $brand_images_dir." /".$brand_logo; ?>" width="100px">
-									<?php } ?>
-								</div>
-							</div>
-						</div>
+					<div class="box-body" style="padding-bottom: 0px;">
 
-						<div class="row form-group">
-							<div class="col-sm-2">
-								<label>Brand Name*:</label>
-							</div>
-							<div class="col-sm-5">
+						<div class="row">
+							<div class="col-sm-4">
+								<label>Brand Name *</label>
 								<input type="hidden" name="brand_id" value="<?= $brand_id; ?>">
-								<input type="text" name="brand_name" class="form-control" placeholder="Enter Brand Name"
-									value="<?= $brand_name; ?>" required>
+								<input type="text" name="brand_name" class="form-control" placeholder="Enter Brand Name" value="<?= $brand_name; ?>" required />
 							</div>
-						</div>
 
-						<div class="row form-group">
-							<div class="col-sm-2">
+							<div class="col-sm-8">
 								<label>Description:</label>
-							</div>
-							<div class="col-sm-9">
 								<textarea class="form-control" rows="1" name="brand_desc"
 									placeholder="Please enter brand description ..."><?= $brand_desc; ?></textarea>
 							</div>
 						</div>
 
-						<div class="box-body table-responsive">
-							<table class="table table-bordered table-striped data-pagination-table">
-								<thead>
-									<tr>
-										<th colspan="4">
-											<center>Brand Images</center>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
-									<tr>
-										<td>
-											<div class="btn btn-primary btn-file">
-												<i class="fa fa-paperclip"></i> Image
-												<?= $i ?>
-												<input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
-											</div>
-										</td>
-										<?php 
-					                        		if ($page_label == 'edit') 
-					                        		{
-						                        		echo "<td>";
-							                        		if ( isset($brand_images[$j]) )
-							                        		{
-							                        			$img_src = $brand_images_dir.'/'.$brand_images[$j]['atch_url'];
-								                        		
-								                        		echo '<div class="thumbnail">
-								                        				<figure>
-																			<img src="'.$img_src.'">
-																			<center>
-																	    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$brand_images[$j]['atch_url'].'/editBrand/'.$brand_id.'" class="btn btn-danger">DELETE</a></figcaption>
-																	    	</center>
-																	    </figure>
-																	</div>
-
-																	<input type="hidden" name="remove_img'.$i.'" value="'.$brand_images[$j]['atch_url'].'" />';
-								                        	}
-								                        echo "</td>";
-							                        } ?>
-										<td>
-											<div class="file<?= $i ?>"></div>
-										</td>
-									</tr>
-									<?php } ?>
-								</tbody>
-							</table>
-						</div>
-
-						<div class="box-body table-responsive">
-							<table class="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th colspan="4">
-											<center>HTML FILE(S)</center>
-										</th>
-									</tr>
-									<tr>
-										<th></th>
-										<th>Prefix Path</th>
-										<th>File Path</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php
-											for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-											{
-												$link_id = isset($data['html_files']['result'][$j]['html_file_id']) ? $data['html_files']['result'][$j]['html_file_id'] : '';
-												$link = isset($data['html_files']['result'][$j]['html_file']) ? $data['html_files']['result'][$j]['html_file'] : '';
-
-												if ( $link ) 
-												{
-													$buttons = "<a href='".base_url("deleteLink/$link_id/$brand_id/BRAND")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-															<a href='".base_url(HTML_FILES_PATH.$link)."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
-												}
-												else
-													$buttons = '';
-												
-												echo "<tr>
-														<td>HTML LINK".$i."</td>
-														<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
-														<td>
-															<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-															<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-														</td>
-														<td>".$buttons."</td>
-													</tr>";
-											}
-											?>
-								</tbody>
-							</table>
-						</div><!-- /.box-body -->
-
-						<div class="row form-group">
+						<div class="row">
 							<div class="col-sm-2">
-								<label>Meta Keywords:</label>
+								<div class="table-responsive editTable">
+									<table class="table table-bordered dataTable">
+										<thead>
+											<tr>
+												<th class="text-align-center" colspan="6">
+													Brand Logo
+													<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#brandLogo_tableBody" style="cursor:pointer;"></i>
+												</th>
+											</tr>
+										</thead>
+										<tbody style="height: auto;" id="brandLogo_tableBody" class="collapse in">
+											<tr>
+												<?php 
+												echo renderSingleImage($brand_logo, $brand_images_dir, $brand_id, 'brandLogo', $brand_name);
+												if ($brand_logo) {
+													echo '<input type="hidden" name="brand_logo" value="'.$brand_logo.'">';
+												} ?>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
+
 							<div class="col-sm-10">
-								<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+								<div class="table-responsive editTable">
+									<table class="table table-bordered dataTable">
+										<thead>
+											<tr>
+												<th class="text-align-center" colspan="6">
+													Brand Images
+													<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#brandImages_tableBody" style="cursor:pointer;"></i>
+												</th>
+											</tr>
+										</thead>
+										<tbody style="height: auto;" id="brandImages_tableBody" class="collapse in">
+											<tr>
+												<?php echo renderImages($brand_images, $brand_images_dir, $brand_id, 'editBrand', 6); ?>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 
-						<div class="row form-group">
-							<div class="col-sm-2">
-								<label>Meta Description:</label>
-							</div>
-							<div class="col-sm-10">
-								<textarea rows="1" class="form-control" placeholder="please enter meta description"
-									name="meta_description"><?= $meta_description ?></textarea>
+						<?php if ($brand_id): ?>
+						<!-- Toggle button/link -->
+						<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
+		
+						<!-- Collapsible content -->
+						<div class="collapse" id="additionalDetails">
+							<div class="well">
+								<div class="row">
+									<div class="col-sm-6">
+										<label>Meta Keywords</label>
+										<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+									</div>
+
+									<div class="col-sm-6">
+										<label>Meta Description:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+									</div>
+								</div>
+
+								<div class="row nextFormLine">
+									<div class="col-sm-12">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered table-striped dataTable">
+												<thead>
+													<tr>
+														<th colspan="4" class="text-align-center">
+															HTML Files
+															<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+														</th>
+													</tr>
+													<tr>
+														<th></th>
+														<th id="">Prefix Path</th>
+														<th id="">File Path</th>
+														<th id="">Action</th>
+													</tr>
+												</thead>
+												<tbody id="HTMLFiles_tableBody" class="in">
+													<?php for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+
+														$link_id = isset($data['html_files']['result'][$j]['html_file_id']) ? $data['html_files']['result'][$j]['html_file_id'] : '';
+														$link = isset($data['html_files']['result'][$j]['html_file']) ? $data['html_files']['result'][$j]['html_file'] : '';
+
+														if ($link) {
+
+															$buttons = "<a href='".base_url(HTML_FILES_PATH.$link)."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+															<a href='".base_url("deleteLink/$link_id/$brand_id/BRAND")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
+														} else {
+															$buttons = '';
+														}
+														
+														echo "<tr>
+															<td>HTML LINK".$i."</td>
+															<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+															<td>
+																<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+															</td>
+															<td>".$buttons."</td>
+														</tr>";
+													} ?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
+						<?php endif; ?>
 					</div>
 
 					<div class="box-footer" align="right" style="clear: both;">

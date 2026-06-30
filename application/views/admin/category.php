@@ -19,7 +19,7 @@
                         <div class="row Category_search_add_div">
                             <div class="col-sm-8">
                                 <div class="form-inline">
-                                <label style="margin-right:10px;">Bulk Actions</label>
+                                <label style="margin-right:10px;">Bulk Actions:</label>
                                 <select class="form-control" name="parent_cat_id" style="margin-right:10px;">
                                     <?php if ($success) {
                                     echo "<option value='0'>Move selected to parent category</option>";

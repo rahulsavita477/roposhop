@@ -90,7 +90,7 @@ if (isset($_COOKIE['shop_logo']))
 
 <style type="text/css">
 .sidebar{
-    max-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 5rem);
     overflow-y: auto;
 }
 </style>

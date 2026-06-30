@@ -584,7 +584,7 @@ if (isset($page_label) && $page_label == "edit") {
 													</thead>
 													<tbody style="height: auto;" id="productImages_tableBody" class="collapse in">
 														<tr>
-														<?php echo render_images($images, $product_images_dir, $product_id, 6); ?>
+														<?php echo renderImages($images, $product_images_dir, $product_id, 'editProduct', 6); ?>
 														</tr>
 													</tbody>
 												</table>
@@ -810,7 +810,8 @@ if (isset($page_label) && $page_label == "edit") {
 																<thead>
 																	<tr>
 																		<th colspan="4" class="text-align-center">
-																			HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFilesCategory_tableBody" style="cursor:pointer;"></i>
+																			HTML Files
+																			<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
 																		</th>
 																	</tr>
 																	<tr>
@@ -820,7 +821,7 @@ if (isset($page_label) && $page_label == "edit") {
 																		<th id="">Action</th>
 																	</tr>
 																</thead>
-																<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
+																<tbody id="HTMLFiles_tableBody" class="in">
 																	<?php for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
 																		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
 																		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
@@ -1187,7 +1188,8 @@ if (isset($page_label) && $page_label == "edit") {
 															<thead>
 																<tr>
 																	<th colspan="3" class="text-align-center">
-																		HTML Files For Category<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFilesCategory_tableBody" style="cursor:pointer;"></i>
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
 																	</th>
 																</tr>
 																<tr>
@@ -1196,7 +1198,7 @@ if (isset($page_label) && $page_label == "edit") {
 																	<th id="">File Path</th>
 																</tr>
 															</thead>
-															<tbody id="HTMLFilesCategory_tableBody" class="collapse in">
+															<tbody id="HTMLFiles_tableBody" class="in">
 																<?php 
 																for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
 																	$link_id = isset($html_files['result'][$j]['html_file_id']) ? $html_files['result'][$j]['html_file_id'] : '';

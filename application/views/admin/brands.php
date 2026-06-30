@@ -17,9 +17,8 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="col-sm-12" style="margin-top: 10px;">
-                        <a href="<?= base_url('page/addBrand');?>" class="btn btn-primary pull-right">
-                            <i class="fa fa-plus"></i> Add New Brand</a> 
+                    <div class="col-sm-12" style="margin: 10px 0px;padding-right: 10px;">
+                        <a href="<?= base_url('page/addBrand');?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Brand</a>
                     </div>
 
                     <div class="box-body table-responsive">
@@ -48,8 +47,8 @@
                                                     <a href='".base_url("editBrand/$brand_id/view")."'>".$brand_value['name']."</a>
                                                 </td>
                                                 <td>
-                                                    <a href='".base_url("editBrand/$brand_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                    <a href='".base_url("deleteBrand/$brand_id")."' class='btn btn-danger'>Delete</a>
+                                                    <a href='".base_url("editBrand/$brand_id/edit")."'  title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+                                                    <a href='".base_url("deleteBrand/$brand_id")."' onclick='return confirm(\"Are you sure?\")'title='Delete'><i class='fa fa-trash-o'></i></a>
                                                 </td>
                                             </tr>";
                                     }

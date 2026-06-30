@@ -2311,26 +2311,26 @@ class Admin_controller extends CI_Controller
 
 	public function addHTMLFiles($link_id = '', $type = '')
 	{
-		if ($link_id && $type) 
-		{
+	
+		if ($link_id && $type) {
+			
 			//insert/update/delete html files for category
-			for ($i = 1; $i < 5; $i++)
-			{ 
+			for ($i = 1; $i <= 5; $i++) {
+
 				$html_id = $this->input->post('html_id'.$i);
 				$html_link = $this->input->post('html_link'.$i);
 
-				if ($html_id) 
-				{
+				if ($html_id) {
+
 					$where = array('html_file_id' => $html_id);
 					if ($html_link) //update link
 						$this->Admin_model->updateData('html_files', array('html_file' => $html_link), $where);
 					else //delete link
 						$this->Admin_model->deleteRecord('html_files', $where);
-
-					return true;
-				}
-				else if ($html_link) //insert link
-				{
+				
+				} else if ($html_link) { //insert link
+				
+					echo "HTML ID LINK:".$html_link;
 					$data = array(
 								'link_id' => $link_id,
 								'html_file' => $html_link,
@@ -2338,18 +2338,14 @@ class Admin_controller extends CI_Controller
 							);
 
 					$html_link_id = $this->Admin_model->insertData( 'html_files', $data );
-
-					if ($html_link_id) 
-						return true;
-					else
-						return false;
 				}
 			}
 
 			return true;
 		}
-		else
+		else {
 			return false;
+		}
 	}
 
 	//insert attribute for category
@@ -2590,17 +2586,18 @@ class Admin_controller extends CI_Controller
 			$folder = BRAND_ATTATCHMENTS_PATH.$brand_id;
 
 			//insert logo
-			if ($_FILES['file']['name'])
+			if (isset($_FILES['file7']['name']))
 			{
-				$logo = $this->common_controller->single_upload($folder);
+				$logo = $this->common_controller->single_upload($folder, '', "file7");
 
 				//insert brand logo
 				if ($logo) 
 				{
 					//remove image from brand folder
 					$brand_logo = $this->input->post('brand_logo');
-					if ($brand_logo) 
+					if ($brand_logo) {
 						unlink($folder.'/'.$brand_logo);
+					}
 
 					$logo_data['update_date'] = $this->current_date;
 					$logo_data['brand_logo'] = $logo;
@@ -3925,7 +3922,6 @@ class Admin_controller extends CI_Controller
 	public function deleteAttactchment($atch_url, $controller, $id)
 	{
 		$this->isLoggedIn();
-
 		
 		$redirect_path = $controller.'/'.$id.'/edit';
 
@@ -3948,8 +3944,18 @@ class Admin_controller extends CI_Controller
 		{
 			$folder_name = BRAND_ATTATCHMENTS_PATH;
 			$this->updateTableDate('brand', array('brand_id' => $id));
-		}
-		else if ($controller == "seller")
+
+		} else if ($controller == "brandLogo") {
+
+		 	// This block needs to be deleted once all images can be deleted from post methood only. Not need to have delete attachemtn method
+			$redirect_path = 'editBrand'.'/'.$id.'/edit';
+			$condition = array('brand_id' => $id);
+			$data = ['brand_logo' => null, 'update_date' => $this->current_date]; 
+			$this->Admin_model->updateData('brand', $data, $condition);
+			$folder_name = BRAND_ATTATCHMENTS_PATH;
+			// $this->updateTableDate('brand', array('brand_id' => $id));
+
+		} else if ($controller == "seller")
 		{
 			$folder_name = SELLER_ATTATCHMENTS_PATH;
 			$this->updateTableDate('merchant', array('merchant_id' => $id));

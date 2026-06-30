@@ -61,6 +61,7 @@
 
 .label_hide {
     visibility: hidden;
+    margin-bottom: 3px;
 }
 
 .btn-file {

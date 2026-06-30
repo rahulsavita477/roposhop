@@ -1,7 +1,7 @@
 <?php 
 if ($category) 
 {
-    $category_options = '<option value="">-- select category --</option>';
+    $category_options = '<option value="">select category</option>';
     
     foreach ($category['result'] as $cat_value) 
     {
@@ -18,7 +18,7 @@ else
 
 if ($brands) 
 {
-    $brand_options = '<option value="">-- select brand --</option>';
+    $brand_options = '<option value="">select brand</option>';
     foreach ($brands['result'] as $brand_value) 
     {
         $selected = '';
@@ -57,14 +57,14 @@ else
                             <div class="box-body">
                                 <div class="row">
                                     <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
-                                        <div class="col-sm-3 input-field">
+                                        <div class="col-sm-3 input-field" style="padding-right: 5px;">
                                             <label>Category:</label>
                                             <select class="form-control" name="category_id">
                                                 <?= $category_options ?>
                                             </select>
                                         </div>
                                         
-                                        <div class="col-sm-3 input-field" style="padding-left: 0px;">
+                                        <div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
                                             <label>Brand:</label>
                                             <select class="form-control" name="brand_id">
                                                 <?= $brand_options ?>
@@ -73,24 +73,27 @@ else
 
                                         <div class="col-sm-3" style="padding-left: 0px;">
                                             <label class="label_hide">make space equal to label</label><br />
-                                            <a href="<?= base_url('products') ?>" class="btn btn-default">Remove Filter</a>
                                             <button class="btn btn-primary" type="submit">Find product</button>
+                                            <a href="<?= base_url('products') ?>">
+                                                <span class="fa-stack fa-lg">
+                                                    <i class="fa fa-filter fa-stack-1x"></i>
+                                                    <i class="fa fa-times fa-stack-1x text-danger" style="margin-top: 6px; margin-left: 6px; font-size: 0.6em;"></i>
+                                                </span>
+                                            </a>
                                         </div>
                                     </form>
-                                </div>  
+
+                                    <div class="col-sm-3 input-field">
+                                        <label class="label_hide">make space equal to label</label><br />
+                                        <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="box">
-                    <div class="row" style="margin: 5px -5px 0px 0;">
-                        <div class="col-sm-11"></div>
-                        <div class="col-sm-1">
-                            <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
-                        </div>
-                    </div>
-
                     <div class="box-body table-responsive">
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>

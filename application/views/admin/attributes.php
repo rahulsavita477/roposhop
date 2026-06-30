@@ -46,8 +46,8 @@
                                                 <td>".$att_value['att_id']."</td>
                                                 <td>".$att_value['att_name']."</td>
                                                 <td>
-                                                    <a href='".base_url("editAttribute/$att_id")."' class='btn btn-primary'>Edit</a>
-                                                    <a href='".base_url("deleteAttribute/$att_id")."' class='btn btn-danger'>Delete</a>
+                                                    <a href='".base_url("editAttribute/$att_id")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+                                                    <a href='".base_url("deleteAttribute/$att_id")."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
                                                 </td>
                                             </tr>";
                                     }
