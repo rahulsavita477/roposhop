@@ -421,7 +421,7 @@ function renderSingleImage($file, $dir, $entity_id, $method, $alt, $fileNo) {
 
         // Check if file is image type
         if (in_array($file_ext, ['pdf'])) {
-            $html .= '<a href="'.$img_src.'" target="_blank" class="btn btn-info btn-sm">
+            $html .= '<a href="'.$img_src.'" target="_blank" class="btn btn-primary">
                 <i class="fa fa-eye"></i> Preview
             </a>';
         } else {

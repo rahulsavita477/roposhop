@@ -4464,6 +4464,7 @@ class Admin_controller extends CI_Controller
 
 		$seller_data['page_label'] = $page_label;
 		
+		// echo "<pre>"; print_r($seller_data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/addSeller', $seller_data);
@@ -4514,7 +4515,7 @@ class Admin_controller extends CI_Controller
 		else if ($isExistUser) 
 			redirectWithMessage('Error: Email already exist!', $controller);
 
-		//update merchant account with e-mail address for varification
+		// update merchant account with e-mail address for varification
 		$user_data = array();
 		$user_data['email'] = $email;
 		$user_data['first_name'] = $name;
@@ -4523,7 +4524,7 @@ class Admin_controller extends CI_Controller
 		$user_data['update_date'] = $this->current_date;
 		$this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
 
-		//send mail for signup done
+		// send mail for signup done
         $mail_data = array();
         $mail_data['merchant_name'] = $name;
         $mail_data['shop_name'] = $merchant_data['establishment_name'];

@@ -53,7 +53,7 @@ else if($pageName == "offerManagement")
                         <div class="row nextFormLine">
                             <div class="col-sm-6">
                                 <label>Owner's Full Name</label>
-                                <input type="text" class="form-control" id="owner_name" name="name" required="required" />
+                                <input type="text" class="form-control" id="owner_name" name="name" />
                             </div>
 
                             <div class="col-sm-6">
@@ -256,20 +256,20 @@ function openVerifyModal(merchant_id, user_id, shop_name, owner_name, owner_cont
     $("#user_id").val(user_id);
     
     $("#shop_name").val(shop_name);
-    if(shop_name) $("#shop_name").prop('disabled', true);
-    else $("#shop_name").prop('disabled', false);
+    if(shop_name) $("#shop_name").prop('readonly', true);
+    else $("#shop_name").prop('readonly', false);
     
     $("#owner_name").val(owner_name);
-    if(owner_name) $("#owner_name").prop('disabled', true);
-    else $("#owner_name").prop('disabled', false);
+    if(owner_name) $("#owner_name").prop('readonly', true);
+    else $("#owner_name").prop('readonly', false);
     
     $("#owner_contact").val(owner_contact);
-    if(owner_contact) $("#owner_contact").prop('disabled', true);
-    else $("#owner_contact").prop('disabled', false);
+    if(owner_contact) $("#owner_contact").prop('readonly', true);
+    else $("#owner_contact").prop('readonly', false);
 
     $("#email").val(email);
-    if(email) $("#email").prop('disabled', true);
-    else $("#email").prop('disabled', false);
+    if(email) $("#email").prop('readonly', true);
+    else $("#email").prop('readonly', false);
 
     $('#verifyModal').modal('show');
 }

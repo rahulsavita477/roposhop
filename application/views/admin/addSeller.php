@@ -1,6 +1,7 @@
 <?php 
 $merchant_id = isset($data['merchant_id']) ? $data['merchant_id'] : '';
 $usr_id = isset($data['userId']) ? $data['userId'] : '';
+$email = isset($data['email']) ? $data['email'] : '';
 $first_name = isset($data['first_name']) ? $data['first_name'] : '';
 $shop_name = isset($data['establishment_name']) ? $data['establishment_name'] : '';
 $description = isset($data['description']) ? $data['description'] : '';
@@ -24,12 +25,13 @@ $meta_keyword = isset($data['meta_keyword']) ? $data['meta_keyword'] : '';
 $meta_description = isset($data['meta_description']) ? $data['meta_description'] : '';
 $create_date = isset($data['create_date']) ? convert_to_user_date($data['create_date']) : '';
 $update_date = isset($data['update_date']) ? convert_to_user_date($data['update_date']) : '';
+$business_proof = isset($data['business_proof']) ? $data['business_proof'] : '';
+// $avatar = $this->config->item('site_url').'assets/admin/img/avatar3.png';
 
 //seller/merchant logo
 if (isset($data['merchant_logo']))
     $merchant_logo = $data['merchant_logo'];
-else
-    $merchant_logo = $this->config->item('site_url').'assets/admin/img/avatar3.png';
+else $merchant_logo = '';
 
 if (isset($page_label) && $page_label == "edit") 
 	$page_title = 'Edit seller';
@@ -75,17 +77,15 @@ else
             <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
-				    <div class="box-header">
-				        <div class='box-footer' align='right'>
-					        <?php if ($page_label == "view") {
-					    	    echo "<a href='../../sellers/sellersTable' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
-					            	<a href='../../seller/$merchant_id/edit' title='Edit'><i class='fa fa-edit'></i></a>";
-						    } elseif ( $page_label == "edit" )
-						    	echo "<a href='../../page/addressManagement?user_id=$usr_id&merchant_id=$merchant_id' class='btn btn-primary'>Manage Address</a>";
-						    ?>
-						</div>
-				    </div><!-- /.box-header -->
-
+				    <div class='box-footer' style="text-align: right; padding-bottom: 0px;">
+						<?php if ($page_label == "view") {
+							echo "<a href='../../sellers/sellersTable' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
+								<a href='../../seller/$merchant_id/edit' title='Edit'><i class='fa fa-edit'></i></a>";
+						} elseif ( $page_label == "edit" )
+							echo "<a href='../../page/addressManagement?user_id=$usr_id&merchant_id=$merchant_id' class='btn btn-primary'>Manage Address</a>";
+						?>
+					</div>
+					
 				    <?php if ($page_label == "view") { ?>
 			    		<div class="box-body">
 			    			<div class="row form-group">
@@ -397,39 +397,174 @@ else
 					        <input type="hidden" name="usr_id" value="<?= $usr_id; ?>">
 					        <input type="hidden" name="is_default_address" value="1" />
 
-				        	<div>
+				        	<div class="box-body">
 				        		<div class="row">
-									<div class="col-sm-6">
-										<div class="col-sm-12">
-											<label>Establishment (Shop) Name *</label>
-											<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $shop_name ?>" required />
-										</div>
-
-										<div class="col-sm-6 nextFormLine">
-											<label>Contact number *</label>
-											<input type="text" name="contact_no" class="form-control" placeholder="Enter Company contact number" value="<?= $cno ?>" required />
-										</div>
-										
-										<div class="col-sm-6 nextFormLine">
-											<label>Owner's Full Name<?= $star ?></label>
-											<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> />
-										</div>
-								
-										<div class="col-sm-12 nextFormLine">
-											<label>Shop Description</label>
-											<textarea name="description" rows="1" class="form-control address" placeholder="Enter description"><?= $description ?></textarea>
-										</div>
+									<div class="col-sm-3">
+										<label>Establishment (Shop) Name *</label>
+										<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $shop_name ?>" required />
 									</div>
 
 									<div class="col-sm-3">
+										<label>Email *</label>
+										<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $email ?>" required />
+									</div>
+
+									<div class="col-sm-3">
+										<label>Contact Number</label>
+										<input type="text" name="contact_no" class="form-control" placeholder="Enter Company contact number" value="<?= $cno ?>" />
+									</div>
+									
+									<div class="col-sm-3">
+										<label>Owner's Full Name<?= $star ?></label>
+										<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> />
+									</div>
+								</div>
+
+					            <?php if ($page_label != "edit") { ?>
+									<!-- Toggle button/link -->
+									<a data-toggle="collapse" href="#address" aria-expanded="false" aria-controls="address">+ Location & Address</a>
+
+									<div class="collapse" id="address">
+										<div class="well">
+											<div class="row">
+												<div class="col-sm-4">
+													<label>Address Line 1 *</label>
+													<textarea name="line1" rows="1" class="form-control address" placeholder="Enter Line1 Address" required></textarea>
+												</div>
+												
+												<div class="col-sm-4">
+													<label>Line2 address</label>
+													<textarea name="line2" rows="1" class="form-control address" placeholder="Enter Line2 Address"></textarea>
+												</div>
+												<div class="col-sm-4">
+													<label>Landmark</label>
+													<textarea name="landmark" rows="1" class="form-control address" placeholder="Enter Landmark"></textarea>
+												</div>
+											</div>
+
+											<div class="row nextFormLine">
+												<div class="col-sm-3">
+													<label>Country *</label>
+													<select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
+														<?php
+														if ($countries) 
+														{
+															echo "<option value=''>select country</option>";
+
+															foreach ($countries as $cnt_key => $cnt_value) 
+																echo "<option value='".$cnt_value['country_id']."'>".$cnt_value['name']."</option>";
+														}
+														else
+															echo "<option>country not available!</option>";
+														?>
+													</select>
+												</div>
+												
+												<div class="col-sm-3" style="padding-right: 0px;">
+													<div class="col-sm-12" style="padding: 0px;">
+														<label>State *</label>
+													</div>
+													<div class="col-sm-10" style="padding: 0px;">
+														<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
+													</div>
+													<div class="col-sm-2" style="padding: 5px;">
+														<a href="javascript:void(0);" onclick="getState();" title="Refresh States"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
+													</div>
+												</div>
+
+												<div class="col-sm-3" style="padding: 0px;">
+													<div class="col-sm-12" style="padding: 0px;">
+														<label>City *</label>
+													</div>
+													<div class="col-sm-10" style="padding: 0px;">
+														<select class="form-control" name="city_id" id="state_cities" required></select>
+													</div>
+													<div class="col-sm-2" style="padding: 5px;">
+														<a href="javascript:void(0);" onclick="getCity();" title="Refresh Cities"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
+													</div>
+												</div>
+
+												<div class="col-sm-3" style="padding-left: 0px;">
+													<label>Postal Code *</label>
+													<input type="number" name="pin" class="form-control" placeholder="Postal Code" required />
+												</div>
+											</div>
+
+											<div class="row nextFormLine">
+												<div class="col-sm-4">
+													<label>Shop Contact Number</label>
+													<input type="text" name="contact" class="form-control" placeholder="Shop Contact Number" />
+												</div>
+												<div class="col-sm-4">
+													<label>Address Business Days</label>
+													<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" />
+												</div>
+												<div class="col-sm-4">
+													<label>Address Business Hours</label>
+													<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" />
+												</div>
+											</div>
+
+											<div class="row nextFormLine">
+												<div class="col-sm-2">
+													<label>Latitude</label>
+													<input type="number" name="lat" class="form-control" placeholder="Enter Latitude" onkeyup="initialize();" id="lat" required />
+												</div>
+												<div class="col-sm-2">
+													<label>Longitude</label>
+													<input type="number" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" required />
+												</div>
+												<div class="col-sm-8">
+													<label class="label_hide">make space equal to label</label>
+													<button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get Coordinates from Address</button>
+													<span class="text-muted small">
+														Or click anywhere on the map to select your location and fetch its coordinates.
+													</span>
+												</div>
+											</div>
+
+											<!-- google map -->
+											<div class="row">
+												<div class="col-sm-12">
+													<div id="googleMap" style="height:400px; margin-top: 10px;"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+						        <?php } ?>
+
+								<div class="row">
+									<div class="col-sm-8">
 										<div class="table-responsive editTable">
 											<table class="table table-bordered dataTable">
 												<thead>
 													<tr>
-														<th class="text-align-center">Shop Logo</th>
+														<th class="text-align-center" colspan="6">
+															Shop Images
+															<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#shopImages_tableBody" style="cursor:pointer;"></i>
+														</th>
 													</tr>
 												</thead>
-												<tbody>
+												<tbody style="height: auto;" id="shopImages_tableBody" class="collapse in">
+													<tr>
+														<?php echo renderImages($seller_images, $seller_images_dir, $merchant_id, 'seller', 6); ?>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered dataTable">
+												<thead>
+													<tr>
+														<th class="text-align-center">
+															Shop Logo
+															<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#shopLogo_tableBody" style="cursor:pointer;"></i>
+														</th>
+													</tr>
+												</thead>
+												<tbody id="shopLogo_tableBody" class="collapse in">
 													<tr>
 														<?php
 														echo renderSingleImage($merchant_logo, $seller_images_dir, $merchant_id, 'sellerLogo', $shop_name, 8);
@@ -441,30 +576,32 @@ else
 											</table>
 										</div>
 									</div>
-									<div class="col-sm-3">
+
+									<div class="col-sm-2">
 										<div class="table-responsive editTable">
 											<table class="table table-bordered dataTable">
 												<thead>
 													<tr>
 														<th class="text-align-center">
-															Business Proof
 															<!-- Tooltip icon -->
 															<i class="fa fa-info-circle text-primary"
 																data-toggle="tooltip"
 																data-placement="right"
 																title="Allowed Business proof: GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque."
 															></i>
+															Business Proof
+															<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#businessProof_tableBody" style="cursor:pointer;"></i>
 														</th>
 													</tr>
 												</thead>
-												<tbody>
+												<tbody id="businessProof_tableBody" class="collapse in">
 													<tr>
 														<?php
-														echo renderSingleImage($data['business_proof'], $seller_images_dir, $merchant_id, 'businessProof', $shop_name, 9, ".gif, .jpg, .png, .pdf, .jpeg, .pdf");
+														echo renderSingleImage($business_proof, $seller_images_dir, $merchant_id, 'businessProof', $shop_name, 9, ".gif, .jpg, .png, .pdf, .jpeg, .pdf");
 
-														if ($data['business_proof']) {
+														if ($business_proof) {
 														
-															echo '<input type="hidden" name="business_proof" value="'.$data['business_proof'].'">';
+															echo '<input type="hidden" name="business_proof" value="'.$business_proof.'">';
 														} ?>
 													</tr>
 												</tbody>
@@ -472,400 +609,222 @@ else
 										</div>
 									</div>
 								</div>
-				        		
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Business days:</label>	
-					            	</div>
-					                <div class="col-sm-5">
-					                	<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" />
-					                </div>
-					            </div>
+									
+				        		<div class="row">
+									<div class="col-sm-6">
+										<div class="col-sm-6 nextFormLine" style="padding-left: 0px;">
+											<label>Global Business days</label>
+											<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" />
+										</div>
+										<div class="col-sm-6 nextFormLine" style="padding-right: 0px;">
+											<label>Global Business hours</label>
+											<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" />
+										</div>
+										<div class="col-sm-12 nextFormLine" style="padding: 0px;">
+											<label>Shop Description</label>
+											<textarea name="description" rows="7" class="form-control address" placeholder="Enter description"><?= $description ?></textarea>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered table-striped dataTable" style="white-space: normal;">
+												<thead>
+													<tr>
+														<th colspan="2" class="text-align-center">
+															Seller Offerings
+															<button type="button" class="btn btn-primary pull-right" id="createSellerOfferingBtn"><i class="fa fa-plus"></i></button>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<div class="row form-group">
+																<div class="col-sm-8" id="seller_offering_input_field_div"></div>
+															</div>
+														</td>
+													</tr>
+													<?php if (isset($data['seller_offering']) && $data['seller_offering']) {
 
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Business hours:</label>	
-					            	</div>
-					                <div class="col-sm-5">
-					                	<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" />
-					                </div>
-					            </div>
+														foreach ($data['seller_offering']['result'] as $seller_offering_value) {
 
-					            <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Finance Available:</label>	
-	                        		</div>
-	                        		<div class="col-sm-2">
-	                        			<select class="form-control" name="finance_available">
-	                        				<?php 
-	                        				if ($finance_available == "No")
-	                        				{
-	                        					$value0 = "selected";
-	                        					$value1 = '';
-	                        				}
-	                        				else
-	                        				{
-	                        					$value0 = '';
-	                        					$value1 = "selected";
-	                        				}
-	                        				?>
-	                        				<option value="0" <?= $value0 ?> >No</option>
-	                        				<option value="1" <?= $value1 ?> >Yes</option>
-	                        			</select>		
-	                        		</div>
-		                        </div>
+															$offering_id = $seller_offering_value['offering_id'];
+															$offering = $seller_offering_value['offering'];
+															$params = $offering_id.', "'.$offering.'", '.$merchant_id;
 
-	                            <div class="row form-group">
-	                                <div class="col-sm-3">
-	                                    <label>Finance Terms:</label>    
-	                                </div>
-	                                <div class="col-sm-9">
-	                                    <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
-	                                </div>
-	                            </div>
+															echo "<tr>
+																<td>
+																	<a href='javascript:void(0);' onclick='open_seller_offering_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
+																	<a href='".base_url()."deleteSellerOffering/".$offering_id."/".$merchant_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
+																	".$offering."
+																</td>
+															</tr>";
+														}
+													} ?>
+												</tbody>
+											</table>
+										</div><!-- /.box-body -->
+									</div>
+								</div>
 
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Home Delievery:</label>	
-	                        		</div>
-	                        		<div class="col-sm-2">
-	                        			<select class="form-control" name="home_delievery">
-	                        				<?php 
-	                        				if ($home_delivery_available == "No")
-	                        				{
-	                        					$value0 = "selected";
-	                        					$value1 = '';
-	                        				}
-	                        				else
-	                        				{
-	                        					$value0 = '';
-	                        					$value1 = "selected";
-	                        				}
-	                        				?>
-	                        				<option value="0" <?= $value0 ?> >No</option>
-	                        				<option value="1" <?= $value1 ?> >Yes</option>
-	                        			</select>		
-	                        		</div>
-		                        </div>
+								<!-- Toggle button/link -->
+								<a data-toggle="collapse" href="#service_policies" aria-expanded="false" aria-controls="service_policies">+ Service & Policy Options</a>
 
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Home Delievery Terms:</label>	
-	                        		</div>
-	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
-	                        		</div>
-	                        	</div>
+								<div class="collapse" id="service_policies">
+									<div class="well">
+										<div class="row form-group nextFormLine">
+											<div class="col-sm-1 termsMainLabel">
+												<label>Finance Available:</label>
+											</div>
+											<div class="col-sm-1 termsAvailabilitySelectBox">
+												<select class="form-control" name="finance_available">
+													<?php if ($finance_available == "No") {
 
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Installation Available:</label>	
-	                        		</div>
-	                        		<div class="col-sm-2">
-	                        			<select class="form-control" name="installation_available">
-	                        				<?php 
-	                        				if ($installation_available == "No")
-	                        				{
-	                        					$value0 = "selected";
-	                        					$value1 = '';
-	                        				}
-	                        				else
-	                        				{
-	                        					$value0 = '';
-	                        					$value1 = "selected";
-	                        				}
-	                        				?>
-	                        				<option value="0" <?= $value0 ?> >No</option>
-	                        				<option value="1" <?= $value1 ?> >Yes</option>
-	                        			</select>		
-	                        		</div>
-		                        </div>
+														$value0 = "selected";
+														$value1 = '';
+													
+													} else {
+														$value0 = '';
+														$value1 = "selected";
+													} ?>
+													<option value="0" <?= $value0 ?> >No</option>
+													<option value="1" <?= $value1 ?> >Yes</option>
+												</select>
+											</div>
+											<div class="col-sm-1 termsLabel">
+												<label>Terms:</label>
+											</div>
+											<div class="col-sm-9 termsTextArea">
+												<textarea class="form-control" rows="2" name="finance_terms" placeholder="Enter Finance Terms"><?= $finance_terms ?></textarea>
+											</div>
+										</div>
 
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Installation Terms:</label>	
-	                        		</div>
-	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
-	                        		</div>
-	                        	</div>
+										<div class="row form-group nextFormLine">
+											<div class="col-sm-1 termsMainLabel">
+												<label>Home Delievery:</label>
+											</div>
+											<div class="col-sm-1 termsAvailabilitySelectBox">
+												<select class="form-control" name="home_delievery">
+													<?php if ($home_delivery_available == "No") {
 
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Replacement Available:</label>	
-	                        		</div>
-	                        		<div class="col-sm-2">
-	                        			<select class="form-control" name="replacement_available">
-	                        				<?php 
-	                        				if ($replacement_available == "No")
-	                        				{
-	                        					$value0 = "selected";
-	                        					$value1 = '';
-	                        				}
-	                        				else
-	                        				{
-	                        					$value0 = '';
-	                        					$value1 = "selected";
-	                        				}
-	                        				?>
-	                        				<option value="0" <?= $value0 ?> >No</option>
-	                        				<option value="1" <?= $value1 ?> >Yes</option>
-	                        			</select>		
-	                        		</div>
-		                        </div>
+														$value0 = "selected";
+														$value1 = '';
 
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Replacement Terms:</label>	
-	                        		</div>
-	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
-	                        		</div>
-	                        	</div>
+													} else {
+														$value0 = '';
+														$value1 = "selected";
+													} ?>
+													<option value="0" <?= $value0 ?> >No</option>
+													<option value="1" <?= $value1 ?> >Yes</option>
+												</select>
+											</div>
+											<div class="col-sm-1 termsLabel">
+												<label>Terms:</label>
+											</div>
+											<div class="col-sm-9 termsTextArea">
+												<textarea class="form-control" rows="2" name="delievery_terms" placeholder="Enter Delievery Terms"><?= $home_delivery_terms ?></textarea>
+											</div>
+										</div>
 
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Return Available:</label>	
+										<div class="row form-group nextFormLine">
+											<div class="col-sm-1 termsMainLabel">
+												<label>Installation Available:</label>
+											</div>
+											<div class="col-sm-1 termsAvailabilitySelectBox">
+												<select class="form-control" name="installation_available">
+													<?php if ($installation_available == "No") {
+
+														$value0 = "selected";
+														$value1 = '';
+													} else {
+
+														$value0 = '';
+														$value1 = "selected";
+													} ?>
+													<option value="0" <?= $value0 ?> >No</option>
+													<option value="1" <?= $value1 ?> >Yes</option>
+												</select>
+											</div>
+											<div class="col-sm-1 termsLabel">
+												<label>Terms:</label>
+											</div>
+											<div class="col-sm-9 termsTextArea">
+												<textarea class="form-control" rows="2" name="installation_terms" placeholder="Enter Installation Terms"><?= $installation_terms ?></textarea>
+											</div>
+										</div>
+
+										<div class="row form-group nextFormLine">
+											<div class="col-sm-1 termsMainLabel">
+												<label>Replacement Available:</label>
+											</div>
+											<div class="col-sm-1 termsAvailabilitySelectBox">
+												<select class="form-control" name="replacement_available">
+													<?php 
+													if ($replacement_available == "No")
+													{
+														$value0 = "selected";
+														$value1 = '';
+													}
+													else
+													{
+														$value0 = '';
+														$value1 = "selected";
+													}
+													?>
+													<option value="0" <?= $value0 ?> >No</option>
+													<option value="1" <?= $value1 ?> >Yes</option>
+												</select>
+											</div>
+											<div class="col-sm-1 termsLabel">
+												<label>Terms:</label>
+											</div>
+											<div class="col-sm-9 termsTextArea">
+												<textarea class="form-control" rows="2" name="replacement_terms" placeholder="Enter Replacement Terms"><?= $replacement_terms ?></textarea>
+											</div>
+										</div>
+
+										<div class="row form-group nextFormLine">
+											<div class="col-sm-1 termsMainLabel">
+												<label>Return Available:</label>
+											</div>
+											<div class="col-sm-1 termsAvailabilitySelectBox">
+												<select class="form-control" name="return_available">
+													<?php 
+													if ($return_available == "No")
+													{
+														$value0 = "selected";
+														$value1 = '';
+													}
+													else
+													{
+														$value0 = '';
+														$value1 = "selected";
+													}
+													?>
+													<option value="0" <?= $value0 ?> >No</option>
+													<option value="1" <?= $value1 ?> >Yes</option>
+												</select>
+											</div>
+											<div class="col-sm-1 termsLabel">
+												<label>Terms:</label>
+											</div>
+											<div class="col-sm-9 termsTextArea">
+												<textarea class="form-control" rows="2" name="return_policy" placeholder="Enter Return Terms"><?= $return_policy ?></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+
+	                            <div class="row nextFormLine">
+	                        		<div class="col-sm-6">
+	                        			<label>Meta Keyword</label>
+	                        			<textarea class="form-control" rows="1" name="meta_keyword" placeholder="Enter Meta Keyword"><?= $meta_keyword ?></textarea>
 	                        		</div>
-	                        		<div class="col-sm-2">
-	                        			<select class="form-control" name="return_available">
-	                        				<?php 
-	                        				if ($return_available == "No")
-	                        				{
-	                        					$value0 = "selected";
-	                        					$value1 = '';
-	                        				}
-	                        				else
-	                        				{
-	                        					$value0 = '';
-	                        					$value1 = "selected";
-	                        				}
-	                        				?>
-	                        				<option value="0" <?= $value0 ?> >No</option>
-	                        				<option value="1" <?= $value1 ?> >Yes</option>
-	                        			</select>		
-	                        		</div>
-		                        </div>
-
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Return Terms:</label>	
-	                        		</div>
-	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
-	                        		</div>
-	                        	</div>
-
-					            <div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
-				                        <thead>
-				                            <tr>
-				                                <th colspan="3"><center>Shop Images</center></th>
-				                            </tr>
-				                        </thead>
-				                        <tbody>
-					                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
-					                        	<tr>
-					                        		<td>
-					                        			<div class="btn btn-primary btn-file">
-						                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
-						                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
-						                                </div>
-					                        		</td>
-					                        		<?php 
-					                        		if ($page_label == 'edit') 
-					                        		{
-						                        		echo "<td>";
-							                        		if (isset($seller_images[$j]))
-							                        		{
-							                        			$img_src = $seller_images_dir.'/'.$seller_images[$j]['atch_url'];
-								                        		
-								                        		echo '<div class="thumbnail">
-								                        				<figure>
-																			<img src="'.$img_src.'">
-																			<center>
-																	    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$seller_images[$j]['atch_url'].'/seller/'.$merchant_id.'" class="btn btn-danger">DELETE</a></figcaption>
-																	    	</center>
-																	    </figure>
-																	</div>
-
-																	<input type="hidden" name="remove_img'.$i.'" value="'.$seller_images[$j]['atch_url'].'" />';
-								                        	}
-								                        echo "</td>";
-							                        } ?>
-					                        		<td><div class="file<?= $i ?>"></div></td>
-					                        	</tr>
-					                        <?php } ?>
-				                    	</tbody>
-				                    </table>
-				                </div>
-
-				                <div class="box-body table-responsive">
-	                                <table class="table table-bordered table-striped data-pagination-table">
-	                                    <thead>
-	                                        <tr>
-	                                            <th colspan="2">
-	                                                Seller offerings
-	                                                <button type="button" class="btn btn-warning pull-right" id="createSellerOfferingBtn"><i class="fa fa-plus"></i> Add seller offering</button>
-	                                            </th>
-	                                        </tr>
-	                                    </thead>
-	                                    <tbody>
-	                                    	<tr>
-	                                    		<td>
-	                                    			<div class="row form-group">
-						                                <div class="col-sm-8" id="seller_offering_input_field_div"></div>
-						                            </div>
-	                                    		</td>
-	                                    	</tr>
-	                                        <?php
-	                                        if (isset($data['seller_offering']) && $data['seller_offering'])
-	                                        {
-	                                            foreach ($data['seller_offering']['result'] as $seller_offering_value) 
-	                                            {
-	                                                $offering_id = $seller_offering_value['offering_id'];
-	                                                $offering = $seller_offering_value['offering'];
-	                                                $params = $offering_id.', "'.$offering.'", '.$merchant_id;
-
-	                                                echo "<tr>
-	                                                        <td>".$offering."</td>
-	                                                        <td>
-	                                                            <button type='button' class='btn btn-warning' onclick='open_seller_offering_modal($params)'>Edit</button>
-	                                                            <a href='".base_url()."deleteSellerOffering/".$offering_id."/".$merchant_id."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-	                                                        </td>
-	                                                    </tr>";
-	                                            }
-	                                        } ?>
-	                                    </tbody>
-	                                </table>
-	                            </div><!-- /.box-body -->
-
-	                            <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Meta Keyword:</label>	
-	                        		</div>
-	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="1" name="meta_keyword" placeholder="Please enter meta Keyword"><?= $meta_keyword ?></textarea>
+	                        		<div class="col-sm-6">
+	                        			<label>Meta Description</label>
+	                        			<textarea class="form-control" rows="1" name="meta_description" placeholder="Enter Meta Description"><?= $meta_description ?></textarea>
 	                        		</div>
 	                        	</div>
-
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Meta Description:</label>	
-	                        		</div>
-	                        		<div class="col-sm-9">
-	                        			<textarea class="form-control" rows="1" name="meta_description" placeholder="Please enter meta description"><?= $meta_description ?></textarea>
-	                        		</div>
-	                        	</div>
-
-					            <?php if ($page_label != "edit") { ?>
-					            	<div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Line1 address*:</label>	
-						            	</div>
-						                <div class="col-sm-9">
-						                	<textarea name="line1" rows="1" class="form-control address" placeholder="Enter Line1 Address" required></textarea>
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Line2 address:</label>	
-						            	</div>
-						                <div class="col-sm-9">
-						                	<textarea name="line2" rows="1" class="form-control address" placeholder="Enter Line2 Address"></textarea>
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Landmark:</label>	
-						            	</div>
-						                <div class="col-sm-9">
-						                	<textarea name="landmark" rows="1" class="form-control address" placeholder="Enter Landmark"></textarea>
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Country*:</label>	
-						            	</div>
-						                <div class="col-sm-4">
-						                	<select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
-							                	<?php
-									    		if ($countries) 
-									    		{
-									    			echo "<option value=''>select country</option>";
-
-									    			foreach ($countries as $cnt_key => $cnt_value) 
-									    				echo "<option value='".$cnt_value['country_id']."'>".$cnt_value['name']."</option>";
-									    		}
-									    		else
-									    			echo "<option>country not available!</option>";
-									    		?>
-								    		</select>
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>State*:</label>	
-						            	</div>
-						                <div class="col-sm-4">
-						                	<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
-						                </div>
-						                <div class="col-sm-2">
-						                	<button type="button" onclick="getState();" class="btn btn-default">Refresh states</button>
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>City*:</label>	
-						            	</div>
-						                <div class="col-sm-4">
-						                	<select class="form-control" name="city_id" id="state_cities" required></select>
-						                </div>
-						                <div class="col-sm-2">
-						                	<button type="button" onclick="getCity();" class="btn btn-default">Refresh cities</button>
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Postal Code<sup>*</sup>:</label>	
-						            	</div>
-						                <div class="col-sm-5">
-						                	<input type="number" name="pin" class="form-control" placeholder="postal code" required />
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Shop no:</label>	
-						            	</div>
-						                <div class="col-sm-5">
-						                	<input type="text" name="contact" class="form-control" placeholder="Shop contact number" />
-						                </div>
-						            </div>
-
-					            	<div class="row form-group">
-						            	<div class="col-sm-4">
-						            		<input type="text" name="lat" class="form-control" placeholder="Enter Latitude" onkeyup="initialize();" id="lat" required />
-						            	</div>
-						                <div class="col-sm-4">
-						                	<input type="text" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" required />
-						                </div>
-						                <div class="col-sm-4">
-		                                    <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>
-		                                </div>
-						            </div>
-
-						            <!-- google map -->
-									<center>
-										<div id="googleMap" style="width:90%;height:400px; margin: 20px;"></div>
-									</center>
-						        <?php } ?>
 					        </div>
 
 					        <div class="box-footer"  align="right">
@@ -943,27 +902,31 @@ function getLatLongFromAddress()
     line1 = ($('[name="line1"]').val()) ? $('[name="line1"]').val()+', ' : '';
     line2 = ($('[name="line2"]').val()) ? $('[name="line2"]').val()+', ' : '';
     landmark = ($('[name="landmark"]').val()) ? $('[name="landmark"]').val()+', ' : '';
-    country = ($("#cnt_id option:selected").html()) ? $("#cnt_id option:selected").html()+', ' : '';
+    country = ($("#cnt_id option:selected").val()) ? $("#cnt_id option:selected").html()+', ' : '';
     state = ($("#states option:selected").html()) ? $("#states option:selected").html()+', ' : '';
     city = ($("#state_cities option:selected").html()) ? $("#state_cities option:selected").html() : '';
     pin = ($('[name="pin"]').val()) ? '-'+$('[name="pin"]').val() : '';
     address = line1+line2+landmark+country+state+city+pin;
     
-    //debugger;
-    geocoder.geocode({'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            //get lat-long
-            latitude = results[0].geometry.location.lat().toFixed(6);
-            longitude = results[0].geometry.location.lng().toFixed(6);
+    // debugger;
+	if(address) {
+		geocoder.geocode({'address': address}, function(results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				//get lat-long
+				latitude = results[0].geometry.location.lat().toFixed(6);
+				longitude = results[0].geometry.location.lng().toFixed(6);
 
-            //set lat-long in text fields
-            $('[name="lat"]').val(latitude);
-            $('[name="long"]').val(longitude);
+				//set lat-long in text fields
+				$('[name="lat"]').val(latitude);
+				$('[name="long"]').val(longitude);
 
-            //call map for map initialization
-            initialize();
-        } 
-    }); 
+				//call map for map initialization
+				initialize();
+			}
+		});
+	} else {
+		alert('Error: Fill address details');
+	}
 }
 
 //initialize google map
@@ -1051,7 +1014,7 @@ function getState(selected_cnt_id='')
 	            if ( data ) 
 	            {
 	            	state_data = JSON.parse(data);
-	            	state_options = "<option value=''>Please select state!!</option>";
+	            	state_options = "<option value=''>select state</option>";
 	            	usr_state_id = <?= (!empty($state_id) ? json_encode($state_id) : '""'); ?>
 
 	            	for (var i = 0; i < state_data.length; i++) 
@@ -1095,7 +1058,7 @@ function getCity(selected_state_id)
 	            if (data != "null") 
 	            {
 	            	city_data = JSON.parse(data);
-	            	city_options = "<option value=''>Please select city!!</option>";
+	            	city_options = "<option value=''>select city</option>";
 	            	usr_city_id = <?= (!empty($city_id) ? json_encode($city_id) : '""'); ?>
 
 	            	for (var i = 0; i < city_data.length; i++) 
@@ -1134,5 +1097,9 @@ function getCity(selected_state_id)
 	border: none;
     float: left;
     margin-bottom: 0px;
+}
+
+.well {
+	padding: 10px;
 }
 </style>

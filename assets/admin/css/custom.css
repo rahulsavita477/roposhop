@@ -245,3 +245,21 @@ input[type='checkbox'].bigcheck:checked + span.bigcheck-target:after {
 label {
     font-weight: normal;
 }
+
+.termsMainLabel {
+    padding-right: 0px;
+}
+
+.termsAvailabilitySelectBox {
+    padding-left: 0px; 
+    padding-right: 0px;
+}
+
+.termsLabel {
+    padding-left: 0px; 
+    text-align: right;
+}
+
+.termsTextArea {
+    padding-left: 0px;
+}
