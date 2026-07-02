@@ -94,6 +94,7 @@ else if($pageName == "offerManagement")
                                     <tr>
                                         <!-- <th>S.No.</th>
                                         <th>Seller ID</th> -->
+                                        <th>Action</th>
                                         <th>Business Name</th>
                                         <th>Owner Name</th>
                                         <th>Email</th>
@@ -104,7 +105,8 @@ else if($pageName == "offerManagement")
                                         <th>Business Verification</th>
                                         <th>Profile Completion</th>
                                         <th>Visibility Status</th>
-                                        <th>Action</th>
+                                        <th>Created Date</th>
+                                        <th>Updated Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -127,8 +129,7 @@ else if($pageName == "offerManagement")
 
                                                 $isApproved = "<span class='label label-danger'>Not Approve</span>";
 
-                                                $change_verify_status_btn = '<a href="javascript:void(0);" onclick="openVerifyModal('.$merchant_id.', '.$user_id.', '.$shop_name.', \''.$seller_value['first_name'].'\', \''.$seller_value['contact'].'\', \''.$seller_value['email'].'\')" class="text-warning" title="Verify Business"><i class="fa fa-shield"></i></a>';
-
+                                                $change_verify_status_btn = '<a href="javascript:void(0);" onclick="openVerifyModal('.$merchant_id.', '.$user_id.', '.$shop_name.', \''.$seller_value['first_name'].'\', \''.$seller_value['contact'].'\', \''.$seller_value['email'].'\')" class="text-warning" title="Verify Business"><i class="fa fa-shield"></i>Business Verify</a>';
                                             }
 
                                             $is_completed = ($seller_value['is_completed']) ? "<span class='label label-success'>Completed</span>" : "<span class='label label-danger'>Incomplete</span>";
@@ -150,6 +151,28 @@ else if($pageName == "offerManagement")
                                             // <td>".$seller_value['address'][0]['country_name']."</td>
                                             
                                             echo "<tr>
+                                                    <td>
+                                                        <div class='input-group input-group'>
+                                                            <div class='input-group-btn'>
+                                                                <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                                <ul class='dropdown-menu'>
+                                                                    <li>".$change_verify_status_btn."</li>
+                                                                    <li>
+                                                                        <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' onclick='return confirm(\"Do you want to change the seller visibility status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href='".base_url("page/addressManagement?user_id=$user_id&merchant_id=$merchant_id")."' title='Manage Address'><i class='fa fa-map-marker'></i>Manage Address</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href='".base_url("seller/$merchant_id/edit")."'title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href='".base_url("deleteMerchant/$merchant_id/$user_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
+                                                                    </li>";
+                                                            echo "</ul>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                     <td><a href='".base_url("seller/$merchant_id/view")."'>".$seller_value['establishment_name']."</a></td>
                                                     <td>".$seller_value['first_name']."</td>
                                                     <td>".$seller_value['email']."</td>
@@ -162,12 +185,8 @@ else if($pageName == "offerManagement")
                                                 echo "<td>".$isApproved."</td>
                                                     <td>".$is_completed."</td>
                                                     <td>".$current_status."</td>
-                                                    <td>
-                                                        ".$change_verify_status_btn."
-                                                        <a href='".base_url("seller/$merchant_id/edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
-                                                        <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' onclick='return confirm(\"Do you want to change the seller visibility status?\")'title='Change Status'><i class='fa fa-check-circle'></i></a>&nbsp;
-                                                        <a href='".base_url("deleteMerchant/$merchant_id/$user_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
-                                                    </td>
+                                                    <td>".convert_to_user_date($seller_value['create_date'])."</td>
+                                                    <td>".convert_to_user_date($seller_value['update_date'])."</td>
                                                 </tr>";
                                         }
                                     } ?>

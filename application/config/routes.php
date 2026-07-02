@@ -163,7 +163,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['deleteOffer/(:num)'] = $admin_controller.'deleteOffer/$1';
 	$route['editOffer/(:num)/(:any)'] = $admin_controller.'editOffer/$1/$2';
 	$route['seller'] = $admin_controller.'dashboard';
-	$route['signup'] = $admin_controller.'merchantSignUp';
+	// $route['signup'] = $admin_controller.'merchantSignUp';
 	$route['addRequestedProduct'] = $admin_controller.'addRequestedProduct';
 	// $route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'fillListingDetailOfRequestedProduct/$1';
 	$route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';

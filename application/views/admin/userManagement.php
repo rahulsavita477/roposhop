@@ -46,13 +46,15 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>S.No.</th>
-                                    <th>User ID</th>
+                                    <!-- <th>S.No.</th>
+                                    <th>User ID</th> -->
+                                    <th>Action</th>
+                                    <th>status</th>
                                     <th>User</th>
                                     <th>Email</th>
-                                    <th>Roles</th>
-                                    <th>Current status</th>
-                                    <th></th>
+                                    <th>Role(s)</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,31 +104,40 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                                         else
                                             $profile_image = $this->config->item('site_url').'assets/admin/img/avatar3.png';
 
+                                        // <td>".++$count."</td>
+                                        // <td>".$usr_id."</td>
+                                        // <img src=".$profile_image." width='60px' />
                                         echo "<tr>
-                                                <td>".++$count."</td>
-                                                <td>".$usr_id."</td>
-                                                <td>
-                                                    <img src=".$profile_image." width='60px' />
-                                                    <a href='".base_url("editUser/$usr_id?view")."'>".$name."</a>
-                                                </td>
-                                                <td>".$user['email']."</td>
-                                                <td>".$roles."</td>
-                                                <td>".$status."</td>
                             					<td>
                                                     <div class='input-group input-group'>
                                                         <div class='input-group-btn'>
-                                                            <button type='button' class='btn btn-danger dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                            <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                             <ul class='dropdown-menu'>
-                                                                <li><a href='".base_url("changeUserStatus/$usr_id/$newStatus")."' onclick='return confirm(\"Are you sure?\")'>Change status</a></li>
-                                                                <li><a href='".base_url("editUser/$usr_id?edit")."'>Edit</a></li>";
+                                                                <li>
+                                                                    <a href='".base_url("changeUserStatus/$usr_id/$newStatus")."' onclick='return confirm(\"Are you sure?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change status</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href='".base_url("editUser/$usr_id?edit")."'title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                                </li>";
 
-                                                                if ($usr_id != $_COOKIE['user_id']) 
-                                                                    echo "<li><a href='".base_url("deleteUser/$usr_id")."' onclick='return confirm(\"Are you sure?\")'>Delete</a></li>";
-                                                
+                                                                if ($usr_id != $_COOKIE['user_id']) {
+
+                                                                    echo "<li>
+                                                                        <a href='".base_url("deleteUser/$usr_id")."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
+                                                                    </li>";
+                                                                }
                                                         echo "</ul>
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td>".$status."</td>
+                                                <td>
+                                                    <a href='".base_url("editUser/$usr_id?view")."'>".$name."</a>
+                                                </td>
+                                                <td>".$user['email']."</td>
+                                                <td>".$roles."</td>
+                                                <td>".convert_to_user_date($user['create_date'])."</td>
+                                                <td>".convert_to_user_date($user['update_date'])."</td>
                             				</tr>";
                             		}
                             	} ?>

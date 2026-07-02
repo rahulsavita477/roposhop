@@ -1,4 +1,4 @@
-<?php 
+<?php
 $merchant_id = isset($data['merchant_id']) ? $data['merchant_id'] : '';
 $usr_id = isset($data['userId']) ? $data['userId'] : '';
 $email = isset($data['email']) ? $data['email'] : '';
@@ -77,17 +77,13 @@ else
             <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
-				    <div class='box-footer' style="text-align: right; padding-bottom: 0px;">
-						<?php if ($page_label == "view") {
-							echo "<a href='../../sellers/sellersTable' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
-								<a href='../../seller/$merchant_id/edit' title='Edit'><i class='fa fa-edit'></i></a>";
-						} elseif ( $page_label == "edit" )
-							echo "<a href='../../page/addressManagement?user_id=$usr_id&merchant_id=$merchant_id' class='btn btn-primary'>Manage Address</a>";
-						?>
-					</div>
-					
 				    <?php if ($page_label == "view") { ?>
-			    		<div class="box-body">
+			    		<div class='box-footer' style="text-align: right; padding-bottom: 0px;">
+							<a href='../../sellers/sellersTable' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
+							<a href='../../seller/<?= $merchant_id ?>/edit' title='Edit'><i class='fa fa-edit'></i></a>
+						</div>
+						
+						<div class="box-body">
 			    			<div class="row form-group">
 				            	<div class="col-sm-2">
 				            		<label>Seller logo:</label>	
@@ -97,7 +93,7 @@ else
 						            if (isset($merchant_logo)) 
 							            echo '<div class="row form-group">
 											<div class="col-sm-3">
-												<img src="'.$merchant_logo.'" width="80">
+												<img src="'.$seller_images_dir.'/'.$merchant_logo.'" width="80">
 											</div>
 										</div>';
 								    ?>
@@ -406,57 +402,68 @@ else
 
 									<div class="col-sm-3">
 										<label>Email *</label>
-										<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $email ?>" required />
+										<input type="text" name="email" class="form-control" placeholder="Enter Company Name" value="<?= $email ?>" required />
 									</div>
 
 									<div class="col-sm-3">
 										<label>Contact Number</label>
-										<input type="text" name="contact_no" class="form-control" placeholder="Enter Company contact number" value="<?= $cno ?>" />
+										
+										<div class="input-group">
+											<span class="input-group-addon">+91-</span>
+											<input type="text"
+												class="form-control"
+												name="contact_no"
+												maxlength="10"
+												placeholder="Enter 10-digit number"
+												value="<?= set_value($cno) ?>"
+												id=""
+											/>
+										</div>
 									</div>
-									
+
 									<div class="col-sm-3">
 										<label>Owner's Full Name<?= $star ?></label>
 										<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> />
 									</div>
 								</div>
 
-					            <?php if ($page_label != "edit") { ?>
+					            <?php if ($page_label != "edit"): ?>
 									<!-- Toggle button/link -->
 									<a data-toggle="collapse" href="#address" aria-expanded="false" aria-controls="address">+ Location & Address</a>
 
-									<div class="collapse" id="address">
+									<div class="show" id="address">
 										<div class="well">
 											<div class="row">
 												<div class="col-sm-4">
 													<label>Address Line 1 *</label>
-													<textarea name="line1" rows="1" class="form-control address" placeholder="Enter Line1 Address" required></textarea>
+													<textarea name="line1" rows="1" id="addressLine1" class="form-control address" placeholder="Line1 Address"></textarea>
 												</div>
 												
 												<div class="col-sm-4">
 													<label>Line2 address</label>
-													<textarea name="line2" rows="1" class="form-control address" placeholder="Enter Line2 Address"></textarea>
+													<textarea name="line2" rows="1" id="addressLine2" class="form-control address" placeholder="Line2 Address"></textarea>
 												</div>
 												<div class="col-sm-4">
 													<label>Landmark</label>
-													<textarea name="landmark" rows="1" class="form-control address" placeholder="Enter Landmark"></textarea>
+													<textarea name="landmark" rows="1" id="landMark" class="form-control address" placeholder="Landmark"></textarea>
 												</div>
 											</div>
 
 											<div class="row nextFormLine">
 												<div class="col-sm-3">
 													<label>Country *</label>
-													<select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
-														<?php
-														if ($countries) 
-														{
+													<select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);">
+														<?php if ($countries) {
+
 															echo "<option value=''>select country</option>";
 
-															foreach ($countries as $cnt_key => $cnt_value) 
+															foreach ($countries as $cnt_key => $cnt_value) {
+
 																echo "<option value='".$cnt_value['country_id']."'>".$cnt_value['name']."</option>";
-														}
-														else
+															}
+														} else {
 															echo "<option>country not available!</option>";
-														?>
+														} ?>
 													</select>
 												</div>
 												
@@ -465,7 +472,7 @@ else
 														<label>State *</label>
 													</div>
 													<div class="col-sm-10" style="padding: 0px;">
-														<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
+														<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states"></select>
 													</div>
 													<div class="col-sm-2" style="padding: 5px;">
 														<a href="javascript:void(0);" onclick="getState();" title="Refresh States"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
@@ -477,7 +484,7 @@ else
 														<label>City *</label>
 													</div>
 													<div class="col-sm-10" style="padding: 0px;">
-														<select class="form-control" name="city_id" id="state_cities" required></select>
+														<select class="form-control" name="city_id" id="state_cities"></select>
 													</div>
 													<div class="col-sm-2" style="padding: 5px;">
 														<a href="javascript:void(0);" onclick="getCity();" title="Refresh Cities"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
@@ -486,7 +493,7 @@ else
 
 												<div class="col-sm-3" style="padding-left: 0px;">
 													<label>Postal Code *</label>
-													<input type="number" name="pin" class="form-control" placeholder="Postal Code" required />
+													<input type="number" name="pin" id="pin" class="form-control" placeholder="Postal Code" />
 												</div>
 											</div>
 
@@ -507,15 +514,15 @@ else
 
 											<div class="row nextFormLine">
 												<div class="col-sm-2">
-													<label>Latitude</label>
-													<input type="number" name="lat" class="form-control" placeholder="Enter Latitude" onkeyup="initialize();" id="lat" required />
+													<label>Latitude *</label>
+													<input type="number" step="any" name="lat" class="form-control" placeholder="Enter Latitude" onkeyup="initialize();" id="lat" />
 												</div>
 												<div class="col-sm-2">
-													<label>Longitude</label>
-													<input type="number" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" required />
+													<label>Longitude *</label>
+													<input type="number" step="any" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" />
 												</div>
 												<div class="col-sm-8">
-													<label class="label_hide">make space equal to label</label>
+													<label class="label_hide" style="width: 100%;">make space equal to label</label>
 													<button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get Coordinates from Address</button>
 													<span class="text-muted small">
 														Or click anywhere on the map to select your location and fetch its coordinates.
@@ -531,7 +538,7 @@ else
 											</div>
 										</div>
 									</div>
-						        <?php } ?>
+						        <?php endif; ?>
 
 								<div class="row">
 									<div class="col-sm-8">
@@ -864,21 +871,56 @@ $(document).ready(function() {
     });
 });
 
-function validateForm()
-{
-	//for address lat
-    var isValid = floatValidation($("input[name='lat']").val());
-    if (isValid != '' && !isValid) 
+function validateForm() {
+
+	let addressLine1 = $("#addressLine1").val();
+	if (addressLine1 == '') {
+
+        alert("Error: Address Line 1 is required!");
+        return false;
+    }
+
+	let cnt_id = $("#cnt_id").val();
+	if (cnt_id == '') 
     {
-        alert("wrong latitude!");
+        alert("Error: Invalid country!");
+        return false;
+    }
+
+	let states = $("#states").val();
+	if (!states || states == '') 
+    {
+        alert("Error: Invalid state!");
+        return false;
+    }
+
+	let state_cities = $("#state_cities").val();
+	if (!state_cities || state_cities == '') 
+    {
+        alert("Error: Invalid city!");
+        return false;
+    }
+	
+	let pin = $("#pin").val();
+	if (!pin || pin == '') 
+    {
+        alert("Error: Invalid pin is required!");
+        return false;
+    }
+	
+	//for address lat
+    let lat = floatValidation($("input[name='lat']").val());
+    if (!lat) 
+    {
+        alert("Error: Invalid latitude!");
         return false;
     }
 
     //for address long
-    var isValid = floatValidation($("input[name='long']").val());
-    if (isValid != '' && !isValid) 
+    let long = floatValidation($("input[name='long']").val());
+    if (!long) 
     {
-        alert("wrong longitude!");
+        alert("Error: Invalid longitude!");
         return false;
     }
 }
@@ -938,10 +980,10 @@ function initialize()
     //set location on google map using lat long
     var myLatlng = new google.maps.LatLng(lat, long);
     var mapOptions = {
-                        zoom: 15,
-                        center: myLatlng,
-                        draggable: true
-                    }
+		zoom: 15,
+		center: myLatlng,
+		draggable: true
+	}
     var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
     setMarkerOnClickMap(myLatlng, map);
 
@@ -961,28 +1003,17 @@ var gmarkers = [];
 //set marker on click map
 function setMarkerOnClickMap(latLng, map) 
 {
-    //remove old markers from map
-    for(i=0; i<gmarkers.length; i++)
-        gmarkers[i].setMap(null);
-
-    //set marker on google map
-    var marker = new google.maps.Marker({
-                    position: latLng
-                });
-
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
-
-    //push old marker in array
-    gmarkers.push(marker);
+    for(i=0; i<gmarkers.length; i++) gmarkers[i].setMap(null); //remove old markers from map
+	var marker = new google.maps.Marker({position: latLng}); //set marker on google map
+    marker.setMap(map); // To add the marker to the map, call setMap();
+    gmarkers.push(marker); //push old marker in array
 
     //show info window for address
     marker.addListener('click', function() {
         infowindow.open(map, marker);
     });
 
-    //show address div on click marker
-    showFormattedAddress((latLng.lat()), (latLng.lng()));
+    showFormattedAddress((latLng.lat()), (latLng.lng())); //show address div on click marker
 }
 
 //show address div on click marker
@@ -995,93 +1026,6 @@ function showFormattedAddress(lat, long)
         if (status == google.maps.GeocoderStatus.OK) 
             infowindow.setContent(results[0].formatted_address);
     });
-}
-
-//get state of country
-function getState(selected_cnt_id='')
-{
-	cnt_id = (selected_cnt_id) ? selected_cnt_id : ($("#cnt_id").val());
-
-	if (cnt_id) 
-	{
-		$('#states').empty();
-		$('#state_cities').empty();
-		
-		$.ajax({
-	        type: "GET",
-	        url: '<?= base_url("states") ?>/'+cnt_id,
-	        success: function(data){
-	            if ( data ) 
-	            {
-	            	state_data = JSON.parse(data);
-	            	state_options = "<option value=''>select state</option>";
-	            	usr_state_id = <?= (!empty($state_id) ? json_encode($state_id) : '""'); ?>
-
-	            	for (var i = 0; i < state_data.length; i++) 
-	            	{
-	            		state_name = state_data[i].name;
-	            		state_id = state_data[i].state_id;
-	            		selected = "";
-
-	            		if (state_id == usr_state_id)
-	            			selected = "selected";
-
-	            		state_options += "<option value='"+state_id+"' "+selected+">"+state_name+"</option>";
-	            	}
-
-	            	$('#states').append(state_options);
-
-					state_id = $('#states').val();
-					if (parseInt(state_id)) 
-						getCity(state_id);
-	            }
-	        },
-	    });	
-	}
-	else
-		alert('Error: Unable to get country id!');
-}
-
-//get city of state
-function getCity(selected_state_id)
-{
-	state_id = (selected_state_id) ? selected_state_id : ($("#states").val());
-
-	if (state_id) 
-	{
-		$('#state_cities').empty();
-
-		$.ajax({
-	        type: "GET",
-	        url: '<?= base_url("cities") ?>/'+state_id,
-	        success: function(data){
-	            if (data != "null") 
-	            {
-	            	city_data = JSON.parse(data);
-	            	city_options = "<option value=''>select city</option>";
-	            	usr_city_id = <?= (!empty($city_id) ? json_encode($city_id) : '""'); ?>
-
-	            	for (var i = 0; i < city_data.length; i++) 
-	            	{
-	            		city_name = city_data[i].name;
-	            		city_id = city_data[i].city_id;
-	            		selected = "";
-
-	            		if (usr_city_id == city_id)
-	            			selected = "selected";
-
-	            		city_options += "<option value='"+city_id+"' "+selected+">"+city_name+"</option>";
-	            	}
-
-	            	$('#state_cities').append(city_options);
-	            }
-	            else
-	            	alert("Error: City not found for this state!");
-	        },
-	    });	
-	}
-	else
-		alert("Error: Unable to get state id!");
 }
 </script>
 

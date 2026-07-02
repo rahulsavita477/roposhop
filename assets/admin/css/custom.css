@@ -263,3 +263,15 @@ label {
 .termsTextArea {
     padding-left: 0px;
 }
+
+.fa-shield {
+    color: orange;
+}
+
+.fa-check-circle{
+    color: #3364b0;
+}
+
+.fa-map-marker {
+    color: red;
+}

@@ -787,6 +787,16 @@ class Admin_controller extends CI_Controller
 					$data['states'] = $states['result'];
 				}
 			}
+
+			//get user detail
+			if($user_id) {
+				$user = $this->Admin_model->selectRecords(['userId' => $user_id], 'user', '*');
+				if (isset($user['db_error'])) {
+					redirectWithMessage('Error: '.$user['msg'], $controller);
+				}
+					
+				$data['user'] = $user['result'][0];
+			}
 		}
 		else if ($pageName == "addAddress") 
 		{
@@ -828,9 +838,11 @@ class Admin_controller extends CI_Controller
 		else if ($pageName == "claimedRequest")
 			$data['claimedRequests'] = $this->Admin_model->claimedRequest();
 
+		// echo "<pre>"; print_r($data); echo "</pre>"; die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/'.$pageName, $data);
+        $this->load->view('ajaxFunctions');
 		$this->load->view('admin/include/footer');
 		die;
 	}
@@ -1483,24 +1495,30 @@ class Admin_controller extends CI_Controller
 		$cpassword = $this->input->post('cpsw');
 		$seller_offering = $this->input->post('seller_offering_values');
 
+		echo "<pre>"; print_r($this->input->post()); echo "</pre>";
+		echo "<pre>"; print_r($_FILES); echo "</pre>";
+
 		if ($_COOKIE['site_code'] == 'admin') 
 			$controller = 'sellers/sellersTable';
 		else
 			$controller = 'merchant/signup';
 		
-		if (!$usr_id && $email) 
-		{			
-			if(!preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $mrchnt_data['contact']))
+		if (!$usr_id && $email) {
+			
+			if(!preg_match("/^[0-9]{10}$/", $mrchnt_data['contact']))
             	redirectWithMessage('Error: contact number should be in correct format', $controller);
 
-			//match password and confirm password
-			if ($cpassword && $password != $cpassword) 
-			{
+			if($_COOKIE['site_code'] == 'admin' && !$password) { // set default password by admin 
+
+				$password = DEFAULT_PASSWORD;
+				
+			} elseif ($cpassword && $password != $cpassword) { // match password and confirm password
+				
 				$msg = "Error: Password and confirm password does not match!";
 				redirectWithMessage($msg, $controller);
 			}
 
-			//check email is already exist or not
+			// check email is already exist or not
 			$isFound = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
 			if (isset($isFound['db_error'])) 
 				redirectWithMessage('Error: '.$isFound['msg'], $controller);
@@ -1511,9 +1529,9 @@ class Admin_controller extends CI_Controller
 				$usr_data['password'] = $password;
 				$usr_data['create_date'] = $this->current_date;
 			}
-			else //update user detail
+			else // update user detail
 			{
-				//Add new merchant if we have already a exist user email and password
+				// Add new merchant if we have already a exist user email and password
 				$usr_id = $isFound['result'][0]['userId'];
 				$condition = array('userId' => $usr_id);
 				$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
@@ -1543,7 +1561,7 @@ class Admin_controller extends CI_Controller
 				$controller = 'login';
 			}
 
-			$mrchnt_data['is_verified'] = 1;
+			// $mrchnt_data['is_verified'] = 1;
 		}
 
 		if (!$usr_id) 
@@ -1631,8 +1649,9 @@ class Admin_controller extends CI_Controller
 				else if (isset($merchant['result'][0]['business_proof']))
 				{
 					$merchant_data['business_proof'] = $merchant_business_proof;
+					$merchant_data['is_verified'] = 1;
 
-					//remove old business from from seller folder
+					//remove old business proof from seller folder
 					$picture = $merchant['result'][0]['business_proof'];
 					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture))
 						unlink(SELLER_ATTATCHMENTS_PATH.$picture);
@@ -2018,7 +2037,13 @@ class Admin_controller extends CI_Controller
 		if (isset($res['db_error'])) 
 			redirectWithMessage('Error: '.$res['msg'], 'dashboard');
 
-		echo json_encode($res['result']);
+		if($res && $res['result']) {
+
+			echo json_encode($res['result']);
+		
+		} else {
+			echo json_encode(array());
+		}
 		die;
 	}
 
@@ -4227,17 +4252,19 @@ class Admin_controller extends CI_Controller
 		$address_data['contact'] = $this->input->post('contact');
 		$address_data['business_days'] = $this->input->post('business_days');
 		$address_data['business_hours'] = $this->input->post('business_hours');
-		// $address_data['latitude'] = $this->input->post('lat');
-		// $address_data['longitude'] = $this->input->post('long');
+		$address_data['latitude'] = $this->input->post('lat');
+		$address_data['longitude'] = $this->input->post('long');
 		$address_data['country_id'] = $this->input->post('country_id');
 		$address_data['state_id'] = $this->input->post('state_id');
 		$address_data['city_id'] = $this->input->post('city_id');
 		$address_data['update_date'] = $this->current_date;
 		
-		// 22.721379, 75.862146
-		$lat_long = $this->get_lat_long_from_address($address_data);
-		$address_data['latitude'] = $lat_long['lat'];
-		$address_data['longitude'] = $lat_long['lng'];
+		if(!$address_data['latitude'] && !$address_data['longitude']) {
+			
+			$lat_long = $this->get_lat_long_from_address($address_data);
+			$address_data['latitude'] = $lat_long['lat'];
+			$address_data['longitude'] = $lat_long['lng'];
+		}
 		
 		//set null for blank fields
 		setNULLToBlank($address_data);
@@ -4468,6 +4495,7 @@ class Admin_controller extends CI_Controller
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/addSeller', $seller_data);
+        $this->load->view('ajaxFunctions');
 		$this->load->view('admin/include/footer');
 		die;
 	}
@@ -4858,17 +4886,17 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage("Error: unable to get reviews.", $controller);
 	}
 
-	public function merchantSignUp()
-	{
-		$data = array();
-		$countries = $this->getCountry();
-		if (isset($countries['db_error'])) 
-			redirectWithMessage('Error: '.$countries['msg'], 'merchant');
+	// public function merchantSignUp()
+	// {
+	// 	$data = array();
+	// 	$countries = $this->getCountry();
+	// 	if (isset($countries['db_error'])) 
+	// 		redirectWithMessage('Error: '.$countries['msg'], 'merchant');
 
-		$data['countries'] = $countries['result'];
+	// 	$data['countries'] = $countries['result'];
 
-		$this->load->view('admin/merchantSignUp', $data);
-	}
+	// 	$this->load->view('admin/merchantSignUp', $data);
+	// }
 
 	public function insertSellerDefaultValues()
 	{

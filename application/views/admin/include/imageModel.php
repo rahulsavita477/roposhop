@@ -83,50 +83,15 @@ $(function() {
         }
 	};
 
-    $('#file1').on('change', function() {
-    	$('.file1').empty();
-        imagesPreview(this, 'div.file1', 1);
+    // Generic handler for all file inputs
+    $('[id^="file"]').on('change', function() {
+
+        var id = $(this).attr('id');  // get the id of the input, e.g. "file1"
+        var previewDiv = 'div.' + id;  // get the matching preview div, e.g. ".file1"
+        $(previewDiv).empty();  // clear old preview
+        imagesPreview(this, previewDiv, id.replace('file',''));  // call preview function
     });
 
-    $('#file2').on('change', function() {
-    	$('.file2').empty();
-        imagesPreview(this, 'div.file2', 2);
-    });
-
-    $('#file3').on('change', function() {
-    	$('.file3').empty();
-        imagesPreview(this, 'div.file3', 3);
-    });
-
-    $('#file4').on('change', function() {
-    	$('.file4').empty();
-        imagesPreview(this, 'div.file4', 4);
-    });
-
-    $('#file5').on('change', function() {
-    	$('.file5').empty();
-        imagesPreview(this, 'div.file5', 5);
-    });
-
-    $('#file6').on('change', function() {
-    	$('.file6').empty();
-        imagesPreview(this, 'div.file6', 6);
-    });
-
-    $('#file7').on('change', function() {
-        $('.file7').empty();
-        imagesPreview(this, 'div.file7', 7);
-    });
-
-    $('#file8').on('change', function() {
-        $('.file8').empty();
-        imagesPreview(this, 'div.file8', 8);
-    });
-
-    $('#file').on('change', function() {
-        $('.file').empty();
-        imagesPreview(this, 'div.file');
-    });
 });
 </script>
 

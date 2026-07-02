@@ -58,14 +58,14 @@ else
                                 <div class="row">
                                     <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
                                         <div class="col-sm-3 input-field" style="padding-right: 5px;">
-                                            <label>Category:</label>
+                                            <label>Category</label>
                                             <select class="form-control" name="category_id">
                                                 <?= $category_options ?>
                                             </select>
                                         </div>
                                         
                                         <div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
-                                            <label>Brand:</label>
+                                            <label>Brand</label>
                                             <select class="form-control" name="brand_id">
                                                 <?= $brand_options ?>
                                             </select>
@@ -73,8 +73,8 @@ else
 
                                         <div class="col-sm-3" style="padding-left: 0px;">
                                             <label class="label_hide">make space equal to label</label><br />
-                                            <button class="btn btn-primary" type="submit">Find product</button>
-                                            <a href="<?= base_url('products') ?>">
+                                            <button class="btn btn-primary" type="submit">Find</button>
+                                            <a href="<?= base_url('products') ?>" title="Reset Filter">
                                                 <span class="fa-stack fa-lg">
                                                     <i class="fa fa-filter fa-stack-1x"></i>
                                                     <i class="fa fa-times fa-stack-1x text-danger" style="margin-top: 6px; margin-left: 6px; font-size: 0.6em;"></i>

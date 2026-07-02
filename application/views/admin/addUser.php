@@ -133,12 +133,12 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					        <h3 class="box-title"><?= $detail_label ?></h3>
 					        <div class="box-footer" align="right">
 					        	<?php if ($_COOKIE['site_code'] == 'admin')
-					            	echo "<a href='".base_url("page/userManagement")."' class='btn btn-default'>Back</a>";
+					            	echo "<a href='".base_url("page/userManagement")."' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;";
 					            
-					            echo "<a href='".base_url("editUser/$usr_id?edit")."' class='btn btn-primary' style='margin-left:5px;'>Edit</a>";
+					            echo "<a href='".base_url("editUser/$usr_id?edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;";
 
 			            		if ($usr_id != $_COOKIE['user_id'])
-					            	echo "<a href='".base_url("deleteUser/$usr_id")."' class='btn btn-danger' style='margin-left:5px;'>Delete</a>";
+					            	echo "<a href='".base_url("deleteUser/$usr_id")."' title='Delete'><i class='fa fa-trash-o'></i></a>";
 					            ?>
 					        </div>
 						</div>
