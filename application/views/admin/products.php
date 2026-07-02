@@ -98,29 +98,32 @@ else
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>Product ID</th>
+                                    <!-- <th>Product ID</th> -->
+                                    <th>Action</th>
                                     <th>Status</th>
                                     <th>Product</th>
                                     <th>Category</th>
                                     <th>Brand</th>
                                     <th>Price</th>
-                                    <th>Action</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<?php
-                            	if ($data)
-                            	{
-                                    $count = 1;
-                            		foreach ($data as $prd_value)
-                            		{
-                                        if ($prd_value['isEnabled'])
-                                        {
+                            	<?php if ($data) {
+
+                                    // $count = 1;
+                                    // <td>".$prd_id."</td>
+
+                            		foreach ($data as $prd_value) {
+
+                                        if ($prd_value['isEnabled']) {
+
                                             $status = "<span class='label label-success'>Enabled</span>";
                                             $newStatus = 0;
-                                        }
-                                        else
-                                        {
+                                        
+                                        } else {
+
                                             $status = "<span class='label label-danger'>Disabled</span>";
                                             $newStatus = 1;
                                         }
@@ -131,18 +134,34 @@ else
                                         // Below is the URL for product view in read only mode. But design need to be improve
                                         
                                         echo "<tr>
-                                                <td>".$prd_id."</td>
+                                                <td>
+                                                    <div class='input-group input-group'>
+                                                        <div class='input-group-btn'>
+                                                            <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                            <ul class='dropdown-menu'>
+                                                                <li>
+                                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' title='Create Duplicate Product'><i class='fa fa-copy'></i>Duplicate</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href='".base_url("editProduct/$prd_id/edit")."'title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href='".base_url("deleteProduct/$prd_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
+                                                                </li>";
+                                                        echo "</ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
                             					<td class='statusLabel'>".$status."</td>
                                                 <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
                                                 <td>".$prd_value['category_name']."</td>
                                                 <td>".$prd_value['brand_name']."</td>
                                                 <td>".$prd_value['mrp_price']."</td>
-                                                <td>
-                                                    <a href='".base_url("editProduct/$prd_id/edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
-                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' title='Create Duplicate Product'><i class='fa fa-copy'></i></a>&nbsp;
-                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")'title='Change Status'><i class='fa fa-check-circle'></i></a>&nbsp;
-                                                    <a href='".base_url("deleteProduct/$prd_id")."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
-                                                </td>
+                                                <td>".convert_to_user_date($prd_value['create_date'])."</td>
+                                                <td>".convert_to_user_date($prd_value['update_date'])."</td>
                             				</tr>";
                             		}
                             	} ?>

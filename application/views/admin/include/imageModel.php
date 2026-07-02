@@ -92,6 +92,10 @@ $(function() {
         imagesPreview(this, previewDiv, id.replace('file',''));  // call preview function
     });
 
+    // $('#file8').on('change', function() {
+    //     $('.file8').empty();
+    //     imagesPreview(this, 'div.file8', 8);
+    // });
 });
 </script>
 

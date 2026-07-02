@@ -26,29 +26,45 @@
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>S.NO.</th>
-                                    <th>Attribute ID</th>
-                                    <th>Name</th>
+                                    <!-- <th>S.NO.</th>
+                                    <th>Attribute ID</th> -->
                                     <th>Action</th>
+                                    <th>Attribute Name</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                             	<?php
-                            	if ($status) 
-                            	{
-                                    $count = 1;
+                                // <td>".$count++."</td>
+                                // <td>".$att_value['att_id']."</td>
+
+                            	if ($status) {
+
+                                    // $count = 1;
                             		foreach ($attributes as $att_key => $att_value)
                             		{
                                         $att_id = $att_value['att_id'];
 
                                         echo "<tr>
-                                                <td>".$count++."</td>
-                                                <td>".$att_value['att_id']."</td>
-                                                <td>".$att_value['att_name']."</td>
                                                 <td>
-                                                    <a href='".base_url("editAttribute/$att_id")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
-                                                    <a href='".base_url("deleteAttribute/$att_id")."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>
+                                                    <div class='input-group input-group'>
+                                                        <div class='input-group-btn'>
+                                                            <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                            <ul class='dropdown-menu'>
+                                                                <li>
+                                                                    <a href='".base_url("editAttribute/$att_id")."'title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href='".base_url("deleteAttribute/$att_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
+                                                                </li>";
+                                                        echo "</ul>
+                                                        </div>
+                                                    </div>
                                                 </td>
+                                                <td>".$att_value['att_name']."</td>
+                                                <td>".convert_to_user_date($att_value['create_date'])."</td>
+                                                <td>".convert_to_user_date($att_value['update_date'])."</td>
                                             </tr>";
                                     }
                             	} ?>

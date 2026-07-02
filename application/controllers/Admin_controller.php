@@ -1495,8 +1495,8 @@ class Admin_controller extends CI_Controller
 		$cpassword = $this->input->post('cpsw');
 		$seller_offering = $this->input->post('seller_offering_values');
 
-		echo "<pre>"; print_r($this->input->post()); echo "</pre>";
-		echo "<pre>"; print_r($_FILES); echo "</pre>";
+		// echo "<pre>"; print_r($this->input->post()); echo "</pre>";
+		// echo "<pre>"; print_r($_FILES); echo "</pre>";
 
 		if ($_COOKIE['site_code'] == 'admin') 
 			$controller = 'sellers/sellersTable';
@@ -2355,7 +2355,6 @@ class Admin_controller extends CI_Controller
 				
 				} else if ($html_link) { //insert link
 				
-					echo "HTML ID LINK:".$html_link;
 					$data = array(
 								'link_id' => $link_id,
 								'html_file' => $html_link,

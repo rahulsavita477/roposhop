@@ -112,7 +112,7 @@ else if($pageName == "offerManagement")
                                 <tbody>
                                     <?php if ($success) {
 
-                                        $count = 1;
+                                        // $count = 1;
                                         
                                         foreach ($data as $seller_value) {
 

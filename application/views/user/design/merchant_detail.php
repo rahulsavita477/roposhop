@@ -65,8 +65,8 @@ if($merchant_detail['business_hours']) {
         margin: 0 auto;
     } 
     #scs button.owl-prev, #scs button.owl-next{
-        width: 20px !important;
-        height: 20px !important;
+        /* width: 20px !important;
+        height: 20px !important; */
     }  
     .fa-star{
         color:#000;
@@ -100,10 +100,10 @@ if($merchant_detail['business_hours']) {
         color: #fff;
     }
     .widget-body button.owl-next{
-        background:transparent !important;
+        /* background:transparent !important; */
     }
     .widget-body button.owl-prev{
-        background:transparent !important;
+        /* background:transparent !important; */
     }
     h2.product-title.text-black {
         text-align: left;
@@ -287,13 +287,6 @@ function open_modal(merchant_id, establishment_name)
                                     {
                                         echo '<div class="owl-dot">
                                                 <img 
-                                                    style="    
-                                                        width: auto;
-                                                        max-width: 80px;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        height: auto;
-                                                        max-height: 80px;"
                                                     src="'.$imgs.'" 
                                                     alt="'.$merchant_detail['establishment_name'].'_'.$key.'" />
                                             </div>';

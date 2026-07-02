@@ -426,6 +426,23 @@ a.morelink {
 .info-boxes-container {
     margin-bottom: 15px;
 }
+
+.prod-thumbnail>div {
+    padding: 0px;
+}
+.transparent-dots{
+    width: 60px;
+}
+
+.owl-prev i, .owl-next i {
+    color: #3498db;   /* blue color */
+    font-size: 24px;  /* bigger arrow */
+}
+
+.owl-prev:hover i, .owl-next:hover i {
+    color: #2980b9;   /* darker blue on hover */
+}
+
 /*==============
 
 ===============*/

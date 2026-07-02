@@ -89,14 +89,16 @@ else
 				            		<label>Seller logo:</label>	
 				            	</div>
 				                <div class="col-sm-10">
-				            		<?php 
-						            if (isset($merchant_logo)) 
-							            echo '<div class="row form-group">
+				            		<?php if (isset($merchant_logo) && !empty($merchant_logo)) {
+
+										echo '<div class="row form-group">
 											<div class="col-sm-3">
 												<img src="'.$seller_images_dir.'/'.$merchant_logo.'" width="80">
 											</div>
 										</div>';
-								    ?>
+									} else {
+										echo "Not Available";
+									} ?>
 				                </div>
 				            </div>
 
@@ -387,7 +389,7 @@ else
                         </div>
 
 				    	<!-- form start -->
-					    <form method="post" action="<?= base_url('addSeller') ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
+					    <form method="post" action="<?= base_url('addSeller') ?>" enctype="multipart/form-data" <?= $page_label != "edit" ? 'onsubmit="return validateForm()"' : '' ?>>
 
 					    	<input type="hidden" name="merchant_id" value="<?= $merchant_id; ?>">
 					        <input type="hidden" name="usr_id" value="<?= $usr_id; ?>">
