@@ -184,17 +184,18 @@ class Merchant_controller extends CI_Controller
             //get seller(shop) images
             $seller_imgs = $this->admin_controller->attatchments($merchant_id, "SELLER");
             $data['user']['shop_image'] = ($seller_imgs) ? $seller_imgs : false;
-            //echo "<pre>"; print_r($data); die;
 
             $data['meta_data']['title'] = 'Seller signup';
             $data['meta_data']['keywords'] = '';
             $data['meta_data']['description'] = 'RopoShop signup step 2';
+            $data['seller_images_dir'] = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/';
 
             //load user register view
             // $this->load->view('user/include/header', $data);
             // $this->load->view('merchant/signupStep2', $data);
             // $this->load->view('user/include/footer');
 
+            //echo "<pre>"; print_r($data); die;
             //load user register view
             $this->load->view('user/design/include/header', $data);
             $this->load->view('user/design/merchant_signupStep2', $data);
@@ -221,6 +222,10 @@ class Merchant_controller extends CI_Controller
             $seller_data['status'] = 1;
             $seller_data['is_completed'] = 1;
             $seller_data['update_date'] = $this->current_date;
+            $seller_data['establishment_name'] = $this->input->post('comp_name');
+            $seller_data['description'] = $this->input->post('description');
+            $seller_data['business_days'] = $this->input->post('global_business_days');
+            $seller_data['business_hours'] = $this->input->post('global_business_hours');
 
             //user data
             $user_data = array();

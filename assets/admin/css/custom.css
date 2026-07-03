@@ -21,6 +21,14 @@
     text-align: center;
 }
 
+/* .editTable {
+    resize: vertical;
+    overflow: auto;
+    height: 200px;
+    max-height: 400px;
+    border: 1px solid rgb(204, 204, 204);
+} */
+
 .editTable tbody {
     display: block;
     max-height: 200px;
@@ -305,15 +313,15 @@ label {
 }
 
 .fa-check {
-    color: #e74c3c;
+    color: #f39c12;
 }
 
 .fa-gift {
-    color: #e91e63;
+    color: #9b59b6;
 }
 
 .fa-shopping-cart {
-    color: #cddc39;
+    color: #3498db;
 }
 
 .fa-comments {
@@ -329,9 +337,45 @@ label {
 }
 
 .fa-wrench {
-    color: #2ecc71;
+    color: #4682b4;
 }
 
 .fa-copy {
     color: #f1c40f;
+}
+
+.fa-users {
+    color: #3f51b5;
+}
+
+.fa-th-list {
+    color: #2ecc71;
+}
+
+.fa-flag {
+    color: #34495e;
+}
+
+.fa-globe {
+    color: #1abc9c;
+}
+
+.fa-home {
+    color: #3498db;
+}
+
+.fa-location-arrow {
+    color: #9b59b6;
+}
+
+.fa-thumbs-up {
+    color: #2ecc71;
+}
+
+.fa-star {
+    color: #e67e22;
+}
+
+.box-primary1{
+	border: 2px solid #ccc;
 }

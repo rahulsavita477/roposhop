@@ -1,4 +1,4 @@
-<?php 
+<?php
 //default values
 $finance_available = isset($result[0]['finance_available']) ? $result[0]['finance_available'] : '';
 $finance_terms = isset($result[0]['finance_terms']) ? $result[0]['finance_terms'] : set_value('finance_terms');
@@ -19,11 +19,11 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
     <section class="content-header">
         <h1>
             Seller
-            <small>Default values</small>
+            <small>Service & Policy</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Default values</li>
+            <li class="active">Service & Policy</li>
         </ol>
     </section>
 
@@ -31,18 +31,18 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <!-- form start -->
-				    <?= form_open('insertSellerDefaultValues') ?>
+				    <?= form_open('updateSellerServicePolicy') ?>
 				    	<div class="box-body">
 				    		<div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Finance Available:</label>	
-                        		</div>
-                        		<div class="col-sm-5">
-                        			<select class="form-control" name="finance_available">
+                        		<div class="col-sm-1 termsMainLabel">
+									<label>Finance Available:</label>
+								</div>
+								<div class="col-sm-1 termsAvailabilitySelectBox">
+                        			<select class="form-control" name="finance_available" id="">
                         				<?php 
                         				if ($finance_available == 0)
                         				{
@@ -57,25 +57,23 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         				?>
                         				<option value="0" <?= $value0 ?> >No</option>
                         				<option value="1" <?= $value1 ?> >Yes</option>
-                        			</select>		
+                        			</select>
                         		</div>
-	                        </div>
-
-                            <div class="row form-group">
-                                <div class="col-sm-3">
-                                    <label>Finance Terms:</label>    
-                                </div>
-                                <div class="col-sm-8">
-                                    <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
+								
+                                <div class="col-sm-1 termsLabel">
+									<label>Terms:</label>
+								</div>
+								<div class="col-sm-9 termsTextArea">
+                                    <textarea class="form-control" rows="3" name="finance_terms" placeholder="Enter Finance Terms" id=""><?= $finance_terms ?></textarea>
                                 </div>
                             </div>
 
-	                        <div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Home Delievery:</label>	
-                        		</div>
-                        		<div class="col-sm-5">
-                        			<select class="form-control" name="home_delievery">
+	                        <div class="row form-group nextFormLine">
+								<div class="col-sm-1 termsMainLabel">
+									<label>Home Delievery:</label>
+								</div>
+								<div class="col-sm-1 termsAvailabilitySelectBox">
+                        			<select class="form-control" name="home_delievery" id="">
                         				<?php 
                         				if ($home_delivery_available == 0)
                         				{
@@ -90,25 +88,22 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         				?>
                         				<option value="0" <?= $value0 ?> >No</option>
                         				<option value="1" <?= $value1 ?> >Yes</option>
-                        			</select>		
+                        			</select>
                         		</div>
-	                        </div>
-
-	                        <div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Home Delievery Terms:</label>	
-                        		</div>
-                        		<div class="col-sm-8">
-                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+								<div class="col-sm-1 termsLabel">
+									<label>Terms:</label>
+								</div>
+								<div class="col-sm-9 termsTextArea">
+                        			<textarea class="form-control" rows="3" name="delievery_terms" placeholder="Enter Delivery Terms" id=""><?= $home_delivery_terms ?></textarea>
                         		</div>
                         	</div>
 
-                        	<div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Installation Available:</label>	
-                        		</div>
-                        		<div class="col-sm-5">
-                        			<select class="form-control" name="installation_available">
+                        	<div class="row form-group nextFormLine">
+								<div class="col-sm-1 termsMainLabel">
+									<label>Installation Available:</label>
+								</div>
+								<div class="col-sm-1 termsAvailabilitySelectBox">
+                        			<select class="form-control" name="installation_available" id="">
                         				<?php 
                         				if ($installation_available == 0)
                         				{
@@ -123,25 +118,22 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         				?>
                         				<option value="0" <?= $value0 ?> >No</option>
                         				<option value="1" <?= $value1 ?> >Yes</option>
-                        			</select>		
+                        			</select>
                         		</div>
-	                        </div>
-
-	                        <div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Installation Terms:</label>	
-                        		</div>
-                        		<div class="col-sm-8">
-                        			<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
+								<div class="col-sm-1 termsLabel">
+									<label>Terms:</label>
+								</div>
+								<div class="col-sm-9 termsTextArea">
+                        			<textarea class="form-control" rows="3" name="installation_terms" placeholder="Enter Installation Terms" id=""><?= $installation_terms ?></textarea>
                         		</div>
                         	</div>
 
-                        	<div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Replacement Available:</label>	
-                        		</div>
-                        		<div class="col-sm-5">
-                        			<select class="form-control" name="replacement_available">
+                        	<div class="row form-group nextFormLine">
+								<div class="col-sm-1 termsMainLabel">
+									<label>Replacement Available:</label>
+								</div>
+								<div class="col-sm-1 termsAvailabilitySelectBox">
+                        			<select class="form-control" name="replacement_available" id="">
                         				<?php 
                         				if ($replacement_available == 0)
                         				{
@@ -156,25 +148,22 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         				?>
                         				<option value="0" <?= $value0 ?> >No</option>
                         				<option value="1" <?= $value1 ?> >Yes</option>
-                        			</select>		
+                        			</select>
                         		</div>
-	                        </div>
-
-	                        <div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Replacement Terms:</label>	
-                        		</div>
-                        		<div class="col-sm-8">
-                        			<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
+								<div class="col-sm-1 termsLabel">
+									<label>Terms:</label>
+								</div>
+								<div class="col-sm-9 termsTextArea">
+                        			<textarea class="form-control" rows="3" name="replacement_terms" placeholder="Enter Replacement Terms" id=""><?= $replacement_terms ?></textarea>
                         		</div>
                         	</div>
 
-                        	<div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Return Available:</label>	
-                        		</div>
-                        		<div class="col-sm-5">
-                        			<select class="form-control" name="return_available">
+                        	<div class="row form-group nextFormLine">
+								<div class="col-sm-1 termsMainLabel">
+									<label>Return Available:</label>
+								</div>
+								<div class="col-sm-1 termsAvailabilitySelectBox">
+                        			<select class="form-control" name="return_available" id="">
                         				<?php 
                         				if ($return_available == 0)
                         				{
@@ -189,29 +178,26 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         				?>
                         				<option value="0" <?= $value0 ?> >No</option>
                         				<option value="1" <?= $value1 ?> >Yes</option>
-                        			</select>		
+                        			</select>
                         		</div>
-	                        </div>
-
-	                        <div class="row form-group">
-                        		<div class="col-sm-3">
-                        			<label>Return Terms:</label>	
-                        		</div>
-                        		<div class="col-sm-8">
-                        			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
+								<div class="col-sm-1 termsLabel">
+									<label>Terms:</label>
+								</div>
+								<div class="col-sm-9 termsTextArea">
+                        			<textarea class="form-control" rows="3" name="return_policy" placeholder="Enter Return Terms" id=""><?= $return_policy ?></textarea>
                         		</div>
                         	</div>
 
-                            <div class="row form-group">
+                            <!-- <div class="row form-group">
                                 <div class="col-sm-3">
-                                    <label>Seller Offerings:</label>    
+                                    <label>Seller Offerings:</label>
                                 </div>
                                 <div class="col-sm-8">
-                                    <textarea class="form-control" rows="1" name="seller_offering" placeholder="Please enter offering..."><?= $seller_offering ?></textarea>
+                                    <textarea class="form-control" rows="3" name="seller_offering" placeholder="Please enter offering..." id=""><?= $seller_offering ?></textarea>
                                 </div>
-                            </div>
+                            </div> -->
 
-                            <div class="box-footer" align="right">
+                            <div class="box-footer text-right">
 								<a href='<?= base_url("dashboard") ?>' class='btn btn-default'>Cancel</a>
 					            <button type="submit" class="btn btn-primary">Submit</button>
 					        </div>

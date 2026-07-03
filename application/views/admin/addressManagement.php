@@ -164,10 +164,6 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 <?php require_once('include/imageModel.php'); ?>
 
 <style type="text/css">
-.box-primary1{
-	border: 2px solid #ccc;
-}
-
 .box .box-header a{
 	color: #fff;
 	margin: 10px;

@@ -821,7 +821,7 @@ class Admin_controller extends CI_Controller
 			if (isset($data['countries']['db_error'])) 
 				redirectWithMessage('Error: '.$data['countries']['msg'], $controller);
 		}
-		else if ($pageName == "default_values") 
+		else if ($pageName == "service_policy") 
 		{
 			$data = array();
 			if (isset($_COOKIE['merchant_id'])) 
@@ -831,12 +831,26 @@ class Admin_controller extends CI_Controller
 					redirectWithMessage('Error: '.$default_values['msg'], 'dashboard');
 			}
 			
-			$pageName = 'seller_default_values';
+			$pageName = 'sellerServicePolicy';
 		}
 		else if ($pageName == "siteSettings")
 			$data['site_settings'] = $this->site_settings();
 		else if ($pageName == "claimedRequest")
 			$data['claimedRequests'] = $this->Admin_model->claimedRequest();
+		else if ($pageName == "offerings") {
+
+			//get seller offerings
+			$data['merchant'] = array('merchant_id' => $_COOKIE['merchant_id']);
+			$seller_offering = $this->Admin_model->selectRecords(array('merchant_id' => $_COOKIE['merchant_id']), 'merchant_offering', 'offering_id, offering');
+			if (isset($seller_offering['db_error'])) 
+				redirectWithMessage('Error: '.$seller_offering['msg'], $controller);
+			if ($seller_offering) 
+				$data['merchant']['seller_offering'] = $seller_offering['result'];
+			else
+				$data['merchant']['seller_offering'] = false;
+
+			$pageName = "sellerOfferings";
+		}
 
 		// echo "<pre>"; print_r($data); echo "</pre>"; die;
 		$this->load->view('admin/include/header');
@@ -4897,7 +4911,7 @@ class Admin_controller extends CI_Controller
 	// 	$this->load->view('admin/merchantSignUp', $data);
 	// }
 
-	public function insertSellerDefaultValues()
+	public function updateSellerServicePolicy()
 	{
 		$data = array();
 		$data['finance_available'] = $this->input->post('finance_available');
@@ -4922,7 +4936,7 @@ class Admin_controller extends CI_Controller
 		if (isset($isUpdated['db_error'])) 
 			redirectWithMessage('Error: '.$isUpdated['msg'], 'dashboard');
 		else
-			redirectWithMessage("Default values updated successfully.", 'dashboard');
+			redirectWithMessage("Service & Policy updated successfully.", 'page/service_policy');
 	}
 
 	public function isLoggedIn()

@@ -177,7 +177,7 @@ else
 
 				            <div class="row form-group">
 				            	<div class="col-sm-2">
-				            		<label>finance available:</label>	
+				            		<label>finance available:</label>
 				            	</div>
 				                <div class="col-sm-10">
 				                	<?= $finance_available ?>
@@ -186,7 +186,7 @@ else
 
 				            <div class="row form-group">
 				            	<div class="col-sm-2">
-				            		<label>finance terms:</label>	
+				            		<label>finance terms:</label>
 				            	</div>
 				                <div class="col-sm-10">
 				                	<?= $finance_terms ?>

@@ -21,8 +21,10 @@ if (isset($user['address']) && is_array($user['address']) && count($user['addres
 
 $shop_name = $user['establishment_name'] ? $user['establishment_name'] : set_value('shop_name');
 $shop_description = $user['description'] ? $user['description'] : set_value('description');
-$business_days = $add_bus_day ? $add_bus_day : set_value('business_days');
-$business_hours = $add_bus_hou ? $add_bus_hou : set_value('business_hours');
+$address_business_days = $add_bus_day ? $add_bus_day : set_value('business_days');
+$address_business_hours = $add_bus_hou ? $add_bus_hou : set_value('business_hours');
+$global_business_days = $user['business_days'] ? $user['business_days'] : set_value('business_days');
+$global_business_hours = $user['business_hours'] ? $user['business_hours'] : set_value('business_hours');
 $add_line1 = $add_line1 ? $add_line1 : set_value('line1');
 $add_line2 = $add_line2 ? $add_line2 : set_value('line2');
 $add_land = $add_land ? $add_land : set_value('landmark');
@@ -32,6 +34,8 @@ $add_lon = $add_lon ? $add_lon : set_value('long');
 $shop_contact = $add_con ? $add_con : set_value('contact');
 $own_name = $user['first_name'] ? $user['first_name'] : set_value('first_name');
 $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
+$is_verified = $user['is_verified'] ? $user['is_verified'] : set_value('is_verified');
+// var_dump($is_verified); die;
 ?>
 
 <body id="page-details" class="loaded">
@@ -122,19 +126,27 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             </div>
 
                             <div class="form-group">
-                                <label for=""><b>Shop Contact Number (for consumers)</b></label>
+                                <label for="">
+                                    <b>Shop Contact Number</b>
+                                    <!-- Tooltip icon -->
+                                    <i class="fa fa-info-circle text-primary"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Provide your shop contact so customers can connect instantly and never miss an opportunity."
+                                    ></i>
+                                </label>
                                 <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
                             </div>
 
                             <div class="form-group">
-                                <label for=""><b>Business Days</b></label>
-                                <input type="text" class="form-control" name="business_days" placeholder="Business days" value="<?= $business_days ?>" />
+                                <label for=""><b>Address Business Days</b></label>
+                                <input type="text" class="form-control" name="business_days" placeholder="Enter Address Business Days" value="<?= $address_business_days ?>" />
                             </div>
 
                             <div class="form-group">
-                                <label for=""><b>Business Hours</b></label>
-                                <input type="text" class="form-control" name="business_hours" placeholder="Business hours" value="<?= $business_hours ?>" />
-                            </div>  
+                                <label for=""><b>Address Business Hours</b></label>
+                                <input type="text" class="form-control" name="business_hours" placeholder="Enter Address Business Hours" value="<?= $address_business_hours ?>" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,7 +172,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                 <tr>
                                     <td>
                                         <?php if (!empty($user['business_proof'])): ?>
-                                            <a href='<?= $user['business_proof'] ?>' target='_blank'><i class='fa fa-paperclip text-secondary'></i> Click here to view uploaded Business Proof</a>
+                                            <a href='<?= $seller_images_dir.$user['business_proof'] ?>' target='_blank'><i class='fa fa-paperclip text-secondary'></i> Click here to view uploaded Business Proof</a>
                                         <?php else: ?>
                                             <b>Business Proof</b>
                                             <!-- Tooltip icon -->
@@ -198,7 +210,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
 
                                             <?php if ($user['merchant_logo']) {
                                                 echo "<td>
-                                                        <a href='".$user['merchant_logo']."' target='_blank'><i class='fa fa-paperclip text-secondary'></i></a>
+                                                        <a href='".$seller_images_dir.$user['merchant_logo']."' target='_blank'><i class='fa fa-paperclip text-secondary'></i></a>
                                                     </td>";
                                             } else {
                                                 echo '<td>
@@ -250,15 +262,40 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                                     <label for=""><b>Shop Description</b></label>
                                     <textarea class="form-control" style="min-height: auto !important;" name="description" placeholder="shop description" rows="1" id=""><?= $shop_description ?></textarea>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="">
+                                        <b>Shop Contact Number</b>
+                                        <!-- Tooltip icon -->
+                                        <i class="fa fa-info-circle text-primary"
+                                            data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="Provide your shop contact so customers can connect instantly and never miss an opportunity."
+                                        ></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for=""><b>Global Business days</b></label>
+                                    <input type="text" class="form-control" name="global_business_days" placeholder="Enter Global Business days" value="<?= $global_business_days ?>" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for=""><b>Global Business hours</b></label>
+                                    <input type="text" class="form-control" name="global_business_hours" placeholder="Enter Global Business hours" value="<?= $global_business_hours ?>" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             
                 <button type="submit" class="btn btn-primary btn-block mt-1">save & continue</button>
-                <div class="d-flex justify-content-center">
-                    <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
-                </div>
+                <?php if(!$is_verified): ?>
+                    <div class="d-flex justify-content-center">
+                        <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <input type="hidden" name="user_id" value="<?= $this->uri->segment(2) ?>" />

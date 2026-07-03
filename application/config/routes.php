@@ -184,7 +184,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['viewReview/(:num)/(:any)'] = $admin_controller.'viewReview/$1/$2';
 	$route['changeReviewStatus/(:num)/(:num)/(:any)'] = $admin_controller.'changeReviewStatus/$1/$2/$3';
 	$route['deleteReview/(:num)/(:any)'] = $admin_controller.'deleteReview/$1/$2';
-	$route['insertSellerDefaultValues'] = $admin_controller.'insertSellerDefaultValues';
+	$route['updateSellerServicePolicy'] = $admin_controller.'updateSellerServicePolicy';
 	$route['addSellerOffering'] = $admin_controller.'addSellerOffering';
 	$route['updateSiteSetting'] = $admin_controller.'updateSiteSetting';
 	$route['viewRequest/(:num)'] = $admin_controller.'viewRequest/$1';
