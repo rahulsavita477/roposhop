@@ -35,7 +35,10 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <!-- form start -->
-				    <?= form_open('updateSellerServicePolicy') ?>
+					<?php
+					$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+					echo form_open('updateSellerServicePolicy', $formAttributes);
+					?>
 				    	<div class="box-body">
 				    		<div class="row form-group">
                         		<div class="col-sm-1 termsMainLabel">

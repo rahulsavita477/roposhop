@@ -24,7 +24,7 @@ else if (isset($page_label) && $page_label == "view")
 else
 {
     $page_label = "add";
-    $page_title = 'Add address';
+    $page_title = 'Add Address';
 }
 ?>
 
@@ -33,8 +33,8 @@ else
     <!-- bread crumb -->
     <section class="content-header">
         <h1>
-            Seller address
-            <small><?= $page_label ?></small>
+            Seller Address
+            <small><?= ucfirst($page_label) ?></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>

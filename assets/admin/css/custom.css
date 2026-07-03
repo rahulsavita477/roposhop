@@ -29,6 +29,10 @@
     border: 1px solid rgb(204, 204, 204);
 } */
 
+.box .box-footer {
+    border-top: none;
+}
+
 .editTable tbody {
     display: block;
     max-height: 200px;

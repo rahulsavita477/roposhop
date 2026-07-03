@@ -200,7 +200,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 							<div class="box-body">
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Establishment (Shop) Name:</label>	
+					            		<label>Establishment (Shop) Name:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $comp_name ?>
@@ -208,7 +208,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 								</div>
 								<div class="row form-group">
 									<div class="col-sm-2">
-					            		<label>Business Days:</label>	
+					            		<label>Business Days:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $business_days ?>
@@ -216,7 +216,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 								</div>
 								<div class="row form-group">
 									<div class="col-sm-2">
-					            		<label>Business Hours:</label>	
+					            		<label>Business Hours:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $business_hours ?>
@@ -224,28 +224,27 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 								</div>
 								<div class="row form-group">
 									<div class="col-sm-2">
-					            		<label>Description:</label>	
+					            		<label>Description:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $description ?>
 					                </div>
 					            </div>
 								
-						        <?php 
-		                        if (!empty($seller_images)) 
-		                        {
-		                        	foreach ($seller_images as $img_key => $img_value) 
-		                        		echo '<div class="thumbnail">
-		                        				<figure>
-													<img src="'.$seller_images_dir.'/'.$img_value['atch_url'].'" class="img-rounded" width="150" height="100">
-											    </figure>
-											</div>';
-		                        }
-		                        ?>
+						        <?php if (!empty($seller_images)) {
+
+		                        	foreach ($seller_images as $img_key => $img_value) {
+										echo '<div class="thumbnail">
+											<figure>
+												<img src="'.$seller_images_dir.'/'.$img_value['atch_url'].'" class="img-rounded" width="150" height="100">
+											</figure>
+										</div>';
+									}
+		                        } ?>
 
 					            <div class="row form-group" style="clear: both;">
 					            	<div class="col-sm-2">
-					            		<label>Finance available:</label>	
+					            		<label>Finance available:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $finance_available ?>
@@ -254,7 +253,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Finance terms:</label>	
+					            		<label>Finance terms:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $finance_terms ?>
@@ -263,7 +262,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Home delivery available:</label>	
+					            		<label>Home delivery available:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $home_delivery_available ?>
@@ -272,7 +271,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Home delivery terms:</label>	
+					            		<label>Home delivery terms:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $home_delivery_terms ?>
@@ -281,7 +280,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Installation available:</label>	
+					            		<label>Installation available:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $installation_available ?>
@@ -290,7 +289,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Installation terms:</label>	
+					            		<label>Installation terms:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $installation_terms ?>
@@ -299,7 +298,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Replacement available:</label>	
+					            		<label>Replacement available:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $replacement_available ?>
@@ -308,7 +307,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Replacement terms:</label>	
+					            		<label>Replacement terms:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $replacement_terms ?>
@@ -317,7 +316,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Return available:</label>	
+					            		<label>Return available:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $return_available ?>
@@ -326,7 +325,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Return policy:</label>	
+					            		<label>Return policy:</label>
 					            	</div>
 					                <div class="col-sm-10">
 					                	<?= $return_policy ?>
@@ -335,36 +334,30 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 					            <div class="row form-group">
 					            	<div class="col-sm-2">
-					            		<label>Seller offerings:</label>	
+					            		<label>Seller offerings:</label>
 					            	</div>
 					                <div class="col-sm-10">
-					                	<?php
-					                	if ($merchant['seller_offering']) 
-					                	{
+					                	<?php if ($merchant['seller_offering']) {
+
 					                		echo "<ul>";
-					                			foreach ($merchant['seller_offering'] as $offering) 
-					                				echo "<li>".$offering['offering']."</li>";
+					                			foreach ($merchant['seller_offering'] as $offering) {
+													echo "<li>".$offering['offering']."</li>";
+												}
 					                		echo "</ul>";
-					                	}
-					                	?>
+					                	} ?>
 					                </div>
 					            </div>
 					        </div>
-					<?php } 
-					} else { ?>                        
+					<?php }
+					} else { ?>
 					    <!-- form start -->
 					    <?= form_open_multipart('addUser'); ?>
 					    	<input type="hidden" name="usr_id" value="<?= $usr_id; ?>">
 					        <div class="box-body">
 					        	<div class="row">
 					            	<div class="col-sm-3">
-					            		<?php
-					            		if ($_COOKIE['site_code'] == 'seller')
-					            			echo "<label>Owner's Full Name * </label>";
-					            		else
-					            			echo "<label>Full Name * </label>";
-					            		?>
-						                <input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" required>
+					            		<label>Full Name * </label>
+						                <input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" id="" required />
 						            </div>
 
 					            	<div class="col-sm-3">
@@ -372,23 +365,23 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 						        		<?php if ($usr_id) { ?>
 						                	<input type="text" class="form-control" value="<?= $email ?>" disabled>
 						                <?php } else { ?>
-						                	<input type="email" name="email" class="form-control" placeholder="Enter email address" required>
+						                	<input type="email" name="email" class="form-control" placeholder="Enter email address" id="" required />
 						                <?php } ?>
 						            </div>
 
 									<?php if ($_COOKIE['site_code'] == 'admin') { ?>
 										<div class="col-sm-2">
 											<label>Password * </label>
-											<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" required>
+											<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
 										</div>
 									<?php } ?>
 
 									<div class="col-sm-3">
-					            		<label>Profile picture:</label>
+					            		<label>Profile picture</label>
 					            		<input type="file" name="file7" id="file7" />
-										<?php if ($profile_pic)
+										<?php if ($profile_pic) {
 											echo '<img src="'.$profile_pic.'" width="100px">';
-										?>
+										} ?>
 					            	</div>
 					            </div>
 
@@ -427,13 +420,6 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 						            </div>
 						        <?php } ?>
 					        </div><!-- /.box-body -->
-					        
-					        <?php if ( $_COOKIE['site_code'] == 'seller' ) { ?>
-					        	<input type="hidden" name="merchant_id" value="<?= $merchant_id; ?>">
-						        <input type="hidden" name="usr_id" value="<?= $usr_id ?>">
-
-					        	
-					        <?php } ?>
 
 					        <div class="box-footer"  align="right">
 					        	<?php if ($_COOKIE['site_code'] == "admin") { ?>

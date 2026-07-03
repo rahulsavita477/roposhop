@@ -21,18 +21,22 @@
 				<div class="box box-primary">
                     <div class="box-body">
                         <!-- form start -->
-                        <?= form_open('updateSellerServicePolicy') ?>                        
-                            <button type="button" class="btn btn-warning pull-right" onclick="createSellerOfferingField()">
-                                <i class="fa fa-plus"></i> Add seller offering
+                        <?php
+                        $formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+                        echo form_open('addSellerOffering', $formAttributes);
+                        ?>
+
+                            <input type="hidden" name="merchant_id" value="<?= $merchant['merchant_id'] ?>">
+
+                            <button type="button" class="btn btn-primary pull-right" onclick="createSellerOfferingField()">
+                                <i class="fa fa-plus"></i>
                             </button>
                             <div class="row form-group">
-                                <div class="col-sm-8" id="seller_offering_input_field_div">
-
-                                </div>
+                                <div class="col-sm-11" id="seller_offering_input_field_div"></div>
                             </div>
 
-                            <div class="box-footer text-right" style="display: none;" id="sellerOfferingsFormButtons">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="box-footer" style="display: none;" id="sellerOfferingsFormButtons">
+                                <button type="submit" class="btn btn-primary">Bulk Submit</button>
                             </div>
                         <?= form_close() ?>
                     </div><!-- /.box-body -->
@@ -81,8 +85,10 @@
                 <button class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit Seller Offering</h4>
             </div>
-
-            <?= form_open('addSellerOffering') ?>
+            <?php
+            $formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+            echo form_open('addSellerOffering', $formAttributes);
+            ?>
                 <div class="modal-body">
                     <input type='hidden' name='offering_id' id='offering_id'>
                     <input type='hidden' name='merchant_id' id='merchant_id'>
@@ -117,13 +123,9 @@ var count1 = 1;
 function createSellerOfferingField() {
     
     $('#seller_offering_input_field_div').append(
-        '<div class="row" style="margin-top:10px;" id="con1'+count1+'">'+
-            '<div class="col-sm-10">'+
-                '<input type="text" class="form-control" name="seller_offering_values[]" placeholder="Enter Seller Offering" required/>' + 
-            '</div>'+
-            '<div class="col-sm-2">'+
-                '<button type="button" class="btn btn-danger" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')">Remove</button>'+
-            '</div>'+
+        '<div style="display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px; width:100%;" id="con1'+count1+'">'+
+            '<a href="javascript:void(0);" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')"><i class="fa fa-times"></i></a>'+
+            '<input type="text" class="form-control" name="seller_offerings[]" placeholder="Enter Seller Offering" required />' + 
         '</div>'
     );
 

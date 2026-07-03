@@ -1300,7 +1300,7 @@ class Admin_controller extends CI_Controller
 			$controller = 'page/userManagement';
 		} else {
 			$controller = 'editUser/'.$usr_id.'?view';
-		}		
+		}
 
 		//set null for blank fields
 		setNULLToBlank($data);
@@ -1464,7 +1464,7 @@ class Admin_controller extends CI_Controller
 							redirectWithMessage('Error: could not found user as '.$ins_role, $controller);	
 					}
 				}
-			}			
+			}
 		}
 
 		if ($_COOKIE['user_id'] == $usr_id) 
@@ -1478,8 +1478,7 @@ class Admin_controller extends CI_Controller
 			setcookie('image', $usr_details[0]['profile_image'], null, "/");
 	    }
 	    
-	    if ($_COOKIE['site_code'] == 'seller') 
-	    	$this->addSeller();
+	    // if ($_COOKIE['site_code'] == 'seller') $this->addSeller();
 
 	    $this->updateTableDate('user', array('userId' => $usr_id));
 	    redirectWithMessage($msg, $controller);
@@ -4232,7 +4231,8 @@ class Admin_controller extends CI_Controller
 		$offering_id = $this->input->post('offering_id');
 		$merchant_id = $this->input->post('merchant_id');
 		$offering = $this->input->post('offering');
-
+		$offerings = $this->input->post('seller_offerings'); // array of seller offering values
+		
 		if ($offering_id && $merchant_id && $offering) 
 		{
 			$condition = array('offering_id' => $offering_id);
@@ -4241,13 +4241,28 @@ class Admin_controller extends CI_Controller
 			$msg = 'Offering updated successfully!';
 			$controller = 'seller/'.$merchant_id.'/edit';
 		}
-		else
+		elseif($merchant_id && $offerings)
 		{
+			$seller_offering_data = array();
+			$seller_offering_data['merchant_id'] = $merchant_id;
+
+			foreach ($offerings as $offering)
+			{
+				$seller_offering_data['offering'] = $offering;
+				$seller_offering_id = $this->Admin_model->insertData('merchant_offering', $seller_offering_data);
+
+				if (isset($seller_offering_id['db_error'])) 
+					redirectWithMessage('Error: '.$seller_offering_id['msg'], $controller);
+				else if (!$seller_offering_id)
+					redirectWithMessage('Error: Unable to insert seller offering!', $controller);
+			}
+
 			$msg = 'Error: offering id, merchant id not found!';
 			$controller = 'sellers/sellersTable';
 		}
 
-		redirectWithMessage($msg, $controller);
+		redirect($_SERVER['HTTP_REFERER']);
+		// redirectWithMessage($msg, $controller);
 	}
 
 	//add/update user or merchant address
