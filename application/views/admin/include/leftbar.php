@@ -114,21 +114,21 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- category -->
                     <li class="<?= $category_page ?>">
                         <a href="<?= base_url('category') ?>">
-                            <i class="fa fa-list"></i> <span>Category</span>
+                            <i class="fa fa-sitemap"></i> <span>Category</span>
                         </a>
                     </li>
 
                     <!-- attributes -->
                     <li class="<?= $attributes_page ?>">
                         <a href="<?= base_url('page/attributes') ?>">
-                            <i class="fa fa-tags"></i> <span>Attributes</span>
+                            <i class="fa fa-list-ul"></i> <span>Attributes</span>
                         </a>
                     </li>
 
                     <!-- brand -->
                     <li class="<?= $brand_page ?>">
                         <a href="<?= base_url('brand') ?>">
-                            <i class="fa fa-briefcase"></i> <span>Brand</span>
+                            <i class="fa fa-bookmark"></i> <span>Brand</span>
                         </a>
                     </li>
 
@@ -148,20 +148,20 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- seller -->
                     <li class="treeview <?= $seller_page ?>" id="treeview1" onclick="openTreeView('#treeview1');">
                         <a href="#">
-                            <i class="fa fa-user"></i>
+                            <i class="fa fa-users"></i>
                             <span>Seller</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?= $seller_management ?>">
                                 <a href="<?= base_url('sellers/sellersTable') ?>">
-                                    <i class="fa fa-users"></i>
+                                    <i class="fa fa-briefcase"></i>
                                     Seller Management
                                 </a>
                             </li>
                             <li class="<?= $product_seller_linking ?>">
                                 <a href="<?= base_url('getAllProducts/0') ?>">
-                                    <i class="fa fa-th-list"></i> 
+                                    <i class="fa fa-list-alt"></i> 
                                     Product Listing
                                 </a>
                             </li>
@@ -171,7 +171,7 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- place -->
                     <li class="treeview <?= $place_management ?>" id="treeview2" onclick="openTreeView('#treeview2');">
                         <a href="#">
-                            <i class="fa fa-map-marker"></i>
+                            <i class="fa fa-globe"></i>
                             <span>Place Management</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
@@ -209,14 +209,14 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- user management -->
                     <li class="<?= $userManagement ?>">
                         <a href="<?= base_url('page/userManagement') ?>">
-                            <i class="fa fa-user-md"></i> <span>User Management</span>
+                            <i class="fa fa-user-plus"></i> <span>User Management</span>
                         </a>
                     </li>
 
                     <!-- claimed request management -->
                     <li class="<?= $claimed_request ?>">
                         <a href="<?= base_url('page/claimedRequest') ?>">
-                            <i class="fa fa-check"></i>
+                            <i class="fa fa-check-square-o"></i>
                             Claimed Request
                         </a>
                     </li>
@@ -238,7 +238,7 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- review -->
                     <li class="treeview <?= $review ?>" id="treeview3" onclick="openTreeView('#treeview3');">
                         <a href="#">
-                            <i class="fa fa-comments"></i>
+                            <i class="fa fa-comments-o"></i>
                             <span>Review</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
@@ -398,7 +398,7 @@ if (isset($_COOKIE['shop_logo']))
 
                     <li class="<?= $sellerProfileScreen ?>">
                         <a href="<?= base_url('merchantSignupStep2/'.$_COOKIE['user_id'].'/'.$_COOKIE['merchant_id']) ?>" target="_blank">
-                            <i class="fa fa-user" style="color:#3f51b5"></i> Seller Profile
+                            <i class="fa fa-user"></i> Seller Profile
                         </a>
                     </li>
                 </ul>

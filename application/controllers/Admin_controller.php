@@ -699,6 +699,8 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$rating_info['msg'], $controller);
 
 			$data['rating_info'] = $rating_info['result'][0];
+
+			// echo "<pre>"; print_r($data); echo "</pre>"; die;
 		}
 		else if ($pageName == "requestProduct") 
 		{
