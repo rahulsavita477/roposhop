@@ -954,6 +954,16 @@ else
 		                        		</div>
 		                        	</div>
 							    	<div class="row form-group">
+										<?php 
+										echo "Adasda";
+										// echo $product_name;
+										echo $product_error;
+										if (!empty($product_error)): ?>
+											<div class="alert alert-danger">
+												<?= $product_error ?>
+											</div>
+										<?php endif; ?>
+
 		                        		<div class="col-sm-3">
 		                        			<label>Product Name*:</label>	
 		                        		</div>

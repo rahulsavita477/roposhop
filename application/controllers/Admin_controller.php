@@ -15,9 +15,6 @@ class Admin_controller extends CI_Controller
 		//clean all garbage objects
 		ob_start();
 
-		//session start from here
-		session_start();
-
 		//get seller data
 		$this->sellers = $this->Admin_model->sellers();
 		if (isset($this->sellers['db_error'])) 
@@ -2765,7 +2762,6 @@ class Admin_controller extends CI_Controller
 			$page = 'admin/addProduct';
 		}
 
-		// echo "<pre>"; print_r($data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view($page, $data);	
@@ -3435,7 +3431,8 @@ class Admin_controller extends CI_Controller
 			else //insert new product
 			{
 				$where = array('product_name' => $data['product_name']);
-				$prd_res = $this->Admin_model->selectRecords($where, 'product', 'product_id');	
+				$prd_res = $this->Admin_model->selectRecords($where, 'product', 'product_id');
+				
 				if ($prd_res)
 					redirectWithMessage('Error: Please enter new product name!', $controller);
 
@@ -3735,6 +3732,12 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$products['msg'], $controller);			
 			$prd_res['products'] = json_encode($products['result']);
 
+			
+			$this->session->set_flashdata('product_error', 'Product name already exists.');
+			$this->session->set_flashdata('product_name', 'Product name already exists.');
+			$prd_res['product_error'] = $this->session->flashdata('product_error');
+			$prd_res['product_name'] = $this->session->flashdata('product_name');
+			
 			// echo "<pre>"; print_r($prd_res); die;
 			$this->load->view('admin/include/header');
 			$this->load->view('admin/include/leftbar');
