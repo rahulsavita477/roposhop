@@ -492,31 +492,29 @@ if (isset($page_label) && $page_label == "edit") {
 		                        			<label>Category *</label>
 											
 		                        			<?php
-		                        			if ($page_label == 'add') {
-
-		                        				$product_id = 0;
-		                        				$page_label = "'add'";
-		                        			
+											if ($page_label == 'add') {
+												$product_id = 0;
+												$page_label = "'add'";
 											} else {
 												$page_label = "'edit'";
 											}
 
-											echo '<select class="form-control" name="parent_cat_id" onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
+											echo '<select class="form-control" name="parent_cat_id" 
+													onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
 
-									    		if ($status) {
+											if ($status) {
+												echo "<option value=''>Select Category</option>";
 
-									    			echo "<option value=''>Select Category</option>";
+												foreach ($categories as $cat_key => $cat_value) {
+													echo "<option value='".$cat_value['category_id']."' 
+														".set_select('parent_cat_id', $cat_value['category_id'], ($cat_value['category_name'] == $category_name)).">
+														".$cat_value['category_name']."</option>";
+												}
+											}
 
-									    			foreach ($categories as $cat_key => $cat_value) 
-									    			{
-									 					$selected = $cat_value['category_name'] == $category_name ? 'selected' : '';
+											echo "</select>";
+										?>
 
-									    				echo "<option value='".$cat_value['category_id']."' ".$selected.">".$cat_value['category_name']."</option>";
-									    			}
-									    		}
-								    		
-								    		echo "</select>";
-								    		?>
 		                        		</div>
 
 										<div class="col-sm-3">
@@ -542,6 +540,14 @@ if (isset($page_label) && $page_label == "edit") {
 		                        		</div>
 
 										<div class="col-sm-3">
+											<?php if ($this->session->flashdata('error')): ?>
+												<span style="color: #a94442;">
+													<?php
+													echo $this->session->flashdata('error');
+													$this->session->unset_userdata('error');
+													?>
+												</span>
+											<?php endif; ?>
 		                        			Product Name
 											<!-- Tooltip icon -->
 											<i class="fa fa-info-circle text-primary"
@@ -929,6 +935,15 @@ if (isset($page_label) && $page_label == "edit") {
 										</div>
 										
 										<div class="col-sm-3">
+											<?php if ($this->session->flashdata('error')): ?>
+												<span style="color: #a94442;">
+													<?php
+													echo $this->session->flashdata('error');
+													$this->session->unset_userdata('error');
+													?>
+												</span>
+											<?php endif; ?>
+
 		                        			<label>
 												Product Name
 												<!-- Tooltip icon -->

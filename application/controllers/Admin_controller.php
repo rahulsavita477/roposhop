@@ -16,7 +16,7 @@ class Admin_controller extends CI_Controller
 		ob_start();
 
 		//session start from here
-		session_start();
+		// session_start();
 
 		//get seller data
 		$this->sellers = $this->Admin_model->sellers();
@@ -3600,9 +3600,19 @@ class Admin_controller extends CI_Controller
 			
 			} else { //insert new/duplicate product
 			
+				// duplicate product name check should be move before if as need to check while updating product as well 
 				$where = array('product_name' => $data['product_name']);
 				$prd_res = $this->Admin_model->selectRecords($where, 'product', 'product_id');	
-				if ($prd_res) redirectWithMessage('Error: Duplicate product name not allowed', $controller);
+				
+				if ($prd_res) {
+				
+					$this->session->set_flashdata('error', 'Error: Duplicate product name not allowed.');
+					// $prd_res['error'] = $this->session->flashdata('error');
+					$this->addProduct();
+					die;
+					// redirect($_SERVER['HTTP_REFERER']);
+					// redirectWithMessage('Error: Duplicate product name not allowed', $controller);
+				}
 
 				$data['create_date'] = $this->current_date;
 
