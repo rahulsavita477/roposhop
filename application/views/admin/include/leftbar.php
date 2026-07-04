@@ -209,7 +209,7 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- user management -->
                     <li class="<?= $userManagement ?>">
                         <a href="<?= base_url('page/userManagement') ?>">
-                            <i class="fa fa-user-plus"></i> <span>User Management</span>
+                            <i class="fa fa-user"></i> <span>User Management</span>
                         </a>
                     </li>
 
