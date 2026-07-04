@@ -3539,6 +3539,34 @@ class Admin_controller extends CI_Controller
 		redirectWithMessage($msg, 'brand');
 	}
 
+	public function unique_product_name($product_name, $product_id=null) {
+
+		$this->db->where('product_name', $product_name);
+		$this->db->where('product_id !=', $product_id); // ignore current product
+		$query = $this->db->get('product');
+
+		if ($query->num_rows() > 0) {
+
+			$this->ci->form_validation->set_message(
+				'unique_product_name',
+				'This Product name already exists, use a different one.'
+			);
+
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	public function redirectBackToErrorPage() {
+						
+		$path = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH);
+		$segments = explode('/', trim($path, '/'));
+		$method = $segments[0]; // "editProduct"
+		$params = array_slice($segments, 1); // ["15", "duplicate"]
+		call_user_func_array([$this, $method], $params);
+	}
+
 	//add category method
 	public function insertProduct()
 	{
@@ -3546,6 +3574,7 @@ class Admin_controller extends CI_Controller
 		
 		$data = array();
 		$images = array();
+		$error = array ();
 
 		$data['category_id'] = $this->input->post('parent_cat_id');
 		$data['brand_id'] = $this->input->post('brand_id');
@@ -3586,9 +3615,16 @@ class Admin_controller extends CI_Controller
 		//set null for blank fields
 		setNULLToBlank($data);
 
-		if (count(array_filter($data)) >= 5) 
-		{
-			if ($prd_id && !$old_prd_id) { // update existing product if not a duplicate product 
+		if (count(array_filter($data)) >= 5) {
+			
+			if ($this->unique_product_name($data['product_name'], $prd_id && !$old_prd_id ? $prd_id : null) == FALSE) {
+
+				$this->session->set_flashdata('productNameError', 'Duplicate product name not allowed.');
+				$this->redirectBackToErrorPage();
+				die;
+			}
+			
+			if ($prd_id && !$old_prd_id) { // update existing product if not a duplicate/replicate product 
 			
 				$condition = array('product_id' => $prd_id);
 				$isUpdated = $this->Admin_model->updateData('product', $data, $condition);
@@ -3599,20 +3635,6 @@ class Admin_controller extends CI_Controller
 				$msg = 'Product succesfully updated!';
 			
 			} else { //insert new/duplicate product
-			
-				// duplicate product name check should be move before if as need to check while updating product as well 
-				$where = array('product_name' => $data['product_name']);
-				$prd_res = $this->Admin_model->selectRecords($where, 'product', 'product_id');	
-				
-				if ($prd_res) {
-				
-					$this->session->set_flashdata('error', 'Error: Duplicate product name not allowed.');
-					// $prd_res['error'] = $this->session->flashdata('error');
-					$this->addProduct();
-					die;
-					// redirect($_SERVER['HTTP_REFERER']);
-					// redirectWithMessage('Error: Duplicate product name not allowed', $controller);
-				}
 
 				$data['create_date'] = $this->current_date;
 
@@ -3622,8 +3644,8 @@ class Admin_controller extends CI_Controller
 				else $msg = 'Product created successfully';
 			}
 
-			if ($prd_id) 
-			{
+			if ($prd_id) {
+
 				//atatchment data
 				$img_data['link_id'] = $prd_id;
 				$img_data['atch_type'] = "IMAGE";
@@ -3637,8 +3659,7 @@ class Admin_controller extends CI_Controller
 					$files = $this->common_controller->cloneData($from_folder, $prd_folder, $copiedImages);
 
 					// insert images into the database
-					if (!$files) die('Error: Unable to copy images');
-					else {
+					if ($files) {
 
 						foreach ($files as $file) {
 
@@ -3649,12 +3670,16 @@ class Admin_controller extends CI_Controller
 							if (isset($isInserted['db_error'])) 
 								redirectWithMessage('Error: '.$isInserted['msg'], $controller);
 						}
+					} else {
+						array_push($error, 'Unable to copy images.');
 					}
 				} 
 				
 				//insert product images
 				$isUploaded = $this->upload_image($prd_folder, $img_data);
-				if (isset($isUploaded['db_error'])) redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
+				if (isset($isUploaded['db_error'])) {
+					array_push($error, 'Image upload failed.');
+				}
 
 				// insert or update product attribute values
 				// insert product category attribute
@@ -3679,17 +3704,18 @@ class Admin_controller extends CI_Controller
 						$att_values_data['prd_id'] = $prd_id;
 						$att_values_data['att_value'] = $att_field_value ? $att_field_value : '';	
 						
-						if (isset($prd_att_res['db_error'])) 
-							redirectWithMessage('Error: '.$prd_att_res['msg'], $controller);
-						else if ($prd_att_res) //update attribute value
-						{
+						if (isset($prd_att_res['db_error'])) {
+							array_push($error, 'Attributes: Fetch Operations Failed.');
+						} else if ($prd_att_res) { //update attribute value
+						
 							$condition = array('value_id' => $prd_att_res['result'][0]['value_id']);
 							$isUpdated = $this->Admin_model->updateData($tbl_name, $att_values_data, $condition);
-							if (isset($isUpdated['db_error'])) 
-								redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-						}
-						else //insert attribute value
+							if (isset($isUpdated['db_error'])) {
+								array_push($error, 'Attributes: Update Operations Failed.');
+							}							
+						} else { //insert attribute value
 							$this->Admin_model->insertData($tbl_name, $att_values_data);
+						} 
 					}
 				}
 
@@ -3702,8 +3728,9 @@ class Admin_controller extends CI_Controller
 
 				//delete all old tags of product
 				$isDeleted = $this->Admin_model->deleteRecord('product_tags', array('prd_id' => $prd_id));
-				if (isset($isDeleted['db_error'])) 
-					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				if (isset($isDeleted['db_error'])) {
+					array_push($error, 'Tags: Delete Operations Failed.');
+				}
 
 				//insert product tags
 				if ($prd_tags) 
@@ -3712,8 +3739,9 @@ class Admin_controller extends CI_Controller
 					{
 						$isInserted = $this->Admin_model->insertData('product_tags', array('prd_id' => $prd_id, 'tag_id' => $prd_tag_value));
 
-						if (isset($isInserted['db_error'])) 
-							redirectWithMessage('Error: '.$isInserted['msg'], $controller);
+						if (isset($isInserted['db_error'])) {
+							array_push($error, 'Tags: Insert Operations Failed.');
+						}
 					}
 				}
 
@@ -3730,18 +3758,17 @@ class Admin_controller extends CI_Controller
 							$key_feature_data['feature'] = $key_feature_value;
 							$key_feature_id = $this->Admin_model->insertData('product_key_features', $key_feature_data);
 
-							if (isset($key_feature_id['db_error'])) 
-								redirectWithMessage('Error: '.$key_feature_id['msg'], $controller);
-							else if (!$key_feature_id)
-								redirectWithMessage('Error: Unable to insert product feature!', $controller);
+							if (isset($key_feature_id['db_error']) || !$key_feature_id) {
+								array_push($error, 'Feature: Insert Operations Failed.');
+							}
 						}
 					}
 				}
 
 				$isAddedHTMLFile = $this->addHTMLFiles($prd_id, 'PRODUCT');
-
-				if (!$isAddedHTMLFile) 
-					$msg = 'Error: unable to perform action for HTML Files!';
+				if (!$isAddedHTMLFile) {
+					array_push($error, 'HTML Files: Operations Failed.');
+				}
 
 				//check this step
 				if ($request_id) 
@@ -3773,25 +3800,35 @@ class Admin_controller extends CI_Controller
 					setNULLToBlank($listing_data);
 					
 					$isUpdated = $this->Admin_model->updateData('product_listing', $listing_data, array('listing_id' => $list_id));
-					if (isset($isUpdated['db_error'])) 
-						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+					if (isset($isUpdated['db_error'])) {
+						array_push($error, 'Product Listing: Unable to update.');
+					}
 
 					//update linked status of requested product
 					$isUpdated = $this->Admin_model->updateData('requested_product', array('isLinked' => 1), array('request_id' => $request_id));
-					if (isset($isUpdated['db_error'])) 
-						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+					if (isset($isUpdated['db_error'])) {
+						array_push($error, 'Requested Product: Unable to update link status.');
+					}
 				}
-			}
-			else
-			{
+
+				// if any error occure, redirect user to edit product screen with saved data
+				if(count($error) > 0) {
+
+					$this->session->set_flashdata('errors', $error);
+					redirect('/editProduct/'.$prd_id.'/edit');
+					die;
+				}
+			} else {
+			
 				$msg = 'Error: Unable to insert!';
 				$controller = 'addProduct';
 			}
 
 			redirectWithMessage($msg, $controller);
-		}
-		else
+		
+		} else {
 			redirectWithMessage('Error: All fields are required!', 'addProduct');
+		}
 	}
 
 	public function attatchments($link_id, $atch_for)

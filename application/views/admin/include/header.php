@@ -61,6 +61,15 @@ else
             </p>
         </div>
 
+        <?php if ($this->session->flashdata('productNameError')): ?>
+            <!-- <div class="custom-toast-error alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-left: 10px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                Please correct the highlighted errors before submitting.
+            </div> -->
+        <?php endif; ?>
+
         <!-- header logo: style can be found in header.less -->
         <header class="header">
             <a href="<?= base_url('dashboard') ?>" class="logo">RopoShop</a>

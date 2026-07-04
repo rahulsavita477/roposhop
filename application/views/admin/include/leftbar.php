@@ -22,7 +22,7 @@ if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array(
 }
 else if (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url))
     $brand_page = "active";
-else if (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']))
+else if (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']) || in_array("insertProduct", $url) )
     $products_page = "active";
 else if (in_array("countryManagement", $url) || in_array("stateManagement", $url) || in_array("editCountry", $url) || in_array("addCountry", $url) || (isset($_GET['getStateList']) && $parse_url['path'] != '/stateExcel') || isset($_GET['addNewState']) || in_array('cityManagement', $url) || (isset($_GET['getCityList']) && $parse_url['path'] != '/cityExcel') || isset($_GET['addNewCity']) || in_array("areaManagement", $url) || ((isset($_GET['getAreaList'])) && $parse_url['path'] != '/areaExcel') || isset($_GET['addNewArea'])) 
 {

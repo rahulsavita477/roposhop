@@ -383,3 +383,26 @@ label {
 .box-primary1{
 	border: 2px solid #ccc;
 }
+
+/* .custom-toast-error {
+    position: fixed;
+    top: 20px;            
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    min-width: 300px;
+    text-align: center;
+    margin: 0px;
+    padding: 15px;
+} */
+
+.pageErrorDiv .alert-warning {
+    padding: 10px;
+    margin: 0px 0px 5px 0px;
+}
+
+.pageErrorDiv .alert-warning ul {
+    padding-left: 20px;
+}

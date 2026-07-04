@@ -63,6 +63,22 @@ if (isset($page_label) && $page_label == "edit") {
 	<!-- Main content -->
     <section class="content">
         <div class="row">
+			<?php if ($this->session->flashdata('errors')): ?>
+				<div class="col-md-12 pageErrorDiv">
+					<div class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h5><i class="fa fa-exclamation-triangle"></i> <strong>Your product has been saved, but please attention to the following details</strong></h5>
+						<ul style="padding-left: 20px;">
+							<?php foreach ($this->session->flashdata('errors') as $error) {
+								echo "<li>".$error."</li>";
+							}
+							$this->session->unset_userdata('errors');
+							?>
+						</ul>
+					</div>
+				</div>
+			<?php endif; ?>
+
             <?php if (isset($_GET['req_prd_id']))
             	echo '<div class="col-md-7">';
             else
@@ -127,25 +143,24 @@ if (isset($page_label) && $page_label == "edit") {
 						    		<!-- select category -->
 			                        <div class="row form-group">
 		                        		<div class="col-sm-2">
-		                        			<label>Category:</label>	
+		                        			<label>Category:</label>
 		                        		</div>
 		                        		<div class="col-sm-10">
-		                        			<?php
-											if ($status) 
-								    		{
-								    			foreach ($categories as $cat_value) 
-								    			{
-								 					if ($cat_value['category_name'] == $category_name) 
-								    				{
+		                        			<?php if ($status) {
+
+								    			foreach ($categories as $cat_value) {
+
+								 					if ($cat_value['category_name'] == $category_name) {
+														
 														echo $cat_value['category_name'];
 														echo "<input type='hidden' value='".$cat_value['category_id']."' id='par_cat_id'>";
 														break;
 								    				}
 								    			}
 								    		}
-								    		else
-								    			echo "-";
-								    		?>			
+								    		else {
+												echo "-";
+											} ?>
 		                        		</div>
 			                        </div>
 
@@ -478,7 +493,12 @@ if (isset($page_label) && $page_label == "edit") {
 
 						    <!-- form start -->
 						    <?php 
-						    echo form_open_multipart('insertProduct');
+							if ($page_label == 'edit') {
+								$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+							} else {
+								$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+							}
+						    echo form_open_multipart('insertProduct', $formAttributes);
 
 						    if (isset($_GET['req_prd_id'])) {
 						    	echo "<input type='hidden' value='".$_GET['req_prd_id']."' name='req_prd_id' />";
@@ -520,34 +540,24 @@ if (isset($page_label) && $page_label == "edit") {
 										<div class="col-sm-3">
 		                        			<label>Brand *</label>
 		                        			<?php
-								    		echo '<select class="form-control" name="brand_id" required>';
-								    		if ($status) 
-								    		{
-								    			echo "<option value=''>Select Brand</option>";
+											echo '<select class="form-control" name="brand_id" required>';
+											if ($status) {
+												echo "<option value=''>Select Brand</option>";
 
-								    			foreach ($brands as $brand_key => $brands_value) 
-								    			{
-								    				$selected = $brands_value['name'] == $brand_name ? 'selected' : '';
-
-								    				echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
-								    			}
-								    		}
-								    		else
-								    			echo "<option>No brand available!</option>";
-								    		
-								    		echo "</select>";
-								    		?>
+												foreach ($brands as $brand_key => $brands_value) {
+													echo "<option value='".$brands_value['brand_id']."' 
+														".set_select('brand_id', $brands_value['brand_id'], 
+																		($brands_value['name'] == $brand_name)).">
+														".$brands_value['name']."</option>";
+												}
+											} else {
+												echo "<option>No brand available!</option>";
+											}
+											echo "</select>";
+											?>
 		                        		</div>
 
 										<div class="col-sm-3">
-											<?php if ($this->session->flashdata('error')): ?>
-												<span style="color: #a94442;">
-													<?php
-													echo $this->session->flashdata('error');
-													$this->session->unset_userdata('error');
-													?>
-												</span>
-											<?php endif; ?>
 		                        			Product Name
 											<!-- Tooltip icon -->
 											<i class="fa fa-info-circle text-primary"
@@ -556,6 +566,15 @@ if (isset($page_label) && $page_label == "edit") {
 												title="Duplicate product name not allowed"
 											></i>*
 											<input type="text" id="autosearch_product" class="form-control" placeholder="Enter product name" name="prd_name" value="<?= $product_name ?>" required />
+
+											<?php if ($this->session->flashdata('productNameError')): ?>
+												<span class="alert-danger">
+													<?php
+													echo $this->session->flashdata('productNameError');
+													$this->session->unset_userdata('productNameError');
+													?>
+												</span>
+											<?php endif; ?>
 		                        		</div>
 									
 										<div class="col-sm-3">
@@ -668,7 +687,7 @@ if (isset($page_label) && $page_label == "edit") {
 										<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
 						
 										<!-- Collapsible content -->
-										<div class="collapse" id="additionalDetails">
+										<div class="collapse in" id="additionalDetails">
 											<div class="well">
 												<div class="row">
 													<div class="col-sm-6">
@@ -778,7 +797,7 @@ if (isset($page_label) && $page_label == "edit") {
 												<div class="row nextFormLine">
 													<div class="col-sm-4">
 														<label>Meta Title</label>
-														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" required />
+														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
 													</div>
 
 													<div class="col-sm-4">
@@ -935,15 +954,6 @@ if (isset($page_label) && $page_label == "edit") {
 										</div>
 										
 										<div class="col-sm-3">
-											<?php if ($this->session->flashdata('error')): ?>
-												<span style="color: #a94442;">
-													<?php
-													echo $this->session->flashdata('error');
-													$this->session->unset_userdata('error');
-													?>
-												</span>
-											<?php endif; ?>
-
 		                        			<label>
 												Product Name
 												<!-- Tooltip icon -->
@@ -955,6 +965,15 @@ if (isset($page_label) && $page_label == "edit") {
 											</label>
 											
 		                        			<input type="text" class="form-control" placeholder="Enter product name" name="prd_name" value="<?= $product_name ?>" id="" required/>
+
+											<?php if ($this->session->flashdata('productNameError')): ?>
+												<span class="alert-danger">
+													<?php
+													echo $this->session->flashdata('productNameError');
+													$this->session->unset_userdata('productNameError');
+													?>
+												</span>
+											<?php endif; ?>
 		                        		</div>
 
 										<div class="col-sm-3">
@@ -1053,7 +1072,7 @@ if (isset($page_label) && $page_label == "edit") {
         							<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
 
 									<!-- Collapsible content -->
-									<div class="collapse" id="additionalDetails">
+									<div class="collapse in" id="additionalDetails">
 										<div class="well">
 
 											<div class="row">
@@ -1165,7 +1184,7 @@ if (isset($page_label) && $page_label == "edit") {
 											<div class="row nextFormLine">
 												<div class="col-sm-4">
 													<label>Meta Title</label>
-													<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" required />
+													<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
 												</div>
 
 												<div class="col-sm-4">
