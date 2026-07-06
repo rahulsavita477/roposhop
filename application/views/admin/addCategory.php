@@ -298,7 +298,7 @@ $cat_name_data = array(
 									<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
 					
 									<!-- Collapsible content -->
-									<div class="collapse" id="additionalDetails">
+									<div class="collapse in" id="additionalDetails">
 										<div class="well">
 											<div class="row">
 												<div class="col-sm-12">

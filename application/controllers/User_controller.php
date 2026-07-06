@@ -464,6 +464,7 @@ class User_controller extends CI_Controller
 
             //get product attributes
             $prd_att_res = $this->am1->productAttributes($product_id);
+            // echo "<pre>"; print_r($prd_att_res); die;
             if ($prd_att_res && $data['product']) 
                 $data['product']['specifications'] = $prd_att_res;
             else
@@ -581,6 +582,7 @@ class User_controller extends CI_Controller
         $this->load->view('user/include/footer');*/
         
         //load view
+        // echo "<pre>"; print_r($data); die;
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/product_detail', $data);
         $this->load->view('user/design/include/footer');

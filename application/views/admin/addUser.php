@@ -355,70 +355,71 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					    	<input type="hidden" name="usr_id" value="<?= $usr_id; ?>">
 					        <div class="box-body">
 					        	<div class="row">
-					            	<div class="col-sm-3">
-					            		<label>Full Name * </label>
-						                <input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" id="" required />
-						            </div>
-
-					            	<div class="col-sm-3">
-					                	<label>Email * </label>
-						        		<?php if ($usr_id) { ?>
-						                	<input type="text" class="form-control" value="<?= $email ?>" disabled>
-						                <?php } else { ?>
-						                	<input type="email" name="email" class="form-control" placeholder="Enter email address" id="" required />
-						                <?php } ?>
-						            </div>
-
-									<?php if ($_COOKIE['site_code'] == 'admin') { ?>
-										<div class="col-sm-2">
-											<label>Password * </label>
-											<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
+									<div class="col-sm-8">
+										<div class="col-sm-12 nextFormLine">
+											<label>Full Name * </label>
+											<input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" id="" required />
 										</div>
-									<?php } ?>
 
-									<div class="col-sm-3">
-					            		<label>Profile picture</label>
-					            		<input type="file" name="file7" id="file7" />
-										<?php if ($profile_pic) {
-											echo '<img src="'.$profile_pic.'" width="100px">';
-										} ?>
-					            	</div>
+										<div class="col-sm-12 nextFormLine">
+											<label>Email * </label>
+											<?php if ($usr_id) { ?>
+												<input type="text" class="form-control" value="<?= $email ?>" disabled>
+											<?php } else { ?>
+												<input type="email" name="email" class="form-control" placeholder="Enter email address" id="" required />
+											<?php } ?>
+										</div>
+
+										<?php if ($_COOKIE['site_code'] == 'admin') { ?>
+											<div class="col-sm-12 nextFormLine">
+												<label>Password * </label>
+												<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
+											</div>
+										<?php } ?>
+
+										<?php if ($_COOKIE['site_code'] == "admin") { ?>
+											<div class="col-sm-12 nextFormLine">
+													<label>User Role:</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="ADMIN" <?= $adminChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Admin</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="SELLER" <?= $sellerChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Seller</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="BUYER" <?= $buyerChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Buyer</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="TEST USER" <?= $testUserChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Test user</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="EXECUTIVE" <?= $executiveUserChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Executive</span>
+													</label>
+											</div>
+										<?php } ?>
+									</div>
+									<div class="col-sm-4">
+										<div class="col-sm-12">
+											<label>Update Profile picture</label>
+										</div>
+										<div class="col-sm-12">
+											<input type="file" name="file7" id="file7" />
+											<?php if ($profile_pic) {
+												echo '<img class="nextFormLine" src="'.$profile_pic.'" width="100px">';
+											} ?>
+										</div>
+									</div>
 					            </div>
-
-					            <?php if ($_COOKIE['site_code'] == "admin") { ?>
-						            <div class="row nextFormLine">
-						            	<div class="col-sm-1" style="padding-right: 0px;">
-						            		<label>User role:</label>
-						            	</div>
-						            	<div class="col-sm-11" style="padding-left: 0px;">
-											<label class="bigcheck tag-label">
-												<input type="checkbox" class="bigcheck" name="user_type[]" value="ADMIN" <?= $adminChecked ?>>
-												<span class="bigcheck-target"></span>
-												<span class="tag-text">Admin</span>
-											</label>
-											<label class="bigcheck tag-label">
-												<input type="checkbox" class="bigcheck" name="user_type[]" value="SELLER" <?= $sellerChecked ?>>
-												<span class="bigcheck-target"></span>
-												<span class="tag-text">Seller</span>
-											</label>
-											<label class="bigcheck tag-label">
-												<input type="checkbox" class="bigcheck" name="user_type[]" value="BUYER" <?= $buyerChecked ?>>
-												<span class="bigcheck-target"></span>
-												<span class="tag-text">Buyer</span>
-											</label>
-											<label class="bigcheck tag-label">
-												<input type="checkbox" class="bigcheck" name="user_type[]" value="TEST USER" <?= $testUserChecked ?>>
-												<span class="bigcheck-target"></span>
-												<span class="tag-text">Test user</span>
-											</label>
-											<label class="bigcheck tag-label">
-												<input type="checkbox" class="bigcheck" name="user_type[]" value="EXECUTIVE" <?= $executiveUserChecked ?>>
-												<span class="bigcheck-target"></span>
-												<span class="tag-text">Executive</span>
-											</label>
-						            	</div>
-						            </div>
-						        <?php } ?>
 					        </div><!-- /.box-body -->
 
 					        <div class="box-footer"  align="right">
@@ -456,5 +457,10 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 .tag-label {
 	width: auto;
+}
+
+.tag-label {
+	overflow: auto;
+	display: contents;
 }
 </style>

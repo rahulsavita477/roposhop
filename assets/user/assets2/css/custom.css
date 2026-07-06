@@ -443,6 +443,15 @@ a.morelink {
     color: #2980b9;   /* darker blue on hover */
 }
 
+.product-single-details .ratings-container {
+    margin-bottom: 5px;
+}
+
+.productFeatures_ul {
+    list-style: inside;
+    color:#000;
+    margin: 0px;
+}
 /*==============
 
 ===============*/

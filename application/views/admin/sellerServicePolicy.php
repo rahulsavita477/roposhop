@@ -40,7 +40,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
 					echo form_open('updateSellerServicePolicy', $formAttributes);
 					?>
 				    	<div class="box-body">
-				    		<div class="row form-group">
+				    		<div class="row">
                         		<div class="col-sm-1 termsMainLabel">
 									<label>Finance Available:</label>
 								</div>
@@ -71,7 +71,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                                 </div>
                             </div>
 
-	                        <div class="row form-group nextFormLine">
+	                        <div class="row nextFormLine">
 								<div class="col-sm-1 termsMainLabel">
 									<label>Home Delievery:</label>
 								</div>
@@ -101,7 +101,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         		</div>
                         	</div>
 
-                        	<div class="row form-group nextFormLine">
+                        	<div class="row nextFormLine">
 								<div class="col-sm-1 termsMainLabel">
 									<label>Installation Available:</label>
 								</div>
@@ -131,7 +131,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         		</div>
                         	</div>
 
-                        	<div class="row form-group nextFormLine">
+                        	<div class="row nextFormLine">
 								<div class="col-sm-1 termsMainLabel">
 									<label>Replacement Available:</label>
 								</div>
@@ -161,7 +161,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         		</div>
                         	</div>
 
-                        	<div class="row form-group nextFormLine">
+                        	<div class="row nextFormLine">
 								<div class="col-sm-1 termsMainLabel">
 									<label>Return Available:</label>
 								</div>
@@ -191,7 +191,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
                         		</div>
                         	</div>
 
-                            <!-- <div class="row form-group">
+                            <!-- <div class="row">
                                 <div class="col-sm-3">
                                     <label>Seller Offerings:</label>
                                 </div>

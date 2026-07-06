@@ -333,65 +333,56 @@ class Merchant_controller extends CI_Controller
     //login method
     public function login()
     {
-        if (!isset($_COOKIE['site_code'])) 
-        {
+        if (!isset($_COOKIE['site_code'])) {
+            
             redirect('', 'refresh');
             die;
         }
         
         //get controller
         $controller = 'merchantLoginSignup';
-
-        $usr_roles = array(); 
+        $usr_roles = array();
         $usr_details = array();
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         
-        if (!$username && !$password) 
-        {
+        if (!$username && !$password) {
             $this->loginSignupPage();
             die;
         }
         
         $usr_id = $this->am2->doLogin($username, $password);
-        if (isset($usr_id['db_error'])) 
+        if (isset($usr_id['db_error'])) {
             redirectWithMessage('Error: '.$usr_id['msg'], $controller);
-        else if ($usr_id) 
-        {
+        } elseif ($usr_id) {
+
             $usr_id = $usr_id['userId'];
             $usr_details = $this->am2->getUser($usr_id, 1);
             
-            if (isset($usr_details['db_error'])) 
+            if (isset($usr_details['db_error'])) {
                 redirectWithMessage('Error: '.$usr_details['msg'], $controller);
-            else
-            {
+            } else {
                 $usr_roles = $this->am2->selectRecords(array('usr_id' => $usr_id), 'user_type', '*');
-                if (isset($usr_roles['db_error'])) 
+                if (isset($usr_roles['db_error'])) {
                     redirectWithMessage('Error: '.$usr_roles['msg'], $controller);
-                else if ($usr_details) 
-                {
-                    $isValidUser = false;
+                } elseif ($usr_details) {
+                    
                     $usr_roles = array_column($usr_roles['result'], 'type_name');
 
-                    if (in_array('SELLER', $usr_roles))
-                    {
-                        $merchant = $this->am2->selectRecords(array('userId' => $usr_id), 'merchant', 'merchant_id, is_verified');
-                        if (isset($merchant['db_error'])) 
-                            redirectWithMessage('Error: '.$merchant['msg'], $controller);
-                        else if ($merchant)
-                        {
-                            $is_verified = $merchant['result'][0]['is_verified'];
-                            $merchant_id = $merchant['result'][0]['merchant_id'];
-                            $usr_details['merchant_id'] = $merchant_id;
+                    if (in_array('SELLER', $usr_roles)) {
 
-                            if (!$is_verified) 
-                                redirect('merchantSignupStep2/'.$usr_id.'/'.$merchant_id, 'refresh');
+                        $merchant = $this->am2->selectRecords(array('userId' => $usr_id), 'merchant', 'merchant_id, is_verified');
+                        if (isset($merchant['db_error'])) {
+                            redirectWithMessage('Error: '.$merchant['msg'], $controller);
+                        } elseif ($merchant) {
+                            $usr_details['is_verified'] = $merchant['result'][0]['is_verified'];
+                            $usr_details['merchant_id'] = $merchant['result'][0]['merchant_id'];
                         }
                         
                         $this->admin_controller->cookieSetupForLogin($usr_details);
-                    }
-                    else
-                    {
+
+                    } else {
+
                         //insert seller role
                         $type_data['usr_id'] = $usr_id;
                         $type_data['type_name'] = "SELLER";

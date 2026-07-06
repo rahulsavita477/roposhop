@@ -84,7 +84,7 @@ else if($pageName == "offerManagement")
             <?php if($pageName == "sellersTable"){ ?>
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="col-sm-12" style="margin: 10px 0px; padding-right: 10px;">
+                        <div class="col-sm-12" style="margin: 10px 0px 0px 0px; padding-right: 10px;">
                             <a href="<?= base_url('page/addSeller') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Seller</a>
                         </div>
 
@@ -293,9 +293,3 @@ function openVerifyModal(merchant_id, user_id, shop_name, owner_name, owner_cont
     $('#verifyModal').modal('show');
 }
 </script>
-
-<style>
-.table-responsive table {
-    white-space: normal;
-}
-</style>

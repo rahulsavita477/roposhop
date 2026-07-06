@@ -3,18 +3,23 @@
         <!-- jQuery (only one version) -->
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
+        <!-- jQuery UI (needed for autocomplete) -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
         <!-- Bootstrap 3 JS -->
         <script src="<?= $this->config->item('site_url').'assets/admin/js/bootstrap.min.js' ?>"></script>
 
-        <!-- Slimscroll plugin (needed by AdminLTE v2) -->
+        <!-- Slimscroll plugin -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
 
         <!-- DataTables -->
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="<?= $this->config->item('site_url').'assets/admin/js/plugins/datatables/dataTables.bootstrap.js' ?>"></script>
 
-        <!-- AdminLTE full build (includes tree, sidebar, etc.) -->
+        <!-- AdminLTE -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.18/js/adminlte.min.js"></script>
+
 
         <script type="text/javascript">
         function confirmSave(msg) {

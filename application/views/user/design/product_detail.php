@@ -247,15 +247,17 @@ textarea.form-control{
                                 </div>
                             </div>
 
+                            <?php if ($product['key_features']): ?>
                             <div class="product-filters-container pt-2">
-                                <ul style="list-style: inside;color:#000">
-                                    <?php if ($product['key_features']) {
-                                        foreach ($product['key_features'] as $feature) 
-                                            echo "<li>".$feature."</li>";
+                                <ul class="productFeatures_ul">
+                                    <?php foreach ($product['key_features'] as $feature) {
+                                        echo "<li>".$feature."</li>";
                                     } ?>
                                 </ul>
                             </div><!-- End .product-filters-container -->
-                            <table class="table table-bordered mt-2">
+                            <?php endif; ?>
+
+                            <table class="table table-bordered mt-1 mb-0">
                                 <tbody>
                                     <tr><th colspan="2">Product Details</th></tr>
                                     <tr>
@@ -290,7 +292,7 @@ textarea.form-control{
                                         padding:5px 15px;
                                         box-sizing:border-box;
                                         color:#fff;
-                                        margin:0;
+                                        margin:5px 0px 0px 0px;
                                         font-size:14px;
                                         font-weight:600;"
                                     ><?= $product['brand_name'] ?></div>
@@ -310,6 +312,7 @@ textarea.form-control{
                         <div class="partners-container pt-1 pb-1 ">
                             <div class="container">
                                 <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+                                    'loop': false,
                                     'margin': 10,
                                     'autoplayHoverPause' : true,
                                     'nav' : true,
@@ -384,10 +387,10 @@ textarea.form-control{
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="product-single-collapse" id="productAccordion">
+                                <?php if ($product['specifications'] || $product['varients']): ?>
                                 <div class="product-collapse-panel">
                                     <h3 class="product-collapse-title" style="padding-bottom: 0px;">
                                         <a class="collapsed" data-toggle="collapse" href="#product-specifications" role="button" aria-expanded="false" aria-controls="product-specifications">Specifications</a>
-
                                     </h3>
 
                                     <div class="product-collapse-body collapse show" id="product-specifications" data-parent="#product-specifications">
@@ -415,12 +418,11 @@ textarea.form-control{
                                                                     foreach ($product['varients'] as $vrnt_key_name => $vrnt_values) {
                                                                         $rowCount++;
                                                                         echo '<tr class="spec-row'.($rowCount > 4 ? ' d-none' : '').'">
-                                                                                <td>'.$vrnt_key_name.'</td>
-                                                                                <td>'.implode(", ", $vrnt_values).'</td>
-                                                                            </tr>';
+                                                                            <td>'.$vrnt_key_name.'</td>
+                                                                            <td>'.implode(", ", $vrnt_values).'</td>
+                                                                        </tr>';
                                                                     }
-                                                                }
-                                                                ?>
+                                                                } ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -435,7 +437,8 @@ textarea.form-control{
                                         </div>
                                     </div>
                                 </div>
-
+                                <?php endif; ?>
+                                
                                 <div class="product-collapse-panel">
                                     <h3 class="product-collapse-title">
                                         <a class="collapsed" data-toggle="collapse" href="#product-collapse-description" role="button" aria-expanded="false" aria-controls="product-collapse-description">Description</a>

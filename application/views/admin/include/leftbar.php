@@ -167,6 +167,58 @@ if (isset($_COOKIE['shop_logo']))
                             </li>
                         </ul>
                     </li>
+
+                    <!-- user management -->
+                    <li class="<?= $userManagement ?>">
+                        <a href="<?= base_url('page/userManagement') ?>">
+                            <i class="fa fa-user"></i> <span>User Management</span>
+                        </a>
+                    </li>
+
+                    <!-- review -->
+                    <li class="treeview <?= $review ?>" id="treeview3" onclick="openTreeView('#treeview3');">
+                        <a href="#">
+                            <i class="fa fa-comments-o"></i>
+                            <span>Review</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="<?= $merchantReview ?>">
+                                <a href="<?= base_url('review/merchant') ?>">
+                                    <i class="fa fa-thumbs-up"></i> 
+                                    Merchant
+                                </a>
+                            </li>
+                            <li class="<?= $productReview ?>">
+                                <a href="<?= base_url('review/product') ?>">
+                                    <i class="fa fa-star"></i> 
+                                    Product
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- claimed request management -->
+                    <li class="<?= $claimed_request ?>">
+                        <a href="<?= base_url('page/claimedRequest') ?>">
+                            <i class="fa fa-check-square-o"></i>
+                            Claimed Request
+                        </a>
+                    </li>
+
+                    <!-- Requested product management -->
+                    <li class="<?= $requestProduct ?>">
+                        <a href="<?= base_url('page/requestedProducts') ?>">
+                            <i class="fa fa-shopping-cart"></i> <span>Requested Products</span>
+                        </a>
+                    </li>
+
+                    <!-- offer management -->
+                    <li class="<?= $offerManagement ?>">
+                        <a href="<?= base_url('sellers/offers') ?>">
+                            <i class="fa fa-gift"></i> <span>Offer Management</span>
+                        </a>
+                    </li>
                     
                     <!-- place -->
                     <li class="treeview <?= $place_management ?>" id="treeview2" onclick="openTreeView('#treeview2');">
@@ -201,58 +253,6 @@ if (isset($_COOKIE['shop_logo']))
                                 <a href="<?= base_url('page/areaManagement') ?>">
                                     <i class="fa fa-location-arrow"></i>
                                     Area Management
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- user management -->
-                    <li class="<?= $userManagement ?>">
-                        <a href="<?= base_url('page/userManagement') ?>">
-                            <i class="fa fa-user"></i> <span>User Management</span>
-                        </a>
-                    </li>
-
-                    <!-- claimed request management -->
-                    <li class="<?= $claimed_request ?>">
-                        <a href="<?= base_url('page/claimedRequest') ?>">
-                            <i class="fa fa-check-square-o"></i>
-                            Claimed Request
-                        </a>
-                    </li>
-
-                    <!-- offer management -->
-                    <li class="<?= $offerManagement ?>">
-                        <a href="<?= base_url('sellers/offers') ?>">
-                            <i class="fa fa-gift"></i> <span>Offer Management</span>
-                        </a>
-                    </li>
-
-                    <!-- Requested product management -->
-                    <li class="<?= $requestProduct ?>">
-                        <a href="<?= base_url('page/requestedProducts') ?>">
-                            <i class="fa fa-shopping-cart"></i> <span>Requested Products</span>
-                        </a>
-                    </li>
-
-                    <!-- review -->
-                    <li class="treeview <?= $review ?>" id="treeview3" onclick="openTreeView('#treeview3');">
-                        <a href="#">
-                            <i class="fa fa-comments-o"></i>
-                            <span>Review</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="<?= $merchantReview ?>">
-                                <a href="<?= base_url('review/merchant') ?>">
-                                    <i class="fa fa-thumbs-up"></i> 
-                                    Merchant
-                                </a>
-                            </li>
-                            <li class="<?= $productReview ?>">
-                                <a href="<?= base_url('review/product') ?>">
-                                    <i class="fa fa-star"></i> 
-                                    Product
                                 </a>
                             </li>
                         </ul>
@@ -346,10 +346,11 @@ if (isset($_COOKIE['shop_logo']))
                         </a>
                     </li>
 
-                    <!-- offer management -->
-                    <li class="<?= $offerManagement ?>">
-                        <a href="<?= base_url('page/offerManagement') ?>">
-                            <i class="fa fa-gift"></i> <span>Offer Management</span>
+                    <!-- product linking -->
+                    <li class="<?= $product_seller_linking ?>">
+                        <a href="<?= base_url().'getAllProducts/'.$_COOKIE['merchant_id'] ?>">
+                            <i class="fa fa-th-list"></i> 
+                            Product Listing
                         </a>
                     </li>
 
@@ -367,19 +368,16 @@ if (isset($_COOKIE['shop_logo']))
                         </a>
                     </li>
 
-                    <!-- product linking -->
-                    <li class="<?= $product_seller_linking ?>">
-                        <a href="<?= base_url().'getAllProducts/'.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-th-list"></i> 
-                            Product Listing
+                    <!-- offer management -->
+                    <li class="<?= $offerManagement ?>">
+                        <a href="<?= base_url('page/offerManagement') ?>">
+                            <i class="fa fa-gift"></i> <span>Offer Management</span>
                         </a>
                     </li>
 
-                    <!-- Address management -->
-                    <li class="<?= $address_management ?>">
-                        <a href="<?= base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-home"></i> 
-                            Shop Address
+                    <li class="<?= $sellerOfferings ?>">
+                        <a href="<?= base_url('page/offerings') ?>">
+                            <i class="fa fa-tags"></i>Seller Offerings
                         </a>
                     </li>
 
@@ -390,9 +388,11 @@ if (isset($_COOKIE['shop_logo']))
                         </a>
                     </li>
 
-                    <li class="<?= $sellerOfferings ?>">
-                        <a href="<?= base_url('page/offerings') ?>">
-                            <i class="fa fa-tags"></i>Seller Offerings
+                    <!-- Address management -->
+                    <li class="<?= $address_management ?>">
+                        <a href="<?= base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id'] ?>">
+                            <i class="fa fa-home"></i> 
+                            Shop Address
                         </a>
                     </li>
 

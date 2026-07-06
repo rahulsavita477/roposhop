@@ -13,6 +13,10 @@
     padding-left: 0px;
 }
 
+.table-responsive {
+    overflow: auto;
+}
+
 .table-responsive table {
     white-space: nowrap;
 }
@@ -29,14 +33,24 @@
     border: 1px solid rgb(204, 204, 204);
 } */
 
-.box .box-footer {
+.box-footer {
+    text-align:right;
     border-top: none;
+    padding-right: 0px !important;
+}
+.editTable .table-responsive {
+    
+    max-height: 300px;
+}
+
+#attributes_tableBody, #att_fields {
+    max-height: 300px;
 }
 
 .editTable tbody {
     display: block;
-    max-height: 200px;
-    overflow-y: auto;
+    /* max-height: 200px; */
+    /* overflow-y: auto; */
 }
 
 .editTable thead,
@@ -405,4 +419,8 @@ label {
 
 .pageErrorDiv .alert-warning ul {
     padding-left: 20px;
+}
+
+.siteSettingHeader {
+    margin-top: 0px;
 }

@@ -95,7 +95,7 @@
                         'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
-                         'dots':false,
+                        'dots':false,
                         'nav' : true,
                         'pagination' :false,
                         'stopOnHover' : true,

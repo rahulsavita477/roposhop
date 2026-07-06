@@ -433,7 +433,7 @@ else
 									<!-- Toggle button/link -->
 									<a data-toggle="collapse" href="#address" aria-expanded="false" aria-controls="address">+ Location & Address</a>
 
-									<div class="show" id="address">
+									<div class="collapse in" id="address">
 										<div class="well">
 											<div class="row">
 												<div class="col-sm-4">

@@ -586,12 +586,12 @@ if (isset($page_label) && $page_label == "edit") {
 									<div class="row nextFormLine">
 										<div class="col-sm-6">
 		                        			<label>Product Description *</label>
-											<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
+											<textarea class="form-control" rows="1" name="prd_desc" placeholder="Enter Product Description" required><?= $description ?></textarea>
 										</div>
 
 										<div class="col-sm-6">
-		                        			<label>In The Box</label>
-		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+		                        			<label>In The Box *</label>
+		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..." required><?= $in_the_box ?></textarea>
 		                        		</div>
 									</div>
 
@@ -618,7 +618,7 @@ if (isset($page_label) && $page_label == "edit") {
 									</div>
 
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-12">
 											<div class="table-responsive editTable">
 												<table class="table table-bordered table-striped dataTable">
 													<thead>
@@ -636,49 +636,6 @@ if (isset($page_label) && $page_label == "edit") {
 													</tbody>
 												</table>
 											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="table-responsive editTable">
-												<table class="table table-bordered table-striped dataTable">
-													<thead>
-														<tr>
-															<th colspan="2" class="text-align-center">
-																Product Features
-																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
-																<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
-															</th>
-														</tr>
-													</thead>
-													<tbody id="productFeatures_tableBody" class="collapse in">
-														<tr>
-															<td>
-																<div class="row form-group">
-																	<div class="col-sm-12" id="key_feature_input_field_div"></div>
-																</div>
-															</td>
-														</tr>
-														<?php
-														if ($key_features) {
-
-															foreach ($key_features['result'] as $feature_value) {
-
-																$feature_id = $feature_value['feature_id'];
-																$feature = $feature_value['feature'];
-																$params = $feature_id.', "'.$feature.'", '.$product_id;
-
-																echo "<tr>
-																		<td>
-																			<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
-																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
-																			".$feature."
-																		</td>
-																	</tr>";
-															}
-														} ?>
-													</tbody>
-												</table>
-											</div><!-- /.box-body -->
 										</div>
 		                        	</div>
 
@@ -749,6 +706,86 @@ if (isset($page_label) && $page_label == "edit") {
 
 													<div class="col-sm-6">
 														<div class="table-responsive editTable">
+															<table class="table table-bordered table-striped dataTable">
+																<thead>
+																	<tr>
+																		<th colspan="2" class="text-align-center">
+																			Product Features
+																			<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
+																			<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
+																		</th>
+																	</tr>
+																</thead>
+																<tbody id="productFeatures_tableBody" class="collapse in">
+																	<tr>
+																		<td>
+																			<div class="row form-group">
+																				<div class="col-sm-12" id="key_feature_input_field_div"></div>
+																			</div>
+																		</td>
+																	</tr>
+																	<?php
+																	if ($key_features) {
+
+																		foreach ($key_features['result'] as $feature_value) {
+
+																			$feature_id = $feature_value['feature_id'];
+																			$feature = $feature_value['feature'];
+																			$params = $feature_id.', "'.$feature.'", '.$product_id;
+
+																			echo "<tr>
+																				<td>
+																					<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
+																					<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
+																					".$feature."
+																				</td>
+																			</tr>";
+																		}
+																	} ?>
+																</tbody>
+															</table>
+														</div><!-- /.box-body -->
+													</div>
+												</div>
+
+												<div class="row nextFormLine">
+													<div class="col-sm-4">
+														<label>Meta Title</label>
+														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
+													</div>
+
+													<div class="col-sm-4">
+														<label>Meta Keywords</label>
+														<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+													</div>
+
+													<div class="col-sm-4">
+														<label>Meta Description:</label>
+														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+													</div>
+												</div>
+
+												<div class="row nextFormLine">
+													<div class="col-sm-4">
+														<label>Notes</label>
+														<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+													</div>
+
+													<div class="col-sm-4">
+														<label>Amazon Product ID</label>
+														<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
+													</div>
+
+													<div class="col-sm-4">
+														<label>Flipkart Product ID</label>
+														<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
+													</div>
+												</div>
+
+												<div class="row nextFormLine">
+													
+													<div class="col-sm-6">
+														<div class="table-responsive editTable">
 															<table class="table table-bordered dataTable">
 																<thead>
 																	<tr>
@@ -792,44 +829,7 @@ if (isset($page_label) && $page_label == "edit") {
 															</table>
 														</div>
 													</div>
-												</div>
-
-												<div class="row nextFormLine">
-													<div class="col-sm-4">
-														<label>Meta Title</label>
-														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
-													</div>
-
-													<div class="col-sm-4">
-														<label>Meta Keywords</label>
-														<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
-													</div>
-
-													<div class="col-sm-4">
-														<label>Meta Description:</label>
-														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
-													</div>
-												</div>
-
-												<div class="row nextFormLine">
-													<div class="col-sm-4">
-														<label>Notes</label>
-														<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
-													</div>
-
-													<div class="col-sm-4">
-														<label>Amazon Product ID</label>
-														<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
-													</div>
-
-													<div class="col-sm-4">
-														<label>Flipkart Product ID</label>
-														<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
-													</div>
-												</div>
-
-												<div class="row nextFormLine">
-													<div class="col-sm-12">
+													<div class="col-sm-6">
 														<div class="table-responsive editTable">
 															<table class="table table-bordered dataTable">
 																<thead>
@@ -1018,7 +1018,7 @@ if (isset($page_label) && $page_label == "edit") {
 									</div>
 
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-12">
 											<div class="table-responsive editTable">
 												<table class="table table-bordered table-striped dataTable">
 													<thead>
@@ -1033,35 +1033,6 @@ if (isset($page_label) && $page_label == "edit") {
 														<tr>
 															<td>No Attribute Found</td>
 														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div>
-
-										<div class="col-sm-6">
-											<div class="table-responsive editTable">
-												<table class="table table-bordered table-striped dataTable">
-													<thead>
-														<tr>
-															<th colspan="2" class="text-align-center">
-																Product Features
-																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
-																<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
-															</th>
-														</tr>
-													</thead>
-													<tbody id="productFeatures_tableBody" class="collapse in">
-														<tr>
-															<td>
-																<div class="row form-group">
-																	<div class="col-sm-12" id="key_feature_input_field_div"></div>
-																</div>
-															</td>
-														</tr>
-														<?php if ($key_features) {
-															foreach ($key_features['result'] as $feature_value) 
-																echo '<tr><td><input type="text" class="form-control" name="key_feature_values[]" value="'.$feature_value['feature'].'" /></td></tr>';
-														} ?>
 													</tbody>
 												</table>
 											</div>
@@ -1130,6 +1101,107 @@ if (isset($page_label) && $page_label == "edit") {
 
 												<div class="col-sm-6">
 													<div class="table-responsive editTable">
+														<table class="table table-bordered table-striped dataTable">
+															<thead>
+																<tr>
+																	<th colspan="2" class="text-align-center">
+																		Product Features
+																		<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
+																		<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
+																	</th>
+																</tr>
+															</thead>
+															<tbody id="productFeatures_tableBody" class="collapse in">
+																<tr>
+																	<td>
+																		<div class="row form-group">
+																			<div class="col-sm-12" id="key_feature_input_field_div"></div>
+																		</div>
+																	</td>
+																</tr>
+																<?php if ($key_features) {
+																	foreach ($key_features['result'] as $feature_value) 
+																		echo '<tr><td><input type="text" class="form-control" name="key_feature_values[]" value="'.$feature_value['feature'].'" /></td></tr>';
+																} ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+
+											<div class="row nextFormLine">
+												<div class="col-sm-4">
+													<label>Meta Title</label>
+													<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
+												</div>
+
+												<div class="col-sm-4">
+													<label>Meta Keywords</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+												</div>
+
+												<div class="col-sm-4">
+													<label>Meta Description:</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+												</div>
+											</div>
+											
+											<div class="row nextFormLine">
+												<div class="col-sm-4">
+													<label>Notes</label>
+													<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+												</div>
+
+												<div class="col-sm-4">
+													<label>Amazon Product ID:</label>
+													<input type="text" class="form-control" placeholder="Enter amazon product id" name="amazon_prd_id" />
+												</div>
+												
+												<div class="col-sm-4">
+													<label>Flipkart Product ID:</label>
+													<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" />
+												</div>
+											</div>
+											
+											<div class="row nextFormLine">
+												<div class="col-sm-6">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="3" class="text-align-center">
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+																<tr>
+																	<th></th>
+																	<th id="">Prefix Path</th>
+																	<th id="">File Path</th>
+																</tr>
+															</thead>
+															<tbody id="HTMLFiles_tableBody" class="in">
+																<?php 
+																for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+																	$link_id = isset($html_files['result'][$j]['html_file_id']) ? $html_files['result'][$j]['html_file_id'] : '';
+																	$link    = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
+
+																	echo "<tr>
+																			<td>HTML Link".$i."</td>
+																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td>
+																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																			</td>
+																		</tr>";
+																} ?>
+															</tbody>
+														</table>
+													</div><!-- /.box-body -->
+												</div>
+
+												<div class="col-sm-6">
+													<div class="table-responsive editTable">
 														<table class="table table-bordered dataTable">
 															<thead>
 																<tr>
@@ -1178,78 +1250,6 @@ if (isset($page_label) && $page_label == "edit") {
 															</tbody>
 														</table>
 													</div>
-												</div>
-											</div>
-
-											<div class="row nextFormLine">
-												<div class="col-sm-4">
-													<label>Meta Title</label>
-													<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
-												</div>
-
-												<div class="col-sm-4">
-													<label>Meta Keywords</label>
-													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
-												</div>
-
-												<div class="col-sm-4">
-													<label>Meta Description:</label>
-													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
-												</div>
-											</div>
-											
-											<div class="row nextFormLine">
-												<div class="col-sm-4">
-													<label>Notes</label>
-													<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
-												</div>
-
-												<div class="col-sm-4">
-													<label>Amazon Product ID:</label>
-													<input type="text" class="form-control" placeholder="Enter amazon product id" name="amazon_prd_id" />
-												</div>
-												
-												<div class="col-sm-4">
-													<label>Flipkart Product ID:</label>
-													<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" />
-												</div>
-											</div>
-											
-											<div class="row nextFormLine">
-												<div class="col-sm-12">
-													<div class="table-responsive editTable">
-														<table class="table table-bordered dataTable">
-															<thead>
-																<tr>
-																	<th colspan="3" class="text-align-center">
-																		HTML Files
-																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
-																	</th>
-																</tr>
-																<tr>
-																	<th></th>
-																	<th id="">Prefix Path</th>
-																	<th id="">File Path</th>
-																</tr>
-															</thead>
-															<tbody id="HTMLFiles_tableBody" class="in">
-																<?php 
-																for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
-																	$link_id = isset($html_files['result'][$j]['html_file_id']) ? $html_files['result'][$j]['html_file_id'] : '';
-																	$link    = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
-
-																	echo "<tr>
-																			<td>HTML Link".$i."</td>
-																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
-																			<td>
-																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-																			</td>
-																		</tr>";
-																} ?>
-															</tbody>
-														</table>
-													</div><!-- /.box-body -->
 												</div>
 											</div>
 										</div>
@@ -1378,8 +1378,8 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 	$('#att_fields').empty();
 	$('#divLoading').show();
 
-	if (cat_id) 
-	{
+	if (cat_id) {
+
 		$.ajax({
 	        type: "GET",
 	        url: '<?= base_url("categoryAttributes") ?>/'+cat_id+'/'+prd_id,
@@ -1388,36 +1388,86 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 
 	            	resp = JSON.parse(data);
 	            	fields = '';
-	            	
+
+					// remove not linked attributes from category
+					resp = resp.filter(function(item) {
+						return item.mp_id !== null;
+					});
+
 	            	if (resp.length > 0) {
 
-	    				for (var i = 0; i < resp.length; i++) 
-		            	{
-		            		if (resp[i].mp_id != null) 
-		            		{
-		            			$('#open_att_modal').prop('disabled', false);
-	            			
-		            			att_id = resp[i].att_id;
-		            			att_name_label = resp[i].att_name;
-		            			att_val = '';
+	    				for (var i = 0; i < resp.length; i += 4) {
+							fields += '<tr>';
 
-		            			if (page_label != "add") {
+							// First column
+							if (resp[i] && resp[i].mp_id != null) {
+								att_id = resp[i].att_id;
+								att_name_label = resp[i].att_name;
+								att_val = (page_label != "add" && resp[i].att_value) ? resp[i].att_value : '';
 
-		            				att_val = resp[i].att_value;
-		            				if (att_val == null)
-		            					att_val = '';
-		            			}
-
-		            			fields += '<tr><td>'+att_name_label+'</td>';
-
-		                		if (page_label == "view") {
-									fields += '<td>'+att_val+'</td>';
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
 								} else {
-									fields += '<td>'+
-										'<input type="text" name="'+att_id+'" class="form-control att_values" placeholder="Enter '+att_name_label+' value" value="'+att_val+'" />'+
-									'</td></tr>';
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
 								}
-		            		}
+							} else {
+								fields += '<td></td>';
+							}
+
+							// Second column
+							if (resp[i+1] && resp[i+1].mp_id != null) {
+								att_id = resp[i+1].att_id;
+								att_name_label = resp[i+1].att_name;
+								att_val = (page_label != "add" && resp[i+1].att_value) ? resp[i+1].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							// Third column
+							if (resp[i+2] && resp[i+2].mp_id != null) {
+								att_id = resp[i+2].att_id;
+								att_name_label = resp[i+2].att_name;
+								att_val = (page_label != "add" && resp[i+2].att_value) ? resp[i+2].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							// Fourth column
+							if (resp[i+3] && resp[i+3].mp_id != null) {
+								att_id = resp[i+3].att_id;
+								att_name_label = resp[i+3].att_name;
+								att_val = (page_label != "add" && resp[i+3].att_value) ? resp[i+3].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							fields += '</tr>';
 						}
 	    			}
 

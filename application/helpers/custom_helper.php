@@ -347,18 +347,30 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     $ci = get_instance();
     $ci->load->library('email');
 
-    $config['protocol']  = EMAIL_PROTOCOL;
-    $config['smtp_host'] = EMAIL_HOST;
-    $config['smtp_port'] = EMAIL_PORT;
-    $config['smtp_user'] = EMAIL_USERNAME;
-    $config['smtp_pass'] = EMAIL_PASSWORD;
-    $config['charset']   = "utf-8";
-    $config['mailtype']  = "html";
-    $config['newline']   = "\r\n";
+    $config = array(
+        'protocol'  => 'smtp',
+        'smtp_host' => 'smtp.gmail.com',
+        'smtp_port' => 587,
+        'smtp_user' => 'rahulsavita477@gmail.com',
+        'smtp_pass' => '0108CA121069',
+        'mailtype'  => 'html',
+        'charset'   => 'utf-8',
+        'newline'   => "\r\n",
+        'smtp_crypto' => 'tls'
+    );
+
+    // $config['protocol']  = EMAIL_PROTOCOL;
+    // $config['smtp_host'] = EMAIL_HOST;
+    // $config['smtp_port'] = EMAIL_PORT;
+    // $config['smtp_user'] = EMAIL_USERNAME;
+    // $config['smtp_pass'] = EMAIL_PASSWORD;
+    // $config['charset']   = "utf-8";
+    // $config['mailtype']  = "html";
+    // $config['newline']   = "\r\n";
 
     $ci->email->initialize($config);
     $ci->email->from(EMAIL_ID, EMAIL_NAME);
-    $ci->email->to($to);
+    $ci->email->to('rahulsavita477@gmail.com');
     $ci->email->reply_to(EMAIL_ID, EMAIL_NAME);
     $ci->email->subject(ucfirst($subject));
     $ci->email->message($message);
@@ -497,3 +509,18 @@ function renderDuplicateProductImages($images, $images_dir, $slots = 6) {
 
     return $html;
 }
+
+function renderImagesReadonly($images, $images_dir) {
+    $html = '';
+    foreach ($images as $index => $img) {
+        $img_src = $images_dir . '/' . $img['atch_url'];
+        $html .= '
+            <td class="text-align-center">
+                <div class="image-preview">
+                    <img src="' . $img_src . '" alt="Product Image ' . ($index + 1) . '" style="max-width:120px; height:auto;">
+                </div>
+            </td>';
+    }
+    return $html;
+}
+

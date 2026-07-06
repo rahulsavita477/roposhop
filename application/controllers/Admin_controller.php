@@ -311,8 +311,11 @@ class Admin_controller extends CI_Controller
         }
 
         $_COOKIE['usr_detail'] = $usr_details[0];
-
-        redirect('dashboard', 'refresh');
+		if (isset($usr_details['is_verified']) && $usr_details['is_verified'] == 0) {
+			redirect('merchantSignupStep2/'.$usr_details[0]['userId'].'/'.$usr_details['merchant_id'], 'refresh');	
+		} else {
+			redirect('dashboard', 'refresh');
+		}
     }
 
 	public function createToken($user_id)
@@ -386,7 +389,7 @@ class Admin_controller extends CI_Controller
 		if (isset($not_varified_seller_count['db_error'])) 
 			$this->logout();
 
-		$pending_requested_product_count = $this->Admin_model->selectRecords(array('isLinked' => 0), 'requested_product', 'COUNT(request_id) AS pen_req_prd_cnt');
+		$pending_requested_product_count = $this->Admin_model->selectRecords(array('isLinked' => 0), 'requested_product2', 'COUNT(request_id) AS pen_req_prd_cnt');
 		if (isset($pending_requested_product_count['db_error'])) 
 			$this->logout();
 
@@ -730,7 +733,7 @@ class Admin_controller extends CI_Controller
 			
 			$data['products'] = $products;
 
-			$req_prds = $this->Admin_model->getRequestedProduct(array('requested_product.merchant_id' => $_COOKIE['merchant_id']));
+			$req_prds = $this->Admin_model->getRequestedProduct(array('requested_product2.merchant_id' => $_COOKIE['merchant_id']));
 			if (isset($req_prds['db_error'])) 
 				redirectWithMessage('Error: '.$req_prds['msg'], $controller);
 
@@ -867,7 +870,7 @@ class Admin_controller extends CI_Controller
 		
 		$condition = array('request_id' => $req_id);
 		$data = ['status' => 'REJECTED'];
-		$isUpdated = $this->Admin_model->updateData('requested_product', $data, $condition);
+		$isUpdated = $this->Admin_model->updateData('requested_product2', $data, $condition);
 		$controller = 'page/requestedProducts';
 
 		if (isset($isUpdated['db_error'])) {
@@ -1520,8 +1523,8 @@ class Admin_controller extends CI_Controller
 		
 		if (!$usr_id && $email) {
 			
-			if(!preg_match("/^[0-9]{10}$/", $mrchnt_data['contact']))
-            	redirectWithMessage('Error: contact number should be in correct format', $controller);
+			// if(!preg_match("/^[0-9]{10}$/", $mrchnt_data['contact']))
+            // 	redirectWithMessage('Error: contact number should be in correct format', $controller);
 
 			if($_COOKIE['site_code'] == 'admin' && !$password) { // set default password by admin 
 
@@ -1546,7 +1549,7 @@ class Admin_controller extends CI_Controller
 			}
 			else // update user detail
 			{
-				// Add new merchant if we have already a exist user email and password
+				// Add user as merchant if we already have existing email and password
 				$usr_id = $isFound['result'][0]['userId'];
 				$condition = array('userId' => $usr_id);
 				$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
@@ -2746,7 +2749,8 @@ class Admin_controller extends CI_Controller
 			$data['success'] = false;
 			$data['data'] = array();
 		}
-		
+
+		// echo "<pre>"; print_r($data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/brands', $data);
@@ -3209,14 +3213,14 @@ class Admin_controller extends CI_Controller
 		$this->isLoggedIn();
 
 		//get product id
-		$req_prd_id = $this->Admin_model->selectRecords(array('request_id' => $request_id), 'requested_product', 'req_prd_id');
+		$req_prd_id = $this->Admin_model->selectRecords(array('request_id' => $request_id), 'requested_product2', 'req_prd_id');
      	$product_id = $req_prd_id['result'][0]['req_prd_id'];
 
 		if($_COOKIE['site_code'] == 'admin') $controller = 'page/requestedProducts';
      	else $controller = 'page/merchantRequestedProducts';
 		
 		//delete requested product
-		$isDeleted = $this->Admin_model->deleteRecord('requested_product', array('request_id' => $request_id));
+		$isDeleted = $this->Admin_model->deleteRecord('requested_product2', array('request_id' => $request_id));
 		if (isset($isDeleted['db_error'])) 
 			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
@@ -3805,7 +3809,7 @@ class Admin_controller extends CI_Controller
 					}
 
 					//update linked status of requested product
-					$isUpdated = $this->Admin_model->updateData('requested_product', array('isLinked' => 1), array('request_id' => $request_id));
+					$isUpdated = $this->Admin_model->updateData('requested_product2', array('isLinked' => 1), array('request_id' => $request_id));
 					if (isset($isUpdated['db_error'])) {
 						array_push($error, 'Requested Product: Unable to update link status.');
 					}
@@ -3963,6 +3967,10 @@ class Admin_controller extends CI_Controller
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
 
+			$prd_res['key_features'] = $this->Admin_model->selectRecords(array('product_id' => $prd_id), 'product_key_features', '*');
+			if (isset($data['key_features']['db_error'])) 
+				redirectWithMessage('Error: '.$data['key_features']['msg'], $controller);
+
 			$prd_res['seller_id'] = $sel_id;
 			$prd_res['product_listing'] = array();
 			
@@ -3979,6 +3987,7 @@ class Admin_controller extends CI_Controller
 					$prd_res['seller_default_values'] = $seller_default_values['result'][0];
 			}
 			
+			// echo "<pre>"; print_r($prd_res); die;
 			$this->load->view('admin/include/header');
 			$this->load->view('admin/include/leftbar');
 			$this->load->view('admin/productDetail', $prd_res);
@@ -4072,7 +4081,7 @@ class Admin_controller extends CI_Controller
 			$folder_name = PRODUCT_ATTATCHMENTS_PATH;
 			$redirect_path = $controller.'?req_prd_id='.$req_prd_id[0];
 			$id = $req_prd_id[1];
-			$this->updateTableDate('requested_product', array('request_id' => $id));
+			$this->updateTableDate('requested_product2', array('request_id' => $id));
 		}
 
 		//delete from the folder
@@ -4781,7 +4790,7 @@ class Admin_controller extends CI_Controller
 				
 				if($req_prd_id)
 				{
-					$isUpdated = $this->Admin_model->updateData('requested_product', array('isLinked' => 1), array('request_id' => $req_prd_id));
+					$isUpdated = $this->Admin_model->updateData('requested_product2', array('isLinked' => 1), array('request_id' => $req_prd_id));
 
 					if (isset($isUpdated['db_error'])) 
 						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
@@ -5165,11 +5174,18 @@ class Admin_controller extends CI_Controller
 			$data['create_date'] = $this->current_date;
 
 			//product name must be unique
-			if ($this->ci->form_validation->run('unique_product_name') == FALSE)
-	        {
-	            $this->pageLoad('requestProduct');
-	            die;
-	        }
+			// if ($this->ci->form_validation->run('unique_product_name') == FALSE)
+	        // {
+	        //     $this->pageLoad('requestProduct');
+	        //     die;
+	        // }
+
+			if ($this->unique_product_name($prd_name, $prd_id) == FALSE) {
+
+				$this->session->set_flashdata('productNameError', 'Duplicate product name not allowed.');
+				$this->redirectBackToErrorPage();
+				die;
+			}
 
 			$prd_id = $this->Admin_model->insertData('product', $data);
 
@@ -5295,7 +5311,7 @@ class Admin_controller extends CI_Controller
 			{
 				$controller = 'editRequestedProduct/'.$req_prd_id;
 
-				$isUpdated = $this->Admin_model->updateData('requested_product', $req_prd_data, array('request_id' => $req_prd_id));
+				$isUpdated = $this->Admin_model->updateData('requested_product2', $req_prd_data, array('request_id' => $req_prd_id));
 				if (isset($isUpdated['db_error'])) 
 					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
 			}
@@ -5303,7 +5319,7 @@ class Admin_controller extends CI_Controller
 			{
 				$req_prd_data['create_date'] = $this->current_date;
 
-				$req_id = $this->Admin_model->insertData('requested_product', $req_prd_data);
+				$req_id = $this->Admin_model->insertData('requested_product2', $req_prd_data);
 				
 				if (isset($req_id['db_error'])) 
 					redirectWithMessage('Error: '.$req_id['msg'], $controller);

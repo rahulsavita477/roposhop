@@ -31,7 +31,7 @@
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?= $counts['product_count'] ?></h3>
-                            <p>Products</p>
+                            <p>Total Products (Master Catalog)</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -95,7 +95,7 @@
                     <div class="small-box bg-maroon">
                         <div class="inner">
                             <h3><?= $counts['pending_requested_product_count'] ?></h3>
-                            <p>Pending Requested Produts</p>
+                            <p>Pending Requested Products</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
