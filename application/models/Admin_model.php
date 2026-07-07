@@ -891,11 +891,13 @@ print_r($tables); die;
             return FALSE;
     }
 
-    public function getRequestedProduct($where = '')
-    {
-        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product2.status as requestProductStatus, requested_product2.create_date, requested_product2.update_date');
+    public function getRequestedProduct($where = '') {
+        
+        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, product.description, mrp_price AS prd_price, product.category_id, category_name, brand_id, in_the_box, sell_price, product_listing.finance_available, product_listing.finance_terms, product_listing.home_delivery_available, product_listing.home_delivery_terms, product_listing.installation_available, product_listing.installation_terms, product_listing.in_stock, product_listing.will_back_in_stock_on, product_listing.replacement_available, product_listing.replacement_terms, product_listing.return_available, product_listing.return_policy, product_listing.seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product2.status as requestProductStatus, requested_product2.create_date, requested_product2.update_date, establishment_name as merchant_name');
         $this->db->join('product_listing', 'listing_id = req_lst_id', 'left');
         $this->db->join('product', 'product.product_id = requested_product2.req_prd_id', 'left');
+        $this->db->join('merchant', 'merchant.merchant_id = requested_product2.merchant_id', 'left');
+        $this->db->join('product_category', 'product_category.category_id = product.category_id', 'left');
 
         if ($where) 
             $this->db->where($where);

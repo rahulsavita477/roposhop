@@ -10,6 +10,7 @@ $description = isset($description) ? $description : set_value('prd_desc');
 $referance_link = isset($refer_link) ? $refer_link : set_value('refer_link');
 $prd_mrp = isset($prd_price) ? $prd_price : set_value('prd_mrp');
 $in_the_box = isset($in_the_box) ? $in_the_box : set_value('in_the_box');
+$notes = isset($notes) ? $notes : set_value('notes');
 $sell_price = isset($sell_price) ? $sell_price : set_value('sell_price');
 $finance_terms = isset($finance_terms) ? $finance_terms : set_value('finance_terms');
 $installation_terms = isset($installation_terms) ? $installation_terms : set_value('installation_terms');
@@ -44,6 +45,35 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
     <!-- Main content -->
     <section class="content">
         <div class="row">
+
+            <?php if ($this->session->flashdata('errors')): ?>
+				<div class="col-md-12 pageErrorDiv">
+					<div class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h5><i class="fa fa-exclamation-triangle"></i> <strong>Your requested product has been saved, but please attention to the following details</strong></h5>
+						<ul style="padding-left: 20px;">
+							<?php foreach ($this->session->flashdata('errors') as $error) {
+								echo "<li>".$error."</li>";
+							}
+							$this->session->unset_userdata('errors');
+							?>
+						</ul>
+					</div>
+				</div>
+			<?php endif; ?>
+            
+            <?php if ($this->session->flashdata('brandNameError')): ?>
+				<div class="col-md-12 pageErrorDiv">
+					<div class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<?php
+                        echo $this->session->flashdata('brandNameError');
+                        $this->session->unset_userdata('brandNameError');
+                        ?>
+					</div>
+				</div>
+			<?php endif; ?>
+
             <form method="post" action="<?= base_url('addRequestedProduct') ?>" enctype="multipart/form-data"
                 onsubmit="return validateForm()">
 
@@ -87,10 +117,10 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                     <i class="fa fa-info-circle text-primary" data-toggle="tooltip"
                                         data-placement="right" title="Duplicate brand name not allowed"></i>*
                                     <?php if ($page_label == "'add'" || $brand_id) {
-                                        $other_div_style = 'style="display: none;"';
+                                            $other_div_style = 'style="display: none; align-items: center; gap: 8px;"';
 											$brand_id_div_style = '';
 										} else {
-											$other_div_style = '';
+											$other_div_style = 'style="display: flex; align-items: center; gap: 8px;"';
 											$brand_id_div_style = 'style="display: none;"';
 										}
 
@@ -149,19 +179,25 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                     <input type="number" class="form-control" placeholder="Enter Selling Price"
                                         name="sell_price" value="<?= $sell_price ?>" id="" required />
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-3">
                                     <label>Product Description *</label>
                                     <textarea class="form-control" rows="1" name="prd_desc"
                                         placeholder="Enter Product Description"
                                         <?= ($disableProductDetailFrom ? 'disabled' : '') ?> id=""
                                         required><?= $description ?></textarea>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <label>In The Box *</label>
                                     <textarea class="form-control" rows="1" name="in_the_box"
                                         placeholder="What You Are Providing In The Product Box"
                                         <?= ($disableProductDetailFrom ? 'disabled' : '') ?> id=""
                                         required><?= $in_the_box ?></textarea>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>Notes</label>
+                                    <textarea class="form-control" rows="1" name="notes"
+                                        placeholder="Enter Notes"
+                                        <?= ($disableProductDetailFrom ? 'disabled' : '') ?> id=""><?= $notes ?></textarea>
                                 </div>
                             </div>
 
@@ -176,12 +212,12 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                             <label>In Stock</label>
                                             <select class="form-control" name="in_stock" id="">
                                                 <?php if ($in_stock == 0) {
-                                                                                    $value0 = 'selected="selected"';
-                                                                                    $value1 = '';
-                                                                              } else {
-                                                                                    $value0 = '';
-                                                                                    $value1 = 'selected="selected"';
-                                                                              } ?>
+                                                    $value0 = 'selected="selected"';
+                                                    $value1 = '';
+                                                } else {
+                                                    $value0 = '';
+                                                    $value1 = 'selected="selected"';
+                                                } ?>
                                                 <option value="0" <?= $value0 ?>>No</option>
                                                 <option value="1" <?= $value1 ?>>Yes</option>
                                             </select>
@@ -438,8 +474,6 @@ $(document).ready(function() {
 	$('[name="brand_id"]').change(function() {
         $('.other').css({
 			'display': ($(this).val() == 'other') ? 'flex' : 'none',
-			'align-items': 'center',
-			'gap': '8px'
 		});
 
         $('[name="brand_id"]').css('display', ($(this).val() == 'other') ? 'none' : 'block');

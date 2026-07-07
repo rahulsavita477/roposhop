@@ -138,10 +138,10 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                 </div>
                             </div>
                             
-                            <a data-toggle="collapse" href="#service&Policy" aria-expanded="false" aria-controls="service&Policy">+ Service & Policy Options</a>
+                            <a data-toggle="collapse" href="#service_Policy" aria-expanded="false" aria-controls="service_Policy">+ Service & Policy Options</a>
 						
                             <!-- Collapsible content -->
-                            <div class="collapse" id="service&Policy">
+                            <div class="collapse" id="service_Policy">
                                 <div class="well" style="padding: 5px 10px;">
                                     <div class="row nextFormLine">
                                         <div class="col-sm-1 termsMainLabel">
@@ -470,6 +470,14 @@ function getCategoryAttribtes(cat_id, prd_id) {
                     resp = JSON.parse(data);
                     fields = '';
                     
+                    if(prd_id) {
+                        
+                        // remove not linked attributes from category
+                        resp = resp.filter(function(item) {
+                            return item.att_value !== "";
+                        });
+                    }
+
                     if (resp.length > 0) {
 
 	    				for (var i = 0; i < resp.length; i += 4) {

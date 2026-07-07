@@ -866,15 +866,16 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function rejectRequestedProduct($req_id) {
+	public function rejectRequestedProduct($req_id, $prd_id) {
 		
-		$condition = array('request_id' => $req_id);
-		$data = ['status' => 'REJECTED'];
-		$isUpdated = $this->Admin_model->updateData('requested_product2', $data, $condition);
+		$isRequestedProductUpdated = $this->Admin_model->updateData('requested_product2', ['status' => 'REJECTED'], array('request_id' => $req_id));
+		$isproductUpdated = $this->Admin_model->updateData('product', ['isEnabled' => 0], array('product_id' => $prd_id));
 		$controller = 'page/requestedProducts';
 
-		if (isset($isUpdated['db_error'])) {
-			redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+		if (isset($isRequestedProductUpdated['db_error'])) {
+			redirectWithMessage('Error: '.$isRequestedProductUpdated['msg'], $controller);
+		} else if (isset($isproductUpdated['db_error'])) {
+			redirectWithMessage('Error: '.$isproductUpdated['msg'], $controller);
 		} else {
 			redirectWithMessage('Requested product rejected successfully!', $controller);
 		}
@@ -3036,7 +3037,7 @@ class Admin_controller extends CI_Controller
 		if ($brand_id) 
 			$where['product.brand_id'] = $_GET['brand_id'];
 
-		$data['data'] = $this->Admin_model->products($where);
+		$data['data'] = $this->Admin_model->products($where, true);
 		if (isset($data['data']['db_error'])) 
 			redirectWithMessage('Error: '.$data['data']['msg'], $controller);
 
@@ -3049,7 +3050,6 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
 		
 		// echo "<pre>"; print_r($data); die;
-		
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/products', $data);
@@ -5123,80 +5123,117 @@ class Admin_controller extends CI_Controller
 	}
 
 	//add category method
-	public function addRequestedProduct()
-	{
+	public function addRequestedProduct() {
+
 		$images = array();
 		$data = array();
-		$prd_name = $this->input->post('prd_name');
-		$data['category_id'] = $this->input->post('parent_cat_id');
-		$data['brand_id'] = $this->input->post('brand_id');
-		$data['product_name'] = $prd_name;
-		$data['mrp_price'] = $this->input->post('prd_price');
-		$data['description'] = $this->input->post('prd_desc');
-		$data['in_the_box'] = $this->input->post('in_the_box');
-		$data['update_date'] = $this->current_date;
-
+		$error = array();
+		$merchant_id = $_COOKIE['merchant_id'];
+		$prd_name = $this->input->post('prd_name');		
 		$prd_id = $this->input->post('product_id');
-		$req_prd_id = $this->input->post('request_id');
+		$request_id = $this->input->post('request_id');
+		$brand_id = $this->input->post('brand_id');
+		$brand_name = $this->input->post('brand_name');
+		$list_id = $this->input->post('listing_id');
+		$category_id = $this->input->post('parent_cat_id');
 		$controller = 'page/merchantRequestedProducts';
 
-		//set null for blank fields
-		setNULLToBlank($data);
-
-		if (!$data['brand_id'] || $data['brand_id'] == 'other')
-		{
-			$data['brand_id'] = NULL;
+		if (!$brand_id || $brand_id == 'other') {
 
 			//brand name must be unique
-			if ($this->ci->form_validation->run('unique_brand_name') == FALSE)
-	        {
-	        	if ($req_prd_id) 
-	            	$this->editRequestedProduct($req_prd_id);
-	            else
-	            	$this->pageLoad('requestProduct');
-
-	            die;
-	        }
-		}
-
-		if ($prd_id) //update product
-		{
-			$condition = array('product_id' => $prd_id);
-			$isUpdated = $this->Admin_model->updateData('product', $data, $condition);
-
-			if (isset($isUpdated['db_error'])) 
-				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-
-			$msg = 'Product succesfully updated!';
-		}
-		else //insert new product
-		{
-			$data['create_date'] = $this->current_date;
-
-			//product name must be unique
-			// if ($this->ci->form_validation->run('unique_product_name') == FALSE)
+			// if ($this->ci->form_validation->run('unique_brand_name') == FALSE)
 	        // {
-	        //     $this->pageLoad('requestProduct');
+	        // 	if ($req_prd_id) 
+	        //     	$this->editRequestedProduct($req_prd_id);
+	        //     else
+	        //     	$this->pageLoad('requestProduct');
+
 	        //     die;
 	        // }
 
-			if ($this->unique_product_name($prd_name, $prd_id) == FALSE) {
-
-				$this->session->set_flashdata('productNameError', 'Duplicate product name not allowed.');
+			// check new brand existance, if duplicate brand name submitted then find the value of brand id
+			$brandRes = $this->Admin_model->selectRecords(array('name' => $brand_name), 'brand', 'brand_id');
+			if (isset($brandRes['db_error'])) {
+				
+				$this->session->set_flashdata('brandNameError', 'Brand selection error.');
 				$this->redirectBackToErrorPage();
 				die;
+			} else if ($brandRes) {
+				$brand_id = $brandRes['result'][0]['brand_id'];
+			} else {
+				$brand_id = NULL;
 			}
-
-			$prd_id = $this->Admin_model->insertData('product', $data);
-
-			if (isset($prd_id['db_error'])) 
-				redirectWithMessage('Error: '.$prd_id['msg'], $controller);
-			else
-				$msg = 'Product inserted successfully!!';
 		}
 
-		if ($prd_id) 
-		{
+		// requested product detail array
+		$req_prd_data = array();
+		$req_prd_data['merchant_id'] = $merchant_id;
+		$req_prd_data['product_name'] = $prd_name;
+		$req_prd_data['req_prd_id'] = $prd_id;
+		$req_prd_data['req_lst_id'] = $list_id;
+		$req_prd_data['brand_name'] = $brand_id ? null : $this->input->post('brand_name');
+		$req_prd_data['refer_link'] = $this->input->post('refer_link');
+		$req_prd_data['notes'] = $this->input->post('notes');
+		$req_prd_data['isLinked'] = 0;
+		// $req_prd_data['isEnabled'] = 1;
+		$req_prd_data['update_date'] = $this->current_date;
+		
+		//set null for blank fields
+		setNULLToBlank($req_prd_data);
+		
+		if ($request_id) {
+
+			$controller = 'editRequestedProduct/'.$request_id;
+
+			$isUpdated = $this->Admin_model->updateData('requested_product2', $req_prd_data, array('request_id' => $request_id));
+			if (isset($isUpdated['db_error'])) {
+				array_push($error, 'Requested Product: Unable to update.');
+			}
+		} else {
+			$req_prd_data['create_date'] = $this->current_date;
+
+			$request_id = $this->Admin_model->insertData('requested_product2', $req_prd_data);
+			
+			if (isset($request_id['db_error'])) {
+				redirectWithMessage('Error: Unable to save requested product', $controller);
+			}
+		}
+		
+		// product detail array
+		$prd_data = array();
+		$prd_data['category_id'] = $category_id;
+		$prd_data['brand_id'] = $brand_id;
+		$prd_data['product_name'] = $prd_name;
+		$prd_data['mrp_price'] = $this->input->post('prd_price');
+		$prd_data['description'] = $this->input->post('prd_desc');
+		$prd_data['in_the_box'] = $this->input->post('in_the_box');
+		$prd_data['update_date'] = $this->current_date;
+
+		//set null for blank fields
+		setNULLToBlank($prd_data);
+
+		if ($prd_id) { // update product
+		
+			$condition = array('product_id' => $prd_id);
+			$isUpdated = $this->Admin_model->updateData('product', $prd_data, $condition);
+
+			if (isset($isUpdated['db_error'])) {
+				array_push($error, 'Product: Unable to update.');
+			}
+		
+		} else { //insert new product
+		
+			$prd_data['create_date'] = $this->current_date;
+
+			$prd_id = $this->Admin_model->insertData('product', $prd_data);
+
+			if (isset($prd_id['db_error'])) {
+				redirectWithMessage('Error: '.$prd_id['msg'], $controller);
+			}
+		}
+
+		if ($prd_id) {
+
 			//atatchment data
 			$img_data['link_id'] = $prd_id;
 			$img_data['atch_type'] = "IMAGE";
@@ -5207,23 +5244,25 @@ class Admin_controller extends CI_Controller
 
 			//insert product images
 			$isUploaded = $this->upload_image($folder, $img_data);
-			if (isset($isUploaded['db_error'])) 
-				redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
+			if (isset($isUploaded['db_error'])) {
+				array_push($error, 'Image upload failed.');
+			}
 
 			//insert or update product attribute values
 			//insert product category attribute
-			$category_attributes_res = $this->Admin_model->categoryAttributes($data['category_id'], $prd_id);	
+			$category_attributes_res = $this->Admin_model->categoryAttributes($category_id, $prd_id);	
 
 			$category_attributes = array();
-			if ($category_attributes_res)
+			if ($category_attributes_res){
 				$category_attributes = $category_attributes_res;
+			}
 
 			$tbl_name = 'category_attribute_value';
 			$i = 0;
-			foreach ($category_attributes as $att_value) 
-			{
-				if ($att_value['mp_id']) 
-				{
+			foreach ($category_attributes as $att_value) {
+
+				if ($att_value['mp_id']) {
+
 					$att_field_value = $this->input->post($att_value['att_id']);
 
 					$columns = 'value_id';
@@ -5234,99 +5273,89 @@ class Admin_controller extends CI_Controller
 					$att_values_data['prd_id'] = $prd_id;
 					$att_values_data['att_value'] = $att_field_value;	
 					
-					if (isset($prd_att_res['db_error'])) 
-						redirectWithMessage('Error: '.$prd_att_res['msg'], $controller);
-					else if ($prd_att_res) //update attribute value
-					{
+					if (isset($prd_att_res['db_error'])) {
+						array_push($error, 'Attributes: Fetch Operations Failed.');
+					} else if ($prd_att_res) { //update attribute value
+					
 						$condition = array('value_id' => $prd_att_res['result'][0]['value_id']);
 						$isUpdated = $this->Admin_model->updateData($tbl_name, $att_values_data, $condition);
-						if (isset($isUpdated['db_error'])) 
-							redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-					}
-					else //insert attribute value
+						if (isset($isUpdated['db_error'])) {
+							array_push($error, 'Attributes: Update Operations Failed.');
+						}
+					} else { //insert attribute value
 						$this->Admin_model->insertData($tbl_name, $att_values_data);
+					}
 				}
 			}
 
 			//insert product listing with merchant
-			$merchant_id = $_COOKIE['merchant_id'];
-			$list_id = $this->input->post('listing_id');
-
 			$listing_data = array();
 			$listing_data['merchant_id'] = $merchant_id;
 			$listing_data['sell_price'] = $this->input->post('sell_price');
-			$listing_data['finance_available'] = $this->input->post('finance_available');
+			$listing_data['finance_available'] = $this->input->post('finance_available') ? 1 : 0;
 			$listing_data['finance_terms'] = $this->input->post('finance_terms');
-			$listing_data['home_delivery_available'] = $this->input->post('home_delievery');
+			$listing_data['home_delivery_available'] = $this->input->post('home_delievery') ? 1 : 0;
 			$listing_data['home_delivery_terms'] = $this->input->post('delievery_terms');
-			$listing_data['installation_available'] = $this->input->post('installation_available');
+			$listing_data['installation_available'] = $this->input->post('installation_available') ? 1 : 0;
 			$listing_data['installation_terms'] = $this->input->post('installation_terms');
-			$listing_data['in_stock'] = $this->input->post('in_stock');
 			$listing_data['will_back_in_stock_on'] = $this->input->post('back_in_stock');
-			$listing_data['replacement_available'] = $this->input->post('replacement_available');
+			$listing_data['replacement_available'] = $this->input->post('replacement_available') ? 1 : 0;
 			$listing_data['replacement_terms'] = $this->input->post('replacement_terms');
-			$listing_data['return_available'] = $this->input->post('return_available');
+			$listing_data['return_available'] = $this->input->post('return_available') ? 1 : 0;
 			$listing_data['return_policy'] = $this->input->post('return_policy');
 			$listing_data['seller_offering'] = $this->input->post('seller_offering');
 			$listing_data['update_date'] = $this->current_date;
 			$listing_data['isVerified'] = 1;
 			$listing_data['product_id'] = $prd_id;
-
+			if($this->input->post('request_id')) {
+				$listing_data['in_stock'] = 1;
+			} else {
+				$listing_data['in_stock'] = $this->input->post('in_stock') ? 1 : 0;
+			}
+			
 			//set null for blank fields
 			setNULLToBlank($listing_data);
 
-			if ($list_id) 
-			{
+			if ($list_id) {
+
 				$condition = array('listing_id' => $list_id);
 				$isUpdated = $this->Admin_model->updateData('product_listing', $listing_data, $condition);
-				if (isset($isUpdated['db_error'])) 
-					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-			}
-			else
-			{
+				if (isset($isUpdated['db_error'])) {
+					array_push($error, 'Listing: Update Operations Failed.'.$isUpdated['msg']);
+				}
+			} else {
+
 				$listing_data['create_date'] = $this->current_date;
 
 				$list_id = $this->Admin_model->insertData('product_listing', $listing_data);
 				
-				if (isset($list_id['db_error'])) 
-					redirectWithMessage('Error: '.$list_id['msg'], $controller);
+				if (isset($list_id['db_error'])) {
+					array_push($error, 'Listing: Insert Operations Failed.'.$list_id['msg']);
+				}
 			}
 
-			//insert requested product detail
+			// update requested product details with listing id and product id if eariler was not updated
 			$req_prd_data = array();
-			$req_prd_data['merchant_id'] = $merchant_id;
 			$req_prd_data['req_prd_id'] = $prd_id;
-			$req_prd_data['product_name'] = $prd_name;
 			$req_prd_data['req_lst_id'] = $list_id;
-			$req_prd_data['brand_name'] = $data['brand_id'] ? null : $this->input->post('brand_name');
-			$req_prd_data['refer_link'] = $this->input->post('refer_link');
-			$req_prd_data['isLinked'] = 0;
-			$req_prd_data['isEnabled'] = 1;
-			$req_prd_data['update_date'] = $this->current_date;
-			
-			//set null for blank fields
-			setNULLToBlank($req_prd_data);
-			
-			if ($req_prd_id) 
-			{
-				$controller = 'editRequestedProduct/'.$req_prd_id;
-
-				$isUpdated = $this->Admin_model->updateData('requested_product2', $req_prd_data, array('request_id' => $req_prd_id));
-				if (isset($isUpdated['db_error'])) 
-					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			$condition = array('request_id' => $request_id);
+			$isUpdated = $this->Admin_model->updateData('requested_product2', $req_prd_data, $condition);
+			if (isset($isUpdated['db_error'])) {
+				array_push($error, 'Requested Product: Unable to link listing and product.');
 			}
-			else
-			{
-				$req_prd_data['create_date'] = $this->current_date;
+			
+			// if any error occure, redirect user to edit product screen with saved data
+			if(count($error) > 0) {
 
-				$req_id = $this->Admin_model->insertData('requested_product2', $req_prd_data);
-				
-				if (isset($req_id['db_error'])) 
-					redirectWithMessage('Error: '.$req_id['msg'], $controller);
+				$this->session->set_flashdata('errors', $error);
+				redirect('/editRequestedProduct/'.$request_id);
+				die;
+			} else {
+				$msg = "Request product saved successfully";
 			}
-		}
-		else
-		{
+
+		} else {
+
 			$msg = 'Error: Unable to insert!';
 			$controller = 'addProduct';
 		}
