@@ -103,28 +103,22 @@ else
                                     </select>
                                 </div>
 
-                                <div class="col-sm-3" style="padding-right: 0px;">
-                                    <div class="col-sm-12" style="padding: 0px;">
-                                        <label>State *</label>
-                                    </div>
-                                    <div class="col-sm-10" style="padding: 0px;">
-                                        <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
-                                    </div>
-                                    <div class="col-sm-2" style="padding: 5px;">
-                                        <a href="javascript:void(0);" onclick="getState();" title="Refresh States"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
-                                    </div>
+                                <div class="col-sm-3">
+                                    <label>State *</label>
+                                    <div class="other" style="display: flex; align-items: center; gap: 8px;">
+										<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
+
+										<a href="javascript:void(0);" onclick="getState();" title="Refresh States"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
+									</div>
                                 </div>
 
-                                <div class="col-sm-3" style="padding: 0px;">
-                                    <div class="col-sm-12" style="padding: 0px;">
-                                        <label>City *</label>
-                                    </div>
-                                    <div class="col-sm-10" style="padding: 0px;">
-                                        <select class="form-control" name="city_id" id="state_cities" required></select>
-                                    </div>
-                                    <div class="col-sm-2" style="padding: 5px;">
-                                        <a href="javascript:void(0);" onclick="getCity();" title="Refresh Cities"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
-                                    </div>
+                                <div class="col-sm-3">
+                                    <label>City *</label>
+                                    <div class="other" style="display: flex; align-items: center; gap: 8px;">
+										<select class="form-control" name="city_id" id="state_cities" required></select>
+
+										<a href="javascript:void(0);" onclick="getCity();" title="Refresh Cities"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
+									</div>
                                 </div>
 
                                 <div class="col-sm-3" style="padding-left: 0px;">

@@ -73,7 +73,7 @@ $seller_offering = isset($result[0]['seller_offering']) ? $result[0]['seller_off
 
 	                        <div class="row nextFormLine">
 								<div class="col-sm-1 termsMainLabel">
-									<label>Home Delievery:</label>
+									<label>Home Delivery:</label>
 								</div>
 								<div class="col-sm-1 termsAvailabilitySelectBox">
                         			<select class="form-control" name="home_delievery" id="">

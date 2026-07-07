@@ -117,8 +117,8 @@ define('CODE_ERROR_PHP_NOTICE', 1011);
 //EMAIL CONFIGURATION DETAIL
 define('EMAIL_ID', 'RopoShop@RopoShop.com');
 define('EMAIL_NAME', 'RopoShop');
-define('EMAIL_USERNAME', 'RopoShop@RopoShop.com');
-define('EMAIL_PASSWORD', 'RopoShop123');
+define('EMAIL_USERNAME', 'rahulsavita477@gmail.com');
+define('EMAIL_PASSWORD', '0108CA121069');
 define('EMAIL_PROTOCOL', 'smtp');
 define('EMAIL_HOST', 'ssl://mail.RopoShop.com');
 define('EMAIL_PORT', 465);

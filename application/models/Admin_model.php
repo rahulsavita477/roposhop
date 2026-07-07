@@ -893,7 +893,7 @@ print_r($tables); die;
 
     public function getRequestedProduct($where = '')
     {
-        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, requested_product2.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product2.status as requestProductStatus');
+        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product2.status as requestProductStatus, requested_product2.create_date, requested_product2.update_date');
         $this->db->join('product_listing', 'listing_id = req_lst_id', 'left');
         $this->db->join('product', 'product.product_id = requested_product2.req_prd_id', 'left');
 

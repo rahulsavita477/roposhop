@@ -53,7 +53,7 @@ $merchant_id = $_COOKIE['merchant_id'];
 
 	                        <div class="row form-group">
                         		<div class="col-sm-3">
-                        			<label>Home Delievery*:</label>	
+                        			<label>Home Delivery*:</label>	
                         		</div>
                         		<div class="col-sm-9">
                         			<select class="form-control" name="home_delievery" required>
@@ -65,10 +65,10 @@ $merchant_id = $_COOKIE['merchant_id'];
 
 	                        <div class="row form-group">
                         		<div class="col-sm-3">
-                        			<label>Home Delievery Terms:</label>	
+                        			<label>Home Delivery Terms:</label>	
                         		</div>
                         		<div class="col-sm-9">
-                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."></textarea>
+                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Enter Delivery Terms"></textarea>
                         		</div>
                         	</div>
 

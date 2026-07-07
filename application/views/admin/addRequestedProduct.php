@@ -580,7 +580,7 @@ $page_title = 'Add requested product';
 
 						<div class="row form-group">
 							<div class="col-sm-3">
-								<label>Home Delievery:</label> 
+								<label>Home Delivery:</label> 
 							</div>
 							<div class="col-sm-5">
 								<select class="form-control" name="home_delievery" required>
@@ -604,10 +604,10 @@ $page_title = 'Add requested product';
 
                         <div class="row form-group">
                           	<div class="col-sm-3">
-                            	<label>Home Delievery Terms:</label>
+                            	<label>Home Delivery Terms:</label>
                             </div>
                           	<div class="col-sm-8">
-                                <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+                                <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Enter Delivery Terms" id=""><?= $home_delivery_terms ?></textarea>
                           	</div>
                         </div>
 

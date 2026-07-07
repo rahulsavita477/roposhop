@@ -134,14 +134,14 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                     <label>Seller Offerings:</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea class="form-control" rows="2" name="seller_offering" placeholder="Enter Offering"><?= $seller_offering ?></textarea>
+                                    <textarea class="form-control" rows="2" name="seller_offering" placeholder="Enter Offering" id=""><?= $seller_offering ?></textarea>
                                 </div>
                             </div>
                             
-                            <a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Service & Policy Options</a>
+                            <a data-toggle="collapse" href="#service&Policy" aria-expanded="false" aria-controls="service&Policy">+ Service & Policy Options</a>
 						
                             <!-- Collapsible content -->
-                            <div class="collapse" id="additionalDetails">
+                            <div class="collapse" id="service&Policy">
                                 <div class="well" style="padding: 5px 10px;">
                                     <div class="row nextFormLine">
                                         <div class="col-sm-1 termsMainLabel">
@@ -164,13 +164,13 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                             <label>Terms:</label>
                                         </div>
                                         <div class="col-sm-9 termsTextArea">
-                                            <textarea class="form-control" rows="2" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
+                                            <textarea class="form-control" rows="2" name="finance_terms" placeholder="Enter Finance Terms"><?= $finance_terms ?></textarea>
                                         </div>
                                     </div>
 
                                     <div class="row nextFormLine">
                                         <div class="col-sm-1 termsMainLabel">
-                                            <label>Home Delievery:</label>
+                                            <label>Home Delivery:</label>
                                         </div>
                                         <div class="col-sm-1 termsAvailabilitySelectBox">
                                             <select class="form-control" name="home_delievery" id="">
@@ -189,7 +189,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                             <label>Terms:</label>
                                         </div>
                                         <div class="col-sm-9 termsTextArea">
-                                            <textarea class="form-control" rows="2" name="delievery_terms" placeholder="Enter Delievery Terms"><?= $home_delivery_terms ?></textarea>
+                                            <textarea class="form-control" rows="2" name="delievery_terms" placeholder="Enter Delivery Terms" id=""><?= $home_delivery_terms ?></textarea>
                                         </div>
                                     </div>
 
@@ -198,7 +198,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                             <label>Installation Available:</label>
                                         </div>
                                         <div class="col-sm-1 termsAvailabilitySelectBox">
-                                            <select class="form-control" name="installation_available">
+                                            <select class="form-control" name="installation_available" id="">
                                                 <?php if ($installation_available == 0) {
                                                     $value0 = "selected";
                                                     $value1 = '';
@@ -214,7 +214,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                             <label>Terms:</label>
                                         </div>
                                         <div class="col-sm-9 termsTextArea">
-                                            <textarea class="form-control" rows="2" name="installation_terms" placeholder="Enter Installation Terms"><?= $installation_terms ?></textarea>
+                                            <textarea class="form-control" rows="2" name="installation_terms" placeholder="Enter Installation Terms" id=""><?= $installation_terms ?></textarea>
                                         </div>
                                     </div>
 
@@ -264,7 +264,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                             <label>Terms:</label>
                                         </div>
                                         <div class="col-sm-9 termsTextArea">
-                                            <textarea class="form-control" rows="2" name="return_policy" placeholder="Enter Return Terms"><?= $return_policy ?></textarea>
+                                            <textarea class="form-control" rows="2" name="return_policy" placeholder="Enter Return Terms" id=""><?= $return_policy ?></textarea>
                                         </div>
                                     </div>
                                 </div>

@@ -156,7 +156,7 @@ $product_name = $listing_detail[0]['product_name'];
 								<td><?= $listing_detail[0]['finance_terms'] ?></td>
 							</tr>
 							<tr>
-								<td>Home delievery available</td>
+								<td>Home Delivery available</td>
 								<td><?= $home_delivery_available ?></td>
 							</tr>
 							<tr>

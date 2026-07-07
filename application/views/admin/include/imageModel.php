@@ -48,11 +48,17 @@ function removeStaticImage(index) {
 }
 
 $(function() {
-    $('img').on('click', function() {
-		$('.enlargeImageModalSource').attr('src', $(this).attr('src'));
-		$('#enlargeImageModal').modal('show');
-	});
+    // $('img').on('click', function() {
+    //     debugger;
+	// 	$('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+	// 	$('#enlargeImageModal').modal('show');
+	// });
 
+    $(document).on('click', 'img', function() {
+        $('.enlargeImageModalSource').attr('src', $(this).attr('src'));
+        $('#enlargeImageModal').modal('show');
+    });
+    
 	// Multiple images preview in browser
     var imagesPreview = function(input, placeToInsertImagePreview, image_no='', isFile='') {
     	if (input.files) 

@@ -489,7 +489,7 @@ function open_modal2(name, data)
                                         <td>'.$finance_available.$finance_terms.'</td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 35%;">Home delievery available</td>
+                                        <td style="width: 35%;">Home Delivery Available</td>
                                         <td>'.$home_delivery_available.$home_delivery_terms.'</td>
                                     </tr>
                                     <tr>

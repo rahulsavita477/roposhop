@@ -129,30 +129,29 @@
 
         <?php if (isset($_GET['list_new_product'])): ?>
             <div class="box">
+                <?php if ($_COOKIE['site_code'] == 'admin'): ?>
+                    <div class="row" style="margin: 10px 0px 10px 0px;">
+                        <div class="col-sm-3" style="padding-left: 10px;">
+                            <select class="form-control" onchange="changeURL(this)" id="">
+                                <option value="0">Select Seller</option>
+                                <?php foreach ($merchants as $merchant) {
 
-            <?php if ($_COOKIE['site_code'] == 'admin'): ?>
-                <div class="row" style="margin: 10px 0px 0px 0px;">
-                    <div class="col-sm-3" style="padding-left: 10px;">
-                        <select class="form-control" onchange="changeURL(this)">
-                            <option value="0">Select Seller</option>
-                            <?php
-                            foreach ($merchants as $merchant) 
-                            {
-                                if (!$merchant['establishment_name'])
-                                    continue;
+                                    if (!$merchant['establishment_name']) {
+                                        continue;
+                                    }
 
-                                if ($sel_id == $merchant['merchant_id'])
-                                    $selected = "selected='selected'";
-                                else
-                                    $selected = '';
+                                    if ($sel_id == $merchant['merchant_id']) {
+                                        $selected = "selected='selected'";
+                                    } else {
+                                        $selected = '';
+                                    }
 
-                                echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";
-                            }
-                            ?>
-                        </select>''''
+                                    echo "<option value='".$merchant['merchant_id']."' ".$selected.">".$merchant['establishment_name']."</option>";
+                                } ?>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
             
                 <!-- select requested product for linking -->
                 <?php if ($req_products && isset($_GET['list_new_product']) && $_COOKIE['site_code'] == "seller") { ?>
@@ -369,8 +368,8 @@
                                             <td>".$prd_value['mrp_price']."</td>
                                             <td>".$prd_value['price']."</td>
                                             <td>".$in_stock."</td>
-                                            <td>".$prd_value['create_date']."</td>
-                                            <td>".$prd_value['update_date']."</td>
+                                            <td>".convert_to_user_date($prd_value['create_date'])."</td>
+                                            <td>".convert_to_user_date($prd_value['update_date'])."</td>
                                         </tr>";
 
                                         // $count++;

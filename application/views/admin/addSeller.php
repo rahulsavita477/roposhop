@@ -469,26 +469,20 @@ else
 													</select>
 												</div>
 												
-												<div class="col-sm-3" style="padding-right: 0px;">
-													<div class="col-sm-12" style="padding: 0px;">
-														<label>State *</label>
-													</div>
-													<div class="col-sm-10" style="padding: 0px;">
+												<div class="col-sm-3">
+													<label>State *</label>
+													<div style="display: flex; align-items: center; gap: 8px;">
 														<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states"></select>
-													</div>
-													<div class="col-sm-2" style="padding: 5px;">
+
 														<a href="javascript:void(0);" onclick="getState();" title="Refresh States"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
 													</div>
 												</div>
 
-												<div class="col-sm-3" style="padding: 0px;">
-													<div class="col-sm-12" style="padding: 0px;">
-														<label>City *</label>
-													</div>
-													<div class="col-sm-10" style="padding: 0px;">
+												<div class="col-sm-3">
+													<label>City *</label>
+													<div style="display: flex; align-items: center; gap: 8px;">
 														<select class="form-control" name="city_id" id="state_cities"></select>
-													</div>
-													<div class="col-sm-2" style="padding: 5px;">
+
 														<a href="javascript:void(0);" onclick="getCity();" title="Refresh Cities"><i class="fa fa-undo" aria-hidden="true" style="margin-top: 5px;"></i></a>
 													</div>
 												</div>
@@ -710,7 +704,7 @@ else
 
 										<div class="row form-group nextFormLine">
 											<div class="col-sm-1 termsMainLabel">
-												<label>Home Delievery:</label>
+												<label>Home Delivery:</label>
 											</div>
 											<div class="col-sm-1 termsAvailabilitySelectBox">
 												<select class="form-control" name="home_delievery">
@@ -731,7 +725,7 @@ else
 												<label>Terms:</label>
 											</div>
 											<div class="col-sm-9 termsTextArea">
-												<textarea class="form-control" rows="2" name="delievery_terms" placeholder="Enter Delievery Terms"><?= $home_delivery_terms ?></textarea>
+												<textarea class="form-control" rows="2" name="delievery_terms" placeholder="Enter Delivery Terms"><?= $home_delivery_terms ?></textarea>
 											</div>
 										</div>
 

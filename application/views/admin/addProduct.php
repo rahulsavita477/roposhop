@@ -558,7 +558,7 @@ if (isset($page_label) && $page_label == "edit") {
 		                        		</div>
 
 										<div class="col-sm-3">
-		                        			Product Name
+		                        			<label>Product Name</label>
 											<!-- Tooltip icon -->
 											<i class="fa fa-info-circle text-primary"
 												data-toggle="tooltip"
@@ -783,7 +783,6 @@ if (isset($page_label) && $page_label == "edit") {
 												</div>
 
 												<div class="row nextFormLine">
-													
 													<div class="col-sm-6">
 														<div class="table-responsive editTable">
 															<table class="table table-bordered dataTable">

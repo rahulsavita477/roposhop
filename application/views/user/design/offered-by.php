@@ -244,7 +244,7 @@ a.text-active {
                                           </tr>
 
                                           <tr>
-                                          <td>Home delievery available</td>
+                                          <td>Home Delivery available</td>
                                           <td class="text-left">No</td>
                                           </tr>
 
