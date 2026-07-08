@@ -560,16 +560,18 @@ print_r($tables); die;
             product_listing.return_policy, 
             product_listing.seller_offering, 
             merchant.userId, 
-            product_name, 
+            product.product_name, 
             mrp_price, 
             business_days, 
             business_hours, 
             product_listing.meta_description, 
-            product_listing.meta_keyword', 
+            product_listing.meta_keyword, 
+            brand_name',
             FALSE
         );
         $this->db->join('merchant', 'merchant.merchant_id = product_listing.merchant_id', 'left');
-        $this->db->join('product', 'product.product_id = product_listing.product_id', 'left');
+        $this->db->join('product', 'product.product_id = product_listing.product_id AND product.isEnabled = 1', 'inner');
+        $this->db->join('requested_product2', 'requested_product2.req_prd_id = product.product_id', 'left');
 
         $this->db->where($where);
 

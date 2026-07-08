@@ -148,11 +148,10 @@
                     </div><!-- End .featured-proucts -->
                 </div><!-- End .container -->
 
-                <div class="mb-2"></div><!---margin-->
+                <div class="mb-3"></div><!---margin-->
             <?php }
         } ?>
     </div>
-    <div class="mb-3"></div><!-- margin -->
     <?php endif; ?>
 
     <?php if($brands): ?>
@@ -209,8 +208,8 @@
             <div class="clearfix"></div>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
             <div class="partners-container" style="padding-top:0;padding-bottom:0;">
-                <div class="container" style="padding-left:0;padding-right:0;">
-                    <div class="partners-carousel owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;"  data-toggle="owl" data-owl-options="{
+                <div class="container pl-0 pr-0">
+                    <div class="partners-carousel owl-carousel owl-theme min-123 pl-0 pr-0" data-toggle="owl" data-owl-options="{
                         'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,

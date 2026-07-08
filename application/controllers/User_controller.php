@@ -802,11 +802,18 @@ class User_controller extends CI_Controller
             //product detail
             $data['product'] = $product_detail['result'][0];
 
-            //get brand name
-            $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
-            $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
-            $data['product']['brand_name'] = $brand['result'][0]['name'];
-            $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+            // if brand id available then fetch the brand details
+            if($product_detail['result'][0]['brand_id']) {
+
+                $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
+                $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
+                $data['product']['brand_name'] = $brand['result'][0]['name'];
+                if($brand['result'][0]['brand_logo']) {
+                    $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+                } else {
+                    $data['product']['brand_logo'] = '';
+                }
+            }
 
             //get Product Features
             $prd_feature = $this->am1->selectRecords(array('product_id' => $product_id), 'product_key_features', 'feature');

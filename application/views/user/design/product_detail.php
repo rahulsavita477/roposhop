@@ -304,20 +304,20 @@ textarea.form-control{
                      
                 <div class="featured-products-section carousel-section">
                     <?php if($product['sold_by_merchants']): ?>
-                    <div class="container">
+                    <div class="container pb-5">
                         <h2 class="h3 title float-left">Offered By</h2>
                         <div class="under-l"></div>
                         <!-- <a href="#" class="float-right rounded-btn">View All</a> -->
-                        <div class="clearfix"></div><br>
-                        <div class="partners-container pt-1 pb-1 ">
-                            <div class="container">
-                                <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+                        <div class="clearfix"></div>
+                        <div class="partners-container pb-0 pt-5">
+                            <div class="container pl-0 pr-0">
+                                <div class="partners-carousel owl-carousel owl-theme min-123 pl-0 pr-0" data-toggle="owl" data-owl-options="{
                                     'loop': false,
                                     'margin': 10,
                                     'autoplayHoverPause' : true,
                                     'nav' : true,
                                     'items': 1,
-                                    'autoplayTimeout': 4000,
+                                    'autoplayTimeout': 2000,
                                     'responsive': {
                                         '559': {
                                             'items': 2
@@ -327,57 +327,56 @@ textarea.form-control{
                                         }
                                     }
                                 }">
-                                    <?php
-                                    if(isset($product['product_name'])) {
+                                    <?php if(isset($product['product_name'])) {
                                         
                                         foreach ($product['sold_by_merchants'] as $merchant) {
 
-                                            $listing_url = base_url('listings').'/'.url_title($merchant['establishment_name'].'-'.$product['product_name'], '-', true).'?list_id='.$merchant['listing_id'].'&prd_id='.$_GET['prd_id'].$url;
+                                            $listing_url = base_url('listings').'/'.url_title($merchant['establishment_name'].'-'.$product['product_name'], '-', true)
+                                                .'?list_id='.$merchant['listing_id'].'&prd_id='.$_GET['prd_id'].$url;
 
                                             $lat = $merchant['nearest_address']['latitude'];
                                             $long = $merchant['nearest_address']['longitude'];
                                             $distance = distance($lat, $long);
 
-                                            echo '<div class="product-default d-flex flex-column justify-content-center">
-                                                <a href="'.$listing_url.'">';
+                                            echo '<a href="'.$listing_url.'" 
+                                                    class="partner d-flex flex-column align-items-center justify-content-between" 
+                                                    style="width:auto;max-width:220px;height:200px;border:1px solid #ddd;border-radius:8px;
+                                                            text-decoration:none;padding:10px;box-sizing:border-box;margin:0px 10px 10px 0px;">';
 
-                                                if ($merchant['merchant_logo']) 
-                                                    echo '<div class="height-100 d-flex flex-column"
-                                                        >
-                                                            <img 
-                                                                style="
-                                                                    display: block !important;
-                                                                    width: auto !important;
-                                                                    max-width: 100%;
-                                                                    height: auto;
-                                                                    position: relative;
-                                                                    max-height: 100px;
-                                                                    margin-left: auto;
-                                                                    margin-right: auto;"
-
-                                                                src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'" 
-                                                                alt="'.$merchant['establishment_name'].'"/>
+                                                // Logo or fallback block
+                                                if ($merchant['merchant_logo']) {
+                                                    echo '<div style="height:90px;display:flex;align-items:center;justify-content:center;">
+                                                            <img src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" 
+                                                                alt="'.$merchant['establishment_name'].'" 
+                                                                style="max-height:80px;width:auto;" />
                                                         </div>';
-                                                else
-                                                    echo '<div class="height-100 d-flex flex-column justify-content-center" style="background:red;">
-                                                        <h3 style="color:#fff;">'.$merchant['establishment_name'].'</h3></div>';
+                                                } else {
+                                                    echo '<div style="height:90px;display:flex;align-items:center;justify-content:center;
+                                                                background:#007BFF;border-radius:6px;padding:5px 10px;">
+                                                            <span style="color:#fff;font-size:14px;font-weight:600;text-align:center;
+                                                                        overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                                                '.htmlspecialchars($merchant['establishment_name']).'
+                                                            </span>
+                                                        </div>';
+                                                }
 
-                                                echo '<div class="row pt-2 pb-2">
-                                                        <div class="col-md-6 text-left">
-                                                            <div class="product-filters-container text-left">
-                                                                '.currency_format($merchant['sell_price']).'<br />('.calculatePercentage($product['mrp_price'], $merchant['sell_price']).'% Off)
-                                                            </div> 
-                                                        </div>    
-                                                
-                                                        <div class="col-md-6">
-                                                            <button class="bs"><i class="fa fa-walking" aria-hidden="true"></i> '.$distance.'<br />KM</button>
-                                                        </div>  
-                                                    </div>
-                                                </a>
-                                            </div>';
-                                        }    
-                                    }
-                                    ?>
+                                                // Price + discount + distance
+                                                echo '<div class="w-100 d-flex justify-content-between align-items-center mt-2">
+                                                        <div style="font-size:14px;color:#333;">
+                                                            '.currency_format($merchant['sell_price']).'<br />
+                                                            <small style="color:#28a745;">('.calculatePercentage($product['mrp_price'], $merchant['sell_price']).'% Off)</small>
+                                                        </div>
+                                                        <div>
+                                                            <span style="background:#f8f9fa;border:1px solid #ccc;border-radius:4px;
+                                                                        padding:4px 8px;font-size:12px;color:#333;">
+                                                                <i class="fa fa-walking"></i> '.$distance.' KM
+                                                            </span>
+                                                        </div>
+                                                    </div>';
+
+                                            echo '</a>';
+                                        }
+                                    } ?>
                                 </div>
                             </div>
                         </div>
