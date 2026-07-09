@@ -91,6 +91,7 @@ $route['api/v1/users/check'] = $v1_api_controller.'checkUserExist';
 //AJAX REQUEST
 $route['states/(:num)'] = $admin_controller.'statesAJAX/$1';
 $route['cities/(:num)'] = $admin_controller.'citiesAJAX/$1';
+$route['brands'] = $admin_controller.'brandsAJAX';
 
 //USER PANEL AJAX REQUEST
 $route['api/v1/product/(:num)'] = $v1_api_controller.'getProductAJAX/$1';

@@ -1044,7 +1044,6 @@ if (isset($page_label) && $page_label == "edit") {
 									<!-- Collapsible content -->
 									<div class="collapse in" id="additionalDetails">
 										<div class="well">
-
 											<div class="row">
 												<div class="col-sm-6">
 													<div class="table-responsive editTable">

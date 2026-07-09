@@ -389,7 +389,7 @@ class Admin_controller extends CI_Controller
 		if (isset($not_varified_seller_count['db_error'])) 
 			$this->logout();
 
-		$pending_requested_product_count = $this->Admin_model->selectRecords(array('isLinked' => 0), 'requested_product2', 'COUNT(request_id) AS pen_req_prd_cnt');
+		$pending_requested_product_count = $this->Admin_model->selectRecords(array('isLinked' => 0, 'status' => "PENDING"), 'requested_product2', 'COUNT(request_id) AS pen_req_prd_cnt');
 		if (isset($pending_requested_product_count['db_error'])) 
 			$this->logout();
 
@@ -2082,6 +2082,23 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
+	// get brands from db
+	public function brandsAJAX() {
+
+		$res = $this->Admin_model->selectRecords('', 'brand', '*', array('name' => 'ASC'));
+		if (isset($res['db_error'])) 
+			redirectWithMessage('Error: '.$res['msg'], 'dashboard');
+
+		if($res && $res['result']) {
+
+			echo json_encode($res['result']);
+		
+		} else {
+			echo json_encode(array());
+		}
+		die;
+	}
+
 	//get county from db
 	public function getCountry($cnt_id="", $staus='')
 	{
@@ -2629,7 +2646,7 @@ class Admin_controller extends CI_Controller
 			$folder = BRAND_ATTATCHMENTS_PATH.$brand_id;
 
 			//insert logo
-			if (isset($_FILES['file7']['name']))
+			if (isset($_FILES['file7']['name']) && $_FILES['file7']['name'] != '')
 			{
 				$logo = $this->common_controller->single_upload($folder, '', "file7");
 
@@ -2831,6 +2848,7 @@ class Admin_controller extends CI_Controller
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view($page, $data);	
+		$this->load->view('ajaxFunctions');
 		$this->load->view('admin/include/footer');
 		die;
 	}

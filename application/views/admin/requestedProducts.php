@@ -48,7 +48,7 @@
                                         $isLinked = "NOT LINKED";
                                     }
                                     
-                                    $approveRequestedProductBtn = "<li><a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' title='Approve Product' onclick='return confirm(\"Do you want to approve the requested product?\")'><i class='fa fa-check'></i>Approve</a></li>";
+                                    $approveRequestedProductBtn = "<li><a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' title='Approve Product'><i class='fa fa-check'></i>Approve</a></li>";
                                     $rejectRequestedProductBtn = "<li><a href='".base_url()."rejectRequestedProduct/".$req_prd['request_id']."/".$req_prd['req_prd_id']."' title='Reject Product' onclick='return confirm(\"Do you want to reject the requested product?\")'><i class='fa fa-ban'></i>Reject</a></li>";
                                     $deleteRequestedProductBtn = "<li><a href='".base_url("deleteRequestProduct").'/'.$req_prd['request_id']."' title='Delete Product' onclick='return confirm(\"Do you want to delete the request product?\")'><i class='fa fa-trash-o'></i>Delete</a></li>";
 

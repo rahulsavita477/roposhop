@@ -353,4 +353,38 @@ function getCity(state_id)
         alert('Error: State not selected');
     }
 }
+
+//get city of state
+function getBrand()
+{
+    $('#brands').empty();
+    
+    $.ajax({
+        type: "GET",
+        url: '<?= base_url("brands") ?>',
+        success: function(data) {
+            if (data) {
+
+                $('#brands').empty();
+                brands = JSON.parse(data);
+
+                if(brands.length > 0) {
+                    
+                    brand_options = "<option value=''>select brand</option>";
+                    
+                    for (var i = 0; i < brands.length; i++) {
+
+                        brand_name = brands[i].name;
+                        brand_id = brands[i].brand_id;
+                        brand_options += "<option value='"+brand_id+"'>"+brand_name+"</option>";
+                    }
+                } else {
+                    brand_options = "<option value=''>No brand found</option>";
+                }
+
+                $('#brands').append(brand_options);
+            }
+        },
+    });
+}
 </script>
