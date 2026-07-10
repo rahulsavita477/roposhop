@@ -152,9 +152,9 @@ class User_controller extends CI_Controller
 
     public function resetPasswordPage($user_id)
     {
-        $this->load->view('user/include/header', array());
+        // $this->load->view('user/include/header', array());
         $this->load->view('resetPassword', array('user_id' => $user_id));
-        $this->load->view('user/include/footer');
+        // $this->load->view('user/include/footer');
     }
 
     public function resetPassword()

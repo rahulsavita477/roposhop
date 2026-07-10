@@ -1367,23 +1367,23 @@ class V1_api_controller extends CI_Controller
 		$this->getJsonData($code, $msg, $data);
 	}
 
-	public function resetPassword()
-	{	
+	public function resetPassword() {
+		
 		$email = isset($this->requestData->email)?$this->requestData->email:"";
 		$site_code = isset($this->requestData->site_code)?$this->requestData->site_code:"";
 
-		if ($email != '') 
-		{
-			if (filter_var($email, FILTER_VALIDATE_EMAIL))
-			{
+		if ($email != '') {
+
+			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
 				$isEmailExist = $this->isEmailExist($email);
-				if ($isEmailExist) 
-				{
+				if ($isEmailExist) {
+
 					$user_id = $isEmailExist['result'][0]['userId'];
 
 					//check user role
-					if ($site_code) 
-					{
+					if ($site_code) {
+
 						$user_role = $this->am3->selectRecords(array('usr_id' => $user_id), 'user_type', 'type_name');
 						$user_roles = array_column($user_role['result'], 'type_name');
 
@@ -1410,31 +1410,24 @@ class V1_api_controller extends CI_Controller
 					$mail_data['email'] = $email;
 					$mail_data['code'] = MAIL_CODE_RESET_PASSWORD;
 					$isSent = $this->common_controller->sendMail($mail_data);
-					if ($isSent) 
-					{
+					if ($isSent) {
+
 						$msg = 'Instruction to recover password has been sent to your email.';
 						$code = CODE_SUCCESS;
-					}
-					else
-					{
+
+					} else {
 						$msg = 'ERROR: Unable to send email';
 						$code = CODE_ERROR_UNKNOWN;
 					}
-				}
-				else
-				{
+				} else {
 					$msg = 'ERROR: No user found with provided Email Id';
 					$code = CODE_ERROR_ALREADY_EXIST;
 				}
-			}
-			else
-			{
+			} else {
 				$msg = 'ERROR: please provide a valid Email Id';
 				$code = CODE_ERROR_ALREADY_EXIST;
 			}
-		}
-		else
-		{
+		} else {
 			$msg = 'ERROR: email is required';
 			$code = CODE_ERROR_PARAM_MISSING;
 		}

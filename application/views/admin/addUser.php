@@ -356,12 +356,12 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					        <div class="box-body">
 					        	<div class="row">
 									<div class="col-sm-8">
-										<div class="col-sm-12 nextFormLine">
+										<div class="col-sm-6 nextFormLine">
 											<label>Full Name * </label>
 											<input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" id="" required />
 										</div>
 
-										<div class="col-sm-12 nextFormLine">
+										<div class="col-sm-6 nextFormLine">
 											<label>Email * </label>
 											<?php if ($usr_id) { ?>
 												<input type="text" class="form-control" value="<?= $email ?>" disabled>
@@ -369,13 +369,6 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 												<input type="email" name="email" class="form-control" placeholder="Enter email address" id="" required />
 											<?php } ?>
 										</div>
-
-										<?php if ($_COOKIE['site_code'] == 'admin') { ?>
-											<div class="col-sm-12 nextFormLine">
-												<label>Password * </label>
-												<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
-											</div>
-										<?php } ?>
 
 										<?php if ($_COOKIE['site_code'] == "admin") { ?>
 											<div class="col-sm-12 nextFormLine">
@@ -405,6 +398,13 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 														<span class="bigcheck-target"></span>
 														<span class="tag-text">Executive</span>
 													</label>
+											</div>
+										<?php } ?>
+
+										<?php if ($_COOKIE['site_code'] == 'admin') { ?>
+											<div class="col-sm-12 nextFormLine">
+												<label>Password * </label>
+												<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
 											</div>
 										<?php } ?>
 									</div>

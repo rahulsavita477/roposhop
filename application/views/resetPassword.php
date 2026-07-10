@@ -1,43 +1,72 @@
-<div class="span9">
-    <ul class="breadcrumb">
-		<li><a href="<?= base_url() ?>">Home</a> <span class="divider">/</span></li>
-		<li class="active">User Reset Password</li>
-    </ul>
-	<hr class="soft"/>
-	
-	<div class="row">
-		<div class="span5">
-			<div class="well">
-				<h5>RESET PASSWORD</h5><br/>
-				<form method="post" action="<?= base_url('resetPassword') ?>">
-					<div class="control-group">
-						<label class="control-label">OTP <sup>*</sup></label>
-						<div class="controls">
-							<input class="span3" type="text" name="otp" placeholder="OTP" required />
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label">New Password <sup>*</sup></label>
-						<div class="controls">
-							<input class="span3" type="text" name="password" placeholder="Password" minlength="5" required />
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label">Confirm Password <sup>*</sup></label>
-						<div class="controls">
-							<input class="span3" type="password" name="cpassword" placeholder="Confirm Password" minlength="5" required />
-						</div>
-					</div>
-					<input type="hidden" name="user_id" value="<?= $user_id ?>">
-					<div class="controls">
-						<button type="submit" class="btn block">Reset</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>	
-</div>
-</div>
-</div>
-</div>
-<!-- MainBody End ============================= -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password - RopoShop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+    body {
+        background-color: #f9f9f9;
+    }
+
+    .reset-container {
+        max-width: 500px;
+        margin: 60px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-roposhop {
+        background-color: #08c;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .btn-roposhop:hover {
+        background-color: #006bb3;
+        color: #fff;
+    }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="reset-container">
+            <h3 class="text-center mb-4">🔒 Reset Your Password</h3>
+            <form method="post" action="<?= base_url('resetPassword') ?>">
+
+                <!-- OTP -->
+                <div class="form-group">
+                    <label for="otp">OTP <sup>*</sup></label>
+                    <input type="text" class="form-control" id="otp" name="otp" placeholder="Enter OTP" required>
+                </div>
+
+                <!-- New Password -->
+                <div class="form-group">
+                    <label for="password">New Password <sup>*</sup></label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="New Password"
+                        minlength="5" required>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="cpassword">Confirm Password <sup>*</sup></label>
+                    <input type="password" class="form-control" id="cpassword" name="cpassword"
+                        placeholder="Confirm Password" minlength="5" required>
+                </div>
+
+                <!-- Hidden User ID -->
+                <input type="hidden" name="user_id" value="<?= $user_id ?>">
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-roposhop btn-block">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

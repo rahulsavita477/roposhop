@@ -95,6 +95,9 @@ else if($pageName == "offerManagement")
                                         <!-- <th>S.No.</th>
                                         <th>Seller ID</th> -->
                                         <th>Action</th>
+                                        <th>Business Verification</th>
+                                        <th>Profile Completion</th>
+                                        <th>Visibility Status</th>
                                         <th>Business Name</th>
                                         <th>Owner Name</th>
                                         <th>Email</th>
@@ -102,9 +105,6 @@ else if($pageName == "offerManagement")
                                         <th>City</th>
                                         <!-- <th>State</th>
                                         <th>Country</th> -->
-                                        <th>Business Verification</th>
-                                        <th>Profile Completion</th>
-                                        <th>Visibility Status</th>
                                         <th>Created Date</th>
                                         <th>Updated Date</th>
                                     </tr>
@@ -173,6 +173,9 @@ else if($pageName == "offerManagement")
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td>".$isApproved."</td>
+                                                    <td>".$is_completed."</td>
+                                                    <td>".$current_status."</td>
                                                     <td><a href='".base_url("seller/$merchant_id/view")."'>".$seller_value['establishment_name']."</a></td>
                                                     <td>".$seller_value['first_name']."</td>
                                                     <td>".$seller_value['email']."</td>
@@ -182,10 +185,7 @@ else if($pageName == "offerManagement")
                                                     else
                                                         echo "<td></td>";
                                                     
-                                                echo "<td>".$isApproved."</td>
-                                                    <td>".$is_completed."</td>
-                                                    <td>".$current_status."</td>
-                                                    <td>".convert_to_user_date($seller_value['create_date'])."</td>
+                                                echo "<td>".convert_to_user_date($seller_value['create_date'])."</td>
                                                     <td>".convert_to_user_date($seller_value['update_date'])."</td>
                                                 </tr>";
                                         }

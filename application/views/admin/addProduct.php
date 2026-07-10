@@ -628,8 +628,13 @@ if (isset($page_label) && $page_label == "edit") {
 													<thead>
 														<tr>
 															<th colspan=2 class="text-align-center">
-																Product Attributes
-																<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#att_fields" style="cursor:pointer;"></i>
+																<div style="display:flex; justify-content:space-between; align-items:center;">
+																	<span>
+																		Product Attributes
+																		<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#attributes_tableBody" style="cursor:pointer;"></i>
+																	</span>
+																	<span class="attributes-header-right"></span>
+																</div>
 															</th>
 														</tr>
 													</thead>

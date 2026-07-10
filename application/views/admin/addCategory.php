@@ -128,15 +128,14 @@ $cat_name_data = array(
 								</div>
 								<div class="col-sm-10">
 									<span class="bigcheck">
-										<?php
-										for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-			                        	{
+										<?php for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ ) {
+
 			                        		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 											
-											if ($link) 
+											if ($link) {
 												echo $this->config->item('site_url').HTML_FILES_PATH.$link."<br />";
-			                        	}
-	                                	?>	                                    
+											}
+			                        	} ?>
 	                                </span>
 								</div>
 							</div>
@@ -258,15 +257,15 @@ $cat_name_data = array(
 											<table class="table table-bordered dataTable">
 												<thead>
 													<tr>
-													<th>
-														<div style="display:flex; justify-content:space-between; align-items:center;">
-															<span>
-																Attributes
-																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#attributes_tableBody" style="cursor:pointer;"></i>
-															</span>
-															<span class="attributes-header-right"></span>
-														</div>
-													</th>
+														<th>
+															<div style="display:flex; justify-content:space-between; align-items:center;">
+																<span>
+																	Attributes
+																	<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#attributes_tableBody" style="cursor:pointer;"></i>
+																</span>
+																<span class="attributes-header-right"></span>
+															</div>
+														</th>
 													</tr>
 												</thead>
 												<tbody id="attributes_tableBody" class="collapse in">
@@ -404,45 +403,6 @@ $cat_name_data = array(
 
 <script>
 $(document).ready(function() {
-    $('.dataTable').each(function() {
-        var $table = $(this);
-        var headerCols = $table.find('thead tr:last th').length;
-        var valid = true;
-
-        $table.find('tbody tr').each(function() {
-            var cells = $(this).children('td, th').length;
-            if (cells > 0 && cells !== headerCols) {
-                valid = false;
-                return false; // break loop
-            }
-        });
-
-        if (valid) {
-            var table = $table.DataTable({
-                paging: false,
-                info: false,
-                ordering: false,
-                searching: true
-            });
-
-            // Safe filter box move
-            var $filter = $(table.table().container()).find('.dataTables_filter');
-            if ($filter.length > 0) {
-                $filter.appendTo($table.find('.attributes-header-right'));
-                var $filterInput = $filter.find('input');
-                if ($filterInput.length > 0) {
-                    $filterInput.off('keyup').on('keyup', function() {
-                        var searchTerm = this.value.toLowerCase();
-                        $table.find(".tags-cell label").each(function() {
-                            var text = $(this).text().toLowerCase();
-                            $(this).toggle(text.indexOf(searchTerm) > -1);
-                        });
-                    });
-                }
-            }
-        } else {
-            console.warn("Skipped DataTable init: column mismatch in table", $table.attr('class'));
-        }
-    });
+    
 });
 </script>

@@ -347,17 +347,15 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     $ci = get_instance();
     $ci->load->library('email');
 
-    $config = array(
-        'protocol'  => 'smtp',
-        'smtp_host' => 'smtp.gmail.com',
-        'smtp_port' => 587,
-        'smtp_user' => EMAIL_USERNAME,
-        'smtp_pass' => EMAIL_PASSWORD,
-        'mailtype'  => 'html',
-        'charset'   => 'utf-8',
-        'newline'   => "\r\n",
-        'smtp_crypto' => 'tls'
-    );
+    $config['protocol']  = 'smtp';
+    $config['smtp_host'] = 'ssl://smtp.gmail.com';
+    $config['smtp_port'] = 465; // or use 587 with tls
+    $config['smtp_user'] = EMAIL_USERNAME;
+    $config['smtp_pass'] = EMAIL_PASSWORD; // NOT your normal Gmail password
+    $config['mailtype']  = 'html';
+    $config['charset']   = 'utf-8';
+    $config['newline']   = "\r\n";
+    $config['wordwrap']  = TRUE;
 
     // $config['protocol']  = EMAIL_PROTOCOL;
     // $config['smtp_host'] = EMAIL_HOST;
@@ -378,10 +376,14 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     if ($atch)
         $ci->email->attach($atch);
 
-    if(@$ci->email->send())
+    if (@$ci->email->send()) {
         return true;
-    else
+    } else {
+        // Print error details
+        // echo $ci->email->print_debugger();
         return false;
+    }
+
 }
 
 function renderImages($images, $images_dir, $entity_id, $method, $slots = 6) {
