@@ -252,7 +252,7 @@ function getCookie(cname) {
 // }
 
 // function getCityName(lat, lng) {
-//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI';
+//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=GOOGLEAPIKEY';
 
 //     $.getJSON(GEOCODING).done(function(location) {
 //         s_city_name = location.results[0].address_components[0].long_name;
