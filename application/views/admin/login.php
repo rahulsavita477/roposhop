@@ -11,7 +11,7 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
-        <title>ROPO SHOP | Log in</title>
+        <title>RopoShop | Log in</title>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').'assets/4d_logo.ico' ?>">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         

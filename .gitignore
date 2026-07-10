@@ -1,4 +1,4 @@
-## ROPOSHOP SPECIFIC GIT IGNORE
+## RopoShop SPECIFIC GIT IGNORE
 #assets/*
 #!assets/admin/*
 #!assets/user/*

@@ -290,10 +290,10 @@ print_r($tables); die;
         }
         
         //product should not present in requested list
-        if(!$isRequestedProduct) {
+        // if(!$isRequestedProduct) {
 
-            $this->db->where('product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)', null, false);
-        }
+            // $this->db->where('product_id NOT IN (SELECT req_prd_id FROM requested_product2 WHERE isLinked = 0)', null, false);
+        // }
         
         $this->db->order_by('update_date', 'ASC');
 
@@ -436,7 +436,7 @@ print_r($tables); die;
         if ($sel_id)
             $where = "WHERE merchant_id = ".$sel_id;
         
-        $query = $this->db->query("SELECT merchant_id, merchant.userId, establishment_name, description, meta_keyword, meta_description, is_verified, is_completed, contact, business_days, business_hours, email, first_name, merchant.create_date, merchant.update_date, IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, IF(business_proof, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', business_proof), '') as business_proof, merchant.status, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering FROM merchant INNER JOIN user ON user.userId = merchant.userId ".$where);
+        $query = $this->db->query("SELECT merchant_id, merchant.userId, establishment_name, description, meta_keyword, meta_description, is_verified, is_completed, contact, business_days, business_hours, email, first_name, merchant.create_date, merchant.update_date, merchant_logo, business_proof, merchant.status, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering FROM merchant INNER JOIN user ON user.userId = merchant.userId ".$where);
 
         $isDbError = $this->dbError();
 
@@ -451,23 +451,24 @@ print_r($tables); die;
 
     public function getProductsForLinking($sel_id=null, $where='')
     {
-        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified');
-
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified, product.isEnabled');
+        
         $merchant_where = $sel_id ? 'AND merchant_id = '.$sel_id : '';
     
         $this->db->join('product_listing', 'product_listing.product_id = product.product_id '.$merchant_where, 'left');
-
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
         $this->db->join('attatchments', 'product.product_id = attatchments.link_id AND atch_for = "PRODUCT" AND atch_type = "IMAGE"', 'left');
+        $this->db->join('merchant', 'product_listing.merchant_id = merchant.merchant_id', 'left');
+        if($where) $this->db->where($where);
         $this->db->group_by('product.product_id');
 
-
         if($sel_id == null) {
-            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)');
-        } else {
-            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0 AND merchant_id = '.$sel_id.')');
-        }
+            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product2 WHERE isLinked = 0)');
+        } 
+        // else {
+            // $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product2 WHERE isLinked = 0 AND merchant_id = '.$sel_id.')');
+        // }
         
         $query = $this->db->get('product');
         //echo $this->db->last_query(); die;
@@ -523,7 +524,7 @@ print_r($tables); die;
         $this->db->select('att_value AS value, att_name AS spec, attribute_name.att_id');
         $this->db->join('category_attribute_mp', 'cat_att_mp_id = mp_id', 'inner');
         $this->db->join('attribute_name', 'attribute_name.att_id = category_attribute_mp.att_id', 'inner');
-        $this->db->where(array('prd_id' => $prd_id));
+        $this->db->where(array('prd_id' => $prd_id, 'att_value != ' => ''));
         $query = $this->db->get('category_attribute_value');
         
         $isDbError = $this->dbError();
@@ -559,16 +560,18 @@ print_r($tables); die;
             product_listing.return_policy, 
             product_listing.seller_offering, 
             merchant.userId, 
-            product_name, 
+            product.product_name, 
             mrp_price, 
             business_days, 
             business_hours, 
             product_listing.meta_description, 
-            product_listing.meta_keyword', 
+            product_listing.meta_keyword, 
+            brand_name',
             FALSE
         );
         $this->db->join('merchant', 'merchant.merchant_id = product_listing.merchant_id', 'left');
-        $this->db->join('product', 'product.product_id = product_listing.product_id', 'left');
+        $this->db->join('product', 'product.product_id = product_listing.product_id AND product.isEnabled = 1', 'inner');
+        $this->db->join('requested_product2', 'requested_product2.req_prd_id = product.product_id', 'left');
 
         $this->db->where($where);
 
@@ -639,7 +642,7 @@ print_r($tables); die;
 
     public function getNearestAddress($where='')
     {
-        $sql = "SELECT address_id , (3956 * 2 * ASIN(SQRT( POWER(SIN(( ".$_COOKIE['lat']." - latitude) *  pi()/180 / 2), 2) +COS( ".$_COOKIE['lat']." * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(( ".$_COOKIE['long']." - longitude) * pi()/180 / 2), 2) ))) as distance from address ".$where." order by distance DESC";
+        $sql = "SELECT address_id , (3956 * 2 * ASIN(SQRT( POWER(SIN(( ".$_COOKIE['latitude']." - latitude) *  pi()/180 / 2), 2) +COS( ".$_COOKIE['latitude']." * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(( ".$_COOKIE['longitude']." - longitude) * pi()/180 / 2), 2) ))) as distance from address ".$where." order by distance DESC";
         $query = $this->db->query($sql);
         
         $isDbError = $this->dbError();
@@ -827,7 +830,7 @@ print_r($tables); die;
 
     public function getConsumer($consumer_id)
     {
-        $query = $this->db->query("SELECT user.userId as user_id, email, first_name as full_name, consumer_id, gender, phone, birthday, IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."', picture), '') as profile_image, auth_token, status AS enabled FROM user inner JOIN consumer ON consumer.userId = user.userId AND consumer_id = ".$consumer_id);
+        $query = $this->db->query("SELECT user.userId as user_id, email, first_name as full_name, consumer_id, gender, phone, birthday, IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."', picture), '') as profile_image, auth_token, status AS enabled FROM user inner JOIN consumer ON consumer.userId = user.userId AND consumer.consumer_id = ".$consumer_id);
 
         $isDbError = $this->dbError();
 
@@ -890,16 +893,18 @@ print_r($tables); die;
             return FALSE;
     }
 
-    public function getRequestedProduct($where = '')
-    {
-        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product.status as requestProductStatus');
+    public function getRequestedProduct($where = '') {
+        
+        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, product.description, mrp_price AS prd_price, product.category_id, category_name, brand_id, in_the_box, sell_price, product_listing.finance_available, product_listing.finance_terms, product_listing.home_delivery_available, product_listing.home_delivery_terms, product_listing.installation_available, product_listing.installation_terms, product_listing.in_stock, product_listing.will_back_in_stock_on, product_listing.replacement_available, product_listing.replacement_terms, product_listing.return_available, product_listing.return_policy, product_listing.seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product2.status as requestProductStatus, requested_product2.create_date, requested_product2.update_date, establishment_name as merchant_name, listing_id');
         $this->db->join('product_listing', 'listing_id = req_lst_id', 'left');
-        $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
+        $this->db->join('product', 'product.product_id = requested_product2.req_prd_id', 'left');
+        $this->db->join('merchant', 'merchant.merchant_id = requested_product2.merchant_id', 'left');
+        $this->db->join('product_category', 'product_category.category_id = product.category_id', 'left');
 
         if ($where) 
             $this->db->where($where);
 
-        $query = $this->db->get('requested_product');
+        $query = $this->db->get('requested_product2');
         
         $isDbError = $this->dbError();
 
@@ -914,15 +919,15 @@ print_r($tables); die;
 
     public function getRequestedProductsAvailableForLinking($where = '')
     {
-        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box');
+        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, requested_product2.description, mrp_price AS prd_price, category_id, brand_id, in_the_box');
         // $this->db->join('product_listing', 'listing_id = req_lst_id AND product_listing.merchant_id != '.$_COOKIE['merchant_id'], 'left');
         // $this->db->where('product_id NOT IN (SELECT product_id FROM product_listing WHERE product_listing.merchant_id = '.$_COOKIE['merchant_id'].')', null, false);
-        $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
+        $this->db->join('product', 'product.product_id = requested_product2.req_prd_id', 'left');
 
         if ($where) 
             $this->db->where($where);
 
-        $query = $this->db->get('requested_product');
+        $query = $this->db->get('requested_product2');
         
         $isDbError = $this->dbError();
 
@@ -1052,10 +1057,10 @@ print_r($tables); die;
         catch (Exception $e) 
         {
             $arrayResponse['db_error'] = TRUE;
-            $arrayResponse['code'] = $db_error['message'];
-            $arrayResponse['msg'] = str_replace("'", "", $db_error['code']);
+            $arrayResponse['code'] = str_replace("'", "", $db_error['code']);
+            $arrayResponse['msg'] = $db_error['message'];
 
-            if ($this->controller_name == 'admin_controller') 
+            if (strtolower($this->controller_name) == 'admin_controller') 
                 return $arrayResponse;
             else
             {

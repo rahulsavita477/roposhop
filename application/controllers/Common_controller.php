@@ -215,15 +215,17 @@ class Common_controller extends CI_Controller
 
     public function getMinimumOffOnProduct($product_id, $mrp_price)
     {
-        $data = array();
+        $data = array('offer_price' => 0, 'discount_price' => 0, 'off' => 0);
     
         //get product listings
         $sold_by_merchants = $this->am5->getProductListings(array('product_listing.product_id' => $product_id));
 
-        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
-        // echo "<pre>"; print_r($sold_by_merchants); die;
-        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
-        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+        if($sold_by_merchants) {
+            $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+            // echo "<pre>"; print_r($sold_by_merchants); die;
+            $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);
+            $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+        }
 
         return $data;
     }
@@ -233,15 +235,15 @@ class Common_controller extends CI_Controller
     {
         $this->createFolder($path);
         
-        $allowed_types = array('jpg', 'png', 'jpeg', 'pdf');
+        // $allowed_types = array('jpg', 'jpeg', 'png', 'gif', 'webp');
         $file_type = $_FILES[$obj_name]['type'];
         $extension = explode("/", $file_type);
 
-        if (!in_array($extension[1], $allowed_types)) 
-        {
-            echo "Error: allowed file types are => jpg, png, pdf";
-            die;
-        }
+        // if (!in_array($extension[1], $allowed_types)) 
+        // {
+        //     echo "Error: allowed file types are => jpg, jpeg, png, gif, webp";
+        //     die;
+        // }
 
         $_FILES['attatchment']['name'] = ($name) ? $name.'.'.$extension[1] : time().".".$extension[1];
         $_FILES['attatchment']['type'] = $file_type;
@@ -324,18 +326,29 @@ class Common_controller extends CI_Controller
     }
 
     //copy data from one folder to another folder
-    public function cloneData($from, $to)
+    public function cloneData($from, $to, $specificFiles = [])
     {
         $this->createFolder($to);
-        $files = glob($from.'/*.*');
 
-        foreach($files as $file) 
-        {
+        // Agar specific files diye gaye hain
+        if (!empty($specificFiles)) {
+            $files = [];
+            foreach ($specificFiles as $fileName) {
+                $filePath = $from . '/' . $fileName;
+                if (file_exists($filePath)) {
+                    $files[] = $filePath;
+                }
+            }
+        } else {
+            // Default: copy all files
+            $files = glob($from.'/*.*');
+        }
+
+        foreach ($files as $file) {
             $file_to_go = str_replace($from, "", $file);
             $isCopied = copy($file, $to.$file_to_go);
 
-            if (!$isCopied) 
-                return false;
+            if (!$isCopied) return false;
         }
 
         return $files;

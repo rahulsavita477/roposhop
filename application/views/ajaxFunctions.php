@@ -252,7 +252,7 @@ function getCookie(cname) {
 // }
 
 // function getCityName(lat, lng) {
-//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI';
+//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=GOOGLEAPIKEY';
 
 //     $.getJSON(GEOCODING).done(function(location) {
 //         s_city_name = location.results[0].address_components[0].long_name;
@@ -264,4 +264,127 @@ function getCookie(cname) {
 //         // alert("location changed");
 //     })
 // }
+//get state of country
+function getState(cnt_id)
+{
+    cnt_id = (cnt_id) ? cnt_id : ($("#cnt_id").val());
+    $('#states').empty();
+
+    if (cnt_id) 
+    {
+        $.ajax({
+            type: "GET",
+            url: '<?= base_url("states") ?>/'+cnt_id,
+            success: function(data){
+                if ( data ) 
+                {
+                    $('#states').empty();
+                    state_data = JSON.parse(data);
+                    state_options = "<option value=''>select state</option>";
+                    usr_state_id = <?= (!empty($state_id) ? json_encode($state_id) : '""'); ?>
+
+                    for (var i = 0; i < state_data.length; i++) 
+                    {
+                        state_name = state_data[i].name;
+                        state_id = state_data[i].state_id;
+                        selected = "";
+
+                        if (state_id == usr_state_id)
+                            selected = "selected";
+
+                        state_options += "<option value='"+state_id+"' "+selected+">"+state_name+"</option>";
+                    }
+
+                    $('#states').append(state_options);
+
+                    state_id = $('#states').val();
+                    if (parseInt(state_id)) 
+                        getCity(state_id);
+                }
+            },
+        }); 
+    } else {
+        alert('Error: Country not selected');
+    }
+}
+
+//get city of state
+function getCity(state_id)
+{
+    $('#state_cities').empty();
+    state_id = (state_id) ? state_id : ($("#states").val());
+
+    if (state_id) 
+    {
+        $.ajax({
+            type: "GET",
+            url: '<?= base_url("cities") ?>/'+state_id,
+            success: function(data){
+                if ( data ) 
+                {
+                    $('#state_cities').empty();
+                    city_data = JSON.parse(data);
+
+                    if(city_data.length > 0) {
+                        
+                        city_options = "<option value=''>select city</option>";
+                        usr_city_id = <?= (!empty($city_id) ? json_encode($city_id) : '""'); ?>
+
+                        for (var i = 0; i < city_data.length; i++) 
+                        {
+                            city_name = city_data[i].name;
+                            city_id = city_data[i].city_id;
+                            selected = "";
+
+                            if (usr_city_id == city_id)
+                                selected = "selected";
+
+                            city_options += "<option value='"+city_id+"' "+selected+">"+city_name+"</option>";
+                        }
+                    } else {
+                        city_options = "<option value=''>No cities found</option>";
+                    }
+
+                    $('#state_cities').append(city_options);
+                }
+            },
+        }); 
+    } else {
+        alert('Error: State not selected');
+    }
+}
+
+//get city of state
+function getBrand()
+{
+    $('#brands').empty();
+    
+    $.ajax({
+        type: "GET",
+        url: '<?= base_url("brands") ?>',
+        success: function(data) {
+            if (data) {
+
+                $('#brands').empty();
+                brands = JSON.parse(data);
+
+                if(brands.length > 0) {
+                    
+                    brand_options = "<option value=''>select brand</option>";
+                    
+                    for (var i = 0; i < brands.length; i++) {
+
+                        brand_name = brands[i].name;
+                        brand_id = brands[i].brand_id;
+                        brand_options += "<option value='"+brand_id+"'>"+brand_name+"</option>";
+                    }
+                } else {
+                    brand_options = "<option value=''>No brand found</option>";
+                }
+
+                $('#brands').append(brand_options);
+            }
+        },
+    });
+}
 </script>

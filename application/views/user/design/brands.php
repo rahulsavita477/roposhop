@@ -20,26 +20,38 @@
                     </div><!-- End .header-search -->
                 </div><!-- End .headeer-center -->
 
-                <div class="container mt-3 mb-3">
+                <div class="container mt-1">
                     <div class="row row-sm">
-                        <?php
-                        if (isset($result)) 
-                        {
-                            foreach ($result as $brand) 
-                            {
-                                echo '<div class="col-md-2 text-center mb-3">
-                                        <a href="'.base_url('brands/'.url_title($brand['name'], '-', true).'?brand_id=').$brand['brand_id'].'">
-                                            <div class="img-text" style="height: 150px;">
-                                                <img src="'.base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']).'" alt="'.$brand['name'].'" style="min-width: 100%;min-height: auto;">
-                                                <h3>'.$brand['name'].'</h3>
-                                            </div>
-                                        </a>
+                        <?php if (isset($result)) {
+
+                            foreach ($result as $brand) {
+
+                                if ($brand['brand_logo']) {
+
+                                    $brand_logo_text = '<img src="'.base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']).'" alt="'.$brand['name'].'" style="min-width: 100%;min-height: auto;"><h4>'.$brand['name'].'</h4>';
+                                
+                                } else {
+
+                                    // $brand_logo_text = '<img src="'.base_url('assets/user/assets2/images/brand.png').'" alt="'.$brand['name'].'" style="min-width: 100%;min-height: auto;"><h4>'.$brand['name'].'</h4>';
+
+                                    $brand_logo_text = '<div style="display:flex;align-items:center;justify-content:center;height:138px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                        <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;">
+                                            '.$brand['name'].'
+                                        </span>
                                     </div>';
+                                }
+
+                                echo '<div class="col-md-2 text-center mb-3">
+                                    <a href="'.base_url('brands/'.url_title($brand['name'], '-', true).'?brand_id=').$brand['brand_id'].'">
+                                        <div class="img-text" style="height: 150px;">
+                                            '.$brand_logo_text.'
+                                        </div>
+                                    </a>
+                                </div>';
                             }
-                        }
-                        else
+                        } else {
                             echo "Not available";
-                        ?>
+                        } ?>
                     </div>
                 </div>
             </div>

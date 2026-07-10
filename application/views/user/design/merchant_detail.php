@@ -24,8 +24,6 @@ $lat = isset($address['nearest_address']['latitude']) ? $address['nearest_addres
 $long = isset($address['nearest_address']['longitude']) ? $address['nearest_address']['longitude'] : '';
 $pin = isset($address['nearest_address']['pin']) ? $address['nearest_address']['pin'] : '';
 $contact = isset($address['nearest_address']['contact']) ? $address['nearest_address']['contact'] : '';
-$business_days = isset($address['nearest_address']['business_days']) ? $address['nearest_address']['business_days'] : '';
-$business_hours = isset($address['nearest_address']['business_hours']) ? $address['nearest_address']['business_hours'] : '';
 $line1 = isset($address['nearest_address']['address_line_1']) ? $address['nearest_address']['address_line_1'] : '';
 $line2 = isset($address['nearest_address']['address_line_2']) ? $address['nearest_address']['address_line_2'] : '';
 $landmark = isset($address['nearest_address']['landmark']) ? $address['nearest_address']['landmark'] : '';
@@ -35,6 +33,20 @@ $city_id = isset($address['nearest_address']['city_id']) ? $address['nearest_add
 $country_name = isset($address['nearest_address']['country_name']) ? $address['nearest_address']['country_name'] : '';
 $state_name = isset($address['nearest_address']['state_name']) ? $address['nearest_address']['state_name'] : '';
 $city_name = isset($address['nearest_address']['city_name']) ? $address['nearest_address']['city_name'] : '';
+
+$business_days = false;
+if($merchant_detail['business_days']) {
+    $business_days = $merchant_detail['business_days'];
+} elseif(isset($address['nearest_address']['business_days'])) {
+    $business_days = $address['nearest_address']['business_days'];
+}
+
+$business_hours = false;
+if($merchant_detail['business_hours']) {
+    $business_hours = $merchant_detail['business_hours'];
+} elseif(isset($address['nearest_address']['business_hours'])) {
+    $business_hours = $address['nearest_address']['business_hours'];
+}
 ?>
 
 <style type="text/css" media="screen">
@@ -53,8 +65,8 @@ $city_name = isset($address['nearest_address']['city_name']) ? $address['nearest
         margin: 0 auto;
     } 
     #scs button.owl-prev, #scs button.owl-next{
-        width: 20px !important;
-        height: 20px !important;
+        /* width: 20px !important;
+        height: 20px !important; */
     }  
     .fa-star{
         color:#000;
@@ -88,10 +100,10 @@ $city_name = isset($address['nearest_address']['city_name']) ? $address['nearest
         color: #fff;
     }
     .widget-body button.owl-next{
-        background:transparent !important;
+        /* background:transparent !important; */
     }
     .widget-body button.owl-prev{
-        background:transparent !important;
+        /* background:transparent !important; */
     }
     h2.product-title.text-black {
         text-align: left;
@@ -134,12 +146,6 @@ $city_name = isset($address['nearest_address']['city_name']) ? $address['nearest
         left: 10px;
     }
     .hi{
-        display: none;
-    }
-    #more{
-        display: none;
-    }
-    #more1{
         display: none;
     }
     .height-100{
@@ -281,13 +287,6 @@ function open_modal(merchant_id, establishment_name)
                                     {
                                         echo '<div class="owl-dot">
                                                 <img 
-                                                    style="    
-                                                        width: auto;
-                                                        max-width: 80px;
-                                                        margin-left: auto;
-                                                        margin-right: auto;
-                                                        height: auto;
-                                                        max-height: 80px;"
                                                     src="'.$imgs.'" 
                                                     alt="'.$merchant_detail['establishment_name'].'_'.$key.'" />
                                             </div>';
@@ -299,26 +298,14 @@ function open_modal(merchant_id, establishment_name)
 
                         <div class="col-lg-7">
                             <div class="product-single-details">
-                                <h2 class="product"><?= $merchant_detail['establishment_name'] ?></h2>
-                                <div class="ratings-container">
-                                    <a href="<?= base_url('merchant/rating/').$_GET['merchant_id'] ?>">
-                                        <div class="product-ratings">
-                                            <span class="ratings" style="width:<?= $avg_rating_width ?>%"></span>
-                                        </div>
-                                    </a>
-
-                                    <?php
-                                    if ($merchant_detail['is_verified'])
-                                        $is_completed = '<a 
-                                            href="javascript:void(0);" 
-                                            data-toggle="modal" 
-                                            class="btn btn-primary" 
-                                            style="padding: 5px;"
-                                            >
-                                                Verified
-                                            </a>';
-                                    else
-                                        $is_completed = '<a 
+                                <h2 class="product" style="display:flex; margin-bottom: 0px;">
+                                    <?= $merchant_detail['establishment_name'] ?>
+                                    <?php if ($merchant_detail['is_verified']) {
+                                        
+                                        echo '<img src="'.base_url('assets/user/assets2/images/approved.png').'"  alt="Verified" style="height:30px;">';
+                                        
+                                    } elseif(!$userDetail['email']) {
+                                        echo '<a 
                                             href="javascript:void(0);" 
                                             onclick="open_modal('.
                                                 $merchant_detail['merchant_id'].',
@@ -327,19 +314,23 @@ function open_modal(merchant_id, establishment_name)
                                             data-toggle="modal" 
                                             class="btn btn-primary" 
                                             style="padding: 5px;"
-                                            >
-                                                Claim this business
-                                            </a>';
-
-                                    echo "<span>".$is_completed."</span>";
-                                    ?>
+                                        >Claim this business</a>';
+                                    } ?>
+                                </h2>
+                                
+                                <div class="ratings-container">
+                                    <a href="<?= base_url('merchant/rating/').$_GET['merchant_id'] ?>">
+                                        <div class="product-ratings">
+                                            <span class="ratings" style="width:<?= $avg_rating_width ?>%"></span>
+                                        </div>
+                                    </a>                                    
                                 </div>
                             </div>
 
-                            <!-- contact form in modal ================================================================== -->
+                            <!-- Request for ownership form in modal -->
                             <div class="container">
                                 <!-- Modal -->
-                                <div class="modal fade" id="claim_business" role="dialog">
+                                <div class="modal fade" id="claim_business">
                                     <div class="modal-dialog">
                                         <!-- Modal content-->
                                         <div class="modal-content">
@@ -392,6 +383,7 @@ function open_modal(merchant_id, establishment_name)
                                 </div>
                             </div>
 
+                            <!-- merchant heighlights div -->
                             <div class="product-filters-container pt-2">
                                 <ul style="list-style: inside;color:#000">
                                     <?php 
@@ -409,6 +401,7 @@ function open_modal(merchant_id, establishment_name)
                             </div>
 
                             <?php
+                            // merchant contact div
                             if ($merchant_detail['contact']) 
                             {
                                 echo '<div class="pt-1 pb-1">
@@ -419,22 +412,23 @@ function open_modal(merchant_id, establishment_name)
                                     </div>';
                             }
 
-                            if ($merchant_detail['business_days']) 
+                            // business days div
+                            if ($business_days) 
                             {
                                 echo '<div class="pt-1 pb-1">
                                         <div class="pt-5 step-title" style="padding-top: 0px !important;">
                                             <span style="font-weight: 400;">Business Days: </span>
-                                        '.$merchant_detail['business_days'].'
+                                        '.$business_days.'
                                         </div>
                                     </div>';
                             }
 
-                            if ($merchant_detail['business_hours']) 
-                            {
+                            // business hours div
+                            if ($business_hours) {
                                 echo '<div class="pt-1 pb-1">
                                         <div class="pt-5 step-title" style="padding-top: 0px !important;">
                                             <span style="font-weight: 400;">Business Hours: </span>
-                                        '.$merchant_detail['business_hours'].'
+                                        '.$business_hours.'
                                         </div>
                                     </div>';
                             }
@@ -448,13 +442,8 @@ function open_modal(merchant_id, establishment_name)
                 <div class="featured-products-section carousel-section">
                     <div class="row pt-5">
                         <div class="col-lg-9">
-                            <div 
-                                class="row"
-                                style="
-                                    padding: 10px; 
-                                    border-bottom: 1px solid #ddd; 
-                                    margin-bottom: 35px;"
-                            >
+                            <?php if($address_id): ?>
+                            <div class="row" style=" padding: 10px; border-bottom: 1px solid #ddd; margin-bottom: 35px;">
                                 <div class="col-sm-6">
                                     <b>Address:</b><br /><br />
                                     <?php
@@ -495,6 +484,7 @@ function open_modal(merchant_id, establishment_name)
                                     ?>
                                 </div> 
                             </div>
+                            <?php endif; ?>
 
                             <div class="row">
                                 <div class="col-sm-4">

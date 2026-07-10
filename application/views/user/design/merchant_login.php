@@ -10,12 +10,12 @@
         <!-- End .container -->
     </nav>
     <div class="row row-sm">
-        <div class="col-md-6 pt-1 pb-5 pl-5 pr-5 mx-auto">
-            <div class="bdr-d pt-2 pb-2">
-                <div class="text-center pb-2 mt-1">
+        <div class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto" style="padding: 5px !important;">
+            <div class="bdr-d" style="padding: 10px;">
+                <div class="text-center pb-0 mt-0">
                     <h3 style="margin-bottom: 0px;">SELLER SIGN UP</h3>
                 </div>
-                <form method="post" class="pl-5 pt-3" action="<?= base_url('insertSeller') ?>">
+                <form method="post" action="<?= base_url('insertSeller') ?>">
                     <div class="form-group">
                         <label for="">Owner's Full Name <sup>*</sup></label>
                         <input type="text" class="form-control" id="" name="first_name" value="<?= set_value('first_name') ?>" required /> 
@@ -60,12 +60,12 @@
             </div>
         </div>
 
-        <div class="col-md-6 pt-1 pb-5 pl-5 pr-5 mx-auto">
-            <div class="bdr-d pt-2 pb-2">
-                <div class="text-center pb-2 mt-1">
+        <div class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto" style="padding: 5px !important;">
+            <div class="bdr-d" style="padding: 10px;">
+                <div class="text-center pb-0 mt-0">
                     <h3 style="margin-bottom: 0px;">SIGN IN</h3>
                 </div>
-                <form method="post" class="pl-5 pt-3" action="<?= base_url('merchantLogin') ?>">
+                <form method="post" action="<?= base_url('merchantLogin') ?>">
                     <div class="form-group">
                         <label for="">Email <sup>*</sup></label>
                         <input type="text" class="form-control" id="" name="username" required /> 
@@ -74,10 +74,10 @@
                         <label for="">Password <sup>*</sup></label>
                         <input type="password" class="form-control" id="" name="password" required /> 
                     </div>
-                    <center>
-                        <button class="btn-custom btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary btn-block mt-1">Login</button>
+                    <div class="d-flex justify-content-center">
                         <a href="#resetPassword" data-toggle="modal">Forgot password?</a>
-                    </center>
+                    </div>
                 </form>
             </div>
         </div>

@@ -88,15 +88,15 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 include_once('environment.php');
 
 //FODLER PATHS
-define('PRODUCT_ATTATCHMENTS_PATH', 'assets/product');
-define('CATEGORY_ATTACHMENT_PATH', 'assets/category');
-define('BRAND_ATTATCHMENTS_PATH', 'assets/brand');
-define('SELLER_ATTATCHMENTS_PATH', 'assets/seller');
-define('PROFILE_PIC_PATH', 'assets/profile_pics');
-define('OFFER_ATTATCHMENTS_PATH', 'assets/offer');
-define('HTML_FILES_PATH', 'assets/html_files');
-define('DB_BACKUP_PATH', 'assets/db_backup');
-define('TEMP_FOLDER_PATH', 'assets/temp');
+define('PRODUCT_ATTATCHMENTS_PATH', 'assets/product/');
+define('CATEGORY_ATTACHMENT_PATH', 'assets/category/');
+define('BRAND_ATTATCHMENTS_PATH', 'assets/brand/');
+define('SELLER_ATTATCHMENTS_PATH', 'assets/seller/');
+define('PROFILE_PIC_PATH', 'assets/profile_pics/');
+define('OFFER_ATTATCHMENTS_PATH', 'assets/offer/');
+define('HTML_FILES_PATH', 'assets/html_files/');
+define('DB_BACKUP_PATH', 'assets/db_backup/');
+define('TEMP_FOLDER_PATH', 'assets/temp/');
 
 //ERROR CODES
 define('CODE_SUCCESS', 1000);
@@ -115,12 +115,10 @@ define('CODE_ERROR_PHP_NOTICE', 1011);
 //define('CODE_ERROR_DB', 1013);
 
 //EMAIL CONFIGURATION DETAIL
-define('EMAIL_ID', 'roposhop@roposhop.com');
-define('EMAIL_NAME', 'ROPOSHOP');
-define('EMAIL_USERNAME', 'roposhop@roposhop.com');
-define('EMAIL_PASSWORD', 'roposhop123');
+define('EMAIL_ID', 'RopoShop@RopoShop.com');
+define('EMAIL_NAME', 'RopoShop');
 define('EMAIL_PROTOCOL', 'smtp');
-define('EMAIL_HOST', 'ssl://mail.roposhop.com');
+define('EMAIL_HOST', 'ssl://mail.RopoShop.com');
 define('EMAIL_PORT', 465);
 
 //DISTANCE UNIT
@@ -137,15 +135,18 @@ define('MAIL_CODE_HELP_AND_SUPPORT', 104);
 define('MAIL_CODE_STEP_1_REGISTRATION', 106);
 define('MAIL_CODE_STEP_2_REGISTRATION', 107);
 define('MAIL_CODE_CLAIM_BUSINESS_APPROVED', 108);
-define('ROPO_SHOP_BRAND_NAME', "ROPOshop");
-define('SUPPORT_EMAIL', "ROPOshop");
-define('SUPPORT_MAIL', "roposhop@roposhop.com");
+define('ROPO_SHOP_BRAND_NAME', "RopoShop");
+define('SUPPORT_EMAIL', "RopoShop");
+define('SUPPORT_MAIL', "RopoShop@RopoShop.com");
 define('SUPPORT_NUMBER', "+91-7389102962");
 define('EMAIL_SIGNATURE', "<br /><br />Thanks and Regards,<br />".ROPO_SHOP_BRAND_NAME." Support Team");
 
 //DEFAULT VALUES
-define('DEFAULT_PASSWORD', '123456');
 define('DEFAULT_META_TAG', 'Research Online Purchase Offline, Search and compare products online at home with same convenience as with Online Shopping, once decided on what you want to buy and from which seller visit the shop and buy.');
-define('GOOGLE_MAP_API_KEY', 'AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI');
 
 define('ATTATCHMENT_LOGO', "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAQAAACQEyoRAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfkBRYMDQxJkb8FAAADH0lEQVRIx+3XzWtcVRjH8c+5M2XGvJDaEK1osLFWa1WoFcSXluLLwoobt7oWxD/AohtxpYKLQv0P3LpwI64EF2KphsaoVJsaock0Ns2kyWTM5G1mrptpmMzcOzMRKwqeYeDe8/I9z/md5zzPufxf/qkSUuoHDKkZM2LKJXsN7WiN3VDuhs4m1PU75Xl9VvxswtNKXvScuAk84LqPTO/W6pw3PeEzFx1RMeNB11QtN/Wse8xrCj70Wyd0pq3mhFe870vXDRk2Ihi0ZtzC9q8o71c5L7toKR0dtb0/Y9ykrLvlxYJYaDMgsuSsgtPu6x2dtc8sjjnWcasjJWfMetvBXtFBUDfokHEVdXn9ifCAko8VvJVmeZTielsWRFYsKllp61XRB5accdU7yfAoZcK62KL9Jpx3l2JL+1VD9oOSs2acTpIl06b1CwpmjZpywz4Pu1fRd6o7eq3Je9ySNcG6HzziJT9a7n5kbpaqrwwJSmptbRdsOWnThqBu2lPe8K71XtHUU/22asKUETlQk3FcbjfozmXV6vbzgRbJUrfxbwlz0a0Lqv9ydHTr0Efd0WsquLkxtxtMcLqizZZ+wxabEkUP6MiBtuMbrDrXgo4tqCR5SDq65nuTO7Bx4xi1TjeqvDurgz63NU20JZ/Qa8OqKDl5dxLksEMNa4KyeWMJ0X3GuDl/7FaQn1xqiiY1vyTGki25hAzbJYbE4m0Ng6yqWFaMoCrIiEUiw+Z3p3XGEfc3DQmK1tzTeJuTdafYpnNNBvSIrpt2bUfNpporjed1wWXUldJuYNkOcpSstEW35YYgAXHjb7fojIeMJUx4Wc3hhqVBwWQavpMg8zYS6hfF254TrKj/FUHmzae0LfZw102MfLFYJn1IgnT1XtFB2R7DPYL36mvZ7hRB6rbklU077hulTh6AoN+T5hTl1VqvFK3oLVc8Kue8mpNqyUttQmfN+FbkqIJKt0z8gPd84VMV/Qa6KB6rKMs55VUfuND9W+ZZryuastH5SDRG73HQqE983rrCkDhgzAmjPV5/an73tal26UIHi3pzv7jLyv5j5U8yHvoQY/EM+gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0wNS0yMlQxMjoxMzowNCswMDowMEIvSgEAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjAtMDUtMjJUMTI6MTM6MDQrMDA6MDAzcvK9AAAAAElFTkSuQmCC");
+
+// alert messages
+define('SAVE_MSG', 'Are you sure you want to save?');
+define('UPDATE_MSG', 'Are you sure you want to update?');
+define('DELETE_MSG', 'Are you sure you want to delete?');

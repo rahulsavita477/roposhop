@@ -89,6 +89,7 @@ class Excel_controller extends CI_Controller
         $this->load->view('admin/include/header');
         $this->load->view('admin/include/leftbar');
         $this->load->view('excel/address', $data);
+        $this->load->view('ajaxFunctions');
         $this->load->view('admin/include/footer');
     }
 
@@ -118,6 +119,7 @@ class Excel_controller extends CI_Controller
         $this->load->view('admin/include/header');
         $this->load->view('admin/include/leftbar');
         $this->load->view('excel/merchant', $data);
+        $this->load->view('ajaxFunctions');
         $this->load->view('admin/include/footer');
     }
 

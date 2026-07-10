@@ -414,7 +414,7 @@ class V1_api_controller extends CI_Controller
 				else
 					$res['products'][$i]['varients'] = array();
 
-				//get product key features
+				//get Product Features
 				$key_features = array();
 				$prd_feature = $this->am3->selectRecords(array('product_id' => $prd_id), 'product_key_features', 'feature');
 				if ($prd_feature) 
@@ -2716,7 +2716,7 @@ class V1_api_controller extends CI_Controller
 		if ($request_id)
 			$where['request_id'] = $request_id;
 
-		$a_req_prd_res = $this->am3->selectRecords($where, 'requested_product', 'SQL_CALC_FOUND_ROWS request_id, merchant_id, req_prd_id AS product_id, req_lst_id AS listing_id, brand_name, refer_link, isLinked, update_date AS last_updated, isEnabled AS enabled', array(), $this->limit, $this->start, array(), true);
+		$a_req_prd_res = $this->am3->selectRecords($where, 'requested_product2', 'SQL_CALC_FOUND_ROWS request_id, merchant_id, req_prd_id AS product_id, req_lst_id AS listing_id, brand_name, refer_link, isLinked, update_date AS last_updated, isEnabled AS enabled', array(), $this->limit, $this->start, array(), true);
 		
 		if ($a_req_prd_res) 
 		{
@@ -2794,11 +2794,11 @@ class V1_api_controller extends CI_Controller
 				'request_id' => $request_id, 
 				'merchant_id' => $merchant_id
 			);
-			$this->isExist($where, 'requested_product');
+			$this->isExist($where, 'requested_product2');
 		}
 
 		//get product id
-		$req_prd_id = $this->am3->selectRecords(array('request_id' => $request_id), 'requested_product', 'req_prd_id');
+		$req_prd_id = $this->am3->selectRecords(array('request_id' => $request_id), 'requested_product2', 'req_prd_id');
      	$product_id = $req_prd_id['result'][0]['req_prd_id'];
 
 		$isDeleted = $this->am3->deleteRecord('product', array('product_id' => $product_id));
@@ -3111,7 +3111,7 @@ class V1_api_controller extends CI_Controller
 			if (!in_array("ADMIN", $merchantUserDetail['roles']))
      			$where['merchant_id'] = $merchant_id;
 
-			$req_ids = $this->am3->selectRecords($where, 'requested_product', 'req_prd_id, req_lst_id');
+			$req_ids = $this->am3->selectRecords($where, 'requested_product2', 'req_prd_id, req_lst_id');
 			if (!$req_ids) 
 			{
 				$msg = 'ERROR: unauthorized merchant';
@@ -3220,12 +3220,12 @@ class V1_api_controller extends CI_Controller
 			$req_prd_data['req_prd_id'] = $product_id;
 			$req_prd_data['req_lst_id'] = $listing_id;
 			if ($request_id) 
-				$this->am3->updateData('requested_product', $req_prd_data, array('request_id' => $request_id));
+				$this->am3->updateData('requested_product2', $req_prd_data, array('request_id' => $request_id));
 			else
 			{
 				$req_prd_data['create_date'] = $this->current_date;
 
-				$request_id = $this->am3->insertData('requested_product', $req_prd_data);
+				$request_id = $this->am3->insertData('requested_product2', $req_prd_data);
 			}
 
 			if ($product_id && $request_id && $listing_id) 

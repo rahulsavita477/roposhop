@@ -18,6 +18,7 @@ $meta_description = isset($req_prds['meta_description']) ? $req_prds['meta_descr
 $meta_keyword = isset($req_prds['meta_keyword']) ? $req_prds['meta_keyword'] : '';
 $notes = isset($req_prds['notes']) ? $req_prds['notes'] : '';
 $amazon_prd_id = isset($req_prds['amazon_prd_id']) ? $req_prds['amazon_prd_id'] : '';
+$refer_link = isset($req_prds['refer_link']) ? $req_prds['refer_link'] : '';
 $flipkart_prd_id = isset($req_prds['flipkart_prd_id']) ? $req_prds['flipkart_prd_id'] : '';
 $sell_price = isset($req_prds['sell_price']) ? $req_prds['sell_price'] : set_value('sell_price'); 
 $finance_terms = isset($req_prds['finance_terms']) ? $req_prds['finance_terms'] : set_value('finance_terms'); 
@@ -55,7 +56,7 @@ $page_title = 'Add requested product';
 	<!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 					<div class="box-header">
@@ -134,14 +135,10 @@ $page_title = 'Add requested product';
 											<button class="btn btn-default" data-dismiss="modal">Close</button>
 											<button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
-                                    <?= form_close() ?>                
+                                    <?= form_close() ?>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="box-header">
-                        	<h3 class="box-title">Product Detail</h3>
-                      	</div><!-- /.box-header -->
 
 					    <!-- form start -->
 					    <?= form_open_multipart('insertProduct') ?>
@@ -152,119 +149,278 @@ $page_title = 'Add requested product';
 
 					    	<div class="box-body">
 					    		<!-- select category -->
-		                        <div class="row form-group">
+		                        <div class="row">
 	                        		<div class="col-sm-3">
-	                        			<label>Category*:</label>	
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<?php
-	                        			if ($page_label == 'add') 
+	                        			<label>Category *</label>
+	                        			<?php 
+										if ($page_label == 'add') {
 	                        				$page_label = "'add'";
-	                        			else
+										} else {
 	                        				$page_label = "'edit'";
+										}
 
 										echo '<select class="form-control" name="parent_cat_id" onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
 
-								    		if ($status) 
-								    		{
+								    		if ($status) {
+
 								    			echo "<option value=''>Please select an category!!</option>";
 
-								    			foreach ($req_prds['categories'] as $cat_key => $cat_value) 
-								    			{
+								    			foreach ($req_prds['categories'] as $cat_key => $cat_value) {
+
 								 					$selected = $cat_value['category_id'] == $cat_id ? 'selected' : '';
 
 								    				echo "<option value='".$cat_value['category_id']."' ".$selected.">".$cat_value['category_name']."</option>";
 								    			}
-								    		}
-								    		else
+								    		} else {
 								    			echo "<option>No parent category available!</option>";
+											}
 							    		
 							    		echo "</select>";
-							    		?>			
-	                        		</div>
-		                        </div>
-
-		                        <!-- select brand -->
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Brand*:</label>
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<?php
-							    		echo '<select class="form-control" name="brand_id" required>';
-								    		if ($status) 
-								    		{
-								    			echo "<option value=''>Please select a brand!!</option>";
-
-								    			foreach ($req_prds['brands'] as $brands_value)
-								    			{
-								    				$selected = $brands_value['brand_id'] == $brand_id ? 'selected' : '';
-
-								    				echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
-								    			}
-								    		}
-								    		else
-								    			echo "<option>No brand available!</option>";
-							    		
-							    		echo "</select>";
-
-							    		if($brand_name)
-							    			echo "(".$brand_name.")";
 							    		?>
-							    	</div>
+	                        		</div>
+									
+	                        		<div class="col-sm-3">
+										<label>Brand *</label>
+										<div class="other" style="display:flex; align-items:center; gap:8px;">
+											<?php
+											echo '<select class="form-control" name="brand_id" id="brands" required>';
+												if ($status) {
+													echo "<option value=''>Select brand</option>";
+													foreach ($req_prds['brands'] as $brands_value) {
+														$selected = $brands_value['brand_id'] == $brand_id ? 'selected' : '';
+														echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
+													}
+												} else {
+													echo "<option>No brand available!</option>";
+												}
+											echo "</select>";
+											?>
+
+											<a href="javascript:void(0);" onclick="getBrand();" title="Refresh Brands"><i class="fa fa-undo" aria-hidden="true"></i></a>
+										</div>
+									</div>
+
+									<div class="col-sm-3">
+										<label>Seller Suggested Brand</label>
+										<div class="other" style="display:flex; align-items:center; gap:8px;">
+											<input type="text" class="form-control" value="<?= $brand_name ?>" readonly />
+											<a href="page/addBrand" target="_blank" style="text-decoration:none;" title="Create New Brand">
+												<i class="fa fa-plus-circle" aria-hidden="true"></i>
+											</a>
+										</div>
+									</div>
+
+	                        		<div class="col-sm-3">
+	                        			<label>Product Name</label>
+										<!-- Tooltip icon -->
+										<i class="fa fa-info-circle text-primary"
+											data-toggle="tooltip"
+											data-placement="right"
+											title="Duplicate product name not allowed"
+										></i>*
+										<input type="text" id="autosearch_product" class="form-control" placeholder="Enter Product Name" name="prd_name" value="<?= $product_name ?>" required />
+	                        		</div>
 							    </div>
 
-						    	<div class="row form-group">
+								<div class="row nextFormLine">
+									<div class="col-sm-3">
+										<label>Product Price *</label>
+										<input type="number" class="form-control" placeholder="Enter Product Price" name="prd_price" value="<?= $mrp_price; ?>" id="" required/>
+									</div>
+									<div class="col-sm-3">
+										<label>Seller Price *</label>
+										<input type="number" class="form-control" placeholder="Enter Selling Price" name="sell_price" value="<?= $sell_price ?>" id="" required/>
+									</div>
+									
 	                        		<div class="col-sm-3">
-	                        			<label>Product Name*:</label>	
+	                        			<label>Product Description *</label>
+	                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." id="" required><?= $description ?></textarea>
 	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<input type="text" class="form-control" placeholder="Enter product name..." name="prd_name" value="<?= $product_name ?>" required/>
+									
+	                        		<div class="col-sm-3">
+	                        			<label>In The Box *</label>
+	                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..." id="" required><?= $in_the_box ?></textarea>
 	                        		</div>
 	                        	</div>
 
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Amazon Product ID:</label>	
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
-	                        		</div>
-	                        	</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered dataTable">
+												<thead>
+													<tr>
+														<th class="text-align-center" colspan="6">
+															Product Images
+															<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productImages_tableBody" style="cursor:pointer;"></i>
+														</th>
+													</tr>
+												</thead>
+												<tbody style="height: auto;" id="productImages_tableBody" class="collapse in">
+													<tr>
+													<?php echo renderImages($images, $product_images_dir, null, 'addProduct/'.$request_id.'-'.$product_id, 6); ?>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+					            
+					            <div class="row">
+									<div class="col-sm-12">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered table-striped dataTable">
+												<thead>
+													<tr>
+														<th colspan=2 class="text-align-center">
+															Product Attributes
+															<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#att_fields" style="cursor:pointer;"></i>
+														</th>
+													</tr>
+												</thead>
+												<tbody class="collapse in" id="att_fields">
+													<tr>
+														<td>No Attribute Found</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Flipkart Product ID:</label>	
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
-	                        		</div>
-	                        	</div>
+								<!-- Toggle button/link -->
+								<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
+								<!-- Collapsible content -->
+								<div class="collapse in" id="additionalDetails">
+									<div class="well">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="table-responsive editTable">
+													<table class="table table-bordered dataTable">
+														<thead>
+															<tr>
+																<th colspan="3" class="text-align-center">Product varients
+																<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
+																<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button></th>
+															</tr>
+														</thead>
+														<tbody id="productVarients_tableBody" class="collapse in">
+															<?php if (isset($req_prds['product_varients']) && $req_prds['product_varients']) {
 
-		                        <div class="row form-group">
-	                        		<div class="col-sm-3">
-	                        			<label>Product Price*:</label>	
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<input type="text" class="form-control" placeholder="Enter product price..." name="prd_price" value="<?= $mrp_price; ?>" required/>
-	                        		</div>
-	                        	</div>
-							    
-		                        <div class="row form-group" style="clear: both;">
-	                        		<div class="col-sm-3">
-	                        			<label>Product Description*:</label>	
-	                        		</div>
-	                        		<div class="col-sm-8">
-	                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Please enter product description..." required><?= $description ?></textarea>
-	                        		</div>
-	                        	</div>
+																$product_varients = $req_prds['product_varients'];
+																echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
+																
+																$i = 1;
+																foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) {
 
-	                        	<div class="row form-group" style="clear: both;">
+																	$att_id = $product_varients[$prd_vrnt_key][0]['att_id'];
+																	$vrnt_del_link = base_url('deleteProductVarient/'.$att_id.'/'.$product_id);
+																	$rowspan = count($prd_vrnt_values)+1;
+																	echo "<tr>
+																		<td><a href='".$vrnt_del_link."'>
+																			<i class='fa fa-trash-o' onclick='return confirm(\"Are you sure?\")'></i>
+																		</a>&nbsp;".$prd_vrnt_key."
+																		</td><td>";
+
+																		foreach ($prd_vrnt_values as $vrnt_value) {
+
+																			$vrnt_id = $vrnt_value['vrnt_id'];
+																			$vrnt_value_del_link = base_url('deleteProductVarientValue/'.$vrnt_id.'/'.$product_id);
+
+																			echo "<div style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
+																				<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
+																				<input type='text' 
+																					class='form-control vrnt_values'
+																					placeholder='Enter attribute value'
+																					name='vrnt_values[]'
+																					value='".$vrnt_value['att_value']."'
+																				/>
+																				<a href='".$vrnt_value_del_link."'>
+																					<i class='fa fa-times' onclick='return confirm(\"Are you sure?\")'></i>
+																				</a>
+																			</div><br />";
+																		}
+
+																	echo "</td></tr>";
+																}
+															}
+															else
+																echo "<tr><td colspan=3>Not Varient Found</td>";
+															?>
+														</tbody>
+													</table>
+												</div><!-- /.box-body -->
+											</div>
+
+											<div class="col-sm-6">
+												<div class="table-responsive editTable">
+													<table class="table table-bordered table-striped dataTable">
+														<thead>
+															<tr>
+																<th colspan="2" class="text-align-center">
+																	Product Features
+																	<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
+																	<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
+																</th>
+															</tr>
+														</thead>
+														<tbody id="productFeatures_tableBody" class="collapse in">
+															<tr>
+																<td>
+																	<div class="row form-group">
+																		<div class="col-sm-12" id="key_feature_input_field_div"></div>
+																	</div>
+																</td>
+															</tr>
+															<?php
+															if ($key_features) {
+
+																foreach ($key_features['result'] as $feature_value) {
+
+																	$feature_id = $feature_value['feature_id'];
+																	$feature = $feature_value['feature'];
+																	$params = $feature_id.', "'.$feature.'", '.$product_id;
+
+																	echo "<tr>
+																		<td>
+																			<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
+																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."?request_id=".$request_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
+																			".$feature."
+																		</td>
+																	</tr>";
+																}
+															} ?>
+														</tbody>
+													</table>
+												</div><!-- /.box-body -->
+											</div>
+										</div>
+									</div>
+								</div>
+
+	                        	<div class="row">
 	                        		<div class="col-sm-3">
-	                        			<label>In The Box:</label>	
+	                        			<label>Amazon Product ID:</label>
+	                        			<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" id="" />
 	                        		</div>
-	                        		<div class="col-sm-8">
-	                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..."><?= $in_the_box ?></textarea>
+							    	<div class="col-sm-2">
+										<label>Meta Keywords:</label>
+										<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
+									</div>
+							    	<div class="col-sm-2">
+										<label>Meta Description:</label>
+										<textarea class="form-control" placeholder="please enter meta description" name="meta_description" id=""><?= $meta_description ?></textarea>
+									</div>
+							    	<div class="col-sm-2">
+										<label>Notes:</label>
+										<textarea class="form-control" placeholder="please enter notes" name="notes" id=""><?= $notes ?></textarea>
+									</div>
+	                        		<div class="col-sm-3">
+	                        			<label>Reference Link:</label>
+	                        			<input type="text" class="form-control" placeholder="Enter reference link" name="refer_link" value="<?= $refer_link ?>" id="" />
+	                        		</div>
+	                        		<div class="col-sm-3">
+	                        			<label>Flipkart Product ID:</label>
+	                        			<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" id="" />
 	                        		</div>
 	                        	</div>
 								
@@ -305,145 +461,38 @@ $page_title = 'Add requested product';
 													  	</label></div>';
 				    							}
 				    						}
-		                                	?>	   
+		                                	?>
 		                                </span>
 									</div>
 								</div>
+							
+								<table class="table table-bordered table-striped">
+									<tbody>
+										<tr>
+											<td>
+												<div class="row form-group">
+													<div class="col-sm-8" id="key_feature_input_field_div"></div>
+												</div>
+											</td>
+										</tr>
+										<?php
+										if ($key_features) 
+										{
+											foreach ($key_features['result'] as $feature_value) 
+											{
+												$feature_id = $feature_value['feature_id'];
+												$feature = $feature_value['feature'];
+												$params = $feature_id.', "'.$feature.'", '.$product_id;
 
-								<div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped">
-				                        <thead>
-				                            <tr>
-				                                <th colspan="3"><center>Product Images</center></th>
-				                            </tr>
-				                        </thead>
-				                        <tbody>
-					                        <?php for ($i = 1, $j = 0; $i < 7; $i++, $j++) { ?>
-					                        	<tr>
-					                        		<td>
-					                        			<div class="btn btn-primary btn-file">
-						                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
-						                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
-						                                </div>
-						                            </td>
-					                        		<?php 
-					                        		echo "<td>";
-					                        			if (isset($images[$j]))
-						                        		{
-						                        			$img_src = $product_images_dir.'/'.$images[$j]['atch_url'];
-							                        		
-							                        		echo '<div class="thumbnail">
-							                        				<figure>
-																		<img src="'.$img_src.'">
-																		<center>
-																    		<figcaption><a href="'.base_url('deleteAttactchment/'.$images[$j]['atch_url'].'/addProduct/'.$request_id.'-'.$product_id).'" class="btn btn-danger">DELETE</a></figcaption>
-																    	</center>
-																    </figure>
-																</div>
-
-																<input type="hidden" name="remove_img'.$i.'" value="'.$images[$j]['atch_url'].'" />';
-							                        	}
-							                        echo "</td>";
-							                        ?>
-					                        		<td><div class="file<?= $i ?>"></div></td>
-					                        	</tr>
-					                        <?php } ?>
-				                    	</tbody>
-				                    </table>
-				                </div>
-					            
-					            <div class="box-body table-responsive" id="att_fields" style="display: none;"></div>
-
-				            	<div style="margin-bottom: 20px;">
-	                        		<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped">
-					                        <thead>
-					                        	<tr>
-		                                            <th colspan="3">Product varients
-		                                            <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i> Add Varient</button></th>
-		                                        </tr>
-					                            <tr>
-					                                <th>Varient name </th>
-					                                <th>Varient value</th>
-					                                <th>Delete</th>
-					                            </tr>
-					                        </thead>
-					                        <tbody>
-					                        	<?php	
-					                        	if (isset($req_prds['product_varients']) && $req_prds['product_varients']) {
-						                        	echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
-
-						                        	$i = 1;
-					                        		foreach ($req_prds['product_varients'] as $prd_vrnt_key => $prd_vrnt_values) 
-					                        		{
-					                        			$rowspan = count($prd_vrnt_values)+1;
-					                        			echo "<tr>
-					                        					<td rowspan=".$rowspan.">".$prd_vrnt_key."</td></tr>";
-
-					                        			foreach ($prd_vrnt_values as $vrnt_value) 
-					                        			{
-					                        				$vrnt_id = $vrnt_value['vrnt_id'];
-							                            	$vrnt_del_link = base_url('deleteProductVarientValue/'.$vrnt_id.'/'.$product_id.'?req_prd_id='.$request_id);
-
-					                        				echo "<tr>
-					                        						<td>".
-							                            				"<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
-						                                            	<input type='text' class='vrnt_values' placeholder='Enter attibute value...' name='vrnt_values[]' value='".$vrnt_value['att_value']."' />"
-								                            		."</td>
-								                            		<td>
-						                                                <a href='".$vrnt_del_link."' class='btn btn-danger'>Delete</a>
-						                                            </td>
-							                            		</tr>";
-					                        			}
-					                                }
-					                            }
-					                            else
-					                            	echo "<tr><td colspan=3><center>Not available</center></td>";
-					                        	?>
-					                        </tbody>
-					                    </table>
-					                </div><!-- /.box-body -->
-					            </div>
-								
-								<div class="box-body table-responsive">
-	                                <table class="table table-bordered table-striped">
-	                                    <thead>
-	                                        <tr>
-	                                            <th colspan="2">
-	                                                Product Key Features
-	                                                <button type="button" class="btn btn-warning pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i> Add product Key Feature</button>
-	                                            </th>
-	                                        </tr>
-	                                    </thead>
-	                                    <tbody>
-	                                    	<tr>
-	                                    		<td>
-	                                    			<div class="row form-group">
-						                                <div class="col-sm-8" id="key_feature_input_field_div"></div>
-						                            </div>
-	                                    		</td>
-	                                    	</tr>
-	                                        <?php
-	                                        if ($key_features) 
-	                                        {
-	                                            foreach ($key_features['result'] as $feature_value) 
-	                                            {
-	                                                $feature_id = $feature_value['feature_id'];
-	                                                $feature = $feature_value['feature'];
-	                                                $params = $feature_id.', "'.$feature.'", '.$product_id;
-
-	                                                echo "<tr>
-	                                                        <td>".$feature."</td>
-	                                                        <td>
-	                                                            <button type='button' class='btn btn-warning' onclick='open_key_feature_modal($params)'>Edit</button>
-	                                                            <a href='".base_url('deleteFeature/'.$feature_id.'/'.$product_id.'?request_id='.$request_id)."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-	                                                        </td>
-	                                                    </tr>";
-	                                            }
-	                                        } ?>
-	                                    </tbody>
-	                                </table>
-	                            </div><!-- /.box-body -->
+												echo "<tr>
+														<td>".$feature."</td>
+														<td>
+														</td>
+													</tr>";
+											}
+										} ?>
+									</tbody>
+								</table>
 
 	                            <div class="box-body table-responsive">
 				                    <table class="table table-bordered table-striped">
@@ -489,33 +538,6 @@ $page_title = 'Add requested product';
 				                        </tbody>
 				                    </table>
 				                </div><!-- /.box-body -->
-
-				                <div class="row form-group">
-							    	<div class="col-sm-2">
-										<label>Meta Keywords:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
-										<label>Meta Description:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
-										<label>Notes:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
-									</div>
-								</div>
 						    </div>
 					</div><!-- /.box -->
 				</div>   <!-- /.row -->
@@ -525,26 +547,7 @@ $page_title = 'Add requested product';
             <div class="col-md-6">
 				<!-- general form elements -->
 				<div class="box box-primary">
-					<div class="box-header">
-						<h3 class="box-title">Listing Detail</h3>
-					</div><!-- /.box-header -->
-
 					<div class="box-body">
-						<div class="row form-group">
-							<div class="col-sm-3">
-								<label>Seller Price*:</label>
-							</div>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" placeholder="Enter price..." name="sell_price" value="<?= $sell_price ?>" required/>
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-sm-12">
-								<div class="alert alert-warning">Price should be in digit</div>
-							</div>
-						</div>
-
                         <div class="row form-group">
                         	<div class="col-sm-3">
                         		<label>Finance Available:</label>  
@@ -580,7 +583,7 @@ $page_title = 'Add requested product';
 
 						<div class="row form-group">
 							<div class="col-sm-3">
-								<label>Home Delievery:</label> 
+								<label>Home Delivery:</label> 
 							</div>
 							<div class="col-sm-5">
 								<select class="form-control" name="home_delievery" required>
@@ -604,10 +607,10 @@ $page_title = 'Add requested product';
 
                         <div class="row form-group">
                           	<div class="col-sm-3">
-                            	<label>Home Delievery Terms:</label>
+                            	<label>Home Delivery Terms:</label>
                             </div>
                           	<div class="col-sm-8">
-                                <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
+                                <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Enter Delivery Terms" id=""><?= $home_delivery_terms ?></textarea>
                           	</div>
                         </div>
 
@@ -795,43 +798,90 @@ function getCategoryAttribtes(cat_id, prd_id=0, page_label)
 	            {
 	            	resp = JSON.parse(data);
 	            	fields = '';
-	            	
-	            	if (resp.length > 0) 
-	    			{
-	    				fields += '<table class="table table-bordered table-striped dataTable"><tr><th colspan=2><center>Product attributes</center></th></tr>';
 
-	    				for (var i = 0; i < resp.length; i++) 
-		            	{
-		            		if (resp[i].mp_id != null) 
-		            		{
-		            			$('#open_att_modal').prop('disabled', false);
-	            			
-		            			att_id = resp[i].att_id;
-		            			att_name_label = resp[i].att_name;
-		            			att_val = '';
-		            			if (page_label != "add") 
-		            			{
-		            				att_val = resp[i].att_value;
-		            				if (att_val == null)
-		            					att_val = '';
-		            			}
+	            	// remove not linked attributes from category
+					resp = resp.filter(function(item) {
+						return item.mp_id !== null;
+					});
 
-		            			fields += '<tr><td>'+att_name_label+'</td>';
+	            	if (resp.length > 0) {
 
-		                		if (page_label == "view") 
-		                			fields += '<td>'+att_val+'</td>';
-		                		else
-		                			fields += '<td>'+
-			                    					'<input type="text" name="'+att_id+'" class="form-control att_values" placeholder="Enter '+att_name_label+'..." value="'+att_val+'" />'+
-			                    				'</td><tr>';
-		            		}
+	    				for (var i = 0; i < resp.length; i += 4) {
+							fields += '<tr>';
+
+							// First column
+							if (resp[i] && resp[i].mp_id != null) {
+								att_id = resp[i].att_id;
+								att_name_label = resp[i].att_name;
+								att_val = (page_label != "add" && resp[i].att_value) ? resp[i].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							// Second column
+							if (resp[i+1] && resp[i+1].mp_id != null) {
+								att_id = resp[i+1].att_id;
+								att_name_label = resp[i+1].att_name;
+								att_val = (page_label != "add" && resp[i+1].att_value) ? resp[i+1].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							// Third column
+							if (resp[i+2] && resp[i+2].mp_id != null) {
+								att_id = resp[i+2].att_id;
+								att_name_label = resp[i+2].att_name;
+								att_val = (page_label != "add" && resp[i+2].att_value) ? resp[i+2].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							// Fourth column
+							if (resp[i+3] && resp[i+3].mp_id != null) {
+								att_id = resp[i+3].att_id;
+								att_name_label = resp[i+3].att_name;
+								att_val = (page_label != "add" && resp[i+3].att_value) ? resp[i+3].att_value : '';
+
+								fields += '<td>' + att_name_label;
+								if (page_label == "view") {
+									fields += '<br>' + att_val + '</td>';
+								} else {
+									fields += '<br><input type="text" name="' + att_id + '" class="form-control att_values" ' +
+											'placeholder="Enter ' + att_name_label + ' value" value="' + att_val + '" /></td>';
+								}
+							} else {
+								fields += '<td></td>';
+							}
+
+							fields += '</tr>';
 						}
-
-						fields += '</table>'
 	    			}
 
-	            	$('#att_fields').append(fields);
-	            	$('#att_fields').show();
+					$('#att_fields').html(fields);
 	            }
 
 	            $('#divLoading').hide();
@@ -866,42 +916,6 @@ $(document).ready(function() {
 });
 </script>
 
-<style type="text/css">
-label{
-	float: left;
-	margin-right: 20px;
-}
-
-span.bigcheck-target {
-	font-family: FontAwesome;
-	color: #D35400;
-}
-
-input[type='checkbox'].bigcheck {
-  position: relative;
-  left: -999em;
-}
-
-input[type='checkbox'].bigcheck + span.bigcheck-target:after {
-  content: "\f096";
-}
-
-input[type='checkbox'].bigcheck:checked + span.bigcheck-target:after {
-  content: "\f046";
-}
-
-.thumbnail img {
-    height:50px;
-    float: left;
-}
-
-.thumbnail {
-	border: none;
-    float: left;
-    margin-bottom: 0px;
-}
-</style>
-
 <?php require_once('include/imageModel.php'); ?>
 
 <script>
@@ -926,14 +940,14 @@ $(document).ready(function() {
     var count = 1;
     $('#createVarientFieldBtn').click(function () {
         $('#input_field_div').append('<div class="row" style="margin-top:10px;" id="con'+count+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="vrnt_vals[]" placeholder="Varient value" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove'+count+'" onclick="removeBtn('+count+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
+			'<div class="col-sm-9">'+
+				'<input type="text" class="form-control" name="vrnt_vals[]" placeholder="Varient value" required/>' + 
+			'</div>'+
+			'<div class="col-sm-3">'+
+				'<button type="button" class="btn btn-danger" id="btnRemove'+count+'" onclick="removeBtn('+count+')">Remove</button>'+
+			'</div>'+
+		'</div>'
+		);
         
         count++;
     });
@@ -957,22 +971,22 @@ $(document).ready(function() {
     var count1 = 1;
     var count2 = 1;
     $('#createKeyFeatureFieldBtn').click(function () {
-        $('#key_feature_input_field_div').append('<div class="row" style="margin-top:10px;" id="con1'+count1+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="key_feature_values[]" placeholder="Feature'+count1+'" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
-        
+        $('#key_feature_input_field_div').append(
+  			'<div class="row" id="con1'+count1+'" style="margin-bottom: 5px;">'+
+    			'<div class="col-sm-12" style="display:flex; align-items:center;">'+
+      				'<input type="text" class="form-control" name="key_feature_values[]" placeholder="Enter feature" required style="flex:1;" />'+
+      				'<a href="javascript:void(0);" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')" style="margin-left:8px;">'+
+        				'<i class="fa fa-minus-circle text-danger"></i>'+
+      				'</a>'+
+    			'</div>'+
+  			'</div>');
+
         count1++;
     });
 });
 
-function removeBtn(id) 
-{
+function removeBtn(id) {
+
 	$('#con'+id).remove();
 }
 </script>

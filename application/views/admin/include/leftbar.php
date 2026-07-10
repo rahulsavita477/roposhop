@@ -5,7 +5,8 @@ $parse_url = parse_url($_SERVER['REQUEST_URI']);
 $url = explode('/', $_SERVER['REQUEST_URI']);
 
 $dashboard_page = in_array("dashboard", $url) ? "active" : '';
-$seller_default_values = in_array("default_values", $url) ? "active" : '';
+$sellerServicePolicyScreen = in_array("service_policy", $url) ? "active" : '';
+$sellerProfileScreen = in_array("merchantSignupStep2", $url) ? "active" : '';
 $category_page = (in_array("category", $url) || in_array("addCategory", $url) || in_array("editCategory", $url)) ? "active" : "";
 $attributes_page = (in_array("attributes", $url) || in_array("addAttribute", $url) || in_array("editAttribute", $url)) ? "active" : "";
 $address_management = ((isset($_GET['user_id']) || isset($_GET['address_id'])) && $_COOKIE['site_code'] == 'seller') ? "active" : "";
@@ -21,7 +22,7 @@ if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array(
 }
 else if (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url))
     $brand_page = "active";
-else if (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']))
+else if (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']) || in_array("insertProduct", $url) )
     $products_page = "active";
 else if (in_array("countryManagement", $url) || in_array("stateManagement", $url) || in_array("editCountry", $url) || in_array("addCountry", $url) || (isset($_GET['getStateList']) && $parse_url['path'] != '/stateExcel') || isset($_GET['addNewState']) || in_array('cityManagement', $url) || (isset($_GET['getCityList']) && $parse_url['path'] != '/cityExcel') || isset($_GET['addNewCity']) || in_array("areaManagement", $url) || ((isset($_GET['getAreaList'])) && $parse_url['path'] != '/areaExcel') || isset($_GET['addNewArea'])) 
 {
@@ -90,7 +91,7 @@ if (isset($_COOKIE['shop_logo']))
 
 <style type="text/css">
 .sidebar{
-    max-height: calc(100vh - 10rem);
+    max-height: calc(100vh - 5rem);
     overflow-y: auto;
 }
 </style>
@@ -113,21 +114,21 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- category -->
                     <li class="<?= $category_page ?>">
                         <a href="<?= base_url('category') ?>">
-                            <i class="fa fa-list"></i> <span>Category</span>
+                            <i class="fa fa-sitemap"></i> <span>Category</span>
                         </a>
                     </li>
 
                     <!-- attributes -->
                     <li class="<?= $attributes_page ?>">
                         <a href="<?= base_url('page/attributes') ?>">
-                            <i class="fa fa-tags"></i> <span>Attributes</span>
+                            <i class="fa fa-list-ul"></i> <span>Attributes</span>
                         </a>
                     </li>
 
                     <!-- brand -->
                     <li class="<?= $brand_page ?>">
                         <a href="<?= base_url('brand') ?>">
-                            <i class="fa fa-briefcase"></i> <span>Brand</span>
+                            <i class="fa fa-bookmark"></i> <span>Brand</span>
                         </a>
                     </li>
 
@@ -147,30 +148,82 @@ if (isset($_COOKIE['shop_logo']))
                     <!-- seller -->
                     <li class="treeview <?= $seller_page ?>" id="treeview1" onclick="openTreeView('#treeview1');">
                         <a href="#">
-                            <i class="fa fa-user"></i>
+                            <i class="fa fa-users"></i>
                             <span>Seller</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li class="<?= $seller_management ?>">
                                 <a href="<?= base_url('sellers/sellersTable') ?>">
-                                    <i class="fa fa-users"></i>
+                                    <i class="fa fa-briefcase"></i>
                                     Seller Management
                                 </a>
                             </li>
                             <li class="<?= $product_seller_linking ?>">
                                 <a href="<?= base_url('getAllProducts/0') ?>">
-                                    <i class="fa fa-th-list"></i> 
+                                    <i class="fa fa-list-alt"></i> 
                                     Product Listing
                                 </a>
                             </li>
                         </ul>
                     </li>
+
+                    <!-- user management -->
+                    <li class="<?= $userManagement ?>">
+                        <a href="<?= base_url('page/userManagement') ?>">
+                            <i class="fa fa-user"></i> <span>User Management</span>
+                        </a>
+                    </li>
+
+                    <!-- review -->
+                    <li class="treeview <?= $review ?>" id="treeview3" onclick="openTreeView('#treeview3');">
+                        <a href="#">
+                            <i class="fa fa-comments-o"></i>
+                            <span>Review</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="<?= $merchantReview ?>">
+                                <a href="<?= base_url('review/merchant') ?>">
+                                    <i class="fa fa-thumbs-up"></i> 
+                                    Merchant
+                                </a>
+                            </li>
+                            <li class="<?= $productReview ?>">
+                                <a href="<?= base_url('review/product') ?>">
+                                    <i class="fa fa-star"></i> 
+                                    Product
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- claimed request management -->
+                    <li class="<?= $claimed_request ?>">
+                        <a href="<?= base_url('page/claimedRequest') ?>">
+                            <i class="fa fa-check-square-o"></i>
+                            Claimed Request
+                        </a>
+                    </li>
+
+                    <!-- Requested product management -->
+                    <li class="<?= $requestProduct ?>">
+                        <a href="<?= base_url('page/requestedProducts') ?>">
+                            <i class="fa fa-shopping-cart"></i> <span>Requested Products</span>
+                        </a>
+                    </li>
+
+                    <!-- offer management -->
+                    <li class="<?= $offerManagement ?>">
+                        <a href="<?= base_url('sellers/offers') ?>">
+                            <i class="fa fa-gift"></i> <span>Offer Management</span>
+                        </a>
+                    </li>
                     
                     <!-- place -->
                     <li class="treeview <?= $place_management ?>" id="treeview2" onclick="openTreeView('#treeview2');">
                         <a href="#">
-                            <i class="fa fa-map-marker"></i>
+                            <i class="fa fa-globe"></i>
                             <span>Place Management</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
@@ -200,58 +253,6 @@ if (isset($_COOKIE['shop_logo']))
                                 <a href="<?= base_url('page/areaManagement') ?>">
                                     <i class="fa fa-location-arrow"></i>
                                     Area Management
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <!-- user management -->
-                    <li class="<?= $userManagement ?>">
-                        <a href="<?= base_url('page/userManagement') ?>">
-                            <i class="fa fa-user-md"></i> <span>User Management</span>
-                        </a>
-                    </li>
-
-                    <!-- claimed request management -->
-                    <li class="<?= $claimed_request ?>">
-                        <a href="<?= base_url('page/claimedRequest') ?>">
-                            <i class="fa fa-check"></i>
-                            Claimed Request
-                        </a>
-                    </li>
-
-                    <!-- offer management -->
-                    <li class="<?= $offerManagement ?>">
-                        <a href="<?= base_url('sellers/offers') ?>">
-                            <i class="fa fa-gift"></i> <span>Offer Management</span>
-                        </a>
-                    </li>
-
-                    <!-- Requested product management -->
-                    <li class="<?= $requestProduct ?>">
-                        <a href="<?= base_url('page/requestedProducts') ?>">
-                            <i class="fa fa-shopping-cart"></i> <span>Requested Products</span>
-                        </a>
-                    </li>
-
-                    <!-- review -->
-                    <li class="treeview <?= $review ?>" id="treeview3" onclick="openTreeView('#treeview3');">
-                        <a href="#">
-                            <i class="fa fa-comments"></i>
-                            <span>Review</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="<?= $merchantReview ?>">
-                                <a href="<?= base_url('review/merchant') ?>">
-                                    <i class="fa fa-thumbs-up"></i> 
-                                    Merchant
-                                </a>
-                            </li>
-                            <li class="<?= $productReview ?>">
-                                <a href="<?= base_url('review/product') ?>">
-                                    <i class="fa fa-star"></i> 
-                                    Product
                                 </a>
                             </li>
                         </ul>
@@ -345,48 +346,59 @@ if (isset($_COOKIE['shop_logo']))
                         </a>
                     </li>
 
-                    <!-- offer management -->
-                    <li class="<?= $offerManagement ?>">
-                        <a href="<?= base_url('page/offerManagement') ?>">
-                            <i class="fa fa-weibo"></i> <span>Offer Management</span>
+                    <!-- product linking -->
+                    <li class="<?= $product_seller_linking ?>">
+                        <a href="<?= base_url().'getAllProducts/'.$_COOKIE['merchant_id'] ?>">
+                            <i class="fa fa-th-list"></i> 
+                            Product Listing
                         </a>
                     </li>
 
                     <!-- request for product -->
                     <li class="<?= $requestProduct ?>">
                         <a href="<?= base_url('page/merchantRequestedProducts') ?>">
-                            <i class="fa fa-weibo"></i> <span>Request product</span>
+                            <i class="fa fa-shopping-cart"></i> <span>Request Product</span>
                         </a>
                     </li>
 
                     <!-- view review -->
                     <li class="<?= $merchantReview ?>">
                         <a href="<?= base_url('page/merchantReview') ?>">
-                            <i class="fa fa-weibo"></i> <span>Review</span>
+                            <i class="fa fa-comments"></i> <span>Seller Review</span>
                         </a>
                     </li>
 
-                    <!-- product linking -->
-                    <li class="<?= $product_seller_linking ?>">
-                        <a href="<?= base_url().'getAllProducts/'.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-angle-double-right"></i> 
-                            Product Listing
+                    <!-- offer management -->
+                    <li class="<?= $offerManagement ?>">
+                        <a href="<?= base_url('page/offerManagement') ?>">
+                            <i class="fa fa-gift"></i> <span>Offer Management</span>
+                        </a>
+                    </li>
+
+                    <li class="<?= $sellerOfferings ?>">
+                        <a href="<?= base_url('page/offerings') ?>">
+                            <i class="fa fa-tags"></i>Seller Offerings
+                        </a>
+                    </li>
+
+                    <!-- seller default values -->
+                    <li class="<?= $sellerServicePolicyScreen ?>">
+                        <a href="<?= base_url('page/service_policy') ?>">
+                            <i class="fa fa-shield"></i>Global Service & Policy
                         </a>
                     </li>
 
                     <!-- Address management -->
                     <li class="<?= $address_management ?>">
                         <a href="<?= base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-angle-double-right"></i> 
-                            Address Management
+                            <i class="fa fa-home"></i> 
+                            Shop Address
                         </a>
                     </li>
 
-                    <!-- Address management -->
-                    <li class="<?= $seller_default_values ?>">
-                        <a href="<?= base_url('page/default_values') ?>">
-                            <i class="fa fa-angle-double-right"></i> 
-                            Default values
+                    <li class="<?= $sellerProfileScreen ?>">
+                        <a href="<?= base_url('merchantSignupStep2/'.$_COOKIE['user_id'].'/'.$_COOKIE['merchant_id']) ?>" target="_blank">
+                            <i class="fa fa-user"></i> Seller Profile
                         </a>
                     </li>
                 </ul>

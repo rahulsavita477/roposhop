@@ -8,7 +8,7 @@ else
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Roposhop | Dashboard</title>
+        <title>RopoShop | Dashboard</title>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').('assets/favicon.ico') ?>">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
@@ -36,12 +36,6 @@ else
         <!-- bootstrap wysihtml5 - text editor -->
         <link href="<?= $this->config->item('site_url').'assets/admin/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' ?>" rel="stylesheet" type="text/css" />
         
-        <script type="text/javascript">
-        function myFunction(){
-            change_layout();
-        }
-        </script>
-
         <style type="text/css">
         .navbar-nav.navbar-center {
             position: absolute;
@@ -54,7 +48,7 @@ else
         }*/
         </style>
     </head>
-    <body class="skin-black" onload="myFunction()">
+    <body class="skin-black">
         <div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none;">
             <p style="position: absolute; top: 50%; left: 45%;">
                 <img src="<?= $this->config->item('site_url').'assets/admin/img/ajax-loader.gif' ?>" />
@@ -67,9 +61,18 @@ else
             </p>
         </div>
 
+        <?php if ($this->session->flashdata('productNameError')): ?>
+            <!-- <div class="custom-toast-error alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-left: 10px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                Please correct the highlighted errors before submitting.
+            </div> -->
+        <?php endif; ?>
+
         <!-- header logo: style can be found in header.less -->
         <header class="header">
-            <a href="<?= base_url('dashboard') ?>" class="logo">ROPO SHOP</a>
+            <a href="<?= base_url('dashboard') ?>" class="logo">RopoShop</a>
             
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">

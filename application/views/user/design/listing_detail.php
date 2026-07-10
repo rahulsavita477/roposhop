@@ -133,12 +133,6 @@ textarea.form-control{
 .hi{
     display: none;
 }
-#more{
-    display: none;
-}
-#more1{
-    display: none;
-}
 .height-100{
     height: 100px;
 }
@@ -307,31 +301,35 @@ function open_modal2(name, data)
                                 </div>
                             </div>
 
+                            <?php if (isset($product['key_features']) && $product['key_features']): ?>
                             <div class="product-filters-container pt-2">
                                 <ul style="list-style: inside;color:#000">
-                                    <?php if (isset($product['key_features']) && $product['key_features']) {
-                                        foreach ($product['key_features'] as $feature) 
+                                    <?php foreach ($product['key_features'] as $feature) {
                                             echo "<li>".$feature."</li>";
                                     } ?>
                                 </ul>
                             </div><!-- End .product-filters-container -->
-                            <table class="table table-bordered mt-2">
+                            <?php endif; ?>
+
+                            <table class="table table-bordered mt-1">
                                 <tbody>
                                     <tr><th colspan="2">Product Listing Detail</th></tr>
                                     <tr>
                                         <td>Brand</td>
                                         <td>
-                                            <?= isset($product['brand_name']) ? $product['brand_name'] : '' ?>
-                                            &nbsp;&nbsp;
-                                            <a href="<?= base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']) ?>">
-                                                <img 
-                                                    style="
-                                                        width: 15%;
-                                                        display: inline;" 
-                                                    src="<?= $product['brand_logo'] ?>" 
-                                                    alt="brand_logo" 
-                                                />
-                                            </a>
+                                            <?php if(isset($product['brand_name'])) {
+                                               echo '<a href="'.base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']).'">
+                                                    '.$product['brand_name']. '
+                                                    &nbsp;&nbsp;
+                                                    <img
+                                                        style="width:15%;display:inline;"
+                                                        src="' . $product['brand_logo'] . '"
+                                                        alt="brand_logo"
+                                                    />
+                                                </a>';
+                                            } else {
+                                                echo $listing['brand_name'];
+                                            } ?>
                                         </td>
                                     </tr>
                                     <tr>
@@ -495,7 +493,7 @@ function open_modal2(name, data)
                                         <td>'.$finance_available.$finance_terms.'</td>
                                     </tr>
                                     <tr>
-                                        <td style="width: 35%;">Home delievery available</td>
+                                        <td style="width: 35%;">Home Delivery Available</td>
                                         <td>'.$home_delivery_available.$home_delivery_terms.'</td>
                                     </tr>
                                     <tr>

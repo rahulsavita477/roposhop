@@ -55,10 +55,10 @@ $config = array(
         array(
             'field' => 'prd_name',
             'label' => 'Product name',
-            'rules' => 'required|is_unique[product.product_name]',
+            'rules' => 'required|callback_unique_product_name',
             'errors' => array(
-                'required' => '%s required',
-                'is_unique' => 'This %s is already exist, use a different one.',
+                'required'   => '%s required',
+                'unique_product_name' => 'This %s already exists, use a different one.',
             ),
         )
     )

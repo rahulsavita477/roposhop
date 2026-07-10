@@ -3,6 +3,7 @@
 $product_id = isset($product_id) ? $product_id : false;
 $product_name = isset($product_name) ? $product_name : '';
 $description = isset($description) ? $description : '';
+$in_the_box = isset($in_the_box) ? $in_the_box : '';
 $mrp_price = isset($mrp_price) ? $mrp_price : '';
 $product_images_dir = isset($product_images_dir) ? $product_images_dir : '';
 $images = isset($images) ? $images : '';
@@ -73,8 +74,231 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <!-- left column -->
-            <div class="col-md-9 col-md-offset-2">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">
+                            <i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#sellingInformationDiv" style="cursor:pointer;"></i>&nbsp;
+                            <b>Selling Information</b>
+                        </h3>
+                    </div><!-- /.box-header -->
+
+                    <!-- form start -->
+                    <form method="post" action="<?= base_url('insertListingInfo') ?>" enctype="multipart/form-data" onsubmit="return validateForm()" id="sellingInformationDiv" class="collapse in">
+                        
+                        <input type="hidden" name="prd_id" value="<?= $product_id; ?>" />
+                        <input type="hidden" name="merchant_id" value="<?= $seller_id; ?>" />
+                        <input type="hidden" name="listing_id" value="<?= $listing_id; ?>" />
+                        <input type="hidden" name="prd_id" value="<?= $product_id ?>">
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <label>Selling Price *:</label>
+                                </div>
+                                <div class="col-sm-2" style="padding-left: 0px;">
+                                    <input type="number" class="form-control" placeholder="Enter Selling Price" name="sell_price" value="<?= $sell_price ?>" id="" required />
+                                </div>
+                            </div>
+
+                            <div class="row nextFormLine">
+                                <div class="col-sm-1" termsMainLabel>
+                                    <label>In Stock:</label>
+                                </div>
+                                <div class="col-sm-1 termsAvailabilitySelectBox">
+                                    <select class="form-control" name="in_stock" id="">
+                                        <?php if ($page_title == "Edit Listing") {
+
+                                            if ($in_stock == 0) {
+                                                $value0 = 'selected="selected"';
+                                                $value1 = '';
+                                            } else {
+                                                $value0 = '';
+                                                $value1 = 'selected="selected"';
+                                            }
+                                        } else {
+                                            $value0 = '';
+                                            $value1 = 'selected="selected"';
+                                        } ?>
+                                        <option value="1" <?= $value1 ?> >Yes</option>
+                                        <option value="0" <?= $value0 ?> >No</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1 termsLabel">
+                                    <label>Return On:</label>
+                                </div>
+                                <div class="col-sm-2 termsTextArea">
+                                    <input type="date" class="form-control" name="back_in_stock" value="<?= $will_back_in_stock_on ?>" id="" />
+                                </div>
+                                <div class="col-sm-1" style="text-align: right; padding-right: 0px;">
+                                    <label>Seller Offerings:</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control" rows="2" name="seller_offering" placeholder="Enter Offering" id=""><?= $seller_offering ?></textarea>
+                                </div>
+                            </div>
+                            
+                            <a data-toggle="collapse" href="#service_Policy" aria-expanded="false" aria-controls="service_Policy">+ Service & Policy Options</a>
+						
+                            <!-- Collapsible content -->
+                            <div class="collapse" id="service_Policy">
+                                <div class="well" style="padding: 5px 10px;">
+                                    <div class="row nextFormLine">
+                                        <div class="col-sm-1 termsMainLabel">
+                                            <label>Finance Available:</label>
+                                        </div>
+                                        <div class="col-sm-1 termsAvailabilitySelectBox">
+                                            <select class="form-control" name="finance_available" id="">
+                                                <?php if ($finance_available == 0) {
+                                                    $value0 = "selected";
+                                                    $value1 = '';
+                                                } else {
+                                                    $value0 = '';
+                                                    $value1 = "selected";
+                                                } ?>
+                                                <option value="0" <?= $value0 ?> >No</option>
+                                                <option value="1" <?= $value1 ?> >Yes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 termsLabel">
+                                            <label>Terms:</label>
+                                        </div>
+                                        <div class="col-sm-9 termsTextArea">
+                                            <textarea class="form-control" rows="2" name="finance_terms" placeholder="Enter Finance Terms"><?= $finance_terms ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row nextFormLine">
+                                        <div class="col-sm-1 termsMainLabel">
+                                            <label>Home Delivery:</label>
+                                        </div>
+                                        <div class="col-sm-1 termsAvailabilitySelectBox">
+                                            <select class="form-control" name="home_delievery" id="">
+                                                <?php if ($home_delivery_available == 0) {
+                                                    $value0 = "selected";
+                                                    $value1 = '';
+                                                } else {
+                                                    $value0 = '';
+                                                    $value1 = "selected";
+                                                } ?>
+                                                <option value="0" <?= $value0 ?> >No</option>
+                                                <option value="1" <?= $value1 ?> >Yes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 termsLabel">
+                                            <label>Terms:</label>
+                                        </div>
+                                        <div class="col-sm-9 termsTextArea">
+                                            <textarea class="form-control" rows="2" name="delievery_terms" placeholder="Enter Delivery Terms" id=""><?= $home_delivery_terms ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row nextFormLine">
+                                        <div class="col-sm-1" termsMainLabel>
+                                            <label>Installation Available:</label>
+                                        </div>
+                                        <div class="col-sm-1 termsAvailabilitySelectBox">
+                                            <select class="form-control" name="installation_available" id="">
+                                                <?php if ($installation_available == 0) {
+                                                    $value0 = "selected";
+                                                    $value1 = '';
+                                                } else {
+                                                    $value0 = '';
+                                                    $value1 = "selected";
+                                                } ?>
+                                                <option value="0" <?= $value0 ?> >No</option>
+                                                <option value="1" <?= $value1 ?> >Yes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 termsLabel">
+                                            <label>Terms:</label>
+                                        </div>
+                                        <div class="col-sm-9 termsTextArea">
+                                            <textarea class="form-control" rows="2" name="installation_terms" placeholder="Enter Installation Terms" id=""><?= $installation_terms ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row nextFormLine">
+                                        <div class="col-sm-1" termsMainLabel>
+                                            <label>Replacement Available:</label>
+                                        </div>
+                                        <div class="col-sm-1 termsAvailabilitySelectBox">
+                                            <select class="form-control" name="replacement_available" id="">
+                                                <?php if ($replacement_available == 0) {
+                                                    $value0 = "selected";
+                                                    $value1 = '';
+                                                } else {
+                                                    $value0 = '';
+                                                    $value1 = "selected";
+                                                } ?>
+                                                <option value="0" <?= $value0 ?> >No</option>
+                                                <option value="1" <?= $value1 ?> >Yes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 termsLabel">
+                                            <label>Terms:</label>
+                                        </div>
+                                        <div class="col-sm-9 termsTextArea">
+                                            <textarea class="form-control" rows="2" name="replacement_terms" id="" placeholder="Enter Replacement Terms"><?= $replacement_terms ?></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row nextFormLine">
+                                        <div class="col-sm-1 termsMainLabel">
+                                            <label>Return Available:</label>
+                                        </div>
+                                        <div class="col-sm-1 termsAvailabilitySelectBox">
+                                            <select class="form-control" name="return_available" id="">
+                                                <?php if ($return_available == 0) {
+                                                    $value0 = "selected";
+                                                    $value1 = '';
+                                                } else {
+                                                    $value0 = '';
+                                                    $value1 = "selected";
+                                                } ?>
+                                                <option value="0" <?= $value0 ?> >No</option>
+                                                <option value="1" <?= $value1 ?> >Yes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 termsLabel">
+                                            <label>Terms:</label>
+                                        </div>
+                                        <div class="col-sm-9 termsTextArea">
+                                            <textarea class="form-control" rows="2" name="return_policy" placeholder="Enter Return Terms" id=""><?= $return_policy ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php if ($_COOKIE['site_code'] == 'admin') { ?>
+                                <div class="row form-group">
+                                    <div class="col-sm-3">
+                                        <label>Meta Keywords:</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="2" name="meta_keyword" placeholder="Please enter offering..."><?= $meta_keywords ?></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-sm-3">
+                                        <label>Meta Description:</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="2" name="meta_description" placeholder="Please enter offering..."><?= $meta_description ?></textarea>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            
+                            <div class="box-footer">
+                                <a href='<?= base_url("getAllProducts/$seller_id") ?>' class='btn btn-default'>Cancel</a>
+                                <button type="submit" class="btn btn-primary">Complete Linking</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12">
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <div class="box-header">
@@ -82,444 +306,144 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                     </div><!-- /.box-header -->
                     
                     <div class="box-body">
-                        <!-- select category -->
-                        <div class="row form-group">
-                            <div class="col-sm-2">
-                                <label>Category:</label>    
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label>Category</label>
+                                <input class="form-control" value="<?= $category_name ?>" readonly />
                             </div>
-                            <div class="col-sm-10">
-                                <?= $category_name ?>       
+                            <div class="col-sm-3">
+                                <label>Brand</label>
+                                <input class="form-control" value="<?= $brand_name ?>" readonly />
                             </div>
-                        </div>
-
-                        <!-- select brand -->
-                        <div class="row form-group">
-                            <div class="col-sm-2">
-                                <label>Brand:</label>   
+                            <div class="col-sm-3">
+                                <label>Product Name</label>
+                                <input class="form-control" value="<?= $product_name ?>" readonly />
                             </div>
-                            <div class="col-sm-10">
-                                <?= $brand_name ?>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="prd_id" value="<?= $product_id ?>">
-
-                        <div class="row form-group">
-                            <div class="col-sm-2">
-                                <label>Product Name:</label>    
-                            </div>
-                            <div class="col-sm-10">
-                                <?= $product_name ?>
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-sm-2">
-                                <label>Product MRP:</label>   
-                            </div>
-                            <div class="col-sm-10">
-                                <?= $mrp_price ?>
+                            <div class="col-sm-3">
+                                <label>Product MRP</label>
+                                <input class="form-control" value="<?= $mrp_price ?>" readonly />
                             </div>
                         </div>
                         
-                        <?php if ($prd_varients) { ?>
-                            <div style="margin-bottom: 20px;">
-                                <div class="box-body table-responsive">
-                                    <table class="table table-bordered table-striped data-pagination-table">
+                        <div class="row nextFormLine">
+                            <div class="col-sm-6">
+                                <label>Product Description</label> 
+                                <textarea class="form-control" rows="2" placeholder="Description Not Available" readonly><?= $description ?></textarea>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>In The Box</label>
+                                <textarea class="form-control" rows="2" placeholder="In The Box Not Available" readonly><?= $in_the_box ?></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive editTable">
+                                    <table class="table table-bordered dataTable">
                                         <thead>
                                             <tr>
-                                                <th colspan="3"><center>PRODUCT VARIENTS</center></th>
-                                            </tr>
-                                            <tr>
-                                                <th>S.No.</th>
-                                                <th>Varient name </th>
-                                                <th>Varient value</th>
+                                                <th class="text-align-center" colspan="6">
+                                                    Product Images
+                                                    <i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productImages_tableBody" style="cursor:pointer;"></i>
+                                                </th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <?php   
-                                            $i = 1;
-                                            foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) 
-                                            {
-                                                echo "<tr>
-                                                        <td>".$i++."</td>
-                                                        <td>".$prd_vrnt_key."</td><td>";
+                                        <tbody style="height: auto;" id="productImages_tableBody" class="collapse in">
+                                            <tr>
+                                            <?php echo renderImagesReadonly($images, $product_images_dir, $product_id); ?>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive editTable">
+                                    <table class="table table-bordered table-striped dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th colspan=2 class="text-align-center">
+                                                    Product Attributes
+                                                    <i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#att_fields" style="cursor:pointer;"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="collapse in" id="att_fields">
+                                            <tr>
+                                                <td>No Attribute Found</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="table-responsive editTable">
+                                    <table class="table table-bordered dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="3" class="text-align-center">
+                                                    Product varients
+                                                    <i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productVarients_tableBody" class="collapse in">
+                                            <?php if (isset($prd_varients) && $prd_varients) {
+                                                foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) {
 
-                                                foreach ($prd_vrnt_values as $vrnt_key => $vrnt_value) 
-                                                {
-                                                    if ($vrnt_key != 0)
-                                                        echo ", ";
+                                                    echo "<tr>
+                                                            <td>".$prd_vrnt_key."</td><td>";
 
-                                                    echo $vrnt_value['att_value'];
+                                                            foreach ($prd_vrnt_values as $vrnt_key => $vrnt_value) {
+
+                                                                if ($vrnt_key != 0) {
+                                                                    echo ", ";
+                                                                }
+
+                                                                echo $vrnt_value['att_value'];
+                                                            }
+
+                                                    echo "</td></tr>";
                                                 }
+                                            } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="table-responsive editTable">
+                                    <table class="table table-bordered table-striped dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2" class="text-align-center">
+                                                    Product Features
+                                                    <i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="productFeatures_tableBody" class="collapse in">
+                                            <?php
+                                            if ($key_features) {
 
-                                                echo "</td></tr>";
-                                            }
-                                            ?>
+                                                foreach ($key_features['result'] as $feature_value) {
+
+                                                    echo "<tr>
+                                                        <td>
+                                                            ".$feature_value['feature']."
+                                                        </td>
+                                                    </tr>";
+                                                }
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div>
-                        <?php } ?>
-
-                        <div class="box-header">
-                            <h3 class="box-title"><b>Seller Information</b></h3>
-                        </div><!-- /.box-header -->
-                            
-                        <!-- form start -->
-                        <form method="post" action="<?= base_url('insertListingInfo') ?>" enctype="multipart/form-data" onsubmit="return validateForm()">
-                            <input type="hidden" name="prd_id" value="<?= $product_id; ?>" />
-                            <input type="hidden" name="merchant_id" value="<?= $seller_id; ?>" />
-                            <input type="hidden" name="listing_id" value="<?= $listing_id; ?>" />
-
-                            <div class="box-body">
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Price*:</label>  
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <input type="text" class="form-control" placeholder="Enter price..." name="sell_price" value="<?= $sell_price ?>" required/>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                      <div class="col-sm-12">
-                                            <div class="alert alert-warning">Price should be in digit</div>
-                                      </div>
-                                </div>
-                                
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Finance Available*:</label>  
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" name="finance_available" required>
-                                            <?php 
-                                            if ($finance_available == 0)
-                                            {
-                                                $value0 = "selected";
-                                                $value1 = '';
-                                            }
-                                            else
-                                            {
-                                                $value0 = '';
-                                                $value1 = "selected";
-                                            }
-                                            ?>
-                                            <option value="0" <?= $value0 ?> >No</option>
-                                            <option value="1" <?= $value1 ?> >Yes</option>
-                                        </select>       
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Finance Terms:</label>    
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Home Delievery*:</label> 
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" name="home_delievery" required>
-                                            <?php 
-                                            if ($home_delivery_available == 0)
-                                            {
-                                                $value0 = "selected";
-                                                $value1 = '';
-                                            }
-                                            else
-                                            {
-                                                $value0 = '';
-                                                $value1 = "selected";
-                                            }
-                                            ?>
-                                            <option value="0" <?= $value0 ?> >No</option>
-                                            <option value="1" <?= $value1 ?> >Yes</option>
-                                        </select>       
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Home Delievery Terms:</label>    
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Installation Available*:</label> 
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" name="installation_available" required>
-                                            <?php 
-                                            if ($installation_available == 0)
-                                            {
-                                                $value0 = "selected";
-                                                $value1 = '';
-                                            }
-                                            else
-                                            {
-                                                $value0 = '';
-                                                $value1 = "selected";
-                                            }
-                                            ?>
-                                            <option value="0" <?= $value0 ?> >No</option>
-                                            <option value="1" <?= $value1 ?> >Yes</option>
-                                        </select>       
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Installation Terms:</label>  
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>In Stock*:</label>   
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" name="in_stock">
-                                            <?php 
-                                            if ($page_title == "Edit Listing") 
-                                            {
-                                                if ($in_stock == 0)
-                                                {
-                                                    $value0 = 'selected="selected"';
-                                                    $value1 = '';
-                                                }
-                                                else
-                                                {
-                                                    $value0 = '';
-                                                    $value1 = 'selected="selected"';
-                                                }
-                                            }
-                                            else
-                                            {
-                                                $value0 = '';
-                                                $value1 = 'selected="selected"';
-                                            }
-                                            ?>
-                                            <option value="1" <?= $value1 ?> >Yes</option>
-                                            <option value="0" <?= $value0 ?> >No</option>
-                                        </select>       
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Available Back in stock on:</label>   
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <input type="date" class="form-control" name="back_in_stock" value="<?= $will_back_in_stock_on ?>" />
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Replacement Available*:</label>  
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" name="replacement_available" required>
-                                            <?php 
-                                            if ($replacement_available == 0)
-                                            {
-                                                $value0 = "selected";
-                                                $value1 = '';
-                                            }
-                                            else
-                                            {
-                                                $value0 = '';
-                                                $value1 = "selected";
-                                            }
-                                            ?>
-                                            <option value="0" <?= $value0 ?> >No</option>
-                                            <option value="1" <?= $value1 ?> >Yes</option>
-                                        </select>       
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Replacement Terms:</label>   
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Return Available*:</label>   
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <select class="form-control" name="return_available" required>
-                                            <?php 
-                                            if ($return_available == 0)
-                                            {
-                                                $value0 = "selected";
-                                                $value1 = '';
-                                            }
-                                            else
-                                            {
-                                                $value0 = '';
-                                                $value1 = "selected";
-                                            }
-                                            ?>
-                                            <option value="0" <?= $value0 ?> >No</option>
-                                            <option value="1" <?= $value1 ?> >Yes</option>
-                                        </select>       
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Return Terms:</label>    
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Seller Offerings:</label>    
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="1" name="seller_offering" placeholder="Please enter offering..."><?= $seller_offering ?></textarea>
-                                    </div>
-                                </div>
-
-                                <?php if ($_COOKIE['site_code'] == 'admin') { ?>
-                                    <div class="row form-group">
-                                        <div class="col-sm-3">
-                                            <label>Meta Keywords:</label>    
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" rows="1" name="meta_keyword" placeholder="Please enter offering..."><?= $meta_keywords ?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col-sm-3">
-                                            <label>Meta Description:</label>    
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <textarea class="form-control" rows="1" name="meta_description" placeholder="Please enter offering..."><?= $meta_description ?></textarea>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <div class="box-footer" align="center">
-                                    <a href='<?= base_url("getAllProducts/$seller_id") ?>' class='btn btn-default'>Cancel</a>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    <div class="form-group" id="att_fields" style="display: none;">
-                        <div class="box-body table-responsive">
-                            <table class="table table-bordered table-striped data-pagination-table">
-                                <tbody id="att_data"></tbody>
-                            </table>
                         </div>
-                    </div>
-
-                    <div class="row form-group">
-                        <div class="col-sm-2">
-                            <label>Product images:</label>   
-                        </div>
-                        <div class="col-sm-10">
-                            <?php 
-                            if (!empty($images)) 
-                            {
-                                foreach ($images as $img_value) 
-                                {
-                                    $img_src = $product_images_dir.'/'.$img_value['atch_url'];
-                                    
-                                    echo '<div class="thumbnail">
-                                            <img src="'.$img_src.'" class="img-rounded" />
-                                        </div>';
-                                }   
-                            }
-                            else
-                                echo "Not available";
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="row form-group" style="clear: both;">
-                        <div class="col-sm-2">
-                            <label>Product Description:</label> 
-                        </div>
-                        <div class="col-sm-10">
-                            <?= $description ?>
-                        </div>
-                    </div>
-
-                    <div class="row form-group">
-                        <div class="col-sm-2">
-                            <label>Tags:</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <span class="bigcheck">
-                                <?php
-                                $count = 0;
-                                if (count($tags)>0) 
-                                {
-                                    function array_value_exist($product_tags, $value)
-                                    {
-                                        if (count($product_tags)>0) 
-                                        {
-                                            foreach ($product_tags as $prd_tag_value) 
-                                            {
-                                                if ( $prd_tag_value['tag_id'] == $value ) 
-                                                {
-                                                    return "checked";
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        return "";
-                                    }
-
-                                    foreach ($tags as $tag_value)
-                                    {
-                                        $checked = array_value_exist($product_tags, $tag_value['tag_id']);
-
-                                        if ($checked)
-                                        {
-                                            if ($count != 0) 
-                                                echo ",";
-
-                                            echo ' <label>'.$tag_value['tag_name'].'</label>';
-
-                                            $count++;
-                                        }
-                                    }
-                                }
-                                
-                                if ($count == 0)
-                                    echo "Not available";
-                                ?>                                      
-                            </span>
-                        </div>
-                    </div>
-                    
                     </div>
                 </div><!-- /.box -->
             </div>   <!-- /.row -->
@@ -530,91 +454,102 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
 <?php require_once('include/imageModel.php'); ?>
 
 <script>
-function getCategoryAttribtes(cat_id, prd_id)
-{
-    $('#divLoading1').show();
+function getCategoryAttribtes(cat_id, prd_id) {
 
-    var prd_varients = <?= (!empty($prd_varients) ? json_encode($prd_varients) : '""'); ?>;
-    prd_att_val_res = '';
+	$('#att_fields').empty();
+	$('#divLoading').show();
     
-    if (cat_id) 
-    {
-        if (prd_id) 
-        {
-            $.ajax({
-                type: "GET",
-                url: '<?= base_url("productAttributesValue");?>/'+prd_id,
-                success: function(att_data){
-                    if (att_data) 
-                        prd_att_val_res = JSON.parse(att_data);
-                },
-            }); 
-        }
+    if (cat_id && prd_id) {
 
         $.ajax({
             type: "GET",
-            url: '<?= base_url("categoryAttributes");?>/'+cat_id+'/'+0,
+            url: '<?= base_url("categoryAttributes");?>/'+cat_id+'/'+prd_id,
             success: function(data){
-                if (data) 
-                {
+                if (data) {
+
                     resp = JSON.parse(data);
+                    fields = '';
                     
-                    fields = '<tr><td colspan="2"><center><b>Product attributes</b></center></td></tr>';
-                    
-                    //remove attribute from the list where we have attibute as varient
-                    for (var k = 0; k < prd_varients.length; k++) 
-                    {
-                        for (var l = 0; l < resp.length; l++) 
-                        {
-                            if ( prd_varients[k].att_id == resp[l].att_id )
-                                resp.splice( l, 1 );
-                        }
-                    }
-                    
-                    if (resp.length > 0) 
-                    {
-                        for (var i = 0; i < resp.length; i++) 
-                        {
-                            var cat_att_mp_id = resp[i].mp_id;
-                            var att_val = '';
-
-                            if (cat_att_mp_id != null) 
-                            {
-                                for (var j = 0; j < prd_att_val_res.length; j++) 
-                                {
-                                    if ( prd_att_val_res[j].cat_att_mp_id == cat_att_mp_id )
-                                    {
-                                        att_val = prd_att_val_res[j].att_value;
-                                        prd_att_val_res.splice(j, 1);
-                                        break;
-                                    }
-                                }
-
-                                fields += '<tr>'+
-                                            '<td>'+resp[i].att_name+'</td>'+
-                                            '<td>'+att_val+'</td>'+
-                                        '</tr>';
-                            } 
-                        }
-
-                        $('#att_data').append(fields);
+                    if(prd_id) {
                         
-                        if (fields != '')
-                            $('#att_fields').show();
+                        // remove not linked attributes from category
+                        resp = resp.filter(function(item) {
+                            return item.att_value !== "";
+                        });
                     }
+
+                    if (resp.length > 0) {
+
+	    				for (var i = 0; i < resp.length; i += 4) {
+                            fields += '<tr>';
+
+                            // First attribute cell
+                            if (resp[i] && resp[i].mp_id != null && resp[i].att_value) {
+                                fields += '<td>' + resp[i].att_name +
+                                        '<input type="text" class="form-control att_values" ' +
+                                        'name="' + resp[i].att_id + '" ' +
+                                        'placeholder="Enter ' + resp[i].att_name + ' value" ' +
+                                        'value="' + resp[i].att_value + '" readonly /></td>';
+                            } else {
+                                fields += '<td></td>';
+                            }
+
+                            // Second attribute cell
+                            if (resp[i+1] && resp[i+1].mp_id != null && resp[i+1].att_value) {
+                                fields += '<td>' + resp[i+1].att_name +
+                                        '<input type="text" class="form-control att_values" ' +
+                                        'name="' + resp[i+1].att_id + '" ' +
+                                        'placeholder="Enter ' + resp[i+1].att_name + ' value" ' +
+                                        'value="' + resp[i+1].att_value + '" readonly /></td>';
+                            } else {
+                                fields += '<td></td>';
+                            }
+
+                            // Third attribute cell
+                            if (resp[i+2] && resp[i+2].mp_id != null && resp[i+2].att_value) {
+                                fields += '<td>' + resp[i+2].att_name +
+                                        '<input type="text" class="form-control att_values" ' +
+                                        'name="' + resp[i+2].att_id + '" ' +
+                                        'placeholder="Enter ' + resp[i+2].att_name + ' value" ' +
+                                        'value="' + resp[i+2].att_value + '" readonly /></td>';
+                            } else {
+                                fields += '<td></td>';
+                            }
+
+                            // Fourth attribute cell
+                            if (resp[i+3] && resp[i+3].mp_id != null && resp[i+3].att_value) {
+                                fields += '<td>' + resp[i+3].att_name +
+                                        '<input type="text" class="form-control att_values" ' +
+                                        'name="' + resp[i+3].att_id + '" ' +
+                                        'placeholder="Enter ' + resp[i+3].att_name + ' value" ' +
+                                        'value="' + resp[i+3].att_value + '" readonly /></td>';
+                            } else {
+                                fields += '<td></td>';
+                            }
+
+                            fields += '</tr>';
+                        }
+
+	    			}
+
+					$('#att_fields').html(fields);
                 }
             },
-        }); 
-    }
-    else
+        });
+    } else if(!cat_id) {
         alert('Could not found category id!');
+        $('#divLoading').hide();
+    } else if(!prd_id) {
+        alert('Could not found product id!');
+        $('#divLoading').hide();
+    }
+}
 
-    $('#divLoading1').hide();
-}   
-
-$( document ).ready(function() {
+$(document).ready(function() {
+    
     $('#divLoading').show();
-    setTimeout(function(){ 
+    
+    setTimeout(function(){
         $('#divLoading').hide();
     }, 3000);
 
@@ -624,35 +559,30 @@ $( document ).ready(function() {
     getCategoryAttribtes(cat_id, prd_id);
 });
 
-function removeBtn( id ) 
-{
-    $('#con'+id).remove();
-}
-
 //check form validation
-function validateForm() 
-{
+function validateForm() {
+
     //for sell price
     var sell_price = $('[name="sell_price"]').val();
     var prd_price = <?= $mrp_price ?>;
     var isValid = isNaN(sell_price);
-    if(isValid)
-    {
+    
+    if(isValid) {
+
         alert('seller price must be in digit');
         return false;
     }
 
-    if (parseInt(sell_price) > parseInt(prd_price)) 
-    {
+    if (parseInt(sell_price) > parseInt(prd_price)) {
+
         alert('seller price could not more then product price');
-        return false;      
+        return false;
     }
-}    
+}
 </script>
 
 <style>
 .thumbnail img {
-    //width:115;
     height:80px;
     float: left;
     margin: 10px;

@@ -133,20 +133,15 @@
 				<div class="col-sm-12">
 					<div class="review-block">
 						<div class="row">
-							<div class="col-sm-2">
-								<?php 
-								$consumer_pic = $this->config->item('site_url').PROFILE_PIC_PATH.$review['consumer_user_id'].'.png';
-								$file_headers = get_headers($consumer_pic);
-								if ($file_headers[0] == 'HTTP/1.0 404 Not Found') 
-									$consumer_pic = "http://dummyimage.com/60x60/666/ffffff&text=No+Image";
-								?>
+							<div class="col-sm-1">
+								<?php $consumer_pic = $this->config->item('site_url').PROFILE_PIC_PATH.$review['picture']; ?>
 								<img src="<?= $consumer_pic ?>" class="img-rounded" width="60px">
 								<div class="review-block-name"><a href="#"><?= $review['consumer_name'] ?></a></div>
 								<div class="review-block-date">
 									<?= date('F d, Y', strtotime($review['review_date'])) ?>
 								</div>
 							</div>
-							<div class="col-sm-10">
+							<div class="col-sm-11">
 								<div class="review-block-rate">
 									<?php printRatingStars($review['rating']); ?>
 								</div>

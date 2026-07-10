@@ -1,13 +1,12 @@
-<?php 
+<?php
 $required = "";
 $star = "";
 
-if (isset($page_label) && $page_label == "edit") 
+if (isset($page_label) && $page_label == "edit") {
 	$page_title = 'Edit category';
-else if (isset($page_label) && $page_label == "view") 
+} elseif (isset($page_label) && $page_label == "view") {
 	$page_title = 'View category';
-else
-{
+} else {
 	$page_label = "add";
 	$page_title = 'Add category';
 	$required = "required";
@@ -27,7 +26,8 @@ $cat_name_data = array(
     'name' => 'cat_name',
     'class' => 'form-control',
     'placeholder' => 'Enter category name',
-    'value' => $cat_name
+    'value' => $cat_name,
+	'required' => $required
 );
 ?>
 
@@ -35,7 +35,7 @@ $cat_name_data = array(
 <aside class="right-side">
 	<!-- bread crumb -->
     <section class="content-header">
-        <h1>Category<small><?= $page_label ?></small></h1>
+        <h1>Category<small><?= ucfirst($page_label) ?></small></h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="<?= base_url('category') ?>">Category Management</a></li>
@@ -47,15 +47,15 @@ $cat_name_data = array(
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <div class="box-header">
 				        <?php if ($page_label == "view") { ?>
 					        <div class="box-footer" align="right">
-					            <a href='<?= base_url("category") ?>' class='btn btn-default'>Back</a>
-					            <a href='<?= base_url("editCategory/$cat_id/edit") ?>' class='btn btn-primary'>Edit</a>
-					            <a href='<?= base_url("deleteCategory/$cat_id") ?>' class='btn btn-danger'>Delete</a>
+					            <a href='<?= base_url("category") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+					            <a href='<?= base_url("editCategory/$cat_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+					            <a href='<?= base_url("deleteCategory/$cat_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
 					        </div>
 					    <?php } ?>
 				    </div><!-- /.box-header -->
@@ -64,20 +64,20 @@ $cat_name_data = array(
 				    <?php if ($page_label == "view") { ?>
 				    	<div class="box-body">
 				    		<div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Category:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $cat_name ?>
 				    			</div>
 				            </div>
 				        
 	    	 				<!-- select category -->
 	                        <div class="row form-group">
-	                        	<div class="col-sm-3">
+	                        	<div class="col-sm-2">
 	                            	<label>Parent Category:</label>
 	                            </div>
-	                            <div class="col-sm-9">
+	                            <div class="col-sm-10">
 		                   		 	<?php
 		                   		 	$par_cat_name = '-';
 						    		if ($status) 
@@ -98,10 +98,10 @@ $cat_name_data = array(
 						    </div>
 
 						    <div class="row form-group">
-						    	<div class="col-sm-3">
+						    	<div class="col-sm-2">
 	                            	<label>Category Images:</label>
 	                            </div>
-	                            <div class="col-sm-9">
+	                            <div class="col-sm-10">
 		                    		<?php 
 			                        if (!empty($images)) 
 			                        {
@@ -123,10 +123,10 @@ $cat_name_data = array(
 	                        </div>
 	                        
                         	<div class="row form-group">
-						    	<div class="col-sm-3">
+						    	<div class="col-sm-2">
 									<label>HTML File(s):</label>
 								</div>
-								<div class="col-sm-9">
+								<div class="col-sm-10">
 									<span class="bigcheck">
 										<?php
 										for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
@@ -142,10 +142,10 @@ $cat_name_data = array(
 							</div>
 
 							<div class="row form-group">
-						    	<div class="col-sm-3">
+						    	<div class="col-sm-2">
 									<label>Attributes:</label>
 								</div>
-								<div class="col-sm-9">
+								<div class="col-sm-10">
 									<span class="bigcheck">
 										<?php
 										if ($attributes) 
@@ -163,7 +163,7 @@ $cat_name_data = array(
 
 													if (sizeof($attributes)>$count)
 														echo ", ";
-												}												
+												}
 												
 												$count++;
 			    							}
@@ -171,226 +171,219 @@ $cat_name_data = array(
 
 			    						if (empty($att_name)) 
 			    							echo "Not available";
-	                                	?>	                                    
+	                                	?>
 	                                </span>
 								</div>
 							</div>
 
 							<div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Meta keywords:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $meta_keyword ?>
 				    			</div>
 				            </div>
 
 				            <div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Meta Description:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $meta_description ?>
 				    			</div>
 				            </div>
 
 							<div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Create date:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $create_date ?>
 				    			</div>
 				            </div>
 
 				            <div class="row form-group">
-				    			<div class="col-sm-3">
+				    			<div class="col-sm-2">
 				    				<label>Update date:</label>	
 				    			</div>
-				    			<div class="col-sm-9">
+				    			<div class="col-sm-10">
 				    				<?= $update_date ?>
 				    			</div>
 				            </div>
 						</div><!-- /.box-body -->	
 				    <?php } else {
-				    	echo form_open_multipart('addCategory'); 
+						if ($cat_id) {
+							$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+						} else {
+							$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+						}
+				    	echo form_open_multipart('addCategory', $formAttributes); 
 				    ?>
 				        	<div class="box-body">
-					    		<div class="row form-group">
-					    			<div class="col-sm-3">
-					    				<label>Category Name*:</label>	
-					    			</div>
-					    			<div class="col-sm-5">
-					    				<input type="hidden" name="cat_id" value="<?= $cat_id ?>">
-					    				<?= form_input($cat_name_data) ?>
-					    			</div>
-					    			<div class="col-sm-4">
-					    				<?= form_error('cat_name') ?>
-					    			</div>
-					            </div>
-					        
-		    	 				<!-- select category -->
-		                        <div class="row form-group">
-		                        	<div class="col-sm-3">
-		                            	<label>Parent Category:</label>
-		                            </div>
-		                            <div class="col-sm-5">
+					    		<div class="row">
+									<div class="col-sm-6">
+		                            	<label>Parent Category</label>
 			                   		 	<?php
 							    		echo '<select class="form-control" name="parent_cat_id">';
-							    		if ($status) 
-							    		{
-							    			echo "<option value='0'>Select an parent category!!</option>";
+							    		
+										if ($status) {
+							    		
+											echo "<option value='0'>Select parent category</option>";
 
-							    			foreach ($categories as $cat_value) 
-							    			{
+							    			foreach ($categories as $cat_value) {
+
 							    				$selected = $cat_value['category_id'] == $parent_category_id ? 'selected' : '';
 
 							    				echo "<option value='".$cat_value['category_id']."' ".$selected.">".$cat_value['category_name']."</option>";
 							    			}
-							    		}
-							    		else
-							    			echo "<option value='0'>No parent category available!</option>";
-							    		
+							    		} else {
+											echo "<option value='0'>No parent category available!</option>";
+										}
 							    		echo "</select>";
 							    		?>
 							    	</div>
-							   	</div>
 
-						    	<div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
-				                        <thead>
-				                            <tr>
-				                                <th colspan="4"><center>Category Images</center></th>
-				                            </tr>
-				                        </thead>
-				                        <tbody>
-				                        	<?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
-				                        	<tr>
-				                        		<td>
-				                        			<div class="btn btn-primary btn-file">
-					                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
-					                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
-					                                </div>
-				                        		</td>
-				                        		<?php 
-				                        		if ($page_label == 'edit') 
-				                        		{
-					                        		echo "<td>";
-						                        		if (isset($images[$j]))
-						                        		{
-						                        			$img_src = $category_images_dir.'/'.$images[$j]['atch_url'];
-							                        		
-							                        		echo '<div class="thumbnail">
-							                        				<figure>
-																		<img src="'.$img_src.'">
-																		<center>
-																    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/editCategory/'.$cat_id.'" class="btn btn-danger">DELETE</a></figcaption>
-																    	</center>
-																    </figure>
-																</div>
+					    			<div class="col-sm-6">
+					    				<label>Category Name *</label>
+					    				<input type="hidden" name="cat_id" value="<?= $cat_id ?>">
+					    				<?= form_input($cat_name_data) ?>
+					    				<?= form_error('cat_name') ?>
+					    			</div>
+					            </div>
 
-																<input type="hidden" name="remove_img'.$i.'" value="'.$images[$j]['atch_url'].'" />';
-							                        	}
-							                        echo "</td>";
-							                    } ?> 
-				                        		<td>
-				                        			<div class="file<?= $i ?>"></div>
-				                        		</td>
-				                        	</tr>
-				                        <?php } ?>
-				                        </tbody>
-				                    </table>
-				                </div>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered dataTable">
+												<thead>
+													<tr>
+													<th>
+														<div style="display:flex; justify-content:space-between; align-items:center;">
+															<span>
+																Attributes
+																<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#attributes_tableBody" style="cursor:pointer;"></i>
+															</span>
+															<span class="attributes-header-right"></span>
+														</div>
+													</th>
+													</tr>
+												</thead>
+												<tbody id="attributes_tableBody" class="collapse in">
+													<tr>
+														<td class="tags-cell">
+															<?php if ($attributes) {
+																foreach ($attributes as $att_value) {
+																	$mp_id = isset($att_value['mp_id']) ? $att_value['mp_id'] : '';
+																	$checked = ($mp_id != '') ? 'checked' : '';
+																	$attName = htmlspecialchars($att_value['att_name'], ENT_QUOTES);
 
-							    <div class="box-body table-responsive">
-				                    <table class="table table-bordered table-striped data-pagination-table">
-				                        <thead>
-				                        	<tr>
-				                        		<th colspan="4">
-				                        			<center>HTML FILE(S)</center>
-				                        		</th>
-				                        	</tr>
-				                            <tr>
-				                                <th></th>
-				                                <th>Prefix path</th>
-				                                <th>File path</th>
-				                                <th>Action</th>
-				                            </tr>
-				                        </thead>
-				                        <tbody>
-				                        	<?php
-				                        	for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-				                        	{
-				                        		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
-												$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
-
-												if ($link) 
-												{
-													$buttons = "<a href='".base_url("deleteLink/$link_id/$cat_id/CATEGORY")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-			                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
-												}
-												else
-													$buttons = '';
-												
-				                                echo "<tr>
-			                        					<td>HTML LINK".$i."</td>
-			                        					<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
-			                                            <td>
-			                                            	<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-			                                            	<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-			                                            </td>
-			                                            <td>".$buttons."</td>
-			                        				</tr>";
-				                        	}
-				                        	?>
-				                        </tbody>
-				                    </table>
-				                </div><!-- /.box-body -->
-
-		                        <div class="row form-group">
-							    	<div class="col-sm-2">
-										<label>Attributes:</label>
-									</div>
-									<div class="col-sm-10">
-										<span class="bigcheck">
-											<?php
-		                                	if ($attributes) 
-				    						{
-				    							foreach ($attributes as $att_value)
-				    							{
-				    								$mp_id = isset($att_value['mp_id']) ? $att_value['mp_id'] : '';
-
-				    								$checked = ($mp_id != '') ? 'checked' : '';
-
-				    								echo '<div class="col-sm-4"><label class="bigcheck">
-													    	<input type="checkbox" class="bigcheck" name="selected_att_ids[]" value="'.$att_value['att_id'].'"'.$checked.' />&nbsp;&nbsp;&nbsp;
-													    	<span class="bigcheck-target"></span>
-													    	'.$att_value['att_name'].'
-													  	</label></div>';
-				    							}
-				    						}
-		                                	?>	                                    
-		                                </span>
+																	echo '<label class="bigcheck tag-label" title="'.$attName.'">
+																	<input type="checkbox" class="bigcheck" name="selected_att_ids[]" value="'.$att_value['att_id'].'" '.$checked.' />
+																	<span class="bigcheck-target"></span>
+																	<span class="tag-text">'.$attName.'</span>
+																	</label>';
+																}
+															} ?>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 
-								<div class="row form-group">
-							    	<div class="col-sm-2">
-										<label>Meta Keywords:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
-									</div>
-								</div>
+								<?php if ($cat_id): ?>
+									<!-- Toggle button/link -->
+									<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
+					
+									<!-- Collapsible content -->
+									<div class="collapse in" id="additionalDetails">
+										<div class="well">
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th class="text-align-center" colspan="6">
+																		Category Images
+																		<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#categoryImages_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+															</thead>
+															<tbody style="height: auto;" id="categoryImages_tableBody" class="collapse in">
+																<tr>
+																	<?php echo renderImages($images, $category_images_dir, $cat_id, 'editCategory', 6); ?>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+											
+											<div class="row nextFormLine">
+												<div class="col-sm-6">
+													<label>Meta Keywords</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+												</div>
 
-								<div class="row form-group">
-							    	<div class="col-sm-2">
-										<label>Meta Description:</label>
+												<div class="col-sm-6">
+													<label>Meta Description:</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+												</div>
+											</div>
+											
+											<div class="row nextFormLine">
+												<div class="col-sm-12">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered table-striped">
+															<thead>
+																<tr>
+																	<th colspan="4" class="text-align-center">
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+																<tr>
+																	<th></th>
+																	<th id="">Prefix Path</th>
+																	<th id="">File Path</th>
+																	<th id="">Action</th>
+																</tr>
+															</thead>
+															<tbody id="HTMLFiles_tableBody" class="in">
+																<?php for($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+
+																	$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
+																	$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
+
+																	if ($link) {
+																		
+																		$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+																		<a href='".base_url("deleteLink/$link_id/$cat_id/CATEGORY")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
+																	} else {
+																		$buttons = '';
+																	}
+																	
+																	echo "<tr>
+																			<td>HTML LINK".$i."</td>
+																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td>
+																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																			</td>
+																			<td>".$buttons."</td>
+																		</tr>";
+																} ?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-									<div class="col-sm-10">
-										<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
-									</div>
-								</div>
+								<?php endif; ?>
 
 								<div class="box-footer" align="right">
 						            <a href='<?= base_url("category") ?>' class='btn btn-default'>Cancel</a>
@@ -409,33 +402,47 @@ $cat_name_data = array(
 
 <?php require_once('include/imageModel.php'); ?>
 
-<style>
-span.bigcheck-target {
-	font-family: FontAwesome;
-	color: #D35400;
-}
+<script>
+$(document).ready(function() {
+    $('.dataTable').each(function() {
+        var $table = $(this);
+        var headerCols = $table.find('thead tr:last th').length;
+        var valid = true;
 
-input[type='checkbox'].bigcheck {
-  position: relative;
-  left: -999em;
-}
+        $table.find('tbody tr').each(function() {
+            var cells = $(this).children('td, th').length;
+            if (cells > 0 && cells !== headerCols) {
+                valid = false;
+                return false; // break loop
+            }
+        });
 
-input[type='checkbox'].bigcheck + span.bigcheck-target:after {
-  content: "\f096";
-}
+        if (valid) {
+            var table = $table.DataTable({
+                paging: false,
+                info: false,
+                ordering: false,
+                searching: true
+            });
 
-input[type='checkbox'].bigcheck:checked + span.bigcheck-target:after {
-  content: "\f046";
-}
-
-.thumbnail img {
-    height:50px;
-    float: left;
-}
-
-.thumbnail {
-	border: none;
-    float: left;
-    margin-bottom: 0px;
-}
-</style>
+            // Safe filter box move
+            var $filter = $(table.table().container()).find('.dataTables_filter');
+            if ($filter.length > 0) {
+                $filter.appendTo($table.find('.attributes-header-right'));
+                var $filterInput = $filter.find('input');
+                if ($filterInput.length > 0) {
+                    $filterInput.off('keyup').on('keyup', function() {
+                        var searchTerm = this.value.toLowerCase();
+                        $table.find(".tags-cell label").each(function() {
+                            var text = $(this).text().toLowerCase();
+                            $(this).toggle(text.indexOf(searchTerm) > -1);
+                        });
+                    });
+                }
+            }
+        } else {
+            console.warn("Skipped DataTable init: column mismatch in table", $table.attr('class'));
+        }
+    });
+});
+</script>

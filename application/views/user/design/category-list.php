@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Roposhop</title>
+    <title>RopoShop</title>
 
     <meta name="" content="HTML5 Template" />
     <meta name="" content="P">
@@ -31,8 +31,8 @@
           right: 0.6rem !important;
       }
         button.owl-prev, button.owl-next{
-            width: 20px !important;
-            height: 20px !important;
+            /* width: 20px !important;
+            height: 20px !important; */
             background:transparent !important;
         }
 

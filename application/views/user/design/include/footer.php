@@ -61,9 +61,9 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 
                 <div class="col-md-3 widget-social">
                     <div class="social-icons">
-                        <a href="https://www.facebook.com/roposhop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
-                        <a href="https://twitter.com/roposhop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
-                        <a href="https://www.linkedin.com/company/roposhop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
+                        <a href="https://www.facebook.com/RopoShop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
+                        <a href="https://twitter.com/RopoShop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/RopoShop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
                     </div><!-- End .social-icons -->
                 </div><!-- End .col-md-3 -->
             </div><!-- End .row -->
@@ -82,7 +82,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                 <span class="contact-info-label">Phone:</span>+91-73891-02962</a>
                             </li>
                             <li>
-                                <span class="contact-info-label">Email:</span> <a href="mailto:roposhop.app@gmail.com">roposhop.app@gmail.com</a>
+                                <span class="contact-info-label">Email:</span> <a href="mailto:RopoShop.app@gmail.com">RopoShop.app@gmail.com</a>
                             </li>
                         </ul>
                     </div><!-- End .widget -->
@@ -145,7 +145,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     </div><!-- End .row -->
 
                     <div class="footer-bottom">
-                        <p class="footer-copyright">ROPOshop &copy;  2020.  All Rights Reserved</p>
+                        <p class="footer-copyright">RopoShop &copy;  2020.  All Rights Reserved</p>
                     </div><!-- End .footer-bottom -->
                 </div><!-- End .col-lg-9 -->
             </div><!-- End .row -->
@@ -167,40 +167,6 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 <?php include('js.php'); ?>
 
 <script>
-function myFunction() {
-    var dots = document.getElementById("dots");
-    var moreText = document.getElementById("more");
-    var btnText = document.getElementById("myBtn");
-
-    if (dots.style.display === "none") {
-        dots.style.display = "inline";
-        btnText.innerHTML = "Read more"; 
-        moreText.style.display = "none";
-    } 
-    else {
-        dots.style.display = "none";
-        btnText.innerHTML = "Read less"; 
-        moreText.style.display = "inline";
-    }
-}
-
-function myFunction1() {
-    var dotss = document.getElementById("dots1");
-    var moreText = document.getElementById("more1");
-    var btnText = document.getElementById("myBtn1");
-
-    if (dots.style.display === "none") {
-        dots.style.display = "inline";
-        btnText.innerHTML = "Read more"; 
-        moreText.style.display = "none";
-    } 
-    else {
-        dots.style.display = "none";
-        btnText.innerHTML = "Read less"; 
-        moreText.style.display = "inline";
-    }
-}
-
 //get reset password mail
 function resetPasswordMail()
 {
@@ -229,6 +195,81 @@ function resetPasswordMail()
     else
         alert('Please provide email');
 }
+
+//show limited character
+var showChar = 500;
+var ellipsestext = "...";
+var moretext = "View More";
+var lesstext = "View Less";
+
+$(document).ready(function() {
+    
+    const toggleBtn = document.getElementById('specificationTableToggleBtn');
+    const allRows = document.querySelectorAll('#specTableBody .spec-row');
+
+    if (toggleBtn) {
+        // Agar rows 4 ya usse kam hain → button hide kar do
+        if (allRows.length <= 4) {
+            toggleBtn.style.display = 'none';
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            const hiddenRows = document.querySelectorAll('#specTableBody .spec-row.d-none');
+
+            if (hiddenRows.length > 0) {
+                // Show all rows
+                hiddenRows.forEach(row => row.classList.remove('d-none'));
+                this.innerHTML = '<strong>Show Less</strong>';
+            } else {
+                // Hide rows after 4
+                allRows.forEach((row, index) => {
+                    if (index >= 4) row.classList.add('d-none');
+                });
+                this.innerHTML = '<strong>View More</strong>';
+            }
+        });
+    }
+
+
+    $('.more').each(function() {
+
+        var content = $(this).html();
+
+        if(content.length > showChar) {
+
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar);
+
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '</span>'
+                + '<span class="morecontent"><span>' + h + '</span> '
+                + '<a href="javascript:void(0);" class="morelink"><strong>' + moretext + '</strong></a></span>';
+
+            $(this).html(html);
+        }
+    });
+});
+
+$(document).on('click', '.morelink', function(e) {
+
+    e.preventDefault();
+    var $this = $(this);
+
+    if($this.hasClass("less")) {
+
+        $this.removeClass("less");
+        $this.html('<strong>' + moretext + '</strong>');
+        $this.prev().hide(); // hide extra text
+        $this.closest('.morecontent').prev('.moreellipses').show(); // show ellipses
+
+    } else {
+
+        $this.addClass("less");
+        $this.html('<strong>' + lesstext + '</strong>');
+        $this.prev().show(); // show extra text
+        $this.closest('.morecontent').prev('.moreellipses').hide(); // hide ellipses
+    }
+});
+
 </script>
     
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -243,10 +284,10 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
     // Your web app's Firebase configuration
     var firebaseConfig = {
         apiKey: "AIzaSyB56KWSL4OQPiP5t_sm5Qk1BMAFbqILq5A",
-        authDomain: "roposhop-8b514.firebaseapp.com",
-        databaseURL: "https://roposhop-8b514.firebaseio.com",
-        projectId: "roposhop-8b514",
-        storageBucket: "roposhop-8b514.appspot.com",
+        authDomain: "RopoShop-8b514.firebaseapp.com",
+        databaseURL: "https://RopoShop-8b514.firebaseio.com",
+        projectId: "RopoShop-8b514",
+        storageBucket: "RopoShop-8b514.appspot.com",
         messagingSenderId: "99824770445",
         appId: "1:99824770445:web:c840baa0cb7daa452071c4"
     };

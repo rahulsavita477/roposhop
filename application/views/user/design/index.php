@@ -95,7 +95,7 @@
                         'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
-                         'dots':false,
+                        'dots':false,
                         'nav' : true,
                         'pagination' :false,
                         'stopOnHover' : true,
@@ -110,13 +110,12 @@
                             }
                         }
                     }">
-                        <?php 
-                        foreach ($category['products'] as $product)
-                        { 
+                        <?php foreach ($category['products'] as $product) {
+
                             $product_name = $product['product_name'];
-                            $tt_prd_name = (strlen($product_name) > 35) ? substr($product_name, 0, 35).'...' : ((strlen($product_name) < 22) ? $product_name."<br />" : $product_name);
+                            // $tt_prd_name = (strlen($product_name) > 28) ? substr($product_name, 0, 28).'...' : ((strlen($product_name) < 22) ? $product_name."<br />" : $product_name);
                         ?>
-                            <div class="product-default" style="width:200px">
+                            <div class="product-default">
                                 <a href="<?= base_url('products/'.url_title($product_name, '-', true).'?prd_id='.$product['product_id']) ?>">
 
                                     <?php
@@ -129,7 +128,7 @@
                                     <figure><img src="<?= $product['products_images'][0] ?>" alt="product"></figure>
                                     <div class="product-details text-left">
                                         <h2 class="product-title text-black">
-                                            <span data-toggle="tooltip" title="<?= $product_name ?>"><?= $tt_prd_name ?></span><br />
+                                            <span data-toggle="tooltip" title="<?= $product_name ?>"><?= $product_name ?></span><br />
 
                                             <?php if ($product['offer_price']) { ?>
                                                 <strong>
@@ -149,11 +148,10 @@
                     </div><!-- End .featured-proucts -->
                 </div><!-- End .container -->
 
-                <div class="mb-2"></div><!---margin-->
+                <div class="mb-3"></div><!---margin-->
             <?php }
         } ?>
     </div>
-    <div class="mb-2"></div><!-- margin -->
     <?php endif; ?>
 
     <?php if($brands): ?>
@@ -185,10 +183,10 @@
                             $brand_url = base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']);
                             if (!empty($brand['brand_logo'])) { ?>
                                 <a href="<?= $brand_url ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" style="height:80px;width:auto;">
+                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" alt="<?= $brand['brand_logo'] ?>" style="height:80px;width:auto;">
                                 </a>
                             <?php } else { ?>
-                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#e74c3c;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
                                     <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($brand['name']) ?></span>
                                 </a>
                             <?php }
@@ -198,10 +196,11 @@
             </div><!-- End .partners-container -->
         </div>
     </div>
-    <div class="mb-2"></div><!-- margin -->
+    <div class="mb-3"></div><!-- margin -->
     <?php endif; ?>
 
     <?php if($merchants): ?>
+    <div class="mt-2"></div><!-- margin -->
     <div class="featured-products-section carousel-section">
         <div class="container">
             <h2 class="h3 title float-left">Nearby Sellers</h2>
@@ -209,8 +208,8 @@
             <div class="clearfix"></div>
             <hr class="sethr" style=" margin:0px 0px 20px 0px" />
             <div class="partners-container" style="padding-top:0;padding-bottom:0;">
-                <div class="container" style="padding-left:0;padding-right:0;">
-                    <div class="partners-carousel owl-carousel owl-theme min-123" style="padding-left:0;padding-right:0;"  data-toggle="owl" data-owl-options="{
+                <div class="container pl-0 pr-0">
+                    <div class="partners-carousel owl-carousel owl-theme min-123 pl-0 pr-0" data-toggle="owl" data-owl-options="{
                         'loop': false,
                         'margin': 20,
                         'autoplayHoverPause' : true,
@@ -241,11 +240,9 @@
                         ?>
                                 <a href="<?= $merchentHref; ?>"
                                     class="partner"
-                                    style="display:inline-flex; align-items:center; justify-content:center; width:auto; height:90px; max-height:90px; max-width:200px; background:#e74c3c; border-radius:8px; text-decoration:none; padding:10px 20px;"
+                                    style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;"
                                 >
-                                    <h3 style="color:#fff; margin:0; font-size:16px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                                        <?= htmlspecialchars($merchant['establishment_name']) ?>
-                                    </h3>
+                                    <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($merchant['establishment_name']) ?></span>
                                 </a>
                         <?php }
                         } ?>
@@ -286,30 +283,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 lg-12 col-12 pt-2 pb-5">
-                    <h3> ABOUT Roposhop</h3>
-                    <P>ROPOshop - Research Online Purchase Offline is a web and mobile enabled platform to help people find products in there locality with the information of detailed product features, price and distance to the shop. In Addition users can also read and provide reviews for the products and sellers.</P>
-                    <p>ROPOshop also helps sellers who don't want to sell there products to online portals, they can list there products on ROPOshop at no extra cost. The services are absolutely free for both consumers and sellers.</p>
-                    <p>A new way of shopping for the people who like to buy offline but also like to research online before purchase. Now you need not to visit multiple websites to compare features or get the rating of the product you want to purchase, at the same time you will get the information about the local dealers who are offering the product you are looking for with the price and distance to the shop. All this from a single app ROPOshop.</p>
-                    <p>ROPOshop is different from traditional Online shopping portal as it provides the user the information of local business selling the product. At the same time user will have all the information about product like detailed specifications and reviews etc. ROPOshop is also different from other business directory applications in the way that it provides complete information of specific product along with price and distance to the shop, user need not to migrate from shop to shop to find the right product and the best deal.</p>
+                    <h3> ABOUT RopoShop</h3>
+                    <P>RopoShop - Research Online Purchase Offline is a web and mobile enabled platform to help people find products in there locality with the information of detailed product features, price and distance to the shop. In Addition users can also read and provide reviews for the products and sellers.</P>
+                    <p>RopoShop also helps sellers who don't want to sell there products to online portals, they can list there products on RopoShop at no extra cost. The services are absolutely free for both consumers and sellers.</p>
+                    <p>A new way of shopping for the people who like to buy offline but also like to research online before purchase. Now you need not to visit multiple websites to compare features or get the rating of the product you want to purchase, at the same time you will get the information about the local dealers who are offering the product you are looking for with the price and distance to the shop. All this from a single app RopoShop.</p>
+                    <p>RopoShop is different from traditional Online shopping portal as it provides the user the information of local business selling the product. At the same time user will have all the information about product like detailed specifications and reviews etc. RopoShop is also different from other business directory applications in the way that it provides complete information of specific product along with price and distance to the shop, user need not to migrate from shop to shop to find the right product and the best deal.</p>
                     <p>Online shopping is emerging very fast in recent years. Now a day the internet holds the attention of retail market. Millions and millions of people shop online. On the other hand the purchasing of product from traditional market is continuing since years. Many customers go for purchasing offline so as to examine the product and hold the possession of the product just after the payment for the product. In this contemporary world customer’s loyalty depends upon the consistent ability to deliver quality, value and satisfaction. Some go for offline shopping, some for online and many go for both kind of shopping.</p>
                     <h4>Differentiation from Online shopping Portals</h4>
                     <h5> Risk:</h5>
-                    <p>​ When customer buy products from online shopping they do not touch or feel the product in a physical sense .Hence we understand that lot of risk is involve while buying an online product whether it will reach us on proper time or not is also a concern and a lso there may arise a risk of product size and colour as it may differ in real view or sense. Sometimes the product ordered is kind of damaged. With ROPOShop a user buy product from shop after physical checks so this risk is not there.</p>
+                    <p>​ When customer buy products from online shopping they do not touch or feel the product in a physical sense .Hence we understand that lot of risk is involve while buying an online product whether it will reach us on proper time or not is also a concern and a lso there may arise a risk of product size and colour as it may differ in real view or sense. Sometimes the product ordered is kind of damaged. With RopoShop a user buy product from shop after physical checks so this risk is not there.</p>
 
                     <h5>Convenience :</h5>
-                    <p>​ Online shopping is much more convenient than offline shopping. Instead of taking out your vehicle and visit shop to shop you can just sit at your home and do the shopping. It is convenient to sit at one place and shop the product of our choice without moving from place to place. Online shopping makes things more convenient. We can have a lot of choice over there in any kind of material we want to deal with that too without any fear of dealing with any dealer or distributers. Online s hopping is convenient in its real sense as it do not carry any dealing with issues of asking for wanted items or issues of asking for desired kind of items which helps in avoiding the part of waiting, asking, questioning about the product.<br />​ ROPOShop offers a user same convenience of shopping at home, once user have decided on what he/she want to buy and from which seller then only he/she need to visit the shop and make purchase.</p>
+                    <p>​ Online shopping is much more convenient than offline shopping. Instead of taking out your vehicle and visit shop to shop you can just sit at your home and do the shopping. It is convenient to sit at one place and shop the product of our choice without moving from place to place. Online shopping makes things more convenient. We can have a lot of choice over there in any kind of material we want to deal with that too without any fear of dealing with any dealer or distributers. Online s hopping is convenient in its real sense as it do not carry any dealing with issues of asking for wanted items or issues of asking for desired kind of items which helps in avoiding the part of waiting, asking, questioning about the product.<br />​ RopoShop offers a user same convenience of shopping at home, once user have decided on what he/she want to buy and from which seller then only he/she need to visit the shop and make purchase.</p>
 
                     <h5>Tangibility of the product:</h5>
-                    <p>​ At the store the customer gets to touch and feel the product they purchase before buying which help the customer to take the decision to buy the product or not whether the product will suit the customer need or not. Whether, we can and see feel a product is also a reason which determines whether a person’s wants to go for shopping or not. Tangibility of any product also determines the online shopping.Without touching the preferred or desired substance nobody can get its security about the worthiness or quality or sense of any preferred product.<br />With ROPOShop customer get a chance to touch and feel the product before making final purchase.</p>
+                    <p>​ At the store the customer gets to touch and feel the product they purchase before buying which help the customer to take the decision to buy the product or not whether the product will suit the customer need or not. Whether, we can and see feel a product is also a reason which determines whether a person’s wants to go for shopping or not. Tangibility of any product also determines the online shopping.Without touching the preferred or desired substance nobody can get its security about the worthiness or quality or sense of any preferred product.<br />With RopoShop customer get a chance to touch and feel the product before making final purchase.</p>
 
                     <h5>Delivery time:</h5>
-                    <p>​ The product ordered by the customer in online shopping takes a minimum of six to seven days to deliver the product to the customer. But in offline shopping the possession of the goods is immediately transferred to the buyer. So this is a major factor which affects the online shopping. People want a good delivery time; they prefer to get a product in a desired time or in short time of duration. Duration is the second major factor affecting the demand of product.<br />With ROPOShop customer also get the possession of product immediately.</p>
+                    <p>​ The product ordered by the customer in online shopping takes a minimum of six to seven days to deliver the product to the customer. But in offline shopping the possession of the goods is immediately transferred to the buyer. So this is a major factor which affects the online shopping. People want a good delivery time; they prefer to get a product in a desired time or in short time of duration. Duration is the second major factor affecting the demand of product.<br />With RopoShop customer also get the possession of product immediately.</p>
 
                     <h5>Variety:</h5>
-                    <p>The kind of variety that a customer gets online is hard to match any product purchased offline. The online retailer’s stock products from the entire major brand and a customer can find any product in their listing no matter how hard to find it is in the offline store.<br />ROPOShop also offer same kind of Variety of prodcts to the customers.</p>
+                    <p>The kind of variety that a customer gets online is hard to match any product purchased offline. The online retailer’s stock products from the entire major brand and a customer can find any product in their listing no matter how hard to find it is in the offline store.<br />RopoShop also offer same kind of Variety of prodcts to the customers.</p>
 
                     <h5>Instant gratification:</h5>
-                    <p>Customer buying offline gets their products as soon as they pay for it but in online shopping customer have to wait for their product to get their product. Under normal circumstances waiting a day or two does not matter much but when a customer want to get the product instantly than offline shopping become necessary.<br />ROPOShop alows user to get their products as soon as they purchase it.</p>
+                    <p>Customer buying offline gets their products as soon as they pay for it but in online shopping customer have to wait for their product to get their product. Under normal circumstances waiting a day or two does not matter much but when a customer want to get the product instantly than offline shopping become necessary.<br />RopoShop alows user to get their products as soon as they purchase it.</p>
                 </div> 
             </div>    
         </div>

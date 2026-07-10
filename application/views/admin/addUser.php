@@ -25,6 +25,7 @@ $comp_name = isset($merchant['establishment_name']) ? $merchant['establishment_n
 $cno = isset($merchant['contact']) ? $merchant['contact'] : '';
 $business_days = isset($merchant['business_days']) ? $merchant['business_days'] : '';
 $business_hours = isset($merchant['business_hours']) ? $merchant['business_hours'] : '';
+$description = isset($merchant['description']) ? $merchant['description'] : '';
 $finance_available = (isset($merchant['finance_available']) && $merchant['finance_available']) ? 'Yes' : 'No';
 $finance_terms = isset($merchant['finance_terms']) ? $merchant['finance_terms'] : '';
 $home_delivery_available = (isset($merchant['home_delivery_available']) && $merchant['home_delivery_available']) ? 'Yes' : 'No';
@@ -124,7 +125,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 					<?php if (isset($_GET['view'])) { ?>
@@ -132,12 +133,12 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					        <h3 class="box-title"><?= $detail_label ?></h3>
 					        <div class="box-footer" align="right">
 					        	<?php if ($_COOKIE['site_code'] == 'admin')
-					            	echo "<a href='".base_url("page/userManagement")."' class='btn btn-default'>Back</a>";
+					            	echo "<a href='".base_url("page/userManagement")."' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;";
 					            
-					            echo "<a href='".base_url("editUser/$usr_id?edit")."' class='btn btn-primary' style='margin-left:5px;'>Edit</a>";
+					            echo "<a href='".base_url("editUser/$usr_id?edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;";
 
 			            		if ($usr_id != $_COOKIE['user_id'])
-					            	echo "<a href='".base_url("deleteUser/$usr_id")."' class='btn btn-danger' style='margin-left:5px;'>Delete</a>";
+					            	echo "<a href='".base_url("deleteUser/$usr_id")."' title='Delete'><i class='fa fa-trash-o'></i></a>";
 					            ?>
 					        </div>
 						</div>
@@ -148,7 +149,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 							?>
 
 				        	<div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<?php
 				            		if ($_COOKIE['site_code'] == 'seller')
 				            			echo "<label>Owner's Full Name: </label>";
@@ -156,35 +157,35 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 				            			echo "<label>Full Name: </label>";
 				            		?>
 				                </div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 					                <?= $fname ?>
 					            </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				                	<label>Email: </label>
 				                </div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 					        		<?= $email ?>
 					            </div>
 				            </div>
 
 				            <div class="row form-group">
-				            	<div class="col-sm-3">
+				            	<div class="col-sm-2">
 				            		<label>Contact number:</label>	
 				            	</div>
-				                <div class="col-sm-9">
+				                <div class="col-sm-10">
 				                	<?= $cno ?>
 				                </div>
 				            </div>
 
 				            <?php if ($_COOKIE['site_code'] == "admin") { ?>
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
+					            	<div class="col-sm-2">
 					            		<label>Role:</label>
 					            	</div>
-					            	<div class="col-sm-9">
+					            	<div class="col-sm-10">
 					            		<?= $user_roles ?>
 					            	</div>
 					            </div>
@@ -198,548 +199,228 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 							<div class="box-body">
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Establishment (Shop) Name:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Establishment (Shop) Name:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $comp_name ?>
 					                </div>
+								</div>
+								<div class="row form-group">
+									<div class="col-sm-2">
+					            		<label>Business Days:</label>
+					            	</div>
+					                <div class="col-sm-10">
+					                	<?= $business_days ?>
+					                </div>
+								</div>
+								<div class="row form-group">
+									<div class="col-sm-2">
+					            		<label>Business Hours:</label>
+					            	</div>
+					                <div class="col-sm-10">
+					                	<?= $business_hours ?>
+					                </div>
+								</div>
+								<div class="row form-group">
+									<div class="col-sm-2">
+					            		<label>Description:</label>
+					            	</div>
+					                <div class="col-sm-10">
+					                	<?= $description ?>
+					                </div>
 					            </div>
+								
+						        <?php if (!empty($seller_images)) {
 
-						        <?php 
-		                        if (!empty($seller_images)) 
-		                        {
-		                        	foreach ($seller_images as $img_key => $img_value) 
-		                        		echo '<div class="thumbnail">
-		                        				<figure>
-													<img src="'.$seller_images_dir.'/'.$img_value['atch_url'].'" class="img-rounded" width="150" height="100">
-											    </figure>
-											</div>';
-		                        }
-		                        ?>
+		                        	foreach ($seller_images as $img_key => $img_value) {
+										echo '<div class="thumbnail">
+											<figure>
+												<img src="'.$seller_images_dir.'/'.$img_value['atch_url'].'" class="img-rounded" width="150" height="100">
+											</figure>
+										</div>';
+									}
+		                        } ?>
 
 					            <div class="row form-group" style="clear: both;">
-					            	<div class="col-sm-3">
-					            		<label>Finance available:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Finance available:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $finance_available ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Finance terms:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Finance terms:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $finance_terms ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Home delivery available:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Home delivery available:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $home_delivery_available ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Home delivery terms:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Home delivery terms:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $home_delivery_terms ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Installation available:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Installation available:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $installation_available ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Installation terms:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Installation terms:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $installation_terms ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Replacement available:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Replacement available:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $replacement_available ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Replacement terms:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Replacement terms:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $replacement_terms ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Return available:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Return available:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $return_available ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Return policy:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Return policy:</label>
 					            	</div>
-					                <div class="col-sm-9">
+					                <div class="col-sm-10">
 					                	<?= $return_policy ?>
 					                </div>
 					            </div>
 
 					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Seller offerings:</label>	
+					            	<div class="col-sm-2">
+					            		<label>Seller offerings:</label>
 					            	</div>
-					                <div class="col-sm-9">
-					                	<?php
-					                	if ($merchant['seller_offering']) 
-					                	{
+					                <div class="col-sm-10">
+					                	<?php if ($merchant['seller_offering']) {
+
 					                		echo "<ul>";
-					                			foreach ($merchant['seller_offering'] as $offering) 
-					                				echo "<li>".$offering['offering']."</li>";
+					                			foreach ($merchant['seller_offering'] as $offering) {
+													echo "<li>".$offering['offering']."</li>";
+												}
 					                		echo "</ul>";
-					                	}
-					                	?>
+					                	} ?>
 					                </div>
 					            </div>
 					        </div>
-					<?php } 
+					<?php }
 					} else { ?>
-						<!-- seller offering Modal -->
-                        <div class="modal fade" id="sellerOfferingModal">
-                            <div class="modal-dialog">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Edit Seller Offering</h4>
-                                    </div>
-
-                                    <?= form_open('addSellerOffering') ?>
-                                        <div class="modal-body">
-                                            <input type='hidden' name='offering_id' id='offering_id'>
-                                            <input type='hidden' name='merchant_id' id='merchant_id'>
-
-                                            <div class='row form-group'>
-                                                <div class='col-sm-3'>
-                                                    <label>Seller Offering:</label>    
-                                                </div>
-                                                <div class='col-sm-9'>
-                                                    <input type='text' name='offering' id='offering' class='form-control' required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    <?= form_close() ?>                                     
-                                </div>
-                            </div>
-                        </div>
-                        
 					    <!-- form start -->
 					    <?= form_open_multipart('addUser'); ?>
 					    	<input type="hidden" name="usr_id" value="<?= $usr_id; ?>">
 					        <div class="box-body">
-					        	<div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<?php
-					            		if ($_COOKIE['site_code'] == 'seller')
-					            			echo "<label>Owner's Full Name*: </label>";
-					            		else
-					            			echo "<label>Full Name* </label>";
-					            		?>
-					                </div>
-					                <div class="col-sm-6">
-						                <input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" required>
-						            </div>
+					        	<div class="row">
+									<div class="col-sm-8">
+										<div class="col-sm-12 nextFormLine">
+											<label>Full Name * </label>
+											<input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" id="" required />
+										</div>
+
+										<div class="col-sm-12 nextFormLine">
+											<label>Email * </label>
+											<?php if ($usr_id) { ?>
+												<input type="text" class="form-control" value="<?= $email ?>" disabled>
+											<?php } else { ?>
+												<input type="email" name="email" class="form-control" placeholder="Enter email address" id="" required />
+											<?php } ?>
+										</div>
+
+										<?php if ($_COOKIE['site_code'] == 'admin') { ?>
+											<div class="col-sm-12 nextFormLine">
+												<label>Password * </label>
+												<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
+											</div>
+										<?php } ?>
+
+										<?php if ($_COOKIE['site_code'] == "admin") { ?>
+											<div class="col-sm-12 nextFormLine">
+													<label>User Role:</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="ADMIN" <?= $adminChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Admin</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="SELLER" <?= $sellerChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Seller</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="BUYER" <?= $buyerChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Buyer</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="TEST USER" <?= $testUserChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Test user</span>
+													</label>
+													<label class="bigcheck tag-label">
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="EXECUTIVE" <?= $executiveUserChecked ?>>
+														<span class="bigcheck-target"></span>
+														<span class="tag-text">Executive</span>
+													</label>
+											</div>
+										<?php } ?>
+									</div>
+									<div class="col-sm-4">
+										<div class="col-sm-12">
+											<label>Update Profile picture</label>
+										</div>
+										<div class="col-sm-12">
+											<input type="file" name="file7" id="file7" />
+											<?php if ($profile_pic) {
+												echo '<img class="nextFormLine" src="'.$profile_pic.'" width="100px">';
+											} ?>
+										</div>
+									</div>
 					            </div>
-
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					                	<label>Email*: </label>
-					                </div>
-					                <div class="col-sm-6">
-						        		<?php if ($usr_id) { ?>
-						                	<input type="text" class="form-control" value="<?= $email ?>" disabled>
-						                <?php } else { ?>
-						                	<input type="email" name="email" class="form-control" placeholder="Enter email address" required>
-						                <?php } ?>
-						            </div>
-					            </div>
-
-					            <?php if ($_COOKIE['site_code'] == 'admin') { ?>
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						                	<label>Password*: </label>
-						                </div>
-						                <div class="col-sm-6">
-							        		<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" required>
-							            </div>
-						            </div>
-						        <?php } ?>
-
-					            <div class="row form-group">
-					            	<div class="col-sm-3">
-					            		<label>Profile picture:</label>
-					            	</div>
-					            	<div class="col-sm-9">
-					            		<div class="col-sm-5">
-					            			<input type="file" name="file7" id="file7" />
-					            		</div>
-					            		<div class="col-sm-3 file7"></div>
-					            		<div class="col-sm-4">
-						            		<?php if ($profile_pic)
-												echo '<img src="'.$profile_pic.'" width="100px">';
-											?>
-						        		</div>	
-					            	</div>
-					            </div>
-
-					            <?php if ($_COOKIE['site_code'] == 'seller') {  ?>
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Shop Logo:</label>	
-						            	</div>
-						            	<div class="col-sm-9">
-						            		<div class="col-sm-5">	
-						            			<input type="file" name="file8" id="file8" />
-						            		</div>
-						            		<div class="col-sm-3 file8"></div>
-						            		<div class="col-sm-4">
-							            		<?php if ($merchant_logo)
-													echo '<img src="'.$merchant_logo.'" width="100px">';
-												?>
-							        		</div>
-						            	</div>
-						            </div>
-
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Business proof:</label>
-						            	</div>
-						            	<div class="col-sm-9">
-						            		<div class="col-sm-5">
-						            			<input type="file" name="file9" accept=".gif, .jpg, .png, .pdf, .jpeg, .pdf" />
-						            		</div>
-						            		<div class="col-sm-7">
-						            			<?php
-						            			if (isset($merchant['business_proof']))
-	    											echo '<a href="'.$merchant['business_proof'].'" class="btn btn-default" target="_blank">Preview</a>';
-						            			?>
-							        		</div>		
-						            	</div>
-					            	</div>
-					            	<div class="alert alert-warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.<br />Allowed File types: PDF, JPG and PNG.</div>
-						        <?php } ?>
-
-					            <?php if ($_COOKIE['site_code'] == "admin") { ?>
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>User role:</label>
-						            	</div>
-						            	<div class="col-sm-6">
-						            		<p><input type="checkbox" name="user_type[]" value="ADMIN" <?= $adminChecked ?> >&nbsp;&nbsp;&nbsp;Admin</p>
-						            		<p><input type="checkbox" name="user_type[]" value="SELLER" <?= $sellerChecked ?> >&nbsp;&nbsp;&nbsp;Seller</p>
-						            		<p><input type="checkbox" name="user_type[]" value="BUYER" <?= $buyerChecked ?> >&nbsp;&nbsp;&nbsp;Buyer</p>
-						            		<p><input type="checkbox" name="user_type[]" value="TEST USER" <?= $testUserChecked ?> >&nbsp;&nbsp;&nbsp;Test user</p>
-						            		<p><input type="checkbox" name="user_type[]" value="EXECUTIVE" <?= $executiveUserChecked ?> >&nbsp;&nbsp;&nbsp;Executive</p>
-						            	</div>
-						            </div>
-						        <?php } ?>
 					        </div><!-- /.box-body -->
-					        
-					        <?php if ( $_COOKIE['site_code'] == 'seller' ) { ?>
-					        	<input type="hidden" name="merchant_id" value="<?= $merchant_id; ?>">
-						        <input type="hidden" name="usr_id" value="<?= $usr_id ?>">
-
-					        	<div class="box-body">
-						            <div class="row form-group">
-						            	<div class="col-sm-3">
-						            		<label>Establishment (Shop) Name*:</label>	
-						            	</div>
-						                <div class="col-sm-6">
-						                	<input type="text" name="comp_name" class="form-control" placeholder="Enter Shop Name" value="<?= $comp_name ?>" required />
-						                </div>
-						            </div>
-
-						            <div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
-					                        <thead>
-					                            <tr>
-					                                <th colspan="3"><center>Shop images</center></th>
-					                            </tr>
-					                        </thead>
-					                        <tbody>
-						                        <?php for ($i=1; $i < 7; $i++) { ?>
-						                        	<tr>
-						                        		<td>Image<?= $i ?></td>
-						                        		<td><input type="file" name="file<?= $i ?>" id="file<?= $i ?>"></td>
-						                        		<td><div class="file<?= $i ?>"></div></td>
-						                        	</tr>
-						                        <?php } ?>
-					                    	</tbody>
-					                    </table>
-					                </div>
-
-							        <?php 
-			                        if (!empty($seller_images)) 
-			                        {
-			                        	foreach ($seller_images as $img_key => $img_value) 
-			                        	{
-			                        		$img_src = $seller_images_dir.'/'.$img_value['atch_url'];
-			                        		$img_id = $img_value['atch_id'];
-
-			                        		echo '<div class="thumbnail">
-			                        				<figure>
-														<img src="'.$img_src.'" class="img-rounded" width="150" height="100">
-												    	<center>
-												    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$img_value['atch_url'].'-'.$_COOKIE['merchant_id'].'/editUser/'.$usr_id.'" class="btn btn-danger">DELETE</a></figcaption>
-												    	</center>
-												    </figure>
-												</div>';
-			                        	}	
-			                        }
-			                        ?>
-
-			                        <div class="row form-group" style="clear: both;">
-						            	<div class="col-sm-3">
-						            		<label>Contact number*:</label>	
-						            	</div>
-						                <div class="col-sm-6">
-						                	<input type="text" name="contact_no" class="form-control" placeholder="Enter Shop contact number" value="<?= $cno ?>" required />
-						                </div>
-						            </div>
-
-						            <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Finance Available:</label>	
-		                        		</div>
-		                        		<div class="col-sm-2">
-		                        			<select class="form-control" name="finance_available">
-		                        				<?php 
-		                        				if ($finance_available == "No")
-		                        				{
-		                        					$value0 = "selected";
-		                        					$value1 = '';
-		                        				}
-		                        				else
-		                        				{
-		                        					$value0 = '';
-		                        					$value1 = "selected";
-		                        				}
-		                        				?>
-		                        				<option value="0" <?= $value0 ?> >No</option>
-		                        				<option value="1" <?= $value1 ?> >Yes</option>
-		                        			</select>		
-		                        		</div>
-			                        </div>
-
-		                            <div class="row form-group">
-		                                <div class="col-sm-3">
-		                                    <label>Finance Terms:</label>    
-		                                </div>
-		                                <div class="col-sm-9">
-		                                    <textarea class="form-control" rows="1" name="finance_terms" placeholder="Please enter finance terms..."><?= $finance_terms ?></textarea>
-		                                </div>
-		                            </div>
-
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Home Delievery:</label>	
-		                        		</div>
-		                        		<div class="col-sm-2">
-		                        			<select class="form-control" name="home_delievery">
-		                        				<?php 
-		                        				if ($home_delivery_available == "No")
-		                        				{
-		                        					$value0 = "selected";
-		                        					$value1 = '';
-		                        				}
-		                        				else
-		                        				{
-		                        					$value0 = '';
-		                        					$value1 = "selected";
-		                        				}
-		                        				?>
-		                        				<option value="0" <?= $value0 ?> >No</option>
-		                        				<option value="1" <?= $value1 ?> >Yes</option>
-		                        			</select>		
-		                        		</div>
-			                        </div>
-
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Home Delievery Terms:</label>	
-		                        		</div>
-		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="1" name="delievery_terms" placeholder="Please enter delievery terms..."><?= $home_delivery_terms ?></textarea>
-		                        		</div>
-		                        	</div>
-
-		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Installation Available:</label>	
-		                        		</div>
-		                        		<div class="col-sm-2">
-		                        			<select class="form-control" name="installation_available">
-		                        				<?php 
-		                        				if ($installation_available == "No")
-		                        				{
-		                        					$value0 = "selected";
-		                        					$value1 = '';
-		                        				}
-		                        				else
-		                        				{
-		                        					$value0 = '';
-		                        					$value1 = "selected";
-		                        				}
-		                        				?>
-		                        				<option value="0" <?= $value0 ?> >No</option>
-		                        				<option value="1" <?= $value1 ?> >Yes</option>
-		                        			</select>		
-		                        		</div>
-			                        </div>
-
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Installation Terms:</label>	
-		                        		</div>
-		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="1" name="installation_terms" placeholder="Please enter installation terms..."><?= $installation_terms ?></textarea>
-		                        		</div>
-		                        	</div>
-
-		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Replacement Available:</label>	
-		                        		</div>
-		                        		<div class="col-sm-2">
-		                        			<select class="form-control" name="replacement_available">
-		                        				<?php 
-		                        				if ($replacement_available == "No")
-		                        				{
-		                        					$value0 = "selected";
-		                        					$value1 = '';
-		                        				}
-		                        				else
-		                        				{
-		                        					$value0 = '';
-		                        					$value1 = "selected";
-		                        				}
-		                        				?>
-		                        				<option value="0" <?= $value0 ?> >No</option>
-		                        				<option value="1" <?= $value1 ?> >Yes</option>
-		                        			</select>		
-		                        		</div>
-			                        </div>
-
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Replacement Terms:</label>	
-		                        		</div>
-		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="1" name="replacement_terms" placeholder="Please enter replacement terms..."><?= $replacement_terms ?></textarea>
-		                        		</div>
-		                        	</div>
-
-		                        	<div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Return Available:</label>
-		                        		</div>
-		                        		<div class="col-sm-2">
-		                        			<select class="form-control" name="return_available">
-		                        				<?php 
-		                        				if ($return_available == "No")
-		                        				{
-		                        					$value0 = "selected";
-		                        					$value1 = '';
-		                        				}
-		                        				else
-		                        				{
-		                        					$value0 = '';
-		                        					$value1 = "selected";
-		                        				}
-		                        				?>
-		                        				<option value="0" <?= $value0 ?> >No</option>
-		                        				<option value="1" <?= $value1 ?> >Yes</option>
-		                        			</select>		
-		                        		</div>
-			                        </div>
-
-			                        <div class="row form-group">
-		                        		<div class="col-sm-3">
-		                        			<label>Return Terms:</label>	
-		                        		</div>
-		                        		<div class="col-sm-9">
-		                        			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."><?= $return_policy ?></textarea>
-		                        		</div>
-		                        	</div>
-
-		                        	<div class="box-body table-responsive">
-		                                <table class="table table-bordered table-striped data-pagination-table">
-		                                    <thead>
-		                                        <tr>
-		                                            <th colspan="2">
-		                                                Seller offerings
-		                                                <button type="button" class="btn btn-warning pull-right" id="createSellerOfferingBtn"><i class="fa fa-plus"></i> Add seller offering</button>
-		                                            </th>
-		                                        </tr>
-		                                    </thead>
-		                                    <tbody>
-		                                    	<tr>
-		                                    		<td>
-		                                    			<div class="row form-group">
-							                                <div class="col-sm-8" id="seller_offering_input_field_div"></div>
-							                            </div>
-		                                    		</td>
-		                                    	</tr>
-		                                        <?php
-		                                        if ($merchant['seller_offering']) 
-		                                        {
-		                                            foreach ($merchant['seller_offering'] as $seller_offering_value) 
-		                                            {
-		                                                $offering_id = $seller_offering_value['offering_id'];
-		                                                $offering = $seller_offering_value['offering'];
-		                                                $params = $offering_id.', "'.$offering.'", '.$merchant_id;
-
-		                                                echo "<tr>
-		                                                        <td>".$offering."</td>
-		                                                        <td>
-		                                                            <button type='button' class='btn btn-warning' onclick='open_seller_offering_modal($params)'>Edit</button>
-		                                                            <a href='".base_url()."deleteSellerOffering/".$offering_id."/".$merchant_id."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-		                                                        </td>
-		                                                    </tr>";
-		                                            }
-		                                        } ?>
-		                                    </tbody>
-		                                </table>
-		                            </div><!-- /.box-body -->
-						        </div>
-					        <?php } ?>
 
 					        <div class="box-footer"  align="right">
 					        	<?php if ($_COOKIE['site_code'] == "admin") { ?>
@@ -760,39 +441,6 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 <?php require_once('include/imageModel.php'); ?>
 
-<script>
-$(document).ready(function() {
-    var count1 = 1;
-    var count2 = 1;
-    $('#createSellerOfferingBtn').click(function () {
-        $('#seller_offering_input_field_div').append('<div class="row" style="margin-top:10px;" id="con1'+count1+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="seller_offering_values[]" placeholder="Offering'+count1+'" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
-        
-        count1++;
-    });
-});
-
-function open_seller_offering_modal(offering_id, Offering, merchant_id) 
-{
-    $('#offering_id').val(offering_id);
-    $('#offering').val(Offering);
-    $('#merchant_id').val(merchant_id);
-    $("#sellerOfferingModal").modal();
-}
-
-function removeBtn(id) 
-{
-	$('#con'+id).remove();
-}
-</script>
-
 <style type="text/css">
 .thumbnail img {
     //width:115;
@@ -805,5 +453,14 @@ function removeBtn(id)
 	border: none;
     float: left;
     padding: 20px;
+}
+
+.tag-label {
+	width: auto;
+}
+
+.tag-label {
+	overflow: auto;
+	display: contents;
 }
 </style>

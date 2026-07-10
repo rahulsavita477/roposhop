@@ -91,6 +91,7 @@ $route['api/v1/users/check'] = $v1_api_controller.'checkUserExist';
 //AJAX REQUEST
 $route['states/(:num)'] = $admin_controller.'statesAJAX/$1';
 $route['cities/(:num)'] = $admin_controller.'citiesAJAX/$1';
+$route['brands'] = $admin_controller.'brandsAJAX';
 
 //USER PANEL AJAX REQUEST
 $route['api/v1/product/(:num)'] = $v1_api_controller.'getProductAJAX/$1';
@@ -132,6 +133,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['addProductVarient'] = $admin_controller.'addProductVarient';
 	$route['sellers/(:any)'] = $admin_controller.'sellers/$1';
 	$route['deleteProductVarientValue/(:num)/(:num)'] = $admin_controller.'deleteProductVarientValue/$1/$2';
+	$route['deleteProductVarient/(:num)/(:num)'] = $admin_controller.'deleteProductVarient/$1/$2';
 	$route['addSeller'] = $admin_controller.'addSeller';
 	$route['seller/(:num)/(:any)'] = $admin_controller.'seller/$1/$2';
 	$route['changeSellerStatus/(:num)/(:num)/(:any)'] = $admin_controller.'changeSellerStatus/$1/$2/$3';
@@ -162,7 +164,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['deleteOffer/(:num)'] = $admin_controller.'deleteOffer/$1';
 	$route['editOffer/(:num)/(:any)'] = $admin_controller.'editOffer/$1/$2';
 	$route['seller'] = $admin_controller.'dashboard';
-	$route['signup'] = $admin_controller.'merchantSignUp';
+	// $route['signup'] = $admin_controller.'merchantSignUp';
 	$route['addRequestedProduct'] = $admin_controller.'addRequestedProduct';
 	// $route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'fillListingDetailOfRequestedProduct/$1';
 	$route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
@@ -175,7 +177,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['editReview/(:num)/(:any)'] = $admin_controller.'editReview/$1/$2';
 	$route['addReview'] = $admin_controller.'addReview';
 	$route['deleteRequestProduct/(:num)'] = $admin_controller.'deleteRequestProduct/$1';
-	$route['rejectRequestedProduct/(:num)'] = $admin_controller.'rejectRequestedProduct/$1';
+	$route['rejectRequestedProduct/(:num)/(:num)'] = $admin_controller.'rejectRequestedProduct/$1/$2';
 	$route['deleteFeature/(:num)/(:num)'] = $admin_controller.'deleteProductKeyFeature/$1/$2';
 	$route['deleteSellerOffering/(:num)/(:num)'] = $admin_controller.'deleteSellerOffering/$1/$2';
 	$route['addKeyFeature'] = $admin_controller.'addProductKeyFeature';
@@ -183,7 +185,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['viewReview/(:num)/(:any)'] = $admin_controller.'viewReview/$1/$2';
 	$route['changeReviewStatus/(:num)/(:num)/(:any)'] = $admin_controller.'changeReviewStatus/$1/$2/$3';
 	$route['deleteReview/(:num)/(:any)'] = $admin_controller.'deleteReview/$1/$2';
-	$route['insertSellerDefaultValues'] = $admin_controller.'insertSellerDefaultValues';
+	$route['updateSellerServicePolicy'] = $admin_controller.'updateSellerServicePolicy';
 	$route['addSellerOffering'] = $admin_controller.'addSellerOffering';
 	$route['updateSiteSetting'] = $admin_controller.'updateSiteSetting';
 	$route['viewRequest/(:num)'] = $admin_controller.'viewRequest/$1';

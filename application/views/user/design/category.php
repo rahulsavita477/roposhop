@@ -5,8 +5,8 @@
  right: 0.6rem !important;
  }
  button.owl-prev, button.owl-next{
- width: 20px !important;
- height: 20px !important;
+ /* width: 20px !important;
+ height: 20px !important; */
  background:transparent !important;
  }
  a.text-active {

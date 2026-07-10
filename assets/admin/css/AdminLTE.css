@@ -111,7 +111,7 @@ body.fixed .wrapper {
 }
 /* Content */
 .content {
-  padding: 20px 15px;
+  padding: 0px 15px;
   background: #f9f9f9;
 }
 /* Utility */
@@ -538,7 +538,7 @@ body > .header .logo .icon {
   margin: 0;
 }
 .sidebar .sidebar-menu .treeview-menu > li > a {
-  padding: 5px 5px 5px 15px;
+  padding: 5px 5px 5px 30px;
   display: block;
   font-size: 14px;
   margin: 0px 0px;
@@ -1296,7 +1296,6 @@ body > .header .logo .icon {
   border-bottom-left-radius: 0;
   border-bottom: 0px solid #f4f4f4;
   color: #444;
-  padding-bottom: 10px;
 }
 .box .box-header:before,
 .box .box-header:after {
@@ -1759,19 +1758,19 @@ Component: timeline
 .btn.btn-default:hover,
 .btn.btn-default:active,
 .btn.btn-default.hover {
-  background-color: #f4f4f4!important;
+  background-color: #fafafa!important;
 }
 .btn.btn-default.btn-flat {
   border-bottom-color: #d9dadc;
 }
 .btn.btn-primary {
-  background-color: #3c8dbc;
-  border-color: #367fa9;
+  background-color: #3364b0;
+  border-color: #3364b0;
 }
 .btn.btn-primary:hover,
 .btn.btn-primary:active,
 .btn.btn-primary.hover {
-  background-color: #367fa9;
+  background-color: #3364b0;
 }
 .btn.btn-success {
   background-color: #00a65a;
@@ -1793,12 +1792,12 @@ Component: timeline
 }
 .btn.btn-danger {
   background-color: #f56954;
-  border-color: #f4543c;
+  border-color: #f56954;
 }
 .btn.btn-danger:hover,
 .btn.btn-danger:active,
 .btn.btn-danger.hover {
-  background-color: #f4543c;
+  background-color: #f56954;
 }
 .btn.btn-warning {
   background-color: #f39c12;
