@@ -400,7 +400,7 @@ $page_title = 'Add requested product';
 	                        	<div class="row">
 	                        		<div class="col-sm-3">
 	                        			<label>Amazon Product ID:</label>
-	                        			<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
+	                        			<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" id="" />
 	                        		</div>
 							    	<div class="col-sm-2">
 										<label>Meta Keywords:</label>
