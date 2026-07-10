@@ -395,6 +395,10 @@ label {
     color: #e67e22;
 } */
 
+.fa-check {
+    color: #3c763d;
+}
+
 .box-primary1{
 	border: 2px solid #ccc;
 }

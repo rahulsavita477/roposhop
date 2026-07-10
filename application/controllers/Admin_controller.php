@@ -704,25 +704,31 @@ class Admin_controller extends CI_Controller
 			$data['rating_info'] = $rating_info['result'][0];
 
 			// echo "<pre>"; print_r($data); echo "</pre>"; die;
-		}
-		else if ($pageName == "requestProduct") 
-		{
+		
+		} elseif ($pageName == "requestProduct") {
+
 			$products = $this->Admin_model->selectRecords('', 'product', 'product_name as label, product_id as id');
-			if (isset($products['db_error'])) 
+			if (isset($products['db_error'])) {
 				redirectWithMessage('Error: '.$products['msg'], $controller);
+			}
 
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id AS id, name as label', array('name' => 'ASC'));
-			if (isset($data['brands']['db_error'])) 
+			if (isset($data['brands']['db_error'])) {
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
-			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
+			}
+
 			$data['products'] = $products ? json_encode($products['result']) : [];
 			$data['categories'] = $this->getAllCategories();
+			
+			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
 		}
 		else if ($pageName == "requestedProducts") 
 		{
 			$data['req_prds'] = $this->Admin_model->getRequestedProduct();
 			if (isset($data['req_prds']['db_error'])) 
 				redirectWithMessage('Error: '.$data['req_prds']['msg'], $controller);
+			
+			// echo "<pre>"; print_r($data); echo "</pre>"; die;
 		}
 		else if ($pageName == "merchantRequestedProducts") 
 		{
@@ -866,16 +872,19 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function rejectRequestedProduct($req_id, $prd_id) {
+	public function rejectRequestedProduct($req_id, $prd_id, $list_id) {
 		
 		$isRequestedProductUpdated = $this->Admin_model->updateData('requested_product2', ['status' => 'REJECTED'], array('request_id' => $req_id));
 		$isproductUpdated = $this->Admin_model->updateData('product', ['isEnabled' => 0], array('product_id' => $prd_id));
+		$islistingUpdated = $this->Admin_model->updateData('product_listing', ['isVerified' => 0], array('isVerified' => $list_id));
 		$controller = 'page/requestedProducts';
 
 		if (isset($isRequestedProductUpdated['db_error'])) {
 			redirectWithMessage('Error: '.$isRequestedProductUpdated['msg'], $controller);
 		} else if (isset($isproductUpdated['db_error'])) {
 			redirectWithMessage('Error: '.$isproductUpdated['msg'], $controller);
+		} else if (isset($islistingUpdated['db_error'])) {
+			redirectWithMessage('Error: '.$islistingUpdated['msg'], $controller);
 		} else {
 			redirectWithMessage('Requested product rejected successfully!', $controller);
 		}
@@ -3243,9 +3252,9 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
 		//delete product
-		$isDeleted = $this->Admin_model->deleteRecord('product', array('product_id' => $product_id));
-		if (isset($isDeleted['db_error'])) 
-			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+		// $isDeleted = $this->Admin_model->deleteRecord('product', array('product_id' => $product_id));
+		// if (isset($isDeleted['db_error'])) 
+		// 	redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
 		//save deleted item id
 		$isDeleted = $this->saveDeleteItem($request_id, 'REQUESTED_PRODUCT');
@@ -4410,11 +4419,8 @@ class Admin_controller extends CI_Controller
 
 		// Trim trailing comma/space if any
 		$address_string = rtrim($address_string, ', ');
-
         $address = str_replace(" ", "+", $address_string);
-        $apiKey  = "AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI";
-
-        $json = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".$address."&key=".$apiKey);
+        $json = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".$address."&key=".GOOGLE_MAP_API_KEY);
         $data = json_decode($json);
 
         if (!empty($data->results)) {

@@ -454,12 +454,20 @@ class User_controller extends CI_Controller
             $data['meta_data']['image'] = $metaData['metaImage'];
 
             //get brand name
-            if($product_detail) {
+            if($product_detail['result'][0]['brand_id']) {
                 
                 $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
                 $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
                 $data['product']['brand_name'] = $brand ? $brand['result'][0]['name']: "";
-                $data['product']['brand_logo'] = ($brand && $brand['result'][0]['brand_logo']) ? base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']) : "";
+                if($brand['result'][0]['brand_logo']) {
+                    $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+                } else {
+                    $data['product']['brand_logo'] = '';
+                }
+            } elseif($product_detail['result'][0]['product_id']) { // if brand id not available find from requested product
+                
+                $brandName = $this->am1->selectRecords(array('req_prd_id' => $product_detail['result'][0]['product_id']), 'requested_product2', 'brand_name');
+                $data['product']['requested_brand_name'] = $brandName ? $brandName['result'][0]['brand_name'] : '';
             }
 
             //get product attributes

@@ -383,7 +383,7 @@ $page_title = 'Add requested product';
 																	echo "<tr>
 																		<td>
 																			<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
-																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
+																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."?request_id=".$request_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
 																			".$feature."
 																		</td>
 																	</tr>";
@@ -404,23 +404,23 @@ $page_title = 'Add requested product';
 	                        		</div>
 							    	<div class="col-sm-2">
 										<label>Meta Keywords:</label>
-										<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+										<textarea class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
 									</div>
 							    	<div class="col-sm-2">
 										<label>Meta Description:</label>
-										<textarea class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+										<textarea class="form-control" placeholder="please enter meta description" name="meta_description" id=""><?= $meta_description ?></textarea>
 									</div>
 							    	<div class="col-sm-2">
 										<label>Notes:</label>
-										<textarea class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+										<textarea class="form-control" placeholder="please enter notes" name="notes" id=""><?= $notes ?></textarea>
 									</div>
 	                        		<div class="col-sm-3">
 	                        			<label>Reference Link:</label>
-	                        			<input type="text" class="form-control" placeholder="Enter reference link" name="refer_link" value="<?= $refer_link ?>" />
+	                        			<input type="text" class="form-control" placeholder="Enter reference link" name="refer_link" value="<?= $refer_link ?>" id="" />
 	                        		</div>
 	                        		<div class="col-sm-3">
 	                        			<label>Flipkart Product ID:</label>
-	                        			<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
+	                        			<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" id="" />
 	                        		</div>
 	                        	</div>
 								
@@ -487,8 +487,6 @@ $page_title = 'Add requested product';
 												echo "<tr>
 														<td>".$feature."</td>
 														<td>
-															<button type='button' class='btn btn-warning' onclick='open_key_feature_modal($params)'>Edit</button>
-															<a href='".base_url('deleteFeature/'.$feature_id.'/'.$product_id.'?request_id='.$request_id)."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
 														</td>
 													</tr>";
 											}
@@ -942,14 +940,14 @@ $(document).ready(function() {
     var count = 1;
     $('#createVarientFieldBtn').click(function () {
         $('#input_field_div').append('<div class="row" style="margin-top:10px;" id="con'+count+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="vrnt_vals[]" placeholder="Varient value" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove'+count+'" onclick="removeBtn('+count+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
+			'<div class="col-sm-9">'+
+				'<input type="text" class="form-control" name="vrnt_vals[]" placeholder="Varient value" required/>' + 
+			'</div>'+
+			'<div class="col-sm-3">'+
+				'<button type="button" class="btn btn-danger" id="btnRemove'+count+'" onclick="removeBtn('+count+')">Remove</button>'+
+			'</div>'+
+		'</div>'
+		);
         
         count++;
     });
@@ -973,22 +971,22 @@ $(document).ready(function() {
     var count1 = 1;
     var count2 = 1;
     $('#createKeyFeatureFieldBtn').click(function () {
-        $('#key_feature_input_field_div').append('<div class="row" style="margin-top:10px;" id="con1'+count1+'">'+
-                                        '<div class="col-sm-9">'+
-                                            '<input type="text" class="form-control" name="key_feature_values[]" placeholder="Feature'+count1+'" required/>' + 
-                                        '</div>'+
-                                        '<div class="col-sm-3">'+
-                                            '<button type="button" class="btn btn-danger" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')">Remove</button>'+
-                                        '</div>'+
-                                    '</div>'
-                                    );
-        
+        $('#key_feature_input_field_div').append(
+  			'<div class="row" id="con1'+count1+'" style="margin-bottom: 5px;">'+
+    			'<div class="col-sm-12" style="display:flex; align-items:center;">'+
+      				'<input type="text" class="form-control" name="key_feature_values[]" placeholder="Enter feature" required style="flex:1;" />'+
+      				'<a href="javascript:void(0);" id="btnRemove1'+count1+'" onclick="removeBtn(1'+count1+')" style="margin-left:8px;">'+
+        				'<i class="fa fa-minus-circle text-danger"></i>'+
+      				'</a>'+
+    			'</div>'+
+  			'</div>');
+
         count1++;
     });
 });
 
-function removeBtn(id) 
-{
+function removeBtn(id) {
+
 	$('#con'+id).remove();
 }
 </script>

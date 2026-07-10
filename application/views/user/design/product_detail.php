@@ -8,6 +8,14 @@ $four_star = $product['rating_info']['rating_count_4_star'];
 $five_star = $product['rating_info']['rating_count_5_star'];
 $avg_rating_width = ($avg_rating*100)/5;
 
+if(isset($product['brand_name']) && $product['brand_name']) {
+    $brand_name = $product['brand_name'];
+} elseif(isset($product['requested_brand_name']) && $product['requested_brand_name']) {
+    $brand_name = $product['requested_brand_name'];
+} else {
+    $brand_name = false;
+}
+
 if ($rating_count) 
 {
     $five_star_width = ($five_star*100)/$rating_count;
@@ -260,18 +268,20 @@ textarea.form-control{
                             <table class="table table-bordered mt-1 mb-0">
                                 <tbody>
                                     <tr><th colspan="2">Product Details</th></tr>
-                                    <tr>
-                                        <td>Brand</td>
-                                        <td>
-                                            <?= isset($product['brand_name']) && $product['brand_name'] ? $product['brand_name'] : '' ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>In the box</td>
-                                        <td>
-                                            <?= isset($product['in_the_box']) && $product['in_the_box'] ? $product['in_the_box'] : '' ?>
-                                        </td>
-                                    </tr>
+                                    <?php if($brand_name) {
+                                        echo "<tr>
+                                            <td>Brand</td>
+                                            <td>".$brand_name."</td>
+                                        </tr>";
+                                    }
+
+                                    if (isset($product['in_the_box']) && $product['in_the_box']) {
+                                        echo "<tr>
+                                            <td>In the box</td>
+                                            <td>".$product['in_the_box']."</td>
+                                        </tr>";
+                                    } ?>
+
                                     <tr>
                                         <td>MRP</td>
                                         <td>
@@ -281,23 +291,38 @@ textarea.form-control{
                                 </tbody>
                             </table>
 
-                            <a class="small-brand" href="<?= base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']) ?>" style="text-decoration: none;">
-                                <?php if($product['brand_logo']): ?>
-                                    <img style="max-height: 50px" class="img-fluid" src="<?= $product['brand_logo'] ?>" alt="brand_logo" />
-                                <?php else: ?>
-                                    <div style="display:inline-block;
-                                        background:#007BFF;
-                                        border-radius:8px;
-                                        text-decoration:none;
-                                        padding:5px 15px;
-                                        box-sizing:border-box;
-                                        color:#fff;
-                                        margin:5px 0px 0px 0px;
-                                        font-size:14px;
-                                        font-weight:600;"
-                                    ><?= $product['brand_name'] ?></div>
-                                <?php endif; ?>
-                            </a>
+                            <?php if(isset($product['brand_name']) && $product['brand_name']) {
+                                echo '<a class="small-brand" href="'.base_url('brands/'.urlencode($product['brand_name']).'?brand_id='.$product['brand_id']).'" style="text-decoration: none;">';
+                                    
+                                    if($product['brand_logo']) {
+                                        echo '<img style="max-height: 50px" class="img-fluid" src="'.$product['brand_logo'].'" alt="brand_logo" />';
+                                    }   else {
+                                        echo '<div style="display:inline-block;
+                                            background:#007BFF;
+                                            border-radius:8px;
+                                            text-decoration:none;
+                                            padding:5px 15px;
+                                            box-sizing:border-box;
+                                            color:#fff;
+                                            margin:5px 0px 0px 0px;
+                                            font-size:14px;
+                                            font-weight:600;"
+                                        >'.$product['brand_name'].'</div>';
+                                    }
+                                echo "</a>";
+                            } if(isset($product['requested_brand_name']) && $product['requested_brand_name']) {
+                                echo '<div style="display:inline-block;
+                                    background:#007BFF;
+                                    border-radius:8px;
+                                    text-decoration:none;
+                                    padding:5px 15px;
+                                    box-sizing:border-box;
+                                    color:#fff;
+                                    margin:5px 0px 0px 0px;
+                                    font-size:14px;
+                                    font-weight:600;"
+                                >'.$product['requested_brand_name'].'</div>';
+                            } ?>
                         </div><!-- End .product-single-details -->
                     </div><!-- End .col-md-6 -->
                 </div><!-- End .row -->

@@ -285,4 +285,4 @@ $(document).ready(function(){
 });
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAP_API_KEY ?>"></script>
