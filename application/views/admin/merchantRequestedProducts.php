@@ -47,7 +47,7 @@
 
                                     if ($req_product['isLinked'] == 1) {
 
-                                        $status = "<span class='label label-success'>CREATED</span>";
+                                        $status = "<span class='label label-success'>APPROVED</span>";
                                         $editRequestedProductBtn = false;
                                         $deleteRequestedProductBtn = false;
 

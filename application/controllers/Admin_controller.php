@@ -872,21 +872,23 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function rejectRequestedProduct($req_id, $prd_id, $list_id) {
+	public function changeRequestedProductStatus($req_id, $status) {
 		
-		$isRequestedProductUpdated = $this->Admin_model->updateData('requested_product2', ['status' => 'REJECTED'], array('request_id' => $req_id));
-		$isproductUpdated = $this->Admin_model->updateData('product', ['isEnabled' => 0], array('product_id' => $prd_id));
-		$islistingUpdated = $this->Admin_model->updateData('product_listing', ['isVerified' => 0], array('isVerified' => $list_id));
+		$isRequestedProductUpdated = $this->Admin_model->updateData('requested_product2', ['status' => $status], array('request_id' => $req_id));
+		// $isproductUpdated = $this->Admin_model->updateData('product', ['isEnabled' => 0], array('product_id' => $prd_id));
+		// $islistingUpdated = $this->Admin_model->updateData('product_listing', ['isVerified' => 0], array('isVerified' => $list_id));
 		$controller = 'page/requestedProducts';
 
 		if (isset($isRequestedProductUpdated['db_error'])) {
 			redirectWithMessage('Error: '.$isRequestedProductUpdated['msg'], $controller);
-		} else if (isset($isproductUpdated['db_error'])) {
-			redirectWithMessage('Error: '.$isproductUpdated['msg'], $controller);
-		} else if (isset($islistingUpdated['db_error'])) {
-			redirectWithMessage('Error: '.$islistingUpdated['msg'], $controller);
-		} else {
-			redirectWithMessage('Requested product rejected successfully!', $controller);
+		} 
+		// else if (isset($isproductUpdated['db_error'])) {
+		// 	redirectWithMessage('Error: '.$isproductUpdated['msg'], $controller);
+		// } else if (isset($islistingUpdated['db_error'])) {
+		// 	redirectWithMessage('Error: '.$islistingUpdated['msg'], $controller);
+		// } 
+		else {
+			redirectWithMessage('Requested product status updated successfully!', $controller);
 		}
 	}
 
@@ -3954,6 +3956,7 @@ class Admin_controller extends CI_Controller
 		if ($prd_id) 
 		{
 			$prd_res = $this->productDetail($prd_id);
+			// echo "<pre>"; print_r($prd_res); die;
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
 
@@ -3979,6 +3982,7 @@ class Admin_controller extends CI_Controller
 			$this->load->view('admin/include/header');
 			$this->load->view('admin/include/leftbar');
 			$this->load->view('admin/addProduct', $prd_res);
+			$this->load->view('ajaxFunctions');
 			$this->load->view('admin/include/footer');
 			die;
 		}

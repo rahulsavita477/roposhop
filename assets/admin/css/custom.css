@@ -403,6 +403,9 @@ label {
 	border: 2px solid #ccc;
 }
 
+.fa-exclamation-triangle {
+    color: #f0ad4e;
+}
 /* .custom-toast-error {
     position: fixed;
     top: 20px;            
@@ -428,4 +431,8 @@ label {
 
 .siteSettingHeader {
     margin-top: 0px;
+}
+
+.enlargeImageModalSource {
+    padding: 5px 0px;
 }

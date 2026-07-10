@@ -1,18 +1,18 @@
 <div class="modal fade" id="enlargeImageModal" tabindex="-1" aria-labelledby="enlargeImageModal" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="modal-header">
+			<!-- <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title">Image Preview</h4>
-            </div>
+            </div> -->
             
 			<div class="modal-body">
 				<img src="" class="enlargeImageModalSource">
 			</div>
 
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            </div> -->
 		</div>
 	</div>
 </div>

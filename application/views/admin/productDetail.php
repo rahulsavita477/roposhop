@@ -141,7 +141,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                             <a data-toggle="collapse" href="#service_Policy" aria-expanded="false" aria-controls="service_Policy">+ Service & Policy Options</a>
 						
                             <!-- Collapsible content -->
-                            <div class="collapse" id="service_Policy">
+                            <div class="collapse in" id="service_Policy">
                                 <div class="well" style="padding: 5px 10px;">
                                     <div class="row nextFormLine">
                                         <div class="col-sm-1 termsMainLabel">
@@ -164,7 +164,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                             <label>Terms:</label>
                                         </div>
                                         <div class="col-sm-9 termsTextArea">
-                                            <textarea class="form-control" rows="2" name="finance_terms" placeholder="Enter Finance Terms"><?= $finance_terms ?></textarea>
+                                            <textarea class="form-control" rows="2" name="finance_terms" placeholder="Enter Finance Terms" id=""><?= $finance_terms ?></textarea>
                                         </div>
                                     </div>
 
@@ -271,21 +271,15 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                             </div>
 
                             <?php if ($_COOKIE['site_code'] == 'admin') { ?>
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Meta Keywords:</label>
+                                <div class="row nextFormLine">
+                                    <div class="col-sm-6">
+                                        <label>Meta Keywords</label>
+                                        <textarea class="form-control" rows="2" name="meta_keyword" placeholder="Meta Keywords" id=""><?= $meta_keywords ?></textarea>
                                     </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="2" name="meta_keyword" placeholder="Please enter offering..."><?= $meta_keywords ?></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <div class="col-sm-3">
-                                        <label>Meta Description:</label>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <textarea class="form-control" rows="2" name="meta_description" placeholder="Please enter offering..."><?= $meta_description ?></textarea>
+                                    
+                                    <div class="col-sm-6">
+                                        <label>Meta Description</label>
+                                        <textarea class="form-control" rows="2" name="meta_description" placeholder="Enter Seller Offering" id=""><?= $meta_description ?></textarea>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -309,30 +303,30 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                         <div class="row">
                             <div class="col-sm-3">
                                 <label>Category</label>
-                                <input class="form-control" value="<?= $category_name ?>" readonly />
+                                <input class="form-control" value="<?= $category_name ?>" id="" readonly />
                             </div>
                             <div class="col-sm-3">
                                 <label>Brand</label>
-                                <input class="form-control" value="<?= $brand_name ?>" readonly />
+                                <input class="form-control" value="<?= $brand_name ?>" id="" readonly />
                             </div>
                             <div class="col-sm-3">
                                 <label>Product Name</label>
-                                <input class="form-control" value="<?= $product_name ?>" readonly />
+                                <input class="form-control" value="<?= $product_name ?>" id="" readonly />
                             </div>
                             <div class="col-sm-3">
                                 <label>Product MRP</label>
-                                <input class="form-control" value="<?= $mrp_price ?>" readonly />
+                                <input class="form-control" value="<?= $mrp_price ?>" id="" readonly />
                             </div>
                         </div>
                         
                         <div class="row nextFormLine">
                             <div class="col-sm-6">
                                 <label>Product Description</label> 
-                                <textarea class="form-control" rows="2" placeholder="Description Not Available" readonly><?= $description ?></textarea>
+                                <textarea class="form-control" rows="2" placeholder="Description Not Available" readonly id=""><?= $description ?></textarea>
                             </div>
                             <div class="col-sm-6">
                                 <label>In The Box</label>
-                                <textarea class="form-control" rows="2" placeholder="In The Box Not Available" readonly><?= $in_the_box ?></textarea>
+                                <textarea class="form-control" rows="2" placeholder="In The Box Not Available" id="" readonly><?= $in_the_box ?></textarea>
                             </div>
                         </div>
                         

@@ -539,6 +539,7 @@ if (isset($page_label) && $page_label == "edit") {
 
 										<div class="col-sm-3">
 		                        			<label>Brand *</label>
+											<div  style="display:flex; align-items:center; gap:8px;">
 		                        			<?php
 											echo '<select class="form-control" name="brand_id" required>';
 											if ($status) {
@@ -555,8 +556,23 @@ if (isset($page_label) && $page_label == "edit") {
 											}
 											echo "</select>";
 											?>
+
+											<a href="javascript:void(0);" onclick="getBrand();" title="Refresh Brands"><i class="fa fa-undo" aria-hidden="true"></i></a>
+											</div>
 		                        		</div>
 
+										<?php if(!$brand_id && $seller_suggested_brand_name): ?>
+											<div class="col-sm-3">
+												<label>Seller Suggested Brand</label>
+												<div class="other" style="display:flex; align-items:center; gap:8px;">
+													<input type="text" class="form-control" value="<?= $seller_suggested_brand_name ?>" id="" readonly />
+													<a href="<?= base_url('page/addBrand') ?>" target="_blank" style="text-decoration:none;" title="Create New Brand">
+														<i class="fa fa-plus-circle" aria-hidden="true"></i>
+													</a>
+												</div>
+											</div>
+										<?php endif; ?>
+										
 										<div class="col-sm-3">
 		                        			<label>Product Name</label>
 											<!-- Tooltip icon -->
@@ -581,18 +597,6 @@ if (isset($page_label) && $page_label == "edit") {
 		                        			<label>Product Price *</label>
 											<input type="number" class="form-control" placeholder="Enter product price" name="prd_price" value="<?= $mrp_price; ?>" required />
 										</div>
-									</div>
-
-									<div class="row nextFormLine">
-										<div class="col-sm-6">
-		                        			<label>Product Description *</label>
-											<textarea class="form-control" rows="1" name="prd_desc" placeholder="Enter Product Description" required><?= $description ?></textarea>
-										</div>
-
-										<div class="col-sm-6">
-		                        			<label>In The Box *</label>
-		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box..." required><?= $in_the_box ?></textarea>
-		                        		</div>
 									</div>
 
 									<div class="row">
@@ -639,115 +643,127 @@ if (isset($page_label) && $page_label == "edit") {
 										</div>
 		                        	</div>
 
+									<div class="row nextFormLine">
+										<div class="col-sm-6">
+		                        			<label>Product Description</label>
+											<textarea class="form-control" rows="2" name="prd_desc" placeholder="Enter Product Description" id=""><?= $description ?></textarea>
+										</div>
+
+										<div class="col-sm-6">
+		                        			<label>In The Box</label>
+		                        			<textarea class="form-control" rows="2" name="in_the_box" placeholder="What you have provided in the product box" id=""><?= $in_the_box ?></textarea>
+		                        		</div>
+									</div>
+
 									<?php if ($page_label == "'edit'"): ?>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="table-responsive editTable">
+													<table class="table table-bordered dataTable">
+														<thead>
+															<tr>
+																<th colspan="3" class="text-align-center">Product varients
+																<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
+																<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button></th>
+															</tr>
+														</thead>
+														<tbody id="productVarients_tableBody" class="collapse in">
+															<?php if (isset($product_varients) && $product_varients) {
+
+																echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
+																
+																$i = 1;
+																foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) {
+
+																	$att_id = $product_varients[$prd_vrnt_key][0]['att_id'];
+																	$vrnt_del_link = base_url('deleteProductVarient/'.$att_id.'/'.$product_id);
+																	$rowspan = count($prd_vrnt_values)+1;
+																	echo "<tr>
+																		<td><a href='".$vrnt_del_link."'>
+																			<i class='fa fa-trash-o' onclick='return confirm(\"Are you sure?\")'></i>
+																		</a>&nbsp;".$prd_vrnt_key."
+																		</td><td>";
+
+																		foreach ($prd_vrnt_values as $vrnt_value) {
+
+																			$vrnt_id = $vrnt_value['vrnt_id'];
+																			$vrnt_value_del_link = base_url('deleteProductVarientValue/'.$vrnt_id.'/'.$product_id);
+
+																			echo "<div style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
+																				<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
+																				<input type='text' 
+																					class='form-control vrnt_values'
+																					placeholder='Enter attribute value'
+																					name='vrnt_values[]'
+																					value='".$vrnt_value['att_value']."'
+																				/>
+																				<a href='".$vrnt_value_del_link."'>
+																					<i class='fa fa-times' onclick='return confirm(\"Are you sure?\")'></i>
+																				</a>
+																			</div><br />";
+																		}
+
+																	echo "</td></tr>";
+																}
+															}
+															else
+																echo "<tr><td colspan=3>Not Varient Found</td>";
+															?>
+														</tbody>
+													</table>
+												</div><!-- /.box-body -->
+											</div>
+
+											<div class="col-sm-6">
+												<div class="table-responsive editTable">
+													<table class="table table-bordered table-striped dataTable">
+														<thead>
+															<tr>
+																<th colspan="2" class="text-align-center">
+																	Product Features
+																	<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
+																	<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
+																</th>
+															</tr>
+														</thead>
+														<tbody id="productFeatures_tableBody" class="collapse in">
+															<tr>
+																<td>
+																	<div class="row form-group">
+																		<div class="col-sm-12" id="key_feature_input_field_div"></div>
+																	</div>
+																</td>
+															</tr>
+															<?php
+															if ($key_features) {
+
+																foreach ($key_features['result'] as $feature_value) {
+
+																	$feature_id = $feature_value['feature_id'];
+																	$feature = $feature_value['feature'];
+																	$params = $feature_id.', "'.$feature.'", '.$product_id;
+
+																	echo "<tr>
+																		<td>
+																			<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
+																			<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
+																			".$feature."
+																		</td>
+																	</tr>";
+																}
+															} ?>
+														</tbody>
+													</table>
+												</div><!-- /.box-body -->
+											</div>
+										</div>
+										
 										<!-- Toggle button/link -->
 										<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
 						
 										<!-- Collapsible content -->
 										<div class="collapse in" id="additionalDetails">
 											<div class="well">
-												<div class="row">
-													<div class="col-sm-6">
-														<div class="table-responsive editTable">
-															<table class="table table-bordered dataTable">
-																<thead>
-																	<tr>
-																		<th colspan="3" class="text-align-center">Product varients
-																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#productVarients_tableBody" style="cursor:pointer;"></i>
-																		<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#attributeModal" id="addVarientBtn"><i class="fa fa-plus"></i></button></th>
-																	</tr>
-																</thead>
-																<tbody id="productVarients_tableBody" class="collapse in">
-																	<?php if (isset($product_varients) && $product_varients) {
-
-																		echo '<input type="hidden" value="'.$product_id.'" name="prd_id">';
-																		
-																		$i = 1;
-																		foreach ($product_varients as $prd_vrnt_key => $prd_vrnt_values) {
-
-																			$att_id = $product_varients[$prd_vrnt_key][0]['att_id'];
-																			$vrnt_del_link = base_url('deleteProductVarient/'.$att_id.'/'.$product_id);
-																			$rowspan = count($prd_vrnt_values)+1;
-																			echo "<tr>
-																				<td><a href='".$vrnt_del_link."'>
-																					<i class='fa fa-trash-o' onclick='return confirm(\"Are you sure?\")'></i>
-																				</a>&nbsp;".$prd_vrnt_key."
-																				</td><td>";
-
-																				foreach ($prd_vrnt_values as $vrnt_value) {
-
-																					$vrnt_id = $vrnt_value['vrnt_id'];
-																					$vrnt_value_del_link = base_url('deleteProductVarientValue/'.$vrnt_id.'/'.$product_id);
-
-																					echo "<div style='display:inline-flex; align-items:center; gap:6px; margin-bottom: 5px;'>
-																						<input type='hidden' value='".$vrnt_id."' name='vrnt_ids[]'>
-																						<input type='text' 
-																							class='form-control vrnt_values'
-																							placeholder='Enter attribute value'
-																							name='vrnt_values[]'
-																							value='".$vrnt_value['att_value']."'
-																						/>
-																						<a href='".$vrnt_value_del_link."'>
-																							<i class='fa fa-times' onclick='return confirm(\"Are you sure?\")'></i>
-																						</a>
-																					</div><br />";
-																				}
-
-																			echo "</td></tr>";
-																		}
-																	}
-																	else
-																		echo "<tr><td colspan=3>Not Varient Found</td>";
-																	?>
-																</tbody>
-															</table>
-														</div><!-- /.box-body -->
-													</div>
-
-													<div class="col-sm-6">
-														<div class="table-responsive editTable">
-															<table class="table table-bordered table-striped dataTable">
-																<thead>
-																	<tr>
-																		<th colspan="2" class="text-align-center">
-																			Product Features
-																			<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#productFeatures_tableBody" style="cursor:pointer;"></i>
-																			<button type="button" class="btn btn-primary pull-right" id="createKeyFeatureFieldBtn"><i class="fa fa-plus"></i></button>
-																		</th>
-																	</tr>
-																</thead>
-																<tbody id="productFeatures_tableBody" class="collapse in">
-																	<tr>
-																		<td>
-																			<div class="row form-group">
-																				<div class="col-sm-12" id="key_feature_input_field_div"></div>
-																			</div>
-																		</td>
-																	</tr>
-																	<?php
-																	if ($key_features) {
-
-																		foreach ($key_features['result'] as $feature_value) {
-
-																			$feature_id = $feature_value['feature_id'];
-																			$feature = $feature_value['feature'];
-																			$params = $feature_id.', "'.$feature.'", '.$product_id;
-
-																			echo "<tr>
-																				<td>
-																					<a href='javascript:void(0);' onclick='open_key_feature_modal($params)'><i class='fa fa-edit'></i></a>&nbsp;
-																					<a href='".base_url()."deleteFeature/".$feature_id."/".$product_id."' onclick='return confirm(\"Are you sure?\")' style='margin-left: 1px;'><i class='fa fa-trash-o'></i></a>&nbsp;
-																					".$feature."
-																				</td>
-																			</tr>";
-																		}
-																	} ?>
-																</tbody>
-															</table>
-														</div><!-- /.box-body -->
-													</div>
-												</div>
-
 												<div class="row nextFormLine">
 													<div class="col-sm-4">
 														<label>Meta Title</label>
@@ -936,7 +952,7 @@ if (isset($page_label) && $page_label == "edit") {
 
 											if ($status) {
 
-												echo "<option value=''>Please select a brand!!</option>";
+												echo "<option value=''>select brand</option>";
 
 												foreach ($brands as $brands_value) {
 													
@@ -981,18 +997,6 @@ if (isset($page_label) && $page_label == "edit") {
 											<input type="text" class="form-control" placeholder="Enter product price" name="prd_price" value="<?= $mrp_price ?>" required/>
 										</div>
 			                        </div>
-								    
-			                        <div class="row nextFormLine">
-		                        		<div class="col-sm-6">
-		                        			<label>Product Description*:</label>
-		                        			<textarea class="form-control" rows="1" name="prd_desc" placeholder="Enter product description" id="" required><?= $description ?></textarea>
-		                        		</div>
-
-		                        		<div class="col-sm-6">
-		                        			<label>In The Box:</label>
-		                        			<textarea class="form-control" rows="1" name="in_the_box" placeholder="What you have provided in the product box" id=""><?= $in_the_box ?></textarea>
-		                        		</div>
-		                        	</div>
 										
 									<div class="row">
 										<div class="col-sm-12">
@@ -1015,6 +1019,18 @@ if (isset($page_label) && $page_label == "edit") {
 											</div>
 										</div>
 									</div>
+								    
+			                        <div class="row nextFormLine">
+		                        		<div class="col-sm-6">
+		                        			<label>Product Description*:</label>
+		                        			<textarea class="form-control" rows="2" name="prd_desc" placeholder="Enter product description" id="" required><?= $description ?></textarea>
+		                        		</div>
+
+		                        		<div class="col-sm-6">
+		                        			<label>In The Box:</label>
+		                        			<textarea class="form-control" rows="2" name="in_the_box" placeholder="What you have provided in the product box" id=""><?= $in_the_box ?></textarea>
+		                        		</div>
+		                        	</div>
 
 									<div class="row">
 										<div class="col-sm-12">

@@ -275,9 +275,10 @@ print_r($tables); die;
 
     public function products($where=array(), $isRequestedProduct = false)
     {
-        $this->db->select('product_id, product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, description, mrp_price, category_name, hasVarient, name as brand_name, product.create_date, product.update_date, in_the_box, notes, isEnabled');
+        $this->db->select('product_id, product.product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, product.description, mrp_price, category_name, hasVarient, product.brand_id, name as brand_name, product.create_date, product.update_date, in_the_box, product.notes, product.isEnabled, brand_name as seller_suggested_brand_name');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'inner');
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
+        $this->db->join('requested_product2', 'requested_product2.req_prd_id = product.product_id', 'left');
 
         if (count($where)>0) {
             
