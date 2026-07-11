@@ -369,4 +369,48 @@ class Common_controller extends CI_Controller
 
         return true;
     }
+
+    public function resetPassword($user_id, $otp, $password) {
+
+        $res = array();
+        $record = $this->am5->selectRecords(array('userId' => $user_id, 'passwordOtp' => $otp), 'user', 'otpCreatetime');
+            
+         if (!$record) {
+            
+            $res['status'] = false;
+            $res['msg'] = 'Invalid OTP.';
+
+            return $res;
+        }
+
+        //get time differance between current and db time
+        $time1 = new DateTime($record['result'][0]['otpCreatetime']);
+        $time2 = new DateTime(date("Y-m-d H:i:s"));
+        $since_start = $time1->diff($time2);
+        $minutes = $since_start->days * 24 * 60;
+        $minutes += $since_start->h * 60;
+        $minutes += $since_start->i;
+        
+        if ($minutes <= 1440) {
+
+            $data = array();
+            $data['passwordOtp'] = null;
+            $data['otpCreatetime'] = null;
+            $data['password'] = $password;
+            $condition = array('userId' => $user_id);
+            $this->am5->updateData('user', $data, $condition);
+
+            $res['status'] = true;
+            $res['msg'] = 'Password updated.';
+
+            return $res;
+        
+        } else {
+
+            $res['status'] = true;
+            $res['msg'] = 'OPT Expired, Please reset your password again.';
+
+            return $res;
+        }
+    }
 }

@@ -98,12 +98,8 @@ $route['api/v1/product/(:num)'] = $v1_api_controller.'getProductAJAX/$1';
 $route['api/v1/merchant/(:num)/listings'] = $v1_api_controller.'getMerchantProductsAJAX/$1';
 $route['api/v1/city/(:num)'] = $v1_api_controller.'cityAJAX/$1';
 
-//RESET PASSWORD API
-$route['account/resetPassword/(:num)'] = $user_controller.'resetPasswordPage/$1';
-$route['resetPassword'] = $user_controller.'resetPassword';
-
-if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOST'], 'seller') !== false)
-{
+if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOST'], 'seller') !== false) {
+	
 	//ADMIN AND SELLER CONTROLLER ROUTES
 	$route['admin'] = $admin_controller.'dashboard';
 	$route['signout'] = $admin_controller.'logout';
@@ -191,6 +187,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['viewRequest/(:num)'] = $admin_controller.'viewRequest/$1';
 	$route['acceptRequest'] = $admin_controller.'acceptRequest';
 	$route['deleteClaimedRequest/(:num)'] = $admin_controller.'deleteClaimedRequest/$1';
+	$route['verifyListing/(:num)/(:num)/(:num)'] = $admin_controller.'verifyListing/$1/$2/$3';
 
 	//excel actions(routing)
 	$route['addressExcel'] = $excel_controller.'loadAddressExcelPage';
@@ -218,17 +215,25 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['exportTemplateForArea/(:num)'] = $excel_controller.'exportTemplateForArea/$1';
 	$route['generateSimpleXlsReport'] = $excel_controller.'generateSimpleXlsReport';
 
-	//merchant actions(routing)
-	$route['merchantLoginSignup'] = $merchant_controller.'loginSignupPage';
-	$route['merchantSignupStep2/(:num)/(:num)'] = $merchant_controller.'merchantSignupStep2/$1/$2';
-	$route['updateMerchant'] = $merchant_controller.'updateMerchant';
-	$route['insertSeller'] = $merchant_controller.'insertSeller';
-	$route['merchantLoginWithoutStep2Completion/(:num)/(:num)'] = $merchant_controller.'merchantLoginWithoutStep2Completion/$1/$2';
-	$route['merchantLogin'] = $merchant_controller.'login';
-	$route['verifyListing/(:num)/(:num)/(:num)'] = $admin_controller.'verifyListing/$1/$2/$3';
-}
-else
-{
+	if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false) {
+		
+		$route['resetPassword'] = $admin_controller.'resetPassword';
+		$route['account/resetPassword/(:num)'] = $admin_controller.'resetPasswordPage/$1';
+
+	} elseif (strpos($_SERVER['HTTP_HOST'], 'seller') !== false) { // merchant actions(routing)
+
+		$route['resetPassword'] = $merchant_controller.'resetPassword';
+		$route['merchantLoginSignup'] = $merchant_controller.'loginSignupPage';
+		$route['merchantSignupStep2/(:num)/(:num)'] = $merchant_controller.'merchantSignupStep2/$1/$2';
+		$route['updateMerchant'] = $merchant_controller.'updateMerchant';
+		$route['insertSeller'] = $merchant_controller.'insertSeller';
+		$route['merchantLoginWithoutStep2Completion/(:num)/(:num)'] = $merchant_controller.'merchantLoginWithoutStep2Completion/$1/$2';
+		$route['merchantLogin'] = $merchant_controller.'login';
+		$route['account/resetPassword/(:num)'] = $merchant_controller.'resetPasswordPage/$1';
+	}
+
+} else {
+
 	//USER CONTROLLER ROUTES
 	$route['products'] = $user_controller.'product';
 	$route['products/(:any)'] = $user_controller.'product_detail/$1';
@@ -257,4 +262,6 @@ else
 	$route['product/rating/(:num)'] = $user_controller.'productRatingPage/$1';
 	$route['merchant/rating/(:num)'] = $user_controller.'merchantRatingPage/$1';
 	$route['merchant/(:num)/address'] = $user_controller.'merchantAddress/$1';
+	$route['account/resetPassword/(:num)'] = $user_controller.'resetPasswordPage/$1';
+	$route['resetPassword'] = $user_controller.'resetPassword';
 }

@@ -153,57 +153,39 @@ class User_controller extends CI_Controller
     public function resetPasswordPage($user_id)
     {
         // $this->load->view('user/include/header', array());
-        $this->load->view('resetPassword', array('user_id' => $user_id));
+        $this->load->view('user/resetPassword', array('user_id' => $user_id));
         // $this->load->view('user/include/footer');
     }
 
-    public function resetPassword()
-    {
+    public function resetPassword() {
+
         $otp = $this->input->post('otp');
         $password = $this->input->post('password');
         $cpassword = $this->input->post('cpassword');
         $user_id = $this->input->post('user_id');
 
-        if ($password != $cpassword) 
-        {
-            echo "<script>window.alert('password and confirm password are not same!');</script>";
-            $this->resetPasswordPage($user_id);
-        }
-        else
-        {
-            $record = $this->am1->selectRecords(array('userId' => $user_id, 'passwordOtp' => $otp), 'user', 'otpCreatetime');
-            if (!$record) 
-            {
-                echo "<script>window.alert('otp is not valid, Please reset your password again!');</script>";
-                $this->resetPasswordPage($user_id);
-                die;   
-            }
+        if ($password != $cpassword) {
 
-            //get time differance between current and db time
-            $time1 = new DateTime($record['result'][0]['otpCreatetime']);
-            $time2 = new DateTime(date("Y-m-d H:i:s"));
-            $since_start = $time1->diff($time2);
-            $minutes = $since_start->days * 24 * 60;
-            $minutes += $since_start->h * 60;
-            $minutes += $since_start->i;
-            
-            if ($minutes <= 1440) 
-            {
-                $data = array();
-                $data['passwordOtp'] = '';
-                $data['otpCreatetime'] = '';
-                $data['password'] = $password;
-                $condition = array('userId' => $user_id);
-                $this->am1->updateData('user', $data, $condition);
+			$this->session->set_flashdata('errors', 'Password and Confirm Password are not same.');
+			$this->resetPasswordPage($user_id);
+			die;
 
-                echo "<script>window.alert('Password updated, Please go for signin!');</script>";
-                $this->login_page();
-            }
-            else
-            {
-                echo "<script>window.alert('Expired link, Please reset your password again!');</script>";
-                $this->resetPasswordPage($user_id);
-            }
+        } else {
+
+			$res = $this->common_controller->resetPassword($user_id, $otp, $password);
+
+            if ($res['status']) {
+            				
+				echo "<script>window.alert('".$res['msg']."');</script>";
+				$this->login_page();
+                die;
+
+			} else {
+				
+				$this->session->set_flashdata('errors', $res['msg']);
+				$this->resetPasswordPage($user_id);
+				die;
+			}
         }
     }
 

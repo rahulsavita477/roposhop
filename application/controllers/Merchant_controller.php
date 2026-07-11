@@ -415,4 +415,41 @@ class Merchant_controller extends CI_Controller
         else
             redirectWithMessage('Error: Wrong credential!', 'merchantLoginSignup');
     }
+
+    public function resetPasswordPage($user_id) {
+		
+        $this->load->view('merchant/resetPassword', array('user_id' => $user_id));
+    }
+	
+	public function resetPassword() {
+
+        $otp = $this->input->post('otp');
+        $password = $this->input->post('password');
+        $cpassword = $this->input->post('cpassword');
+        $user_id = $this->input->post('user_id');
+
+        if ($password != $cpassword) {
+
+			$this->session->set_flashdata('errors', 'Password and Confirm Password are not same.');
+			$this->resetPasswordPage($user_id);
+			die;
+
+        } else {
+
+			$res = $this->common_controller->resetPassword($user_id, $otp, $password);
+
+            if ($res['status']) {
+            				
+				echo "<script>window.alert('".$res['msg']."');</script>";
+				$this->loginSignupPage();
+                die;
+
+			} else {
+				
+				$this->session->set_flashdata('errors', $res['msg']);
+				$this->resetPasswordPage($user_id);
+				die;
+			}
+        }
+    }
 }

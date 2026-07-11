@@ -172,6 +172,7 @@ function resetPasswordMail()
 {
     email = $('#email').val();
     site_code = $('#site_code').val();
+    $('#divLoading1').css('display', 'block');
 
     if (email) 
     {
@@ -187,6 +188,7 @@ function resetPasswordMail()
                 {
                     a = JSON.parse(data); 
                     $("#resetPassword").modal("hide");
+                    $('#divLoading1').css('display', 'none');
                     alert(a.msg);
                 }
             },
