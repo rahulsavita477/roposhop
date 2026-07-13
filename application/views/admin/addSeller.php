@@ -150,7 +150,7 @@ else
 
 	                        <div class="row form-group" style="clear: both;">
 				            	<div class="col-sm-2">
-				            		<label>Contact number:</label>	
+				            		<label>Contact Number:</label>	
 				            	</div>
 				                <div class="col-sm-10">
 				                	<?= $cno ?>
@@ -398,18 +398,17 @@ else
 				        	<div class="box-body">
 				        		<div class="row">
 									<div class="col-sm-3">
-										<label>Establishment (Shop) Name *</label>
-										<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" value="<?= $shop_name ?>" required />
+										<label for="">Establishment (Shop) Name *</label>
+										<input type="text" name="comp_name" class="form-control" placeholder="Enter Company Name" id="" value="<?= $shop_name ?>" required />
 									</div>
 
 									<div class="col-sm-3">
-										<label>Email *</label>
-										<input type="text" name="email" class="form-control" placeholder="Enter Company Name" value="<?= $email ?>" required />
+										<label for="">Email</label>
+										<input type="text" name="email" class="form-control" placeholder="Enter Email" value="<?= $email ?>" id="" />
 									</div>
 
 									<div class="col-sm-3">
-										<label>Contact Number</label>
-										
+										<label for="">Contact Number</label>
 										<div class="input-group">
 											<span class="input-group-addon">+91-</span>
 											<input type="text"
@@ -424,8 +423,8 @@ else
 									</div>
 
 									<div class="col-sm-3">
-										<label>Owner's Full Name<?= $star ?></label>
-										<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> />
+										<label for="">Owner's Full Name<?= $star ?></label>
+										<input type="text" name="fname" class="form-control" placeholder="Enter full Name" value="<?= $first_name ?>" <?= $required ?> id="" />
 									</div>
 								</div>
 
@@ -437,23 +436,23 @@ else
 										<div class="well">
 											<div class="row">
 												<div class="col-sm-4">
-													<label>Address Line 1 *</label>
+													<label for="addressLine1">Address Line 1 *</label>
 													<textarea name="line1" rows="1" id="addressLine1" class="form-control address" placeholder="Line1 Address"></textarea>
 												</div>
 												
 												<div class="col-sm-4">
-													<label>Line2 address</label>
+													<label for="addressLine2">Line2 address</label>
 													<textarea name="line2" rows="1" id="addressLine2" class="form-control address" placeholder="Line2 Address"></textarea>
 												</div>
 												<div class="col-sm-4">
-													<label>Landmark</label>
+													<label for="landMark">Landmark</label>
 													<textarea name="landmark" rows="1" id="landMark" class="form-control address" placeholder="Landmark"></textarea>
 												</div>
 											</div>
 
 											<div class="row nextFormLine">
 												<div class="col-sm-3">
-													<label>Country *</label>
+													<label for="cnt_id">Country *</label>
 													<select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);">
 														<?php if ($countries) {
 
@@ -470,7 +469,7 @@ else
 												</div>
 												
 												<div class="col-sm-3">
-													<label>State *</label>
+													<label for="states">State *</label>
 													<div style="display: flex; align-items: center; gap: 8px;">
 														<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states"></select>
 
@@ -479,7 +478,7 @@ else
 												</div>
 
 												<div class="col-sm-3">
-													<label>City *</label>
+													<label for="state_cities">City *</label>
 													<div style="display: flex; align-items: center; gap: 8px;">
 														<select class="form-control" name="city_id" id="state_cities"></select>
 
@@ -488,33 +487,33 @@ else
 												</div>
 
 												<div class="col-sm-3" style="padding-left: 0px;">
-													<label>Postal Code *</label>
+													<label for="pin">Postal Code *</label>
 													<input type="number" name="pin" id="pin" class="form-control" placeholder="Postal Code" />
 												</div>
 											</div>
 
 											<div class="row nextFormLine">
 												<div class="col-sm-4">
-													<label>Shop Contact Number</label>
-													<input type="text" name="contact" class="form-control" placeholder="Shop Contact Number" />
+													<label for="cno">Shop Contact Number</label>
+													<input type="text" name="contact" class="form-control" placeholder="Shop Contact Number" id="cno" />
 												</div>
 												<div class="col-sm-4">
-													<label>Address Business Days</label>
-													<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" />
+													<label for="business_days">Address Business Days</label>
+													<input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" id="business_days" />
 												</div>
 												<div class="col-sm-4">
-													<label>Address Business Hours</label>
-													<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" />
+													<label for="business_hours">Address Business Hours</label>
+													<input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" id="" />
 												</div>
 											</div>
 
 											<div class="row nextFormLine">
 												<div class="col-sm-2">
-													<label>Latitude *</label>
+													<label for="lat">Latitude *</label>
 													<input type="number" step="any" name="lat" class="form-control" placeholder="Enter Latitude" onkeyup="initialize();" id="lat" />
 												</div>
 												<div class="col-sm-2">
-													<label>Longitude *</label>
+													<label for="long">Longitude *</label>
 													<input type="number" step="any" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" />
 												</div>
 												<div class="col-sm-8">
@@ -673,7 +672,7 @@ else
 								<!-- Toggle button/link -->
 								<a data-toggle="collapse" href="#service_policies" aria-expanded="false" aria-controls="service_policies">+ Service & Policy Options</a>
 
-								<div class="collapse" id="service_policies">
+								<div class="collapse in" id="service_policies">
 									<div class="well">
 										<div class="row form-group nextFormLine">
 											<div class="col-sm-1 termsMainLabel">

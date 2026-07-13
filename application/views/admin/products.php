@@ -117,12 +117,12 @@ else
 
                                 if ($prd_value['isEnabled']) {
 
-                                    $status = "<span class='label label-success'>Enabled</span>";
+                                    $status = "<span class='label label-success'>ENABLED</span>";
                                     $newStatus = 0;
                                 
                                 } else {
 
-                                    $status = "<span class='label label-danger'>Disabled</span>";
+                                    $status = "<span class='label label-danger'>DISABLED</span>";
                                     $newStatus = 1;
                                 }
 

@@ -144,6 +144,7 @@ class User_controller extends CI_Controller
         $data['meta_data']['image'] = base_url('assets/ropo-promo.jpg');
 
         //load view
+        // echo "<pre>"; print_r($data); die;
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/index', $data);
         $this->load->view('ajaxFunctions');
@@ -857,10 +858,10 @@ class User_controller extends CI_Controller
 
     public function login_page()
     {
-        if (isset($_COOKIE['user_id'])) 
+        if (isset($_COOKIE['user_id'])) {
             redirect('', 'refresh');
-        else
-        {
+        } else {
+            
             $data['categories'] = $this->categories['result']; //get categories
             $data['tree_list'] = $this->tree_list; //get categories in tree format
 
@@ -933,15 +934,15 @@ class User_controller extends CI_Controller
             return FALSE;
     }
     
-    public function insertUser()
-    {
+    public function insertUser() {
+        
         $user_id = $this->input->post('user_id');
         $consumer_id = $this->input->post('consumer_id');
         
         $user_data = array();
         $consumer_data = array();
 
-        //user data
+        // consumer data
         $consumer_data['gender'] = $this->input->post('gender');
         $dob = $this->input->post('dob');
         $consumer_data['phone'] = $this->input->post('phone');
@@ -955,6 +956,7 @@ class User_controller extends CI_Controller
 
         // request came from user update profile
         if($consumer_id) {
+
             $userDeatils = $this->am1->selectRecords(array('consumer_id' => $consumer_id), 'consumer', 'userId');
             $user_id = $userDeatils['result'][0]['userId'];
         }
@@ -974,8 +976,6 @@ class User_controller extends CI_Controller
                 $this->am1->updateData('consumer', $consumer_data, $condition);
             } else {
                 $consumer_data['userId'] = $user_id;
-
-                print_r($consumer_data);
                 $this->am1->insertData('consumer', $consumer_data);
             }
 
@@ -987,69 +987,77 @@ class User_controller extends CI_Controller
             $user_data['password'] = $this->input->post('password');
             $confirm_password = $this->input->post('confirm_password');
             
-            if ($confirm_password != $user_data['password']) 
+            if ($confirm_password != $user_data['password']) {
                 $this->redirect('Error: password and confirm password should be same', 'login');
+            }
             
-            //check email is already exist or not
+            // check email is already exist or not
             $isEmailExist = $this->am1->selectRecords(array('email' => $user_data['email']), 'user', 'userId');
 
-            if ($isEmailExist) 
+            if ($isEmailExist) {
                 $this->redirect('Error: email already exist!', 'login');
-            else
-            {
+            } else {
+
                 $user_id = $this->am1->insertData('user', $user_data);
 
-                if ($user_id)
-                {
+                if ($user_id) {
+
                     //insert user role
                     $type_data['usr_id'] = $user_id;
                     $type_data['type_name'] = 'BUYER';
-
                     $type_id = $this->am1->insertData('user_type', $type_data);
 
-                    if (!$type_id)
+                    if (!$type_id) {
                        $this->redirect('Error: unable to add you as a consumer', 'login');
-                   else
-                   {
+                    } else {
+                        
                         $usr_details = $this->am1->getUser($user_id, 1);
             
-                        if (isset($usr_details['db_error'])) 
+                        if (isset($usr_details['db_error'])) {
                             $this->redirect('Error: '.$usr_details['msg'], 'login');
+                        }
 
                         $usr_roles = $this->am1->selectRecords(array('usr_id' => $user_id), 'user_type', 'type_name');
-                        if (isset($usr_roles['db_error'])) 
+                        if (isset($usr_roles['db_error'])) {
                             $this->redirect('Error: '.$usr_roles['msg'], 'login');
+                        }
 
-                        if ($usr_details) 
-                        {
+                        if ($usr_details) {
+
                             $isValidUser = false;
-                            foreach ($usr_roles['result'] as $role) 
-                            {
-                                if ($role['type_name'] == 'BUYER') 
-                                {
+                            foreach ($usr_roles['result'] as $role) {
+
+                                if ($role['type_name'] == 'BUYER') {
+
                                     $isValidUser = true;
                                     break;
                                 }
                             }
 
-                            if ($isValidUser) 
-                            {                                
-                                $consumer = $this->am1->selectRecords(array('userId' => $user_id), 'consumer', 'consumer_id');
-                                if (isset($consumer['db_error'])) 
-                                    $this->redirect('Error: '.$consumer['msg'], $controller);
+                            if ($isValidUser) {
+                                
+                                //insert user role
+                                $consumer_data['userId'] = $user_id;
 
-                                $_COOKIE['consumer_id'] = $consumer['result'][0]['consumer_id'];
-                                redirect('userProfile', 'refresh');
-                            }
-                            else
+                                $consumer_id = $this->am1->insertData('consumer', $consumer_data);
+                                if (isset($consumer_id['db_error'])) {
+                                    $this->redirect('Error: '.$consumer_id['msg'], $controller);
+                                } elseif ($consumer_id) {
+                                    setcookie('consumer_id', $consumer_id, null, "/");
+                                }
+
+                                $this->redirect('Singup completed', 'userProfile');
+
+                            } else {
                                 $this->redirect('Error: Not authorised for login!', $controller);
-                        }
-                        else
+                            }
+                        } else {
                             $this->redirect('Error: You are not a varified user, please contact to system administrator!', $controller);
+                        }
                    }
-                }           
-                else
+                } else {
                     $this->redirect('Error: unable to add you', 'login');
+                }
             }
         }
     }
@@ -1149,13 +1157,13 @@ class User_controller extends CI_Controller
 
         $user = $this->am1->getConsumer($_COOKIE['consumer_id']);
 
-        // echo "<pre>"; print_r($user); die;
-
         //load view
+        // echo "<pre>"; print_r($user); die;
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/userProfile', $user);
         $this->load->view('user/design/include/footer');
-
+        die;
+        
         // $this->load->view('user/include/header', $data);
         // $this->load->view('user/include/sidebar', $data);
         // $this->load->view('user/userProfile', $user);

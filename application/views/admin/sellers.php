@@ -101,7 +101,7 @@ else if($pageName == "offerManagement")
                                         <th>Business Name</th>
                                         <th>Owner Name</th>
                                         <th>Email</th>
-                                        <th>Contact number</th>
+                                        <th>Contact Number</th>
                                         <th>City</th>
                                         <!-- <th>State</th>
                                         <th>Country</th> -->
@@ -122,26 +122,26 @@ else if($pageName == "offerManagement")
 
                                             if ($seller_value['is_verified']) {
 
-                                                $isApproved = "<span class='label label-success'>Approved</span>";
+                                                $isApproved = "<span class='label label-success'>APPROVED</span>";
                                                 $change_verify_status_btn = "";
 
                                             } else {
 
-                                                $isApproved = "<span class='label label-danger'>Not Approve</span>";
+                                                $isApproved = "<span class='label label-danger'>NOT APPROVED</span>";
 
                                                 $change_verify_status_btn = '<a href="javascript:void(0);" onclick="openVerifyModal('.$merchant_id.', '.$user_id.', '.$shop_name.', \''.$seller_value['first_name'].'\', \''.$seller_value['contact'].'\', \''.$seller_value['email'].'\')" class="text-warning" title="Verify Business"><i class="fa fa-shield"></i>Business Verify</a>';
                                             }
 
-                                            $is_completed = ($seller_value['is_completed']) ? "<span class='label label-success'>Completed</span>" : "<span class='label label-danger'>Incomplete</span>";
+                                            $is_completed = ($seller_value['is_completed']) ? "<span class='label label-success'>COMPLETED</span>" : "<span class='label label-danger'>INCOMPLETE</span>";
 
                                             if ($seller_value['status']) {
 
-                                                $current_status = '<span class="label label-success">Enabled</span>';
+                                                $current_status = '<span class="label label-success">ENABLED</span>';
                                                 $status_value = 0;
                                             
                                             } else {
                                                 
-                                                $current_status = '<span class="label label-danger">Disabled</span>';
+                                                $current_status = '<span class="label label-danger">DISABLED</span>';
                                                 $status_value = 1;
                                             }
 

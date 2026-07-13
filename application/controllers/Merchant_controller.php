@@ -208,6 +208,7 @@ class Merchant_controller extends CI_Controller
         $user_id = $this->input->post('user_id');
         $email = $this->input->post('email');
         $merchant_id = $this->input->post('merchant_id');
+        $isVerified = $this->input->post('is_verified');
         $controller = 'merchantSignupStep2/'.$user_id.'/'.$merchant_id;
 
         if ($user_id && $merchant_id) 
@@ -298,13 +299,16 @@ class Merchant_controller extends CI_Controller
                         redirectWithMessage('Error: '.$usr_details['msg'], $controller);
                     else
                     {
-                        //send mail to user for step 2 completion
-                        $mail_data = array();
-                        $mail_data['merchant_name'] = $user_data['first_name'];
-                        $mail_data['shop_name'] = $seller_data['establishment_name'];
-                        $mail_data['email'] = $email;
-                        $mail_data['code'] = MAIL_CODE_STEP_2_REGISTRATION;
-                        $this->common_controller->sendMail($mail_data);
+                        // send mail to user for step 2 completion if already not done
+                        if(!$isVerified) {
+                            
+                            $mail_data = array();
+                            $mail_data['merchant_name'] = $user_data['first_name'];
+                            $mail_data['shop_name'] = $seller_data['establishment_name'];
+                            $mail_data['email'] = $email;
+                            $mail_data['code'] = MAIL_CODE_STEP_2_REGISTRATION;
+                            $this->common_controller->sendMail($mail_data);
+                        }
 
                         //merchant cookie setup and redirect to seller dashboard
                         $usr_details['merchant_id'] = $merchant_id;

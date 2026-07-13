@@ -224,12 +224,12 @@
                                         
                                         if ($prd_value['isEnabled']) {
 
-                                            $status = "<span class='label label-success'>Enabled</span>";
+                                            $status = "<span class='label label-success'>ENABLED</span>";
                                             $newStatus = 0;
                                         
                                         } else {
 
-                                            $status = "<span class='label label-danger'>Disabled</span>";
+                                            $status = "<span class='label label-danger'>DISABLED</span>";
                                             $newStatus = 1;
                                         }
                                         
@@ -341,7 +341,7 @@
                                             $isEnabled = "<span class='label label-success'>Enabled</span>";
                                             // $verifyBtn = "";
                                         } else {
-                                            $isEnabled = "<span class='label label-danger'>Disabled</span>";
+                                            $isEnabled = "<span class='label label-danger'>DISABLED</span>";
                                             // $verifyBtn = "<li><a href='".base_url()."verifyListing/".$list_id."/1/".$prd_value['merchant_id']."' class='btn btn-warning'>Do Verify</a></li>";
                                         }
 

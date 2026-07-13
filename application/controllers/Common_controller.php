@@ -55,17 +55,17 @@ class Common_controller extends CI_Controller
 
         $template = $this->am5->selectRecords(array('tmp_code' => $code), 'mail_template', 'tmp_html, mail_subject');
 
-        if (!$template)
+        if (!$template) {
             echo "<script>window.alert('Error: Template not found!');</script>";
-        else
-        {
+        } else {
+
             $body = $template['result'][0]['tmp_html'];
             $subject = $template['result'][0]['mail_subject'];
 
-            switch ($code) 
-            {
-                case MAIL_CODE_RESET_PASSWORD:
-                {
+            switch ($code) {
+
+                case MAIL_CODE_RESET_PASSWORD: {
+
                     $body = str_replace("[link_to_reset_password]", base_url('account/resetPassword/'.$mail_data['userId']), $body);
                     $body = str_replace("[NAME]", $mail_data['name'], $body);
                     $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
@@ -76,8 +76,8 @@ class Common_controller extends CI_Controller
                     break;
                 }
 
-                case MAIL_CODE_CLAIM_BUSINESS:
-                {
+                case MAIL_CODE_CLAIM_BUSINESS: {
+
                     $merchant_id = $mail_data['clmd_merchant_id'];
                     $establishment_name = $mail_data['establishment_name'];
                     
@@ -98,17 +98,18 @@ class Common_controller extends CI_Controller
                     if ($mail_data['atch']) 
                         $atch = $mail_data['atch'];
 
-                    break;   
+                    break;
                 }
                 
-                case MAIL_CODE_SELLER_SIGNUP:
-                {
+                case MAIL_CODE_SELLER_SIGNUP: {
+
                     $name = $mail_data['first_name'];
                     $merchant_id = $mail_data['seller_id'];
                     
                     //mail subject
                     $subject = str_replace("[NAME]", $name, $subject);
                     $subject = str_replace("[SELLER_ID]", $merchant_id, $subject);
+                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
 
                     //mail body
                     $body = str_replace("[NAME]", $name, $body);
@@ -116,12 +117,13 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[LINK_TO_VIEW_SELLER_DETAIL]", $mail_data['url'], $body);
                     $body = str_replace("[EMAIL]", $mail_data['email'], $body);
                     $body = str_replace("[CONTACT]", $mail_data['contact_number'], $body);
+                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
 
                     break;
                 }
 
-                case MAIL_CODE_HELP_AND_SUPPORT:
-                {
+                case MAIL_CODE_HELP_AND_SUPPORT: {
+
                     $name = $this->input->post('name');
                     $contact = $this->input->post('contact');
                     $message = $this->input->post('message');
@@ -140,8 +142,8 @@ class Common_controller extends CI_Controller
                     break;
                 }
 
-                case MAIL_CODE_STEP_1_REGISTRATION:
-                {
+                case MAIL_CODE_STEP_1_REGISTRATION: {
+
                     $reciever_email = $mail_data['email'];
                     
                     //mail subject
@@ -152,6 +154,7 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
                     $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
                     $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
+                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
                     $body .= EMAIL_SIGNATURE;
                     $body = nl2br($body);
 
@@ -159,6 +162,7 @@ class Common_controller extends CI_Controller
                 }
 
                 case MAIL_CODE_STEP_2_REGISTRATION: {
+
                     $reciever_email = $mail_data['email'];
                     
                     //mail subject
@@ -187,9 +191,10 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
                     $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
                     $body = str_replace("[USER_EMAIL]", $mail_data['email'], $body);
-                    $body = str_replace("[USER_PASSWORD]", $mail_data['password'], $body);
+                    // $body = str_replace("[USER_PASSWORD]", $mail_data['password'], $body);
                     $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
                     $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
+                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
                     $body .= EMAIL_SIGNATURE;
                     $body = nl2br($body);
 

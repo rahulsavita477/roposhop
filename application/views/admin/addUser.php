@@ -2,7 +2,7 @@
 //user data
 $usr_id = isset($user['userId']) ? $user['userId'] : '';
 $email = isset($user['email']) ? $user['email'] : set_value('email');
-$password = isset($user['password']) ? $user['password'] : DEFAULT_PASSWORD;
+// $password = isset($user['password']) ? $user['password'] : DEFAULT_PASSWORD;
 $fname = isset($user['first_name']) ? $user['first_name'] : set_value('fname');
 $roles = isset($user['roles']) ? $user['roles'] : false;
 $create_date = isset($user['create_date']) ? convert_to_user_date($user['create_date']) : false;
@@ -173,7 +173,7 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 
 				            <div class="row form-group">
 				            	<div class="col-sm-2">
-				            		<label>Contact number:</label>	
+				            		<label>Contact Number:</label>
 				            	</div>
 				                <div class="col-sm-10">
 				                	<?= $cno ?>
@@ -379,12 +379,12 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 														<span class="tag-text">Admin</span>
 													</label>
 													<label class="bigcheck tag-label">
-														<input type="checkbox" class="bigcheck" name="user_type[]" value="SELLER" <?= $sellerChecked ?>>
-														<span class="bigcheck-target"></span>
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="SELLER" <?= $sellerChecked ?> onclick="return false;" onkeypress="" />
+														<span class="bigcheck-target lockedCheckbox"></span>
 														<span class="tag-text">Seller</span>
 													</label>
 													<label class="bigcheck tag-label">
-														<input type="checkbox" class="bigcheck" name="user_type[]" value="BUYER" <?= $buyerChecked ?>>
+														<input type="checkbox" class="bigcheck" name="user_type[]" value="BUYER" <?= $buyerChecked ?> readonly />
 														<span class="bigcheck-target"></span>
 														<span class="tag-text">Buyer</span>
 													</label>
@@ -398,13 +398,6 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 														<span class="bigcheck-target"></span>
 														<span class="tag-text">Executive</span>
 													</label>
-											</div>
-										<?php } ?>
-
-										<?php if ($_COOKIE['site_code'] == 'admin') { ?>
-											<div class="col-sm-12 nextFormLine">
-												<label>Password * </label>
-												<input type="text" name="password" class="form-control" placeholder="Enter password address" value="<?= $password ?>" id="" required />
 											</div>
 										<?php } ?>
 									</div>

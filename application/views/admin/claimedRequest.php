@@ -42,9 +42,9 @@
                                         $req_id = $claimedRequest['clmd_id'];
 
                                         if ($claimedRequest['is_clmd_approved'])
-                                            $is_approved = "<span class='label label-success'>Approved</span>";
+                                            $is_approved = "<span class='label label-success'>APPROVED</span>";
                                         else
-                                            $is_approved = "<span class='label label-danger'>Not approved</span>";
+                                            $is_approved = "<span class='label label-danger'>NOT APPROVED</span>";
 
                                         echo "<tr>
                                                 <td>".$count++."</td>

@@ -1343,8 +1343,7 @@ class Admin_controller extends CI_Controller
 			//check email is already exist or not
 			if (!$isFound) 
 			{
-				if ($clmd_id)
-					$data['password'] = DEFAULT_PASSWORD;
+				// if ($clmd_id) $data['password'] = DEFAULT_PASSWORD;
 
 				$usr_id = $this->Admin_model->insertData('user', $data);
 				if (isset($usr_id['db_error'])) 
@@ -1470,8 +1469,8 @@ class Admin_controller extends CI_Controller
 						{
 							$data = array();
 							$data['update_date'] = $this->current_date;
-							if (!$isExistUser['result'][0]['password']) 
-								$data['password'] = DEFAULT_PASSWORD;
+							// if (!$isExistUser['result'][0]['password']) 
+							// 	$data['password'] = DEFAULT_PASSWORD;
 
 							$isUpdated = $this->Admin_model->updateData('user', $data, $condition);
 							if (isset($isUpdated['db_error'])) 
@@ -1501,14 +1500,18 @@ class Admin_controller extends CI_Controller
 	    redirectWithMessage($msg, $controller);
 	}
 
-	public function addSeller()
-	{
+	public function addSeller() {
+		
+		$email = $this->input->post('email');
+		// $password = $this->input->post('psw');
+		// $cpassword = $this->input->post('cpsw');
 		$merchant_id = $this->input->post('merchant_id');
 		$usr_id = $this->input->post('usr_id');
-		
+
 		//user data
 		$usr_data['first_name'] = $this->input->post('fname');
 		$usr_data['update_date'] = $this->current_date;
+		$usr_data['email'] = $email;
 
 		//merchant data
 		$mrchnt_data['establishment_name'] = $this->input->post('comp_name');
@@ -1520,180 +1523,152 @@ class Admin_controller extends CI_Controller
 		$mrchnt_data['business_hours'] = $this->input->post('business_hours');
 		$mrchnt_data['update_date'] = $this->current_date;
 
-		$email = $this->input->post('email');
-		$password = $this->input->post('psw');
-		$cpassword = $this->input->post('cpsw');
 		$seller_offering = $this->input->post('seller_offering_values');
 
 		// echo "<pre>"; print_r($this->input->post()); echo "</pre>";
 		// echo "<pre>"; print_r($_FILES); echo "</pre>";
 
-		if ($_COOKIE['site_code'] == 'admin') 
+		// if ($_COOKIE['site_code'] == 'admin') {
 			$controller = 'sellers/sellersTable';
-		else
-			$controller = 'merchant/signup';
-		
-		if (!$usr_id && $email) {
+		// } else {
+		// 	$controller = 'merchant/signup';
+		// }
+	
+		if(!$usr_id) { // if ADMIN going to add new SELLER with email
+
+			if($email) {
+
+				$isFound = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
+				if (isset($isFound['db_error'])) {
+					redirectWithMessage('Error: '.$isFound['msg'], $controller);
+				} elseif (!$isFound) { // insert new user
+				
+					$usr_data['status'] = 1;
+					$usr_data['create_date'] = $this->current_date;
+
+				} else { // Add user as merchant if email already existing
+
+					// update user details
+					$usr_id = $isFound['result'][0]['userId'];
+					$condition = array('userId' => $usr_id);
+					$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
+					if (isset($isUpdated['db_error'])) {
+						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+					}
+				}
+			}
 			
-			// if(!preg_match("/^[0-9]{10}$/", $mrchnt_data['contact']))
-            // 	redirectWithMessage('Error: contact number should be in correct format', $controller);
+			if(!$usr_id) {
 
-			if($_COOKIE['site_code'] == 'admin' && !$password) { // set default password by admin 
-
-				$password = DEFAULT_PASSWORD;
-				
-			} elseif ($cpassword && $password != $cpassword) { // match password and confirm password
-				
-				$msg = "Error: Password and confirm password does not match!";
-				redirectWithMessage($msg, $controller);
+				// insert new user
+				$usr_id = $this->Admin_model->insertData('user', $usr_data);
+				if (isset($usr_id['db_error'])) {
+					redirectWithMessage('Error: '.$usr_id['msg'], $controller);
+				}
 			}
-
-			// check email is already exist or not
-			$isFound = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
-			if (isset($isFound['db_error'])) 
-				redirectWithMessage('Error: '.$isFound['msg'], $controller);
-			else if (!$isFound) //insert new user
-			{
-				$usr_data['email'] = $email;
-				$usr_data['status'] = 1;
-				$usr_data['password'] = $password;
-				$usr_data['create_date'] = $this->current_date;
-			}
-			else // update user detail
-			{
-				// Add user as merchant if we already have existing email and password
-				$usr_id = $isFound['result'][0]['userId'];
-				$condition = array('userId' => $usr_id);
-				$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
-				if (isset($isUpdated['db_error'])) 
-					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-
-				//add user type
-				$usr_type_data['usr_id'] = $usr_id;
-				$usr_type_data['type_name'] = "SELLER";
-				$isInserted = $this->Admin_model->insertData('user_type', $usr_type_data);
-				if (isset($isInserted['db_error'])) 
-					redirectWithMessage('Error: '.$isInserted['msg'], $controller);
-
-				//add merchant detail
-				$mrchnt_data['userId'] = $usr_id;
-				$mrchnt_data['create_date'] = $this->current_date;
-				$merchant = $this->Admin_model->insertData('merchant', $mrchnt_data);
-				if (isset($merchant['db_error'])) 
-					redirectWithMessage('Error: '.$merchant['msg'], $controller);
-
-				$address_id = $this->insertAddress($usr_id, 1);
-				if (!$address_id) 
-					$msg = "Error: lat, long are not in correct format.";
-				else
-					$msg = 'Merchant added successfully!!!';
-
-				$controller = 'login';
-			}
-
-			// $mrchnt_data['is_verified'] = 1;
-		}
-
-		if (!$usr_id) 
-		{
-			//insert new user
-			$usr_id = $this->Admin_model->insertData('user', $usr_data);
-			if (isset($usr_id['db_error'])) 
-				redirectWithMessage('Error: '.$usr_id['msg'], $controller);
 
 			//add user type
 			$usr_type_data['usr_id'] = $usr_id;
 			$usr_type_data['type_name'] = "SELLER";
 			$isInserted = $this->Admin_model->insertData('user_type', $usr_type_data);
-			if (isset($isInserted['db_error'])) 
+			if (isset($isInserted['db_error'])) {
 				redirectWithMessage('Error: '.$isInserted['msg'], $controller);
+			}
 
-			//add merchant detail
+			// add merchant detail
 			$mrchnt_data['userId'] = $usr_id;
 			$mrchnt_data['create_date'] = $this->current_date;
 			$merchant_id = $this->Admin_model->insertData('merchant', $mrchnt_data);
-			if (isset($merchant_id['db_error'])) 
+			if (isset($merchant_id['db_error'])) {
 				redirectWithMessage('Error: '.$merchant_id['msg'], $controller);
+			}
 
 			$address_id = $this->insertAddress($usr_id, 1);
-			if (!$address_id) 
+			if (!$address_id) {
 				$msg = "Error: lat, long are not in correct format.";
-			else
-				$msg = 'Merchant added successfully!!!';
-		}
-		else if($usr_id && $merchant_id)
-		{
-			$msg = 'Merchat detail update successfully!!!!';
+			} else {
+				$msg = 'Merchant added successfully';
+			}
+		} elseif($usr_id && $merchant_id) {
 
-			if ($_COOKIE['site_code'] == 'seller') 
-				$controller = 'editUser/'.$usr_id.'?edit';
+			$msg = 'Merchat updated successfully';
+
+			// if ($_COOKIE['site_code'] == 'seller') 
+			// 	$controller = 'editUser/'.$usr_id.'?edit';
 
 			//update user detail
 			$condition = array('userId' => $usr_id);
 			$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
-			if (isset($isUpdated['db_error'])) 
+			if (isset($isUpdated['db_error'])) {
 				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			}
 
 			//update merchant detail
 			$condition = array('merchant_id' => $merchant_id);
 			$isUpdated = $this->Admin_model->updateData('merchant', $mrchnt_data, $condition);
-			if (isset($isUpdated['db_error'])) 
+			if (isset($isUpdated['db_error'])) {
 				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			}
 		}
 
-		if ($usr_id && $merchant_id) 
-		{	
+		if ($usr_id && $merchant_id) {
+			
 			//get merchant logo and business proof
 			$merchant_data = array();
 			$where = array('merchant_id' => $merchant_id);
 			$merchant = $this->Admin_model->selectRecords($where, 'merchant', 'merchant_logo, business_proof');
-			if (isset($merchant['db_error'])) 
+			if (isset($merchant['db_error'])) {
 				redirectWithMessage('Error: '.$merchant['msg'], $controller);
+			}
 
 			//merchant attachments path
 			$folder = SELLER_ATTATCHMENTS_PATH.$merchant_id;
 			
 			//insert seller logo
-			if (isset($_FILES['file8']) && $_FILES['file8']['name'] != '')
-			{
+			if (isset($_FILES['file8']) && $_FILES['file8']['name'] != '') {
+
 				$merchant_logo_name = $this->common_controller->single_upload($folder, '', 'file8');
-				if (!$merchant_logo_name)
+				
+				if (!$merchant_logo_name) {
 					$msg = "Error: Unable to upload merchant logo!";
-				else if (isset($merchant['result'][0]['merchant_logo']))
-				{
+				} elseif (isset($merchant['result'][0]['merchant_logo'])) {
+
 					$merchant_data['merchant_logo'] = $merchant_logo_name;
 
 					//remove old pic from seller folder
 					$picture = $merchant['result'][0]['merchant_logo'];
-					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture))
+					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture)) {
 						unlink(SELLER_ATTATCHMENTS_PATH.$picture);
+					}
 				}
 			}
 
 			//insert seller business proof
-			if (isset($_FILES['file9']) && $_FILES['file9']['name'] != '')
-			{
+			if (isset($_FILES['file9']) && $_FILES['file9']['name'] != '') {
+
 				$merchant_business_proof = $this->common_controller->single_upload($folder, '', 'file9');
-				if (!$merchant_business_proof)
+				if (!$merchant_business_proof) {
 					$msg = "Error: Unable to upload merchant business proof!";
-				else if (isset($merchant['result'][0]['business_proof']))
-				{
+				} elseif (isset($merchant['result'][0]['business_proof'])) {
+
 					$merchant_data['business_proof'] = $merchant_business_proof;
 					$merchant_data['is_verified'] = 1;
 
 					//remove old business proof from seller folder
 					$picture = $merchant['result'][0]['business_proof'];
-					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture))
+					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture)) {
 						unlink(SELLER_ATTATCHMENTS_PATH.$picture);
+					}
 				}
 			}
 
-			$merchant_data['update_date'] = $this->current_date;
+			// $merchant_data['update_date'] = $this->current_date;
 
-			//update merchant row
-			$isUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $where);
-			if (isset($isUpdated['db_error'])) 
-				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			// //update merchant row
+			// $isUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $where);
+			// if (isset($isUpdated['db_error'])) {
+			// 	redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			// }
 
 			//atatchment data
 			$img_data['link_id'] = $merchant_id;
@@ -1702,46 +1677,47 @@ class Admin_controller extends CI_Controller
 
 			//insert seller images
 			$isUploaded = $this->upload_seller_image($folder, $img_data);
-			if (!$isUploaded) 
+			if (!$isUploaded) {
 				redirectWithMessage('Error: unable to upload image', $controller);
+			}
 
-			//insert Product Features
-			if ($seller_offering) 
-			{
+			//insert seller's global offerings
+			if ($seller_offering) {
+
 				$seller_offering_data = array();
 				$seller_offering_data['merchant_id'] = $merchant_id;
 
-				foreach ($seller_offering as $seller_offering_value)
-				{
+				foreach ($seller_offering as $seller_offering_value) {
+
 					$seller_offering_data['offering'] = $seller_offering_value;
 					$seller_offering_id = $this->Admin_model->insertData('merchant_offering', $seller_offering_data);
 
-					if (isset($seller_offering_id['db_error'])) 
+					if (isset($seller_offering_id['db_error'])) {
 						redirectWithMessage('Error: '.$seller_offering_id['msg'], $controller);
-					else if (!$seller_offering_id)
+					} elseif (!$seller_offering_id) {
 						redirectWithMessage('Error: Unable to insert seller offering!', $controller);
+					}
 				}
 			}
 
-			//update seller default values
-			$default_values = array();
-			$default_values['finance_available'] = $this->input->post('finance_available');
-			$default_values['finance_terms'] = $this->input->post('finance_terms');
-			$default_values['home_delivery_available'] = $this->input->post('home_delievery');
-			$default_values['home_delivery_terms'] = $this->input->post('delievery_terms');
-			$default_values['installation_available'] = $this->input->post('installation_available');
-			$default_values['installation_terms'] = $this->input->post('installation_terms');
-			$default_values['replacement_available'] = $this->input->post('replacement_available');
-			$default_values['replacement_terms'] = $this->input->post('replacement_terms');
-			$default_values['return_available'] = $this->input->post('return_available');
-			$default_values['return_policy'] = $this->input->post('return_policy');
-			$default_values['seller_offering'] = $this->input->post('seller_offering');
-			$default_values['update_date'] = $this->current_date;
+			// seller default values
+			// $default_values = array();
+			$merchant_data['finance_available'] = $this->input->post('finance_available');
+			$merchant_data['finance_terms'] = $this->input->post('finance_terms');
+			$merchant_data['home_delivery_available'] = $this->input->post('home_delievery');
+			$merchant_data['home_delivery_terms'] = $this->input->post('delievery_terms');
+			$merchant_data['installation_available'] = $this->input->post('installation_available');
+			$merchant_data['installation_terms'] = $this->input->post('installation_terms');
+			$merchant_data['replacement_available'] = $this->input->post('replacement_available');
+			$merchant_data['replacement_terms'] = $this->input->post('replacement_terms');
+			$merchant_data['return_available'] = $this->input->post('return_available');
+			$merchant_data['return_policy'] = $this->input->post('return_policy');
+			$merchant_data['seller_offering'] = $this->input->post('seller_offering');
+			$merchant_data['update_date'] = $this->current_date;
 
-			$this->Admin_model->updateData('merchant', $default_values, array('merchant_id' => $merchant_id));
+			$this->Admin_model->updateData('merchant', $merchant_data, array('merchant_id' => $merchant_id));
 		}
 
-		$this->updateTableDate('merchant', array('merchant_id' => $merchant_id));
 		redirectWithMessage($msg, $controller);
 	}
 
@@ -4662,7 +4638,7 @@ class Admin_controller extends CI_Controller
 		$user_data['email'] = $email;
 		$user_data['first_name'] = $name;
 		$user_data['status'] = 1;
-		$user_data['password'] = DEFAULT_PASSWORD;
+		// $user_data['password'] = DEFAULT_PASSWORD;
 		$user_data['update_date'] = $this->current_date;
 		$this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
 
@@ -4671,7 +4647,7 @@ class Admin_controller extends CI_Controller
         $mail_data['merchant_name'] = $name;
         $mail_data['shop_name'] = $merchant_data['establishment_name'];
         $mail_data['email'] = $email;
-        $mail_data['password'] = DEFAULT_PASSWORD;
+        // $mail_data['password'] = DEFAULT_PASSWORD;
         $mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
         
         $this->common_controller->sendMail($mail_data);
@@ -5119,7 +5095,7 @@ class Admin_controller extends CI_Controller
 		$user_data['email'] = $email;
 		$user_data['first_name'] = $name;
 		$user_data['status'] = 1;
-		$user_data['password'] = DEFAULT_PASSWORD;
+		// $user_data['password'] = DEFAULT_PASSWORD;
 		$user_data['update_date'] = $this->current_date;
 		$this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
 
@@ -5128,7 +5104,7 @@ class Admin_controller extends CI_Controller
         $mail_data['merchant_name'] = $name;
         $mail_data['shop_name'] = $merchant_data['establishment_name'];
         $mail_data['email'] = $email;
-        $mail_data['password'] = DEFAULT_PASSWORD;
+        // $mail_data['password'] = DEFAULT_PASSWORD;
         $mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
         
         $this->common_controller->sendMail($mail_data);

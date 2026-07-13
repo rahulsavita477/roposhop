@@ -88,11 +88,11 @@
                     </div>
 
                     <div class="form-group">
-                        <textarea rows="1" name="description" class="form-control" placeholder="description"></textarea>
+                        <textarea rows="1" name="description" class="form-control" placeholder="Description"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="contact_no" class="form-control" placeholder="contact number*" required />
+                        <input type="text" name="contact_no" class="form-control" placeholder="Contact Number*" required />
                     </div>
 
                     <div class="form-group">

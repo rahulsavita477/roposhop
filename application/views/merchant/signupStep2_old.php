@@ -267,7 +267,7 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <label class="control-label"><b>Shop Contact Number (for consumers)</b></label>
                         </div>
                         <div class="span6">
-                            <input type="text" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
+                            <input type="text" name="contact" placeholder="Shop Contact Number" value="<?= $shop_contact ?>" />
                         </div>
                     </div>
 

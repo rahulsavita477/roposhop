@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="form-group required-field">
-                          <label for="">Contact number</label>
+                          <label for="">Contact Number</label>
                                <input type="tel" class="form-control" id="" name="" required="">
                     </div>
 

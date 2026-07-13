@@ -135,7 +135,7 @@ $is_verified = $user['is_verified'] ? $user['is_verified'] : set_value('is_verif
                                         title="Provide your shop contact so customers can connect instantly and never miss an opportunity."
                                     ></i>
                                 </label>
-                                <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
+                                <input type="text" class="form-control" name="contact" placeholder="Shop Contact Number" value="<?= $shop_contact ?>" />
                             </div>
 
                             <div class="form-group">
@@ -273,7 +273,7 @@ $is_verified = $user['is_verified'] ? $user['is_verified'] : set_value('is_verif
                                             title="Provide your shop contact so customers can connect instantly and never miss an opportunity."
                                         ></i>
                                     </label>
-                                    <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
+                                    <input type="text" class="form-control" name="contact" placeholder="Shop Contact Number" value="<?= $shop_contact ?>" />
                                 </div>
 
                                 <div class="form-group">
@@ -305,6 +305,7 @@ $is_verified = $user['is_verified'] ? $user['is_verified'] : set_value('is_verif
             <input type="hidden" name="first_name" value="<?= $own_name ?>" />
             <input type="hidden" name="own_contact" value="<?= $own_contact ?>" />
             <input type="hidden" name="email" value="<?= $user['email'] ?>" />
+            <input type="hidden" name="is_verified" value="<?= $is_verified ?>" />
         </div>
     </form>
 </div>
