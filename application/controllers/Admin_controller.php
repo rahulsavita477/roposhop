@@ -1503,8 +1503,6 @@ class Admin_controller extends CI_Controller
 	public function addSeller() {
 		
 		$email = $this->input->post('email');
-		// $password = $this->input->post('psw');
-		// $cpassword = $this->input->post('cpsw');
 		$merchant_id = $this->input->post('merchant_id');
 		$usr_id = $this->input->post('usr_id');
 
@@ -1514,6 +1512,7 @@ class Admin_controller extends CI_Controller
 		$usr_data['email'] = $email;
 
 		//merchant data
+		$mrchnt_data = array();
 		$mrchnt_data['establishment_name'] = $this->input->post('comp_name');
 		$mrchnt_data['meta_keyword'] = $this->input->post('meta_keyword');
 		$mrchnt_data['meta_description'] = $this->input->post('meta_description');
@@ -1528,12 +1527,8 @@ class Admin_controller extends CI_Controller
 		// echo "<pre>"; print_r($this->input->post()); echo "</pre>";
 		// echo "<pre>"; print_r($_FILES); echo "</pre>";
 
-		// if ($_COOKIE['site_code'] == 'admin') {
-			$controller = 'sellers/sellersTable';
-		// } else {
-		// 	$controller = 'merchant/signup';
-		// }
-	
+		$controller = 'sellers/sellersTable';
+		
 		if(!$usr_id) { // if ADMIN going to add new SELLER with email
 
 			if($email) {

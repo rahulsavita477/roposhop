@@ -94,9 +94,11 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[REQUEST_ID]", $mail_data['request_id'], $body);
                     $body = str_replace("[LINK_TO_VIEW_REQUESTED_CLAIM]", $mail_data['request_url'], $body);
                     $body = str_replace("[MESSAGE]", $mail_data['clmd_message'], $body);
+                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
 
-                    if ($mail_data['atch']) 
+                    if ($mail_data['atch']) {
                         $atch = $mail_data['atch'];
+                    }
 
                     break;
                 }

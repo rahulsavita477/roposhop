@@ -298,28 +298,21 @@ function open_modal(merchant_id, establishment_name)
 
                         <div class="col-lg-7">
                             <div class="product-single-details">
-                                <h2 class="product" style="display:flex; margin-bottom: 0px;">
-                                    <?php
-                                    echo $merchant_detail['establishment_name'];
+                                <div class="d-flex align-items-center mb-2">
+                                    <h2 class="product mb-0 flex-grow-1">
+                                        <?= $merchant_detail['establishment_name']; ?>
+                                    </h2>
 
-                                    if ($merchant_detail['is_verified']) {
-                                        
-                                        echo '<img src="'.base_url('assets/user/assets2/images/approved.png').'"  alt="Verified" style="height:30px;">';
-                                        
-                                    } elseif(!$userDetail['email']) {
-                                        echo '<a
-                                            href="javascript:void(0);"
-                                            onclick="open_modal('.
-                                                $merchant_detail['merchant_id'].',
-                                                &apos;'.$merchant_detail['establishment_name'].'&apos;
-                                            );"
-                                            data-toggle="modal"
-                                            class="btn btn-primary"
-                                            style="padding: 5px;"
-                                        >Claim this business</a>';
-                                    } ?>
-                                </h2>
-                                
+                                    <?php if ($merchant_detail['is_verified']) { ?>
+                                        <img src="<?= base_url('assets/user/assets2/images/approved.png'); ?>" alt="Verified" class="ml-2" style="height:30px;">
+                                    <?php } else { ?>
+                                        <a href="javascript:void(0);" data-toggle="modal" class="btn btn-primary btn-sm ml-2 d-flex align-items-center"
+                                        onclick="open_modal(
+                                            <?= $merchant_detail['merchant_id']; ?>,
+                                            '<?= $merchant_detail['establishment_name']; ?>'
+                                        );"><i class="fa fa-handshake mr-1"></i> Claim this business</a>
+                                    <?php } ?>
+                                </div>
                                 <div class="ratings-container">
                                     <a href="<?= base_url('merchant/rating/').$_GET['merchant_id'] ?>">
                                         <div class="product-ratings">
@@ -352,40 +345,43 @@ function open_modal(merchant_id, establishment_name)
                                                 <input type="hidden" name="establishment_name" id="establishment_name" />
                                                 
                                                 <div class="modal-body">
-                                                    <div class="form-group-inline">
-                                                        Full name *
-                                                        <input class="form-control" type="text" placeholder="Enter Full Name" name="name" value="<?= set_value('name') ?>" id="" required />
-                                                    </div>
-                                                    <div class="form-group-inline">
-                                                        Email *
-                                                        <input class="form-control" type="email" placeholder="Enter Email" name="email" value="<?= set_value('email') ?>" id="" required />
-                                                    </div>
-
-                                                    <div class="form-group-inline">
-                                                        <label for="">Contact (Mobile) Number <sup>*</sup></label>
-
-                                                        <div class="input-group">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text mobileCountryCode">+91-</span>
+                                                    <div class="row">
+                                                        <!-- Left Column -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group-inline">
+                                                                Full name *
+                                                                <input class="form-control" type="text" placeholder="Enter Full Name" name="name" value="<?= set_value('name') ?>" required id="" />
                                                             </div>
-                                                            <input type="text" class="form-control" id="mobile" name="contact_number" maxlength="10" placeholder="Enter 10-digit number" value="<?= set_value('contact_number') ?>" required />
+                                                            <div class="form-group-inline">
+                                                                Email *
+                                                                <input class="form-control" type="email" placeholder="Enter Email" name="email" value="<?= set_value('email') ?>" required id="" />
+                                                            </div>
+                                                            <div class="form-group-inline">
+                                                                <label for="mobile">Contact (Mobile) Number <sup>*</sup></label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text mobileCountryCode">+91-</span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control" id="mobile" name="contact_number" maxlength="10" placeholder="Enter 10-digit number" value="<?= set_value('contact_number') ?>" required />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Right Column -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group-inline">
+                                                                <label for="">Business Proof </label>
+                                                                <i class="fa fa-info-circle text-primary"
+                                                                data-toggle="tooltip"
+                                                                data-placement="right"
+                                                                title="Allowed Business proof: GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque."></i> *
+                                                                <input class="form-control" type="file" name="file" required id="" />
+                                                            </div>
+                                                            <div class="form-group-inline">
+                                                                <textarea class="form-control" name="message" placeholder="Message" id=""><?= set_value('message') ?></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    
-                                                    <div class="form-group-inline">
-                                                        <label>Business Proof </label>
-                                                        <!-- Tooltip icon -->
-                                                        <i class="fa fa-info-circle text-primary"
-                                                            data-toggle="tooltip"
-                                                            data-placement="right"
-                                                            title="Allowed Business proof: GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque."
-                                                        ></i> *
-                                                        <input class="form-control" type="file" id="" name="file" required />
-                                                    </div>
-                                                    <div class="form-group-inline">
-                                                        <textarea class="form-control" name="message" placeholder="Message" name="message" id=""><?= set_value('message') ?></textarea>
-                                                    </div>
-                                                    </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

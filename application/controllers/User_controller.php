@@ -1697,25 +1697,29 @@ class User_controller extends CI_Controller
         $claimed_data['clmd_merchant_id'] = $this->input->post('merchant_id');
         $claimed_data['clmd_message'] = ($this->input->post('message')) ? $this->input->post('message') : "";
 
-        if ($_FILES['file']['name'] != '')
+        if ($_FILES['file']['name'] != '') {
             $claimed_data['clmd_business_proof'] = $this->common_controller->single_upload(TEMP_FOLDER_PATH);
+        }
 
         $clmd_id = $this->am1->insertData('claimed_requests', $claimed_data);
-        if ($clmd_id) 
-        {
+        if ($clmd_id) {
+
             $claimed_data['establishment_name'] = $this->input->post('establishment_name');
             $claimed_data['request_id'] = $clmd_id;
-            $claimed_data['request_url'] = "<a href='".base_url('merchants/'.$claimed_data['establishment_name'].'?merchant_id='.$claimed_data['clmd_merchant_id'])."'>Shop Detail</a>";
+            $claimed_data['request_url'] = base_url('merchants/'.$claimed_data['establishment_name'].'?merchant_id='.$claimed_data['clmd_merchant_id']);
             $claimed_data['code'] = MAIL_CODE_CLAIM_BUSINESS;
             $claimed_data['atch'] = base_url().TEMP_FOLDER_PATH.$claimed_data['clmd_business_proof'];
 
             $isSend = $this->common_controller->sendMail($claimed_data);
-        }
 
-        if ($isSend) 
-            $this->redirect('Mail has been sent! We will review your request.', $controller);
-        else
-            $this->redirect('Error: Unable to send mail!', $controller);
+            if ($isSend) {
+                $this->redirect('Mail has been sent! We will review your request.', $controller);
+            } else {
+                $this->redirect('Error: Unable to send mail!', $controller);
+            }
+        } else {
+            $this->redirect('Internal error', $controller);
+        }
     }
 
     public function redirect($msg, $controller)

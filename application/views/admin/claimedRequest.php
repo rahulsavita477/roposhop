@@ -21,45 +21,46 @@
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>S.NO.</th>
+                                    <!-- <th>S.NO.</th>
                                     <th>Claimed ID</th>
-                                    <th>Merchant ID</th>
+                                    <th>Merchant ID</th> -->
+                                    <th>Action</th>
+                                    <th>isApproved</th>
                                     <th>Shop Name</th>
                                     <th>Claimed Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>isApproved</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<?php
-                            	if ($claimedRequests) 
-                            	{
-                                    $count = 1;
-                            		foreach ($claimedRequests as $claimedRequest)
-                            		{
+                            	<?php if ($claimedRequests) {
+
+                                    // <td>".$count++."</td>
+                                    // <td>".$req_id."</td>
+                                    // <td>".$claimedRequest['merchant_id']."</td>
+                                    // $count = 1;
+
+                            		foreach ($claimedRequests as $claimedRequest) {
+
                                         $req_id = $claimedRequest['clmd_id'];
 
-                                        if ($claimedRequest['is_clmd_approved'])
+                                        if ($claimedRequest['is_clmd_approved']) {
                                             $is_approved = "<span class='label label-success'>APPROVED</span>";
-                                        else
+                                        } else {
                                             $is_approved = "<span class='label label-danger'>NOT APPROVED</span>";
+                                        }
 
                                         echo "<tr>
-                                                <td>".$count++."</td>
-                                                <td>".$req_id."</td>
-                                                <td>".$claimedRequest['merchant_id']."</td>
-                                                <td>".$claimedRequest['establishment_name']."</td>
-                                                <td>".$claimedRequest['clmd_name']."</td>
-                                                <td>".$claimedRequest['clmd_contact']."</td>
-                                                <td>".$claimedRequest['clmd_email']."</td>
-                                                <td>".$is_approved."</td>
-                                                <td>
-                                                    <a href='".base_url("viewRequest/$req_id")."' class='btn btn-primary'>View</a>
-                                                    <a href='".base_url("deleteClaimedRequest/$req_id")."' class='btn btn-danger'>Delete</a>
-                                                </td>
-                                            </tr>";
+                                            <td>
+                                                <a href='".base_url("viewRequest/$req_id")."' class='btn btn-primary'>View</a>
+                                                <a href='".base_url("deleteClaimedRequest/$req_id")."' class='btn btn-danger'>Delete</a>
+                                            </td>
+                                            <td>".$is_approved."</td>
+                                            <td>".$claimedRequest['establishment_name']."</td>
+                                            <td>".$claimedRequest['clmd_name']."</td>
+                                            <td>".$claimedRequest['clmd_contact']."</td>
+                                            <td>".$claimedRequest['clmd_email']."</td>
+                                        </tr>";
                                     }
                             	} ?>
                             </tbody>
