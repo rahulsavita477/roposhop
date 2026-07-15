@@ -68,7 +68,6 @@ class Common_controller extends CI_Controller
 
                     $body = str_replace("[link_to_reset_password]", base_url('account/resetPassword/'.$mail_data['userId']), $body);
                     $body = str_replace("[NAME]", $mail_data['name'], $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
                     $body = str_replace("[OTP]", $mail_data['otp'], $body);
 
                     $reciever_email = $mail_data['email'];
@@ -94,7 +93,6 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[REQUEST_ID]", $mail_data['request_id'], $body);
                     $body = str_replace("[LINK_TO_VIEW_REQUESTED_CLAIM]", $mail_data['request_url'], $body);
                     $body = str_replace("[MESSAGE]", $mail_data['clmd_message'], $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
 
                     if ($mail_data['atch']) {
                         $atch = $mail_data['atch'];
@@ -119,7 +117,48 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[LINK_TO_VIEW_SELLER_DETAIL]", $mail_data['url'], $body);
                     $body = str_replace("[EMAIL]", $mail_data['email'], $body);
                     $body = str_replace("[CONTACT]", $mail_data['contact_number'], $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
+
+                    break;
+                }
+
+                case MAIL_CODE_STEP_1_REGISTRATION:
+                case MAIL_CODE_STEP_2_REGISTRATION: {
+
+                    $reciever_email = $mail_data['email'];
+                    
+                    //mail subject
+                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
+
+                    //mail body
+                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
+                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
+
+                    break;
+                }
+
+                case MAIL_CODE_CLAIM_BUSINESS_APPROVED: {
+
+                    $reciever_email = $mail_data['email'];
+                    
+                    //mail subject
+                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
+
+                    //mail body
+                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
+                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
+                    $body = str_replace("[USER_EMAIL]", $mail_data['email'], $body);
+
+                    break;
+                }
+
+                case MAIL_CODE_CLAIM_BUSINESS_REJECTED: {
+
+                    $reciever_email = $mail_data['email'];
+
+                    //mail body
+                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
+                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
+                    $body = str_replace("[REJECTION_REASON]", $mail_data['reject_reason'], $body);
 
                     break;
                 }
@@ -144,69 +183,17 @@ class Common_controller extends CI_Controller
                     break;
                 }
 
-                case MAIL_CODE_STEP_1_REGISTRATION: {
-
-                    $reciever_email = $mail_data['email'];
-                    
-                    //mail subject
-                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
-
-                    //mail body
-                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
-                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
-                    $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
-                    $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
-                    $body .= EMAIL_SIGNATURE;
-                    $body = nl2br($body);
-
-                    break;
-                }
-
-                case MAIL_CODE_STEP_2_REGISTRATION: {
-
-                    $reciever_email = $mail_data['email'];
-                    
-                    //mail subject
-                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
-                    
-                    //mail body
-                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
-                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
-                    $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
-                    $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
-                    $body .= EMAIL_SIGNATURE;
-                    $body = nl2br($body);
-
-                    break;
-                }
-
-                case MAIL_CODE_CLAIM_BUSINESS_APPROVED: {
-
-                    $reciever_email = $mail_data['email'];
-                    
-                    //mail subject
-                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
-
-                    //mail body
-                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
-                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
-                    $body = str_replace("[USER_EMAIL]", $mail_data['email'], $body);
-                    // $body = str_replace("[USER_PASSWORD]", $mail_data['password'], $body);
-                    $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
-                    $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
-                    $body .= EMAIL_SIGNATURE;
-                    $body = nl2br($body);
-
-                    break;
-                }
-
                 default: return false;
             }
+                    
+            $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
+            $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
+            $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
+            // $body .= EMAIL_SIGNATURE;
+            $body = nl2br($body);
 
             return sendEmail($reciever_email, $subject, $body, $atch);
+
             // if ($mail_response)
             // {
             //     echo "<script>window.alert('Mail has been sent!');</script>";

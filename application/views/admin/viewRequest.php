@@ -99,12 +99,17 @@ $clmd_id = isset($data['clmd_id']) ? $data['clmd_id'] : '';
 								<textarea class="form-control" rows="8" id="" readonly><?= $clmd_message ?></textarea>
 			            	</div>
 			            	<div class="col-sm-5">
-			            		<label for="">Notes</label>
-								<textarea class="form-control" rows="6" id="" name="notes"><?= $notes ?></textarea>
+			            		<label for="">Notes *</label>
 
-								<?php 
+								<?php
 								$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
 								echo form_open('actionOnclaimRequest', $formAttributes);
+								
+								if ($status != "REJECTED" && $status != "APPROVED") {
+									echo '<textarea class="form-control" rows="6" id="" name="notes" required>'.$notes.'</textarea>';
+								} else {
+									echo '<textarea class="form-control" rows="6" id="" name="notes" readonly>'.$notes.'</textarea>';
+								}
 								?>
 									<input type="hidden" name="claimed_id" value="<?= $clmd_id ?>" />
 									<input type="hidden" name="claimed_id" value="<?= $clmd_id ?>" />
@@ -119,11 +124,8 @@ $clmd_id = isset($data['clmd_id']) ? $data['clmd_id'] : '';
 									<div class="box-footer">
 										<a href='<?= base_url("page/claimedRequest") ?>' class='btn btn-default'>Cancel</a>
 										
-										<?php if ($status != "REJECTED"): ?>
+										<?php if ($status != "REJECTED" && $status != "APPROVED"): ?>
 											<button type="submit" name="reject" class="btn btn-danger">Reject</button>
-										<?php endif; ?>
-
-										<?php if ($status != "APPROVED"): ?>
 											<button type="submit" name="submit" class="btn btn-primary">Approve</button>
 										<?php endif; ?>
 									</div>

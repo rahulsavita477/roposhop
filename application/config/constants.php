@@ -140,7 +140,7 @@ define('ROPO_SHOP_BRAND_NAME', "RopoShop");
 define('SUPPORT_EMAIL', "RopoShop");
 define('SUPPORT_MAIL', "RopoShop@RopoShop.com");
 define('SUPPORT_NUMBER', "+91-7389102962");
-define('EMAIL_SIGNATURE', "<br /><br />Thanks and Regards,<br />".ROPO_SHOP_BRAND_NAME." Support Team");
+// define('EMAIL_SIGNATURE', "<br /><br />Thanks and Regards,<br />".ROPO_SHOP_BRAND_NAME." Support Team");
 
 //DEFAULT VALUES
 define('DEFAULT_META_TAG', 'Research Online Purchase Offline, Search and compare products online at home with same convenience as with Online Shopping, once decided on what you want to buy and from which seller visit the shop and buy.');

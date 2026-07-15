@@ -5072,7 +5072,7 @@ class Admin_controller extends CI_Controller
 		$merchant_data['is_verified'] = 1;
 		$merchant_data['update_date'] = $this->current_date;
 		$merchant_data['business_proof'] = $this->input->post('clmd_business_proof');
-
+		
 		if (isset($rejectRequest)) {
 			
 			// update claimed request status
@@ -5092,6 +5092,7 @@ class Admin_controller extends CI_Controller
 				$mail_data['merchant_name'] = $name;
 				$mail_data['shop_name'] = $merchant_data['establishment_name'];
 				$mail_data['email'] = $email;
+				$mail_data['reject_reason'] = $notes;
 				$mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_REJECTED;
 				
 				$this->common_controller->sendMail($mail_data);
