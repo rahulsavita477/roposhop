@@ -650,12 +650,12 @@ if (isset($page_label) && $page_label == "edit") {
 
 									<div class="row nextFormLine">
 										<div class="col-sm-6">
-		                        			<label>Product Description</label>
+		                        			<label for="">Product Description</label>
 											<textarea class="form-control" rows="2" name="prd_desc" placeholder="Enter Product Description" id=""><?= $description ?></textarea>
 										</div>
 
 										<div class="col-sm-6">
-		                        			<label>In The Box</label>
+		                        			<label for="">In The Box</label>
 		                        			<textarea class="form-control" rows="2" name="in_the_box" placeholder="What you have provided in the product box" id=""><?= $in_the_box ?></textarea>
 		                        		</div>
 									</div>
@@ -771,18 +771,18 @@ if (isset($page_label) && $page_label == "edit") {
 											<div class="well">
 												<div class="row nextFormLine">
 													<div class="col-sm-4">
-														<label>Meta Title</label>
-														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" />
+														<label for="">Meta Title</label>
+														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" id="" />
 													</div>
 
 													<div class="col-sm-4">
-														<label>Meta Keywords</label>
-														<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+														<label for="">Meta Keywords</label>
+														<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
 													</div>
 
 													<div class="col-sm-4">
-														<label>Meta Description:</label>
-														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+														<label for="">Meta Description:</label>
+														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description" id=""><?= $meta_description ?></textarea>
 													</div>
 												</div>
 

@@ -299,12 +299,12 @@ function open_modal(merchant_id, establishment_name)
                         <div class="col-lg-7">
                             <div class="product-single-details">
                                 <div class="d-flex align-items-center mb-2">
-                                    <h2 class="product mb-0 flex-grow-1">
+                                    <h2 class="product mb-0">
                                         <?= $merchant_detail['establishment_name']; ?>
                                     </h2>
 
                                     <?php if ($merchant_detail['is_verified']) { ?>
-                                        <img src="<?= base_url('assets/user/assets2/images/approved.png'); ?>" alt="Verified" class="ml-2" style="height:30px;">
+                                        <img src="<?= base_url('assets/user/assets2/images/approved.png'); ?>" alt="Verified" class="ml-2" style="height:30px;" />
                                     <?php } else { ?>
                                         <a href="javascript:void(0);" data-toggle="modal" class="btn btn-primary btn-sm ml-2 d-flex align-items-center"
                                         onclick="open_modal(

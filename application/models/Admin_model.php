@@ -943,7 +943,7 @@ print_r($tables); die;
 
     public function claimedRequest($req_id='')
     {
-        $this->db->select('clmd_email, clmd_name, clmd_contact, clmd_message, clmd_business_proof, clmd_business_proof, establishment_name, merchant_id, clmd_id, claimed_requests.create_date, claimed_requests.update_date, is_clmd_approved, userId');
+        $this->db->select('clmd_email, clmd_name, clmd_contact, clmd_message, clmd_business_proof, clmd_business_proof, establishment_name, merchant_id, clmd_id, claimed_requests.create_date, claimed_requests.update_date, claimed_requests.status, userId, is_verified');
         $this->db->join('merchant', 'clmd_merchant_id = merchant_id', 'left');
 
         if ($req_id) 

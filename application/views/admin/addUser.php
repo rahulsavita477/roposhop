@@ -357,14 +357,14 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					        	<div class="row">
 									<div class="col-sm-8">
 										<div class="col-sm-6 nextFormLine">
-											<label>Full Name * </label>
+											<label for="">Full Name * </label>
 											<input type="text" name="fname" class="form-control" placeholder="Enter Full Name" value="<?= $fname ?>" id="" required />
 										</div>
 
 										<div class="col-sm-6 nextFormLine">
-											<label>Email * </label>
+											<label for="">Email * </label>
 											<?php if ($usr_id) { ?>
-												<input type="text" class="form-control" value="<?= $email ?>" disabled>
+												<input type="text" class="form-control" value="<?= $email ?>" id="" disabled>
 											<?php } else { ?>
 												<input type="email" name="email" class="form-control" placeholder="Enter email address" id="" required />
 											<?php } ?>

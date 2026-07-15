@@ -829,7 +829,7 @@ else
 	                        	</div>
 					        </div>
 
-					        <div class="box-footer"  align="right">
+					        <div class="box-footer" align="right">
 					        	<a href='<?= base_url("sellers/sellersTable") ?>' class='btn btn-default'>Cancel</a>
 					            <button type="submit" class="btn btn-primary">Submit</button>
 					        </div>

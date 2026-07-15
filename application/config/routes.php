@@ -184,8 +184,8 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['updateSellerServicePolicy'] = $admin_controller.'updateSellerServicePolicy';
 	$route['addSellerOffering'] = $admin_controller.'addSellerOffering';
 	$route['updateSiteSetting'] = $admin_controller.'updateSiteSetting';
-	$route['viewRequest/(:num)'] = $admin_controller.'viewRequest/$1';
-	$route['acceptRequest'] = $admin_controller.'acceptRequest';
+	$route['viewClaimRequest/(:num)'] = $admin_controller.'viewClaimRequest/$1';
+	$route['actionOnclaimRequest'] = $admin_controller.'actionOnclaimRequest';
 	$route['deleteClaimedRequest/(:num)'] = $admin_controller.'deleteClaimedRequest/$1';
 	$route['verifyListing/(:num)/(:num)/(:num)'] = $admin_controller.'verifyListing/$1/$2/$3';
 

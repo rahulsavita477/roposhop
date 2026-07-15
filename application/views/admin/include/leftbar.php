@@ -17,67 +17,67 @@ if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array(
 
     if (in_array("sellersList", $url) || in_array("getAllProducts", $url) || in_array("getProductDetail", $url))
         $product_seller_linking = 'active';
-    else if (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url) || isset($_GET['user_id']) || isset($_GET['address_id']))
+    elseif (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url) || isset($_GET['user_id']) || isset($_GET['address_id']))
         $seller_management = 'active';
 }
-else if (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url))
+elseif (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url))
     $brand_page = "active";
-else if (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']) || in_array("insertProduct", $url) )
+elseif (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']) || in_array("insertProduct", $url) )
     $products_page = "active";
-else if (in_array("countryManagement", $url) || in_array("stateManagement", $url) || in_array("editCountry", $url) || in_array("addCountry", $url) || (isset($_GET['getStateList']) && $parse_url['path'] != '/stateExcel') || isset($_GET['addNewState']) || in_array('cityManagement', $url) || (isset($_GET['getCityList']) && $parse_url['path'] != '/cityExcel') || isset($_GET['addNewCity']) || in_array("areaManagement", $url) || ((isset($_GET['getAreaList'])) && $parse_url['path'] != '/areaExcel') || isset($_GET['addNewArea'])) 
+elseif (in_array("countryManagement", $url) || in_array("stateManagement", $url) || in_array("editCountry", $url) || in_array("addCountry", $url) || (isset($_GET['getStateList']) && $parse_url['path'] != '/stateExcel') || isset($_GET['addNewState']) || in_array('cityManagement', $url) || (isset($_GET['getCityList']) && $parse_url['path'] != '/cityExcel') || isset($_GET['addNewCity']) || in_array("areaManagement", $url) || ((isset($_GET['getAreaList'])) && $parse_url['path'] != '/areaExcel') || isset($_GET['addNewArea'])) 
 {
     $place_management = "active";
 
     if (in_array("countryManagement", $url) || in_array("addCountry", $url) || in_array("editCountry", $url))
         $countryManagement = "active";
-    else if (in_array("stateManagement", $url) || isset($_GET['getStateList']) || isset($_GET['addNewState']))
+    elseif (in_array("stateManagement", $url) || isset($_GET['getStateList']) || isset($_GET['addNewState']))
         $stateManagement = "active";
-    else if (in_array("cityManagement", $url) || isset($_GET['getCityList']) || isset($_GET['addNewCity']))
+    elseif (in_array("cityManagement", $url) || isset($_GET['getCityList']) || isset($_GET['addNewCity']))
         $cityManagement = "active";
-    else if (in_array("areaManagement", $url) || isset($_GET['getAreaList']) || isset($_GET['addNewArea'])) 
+    elseif (in_array("areaManagement", $url) || isset($_GET['getAreaList']) || isset($_GET['addNewArea'])) 
         $areaManagement = "active";
 }
-else if (in_array("userManagement", $url) || in_array("addUser", $url) || isset($_GET['user_type']) || in_array("editUser", $url))
+elseif (in_array("userManagement", $url) || in_array("addUser", $url) || isset($_GET['user_type']) || in_array("editUser", $url))
     $userManagement = "active";
-else if (in_array("claimedRequest", $url) || in_array("viewRequest", $url))
+elseif (in_array("claimedRequest", $url) || in_array("viewClaimRequest", $url)) {
     $claimed_request = 'active';
-else if ( in_array("offerManagement", $url) || in_array("addOffer", $url) || isset($_GET['ofr_id']) || in_array("editOffer", $url) || in_array("offers", $url) )
+} elseif ( in_array("offerManagement", $url) || in_array("addOffer", $url) || isset($_GET['ofr_id']) || in_array("editOffer", $url) || in_array("offers", $url) )
     $offerManagement = "active";
-else if (in_array("review", $url) || in_array("merchantReview", $url) || in_array("editReview", $url) || in_array("viewReview", $url))
+elseif (in_array("review", $url) || in_array("merchantReview", $url) || in_array("editReview", $url) || in_array("viewReview", $url))
 {
     $review = "active";
     if (in_array("merchant", $url) || in_array("merchantReview", $url))
         $merchantReview = 'active';
-    else if (in_array("product", $url))
+    elseif (in_array("product", $url))
         $productReview = 'active';
 }
-else if (in_array("requestProduct", $url) || in_array("fillListingDetailOfRequestedProduct", $url) || in_array("requestedProducts", $url) || in_array("merchantRequestedProducts", $url) || in_array("editRequestedProduct", $url) || isset($_GET['req_prd_id']))
+elseif (in_array("requestProduct", $url) || in_array("fillListingDetailOfRequestedProduct", $url) || in_array("requestedProducts", $url) || in_array("merchantRequestedProducts", $url) || in_array("editRequestedProduct", $url) || isset($_GET['req_prd_id']))
     $requestProduct = "active";
-else if (isset($_SERVER['REDIRECT_URL']) && (strpos("/productExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/merchantExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/addressExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/listingExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/countryExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/stateExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/cityExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/areaExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/importAddressXls", $_SERVER['REDIRECT_URL']) !== false))
+elseif (isset($_SERVER['REDIRECT_URL']) && (strpos("/productExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/merchantExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/addressExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/listingExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/countryExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/stateExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/cityExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/areaExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/importAddressXls", $_SERVER['REDIRECT_URL']) !== false))
 {
     $data_import_export = "active";
     if (strpos("/productExcel", $_SERVER['REDIRECT_URL']) !== false)
         $productExcel = 'active';
-    else if (strpos("/merchantExcel", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/merchantExcel", $_SERVER['REDIRECT_URL']) !== false)
         $merchantExcel = 'active';
-    else if (strpos("/addressExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/importAddressXls", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/addressExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/importAddressXls", $_SERVER['REDIRECT_URL']) !== false)
         $addressExcel = 'active';
-    else if (strpos("/listingExcel", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/listingExcel", $_SERVER['REDIRECT_URL']) !== false)
         $listingExcel = 'active';
-    else if (strpos("/countryExcel", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/countryExcel", $_SERVER['REDIRECT_URL']) !== false)
         $countryExcel = 'active';
-    else if (strpos("/stateExcel", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/stateExcel", $_SERVER['REDIRECT_URL']) !== false)
         $stateExcel = 'active';
-    else if (strpos("/cityExcel", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/cityExcel", $_SERVER['REDIRECT_URL']) !== false)
         $cityExcel = 'active';
-    else if (strpos("/areaExcel", $_SERVER['REDIRECT_URL']) !== false)
+    elseif (strpos("/areaExcel", $_SERVER['REDIRECT_URL']) !== false)
         $areaExcel = 'active';
 }
-else if (in_array("siteSettings", $url))
+elseif (in_array("siteSettings", $url))
     $siteSettings = 'active';
-else if (in_array("claimedRequests", $url))
+elseif (in_array("claimedRequests", $url))
     $claim_requests = 'active';
-else if (in_array("maintenance", $url))
+elseif (in_array("maintenance", $url))
     $maintenance = 'active';
 
 $usr_profile_pic = $shop_logo = $this->config->item('site_url').'assets/admin/img/avatar3.png';

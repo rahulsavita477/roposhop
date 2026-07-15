@@ -442,15 +442,18 @@ function renderSingleImage($file, $dir, $entity_id, $method, $alt, $fileNo) {
             $html .= '<img src="'.$img_src.'" alt="'.$alt.'" style="max-width:150px;">';
         }
 
-        $html .= '</div>
-            <span class="remove-icon">
-                <a href="'.base_url().'deleteAttactchment/'.$file.'/'.$method.'/'.$entity_id.'" 
-                onclick="return confirmSave(\'' . DELETE_MSG . '\');">
-                    <i class="fa fa-trash-o"></i>
-                </a>
-            </span>
-        </div>
-        <input type="hidden" name="remove_img'.$fileNo.'" value="'.$file.'" />';
+        if(!empty($method)) {
+
+            $html .= '</div>
+                <span class="remove-icon">
+                    <a href="'.base_url().'deleteAttactchment/'.$file.'/'.$method.'/'.$entity_id.'" 
+                    onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </span>
+            </div>';
+        }
+        $html .= '<input type="hidden" name="remove_img'.$fileNo.'" value="'.$file.'" />';
     } else {
         $html .= '
             <div class="btn btn-primary btn-file" id="fileUploadDiv'.$fileNo.'">

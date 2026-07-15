@@ -25,11 +25,13 @@
                                     <th>Claimed ID</th>
                                     <th>Merchant ID</th> -->
                                     <th>Action</th>
-                                    <th>isApproved</th>
+                                    <th>Verification Status</th>
                                     <th>Shop Name</th>
                                     <th>Claimed Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,22 +46,36 @@
 
                                         $req_id = $claimedRequest['clmd_id'];
 
-                                        if ($claimedRequest['is_clmd_approved']) {
+                                        $approveClaimRequestBtn = "<li><a href='".base_url()."viewClaimRequest/".$req_id."' title='Approve Claimed Request'><i class='fa fa-check'></i>Verify Request</a></li>";
+                                        $deleteClaimRequestBtn = "<li><a href='".base_url("deleteClaimedRequest").'/'.$req_id."' title='Delete Claimed Request' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i>Delete</a></li>";
+
+                                        if ($claimedRequest['status'] == "APPROVED") {
                                             $is_approved = "<span class='label label-success'>APPROVED</span>";
+                                        } elseif ($claimedRequest['status'] == "REJECTED") {
+                                            $is_approved = "<span class='label label-danger'>REJECTED</span>";
                                         } else {
-                                            $is_approved = "<span class='label label-danger'>NOT APPROVED</span>";
+                                            $is_approved = "<span class='label label-warning'>PENDING</span>";
                                         }
 
                                         echo "<tr>
                                             <td>
-                                                <a href='".base_url("viewRequest/$req_id")."' class='btn btn-primary'>View</a>
-                                                <a href='".base_url("deleteClaimedRequest/$req_id")."' class='btn btn-danger'>Delete</a>
+                                                <div class='input-group input-group'>
+                                                    <div class='input-group-btn'>
+                                                        <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                        <ul class='dropdown-menu'>
+                                                            ".$approveClaimRequestBtn.
+                                                            $deleteClaimRequestBtn.
+                                                        "</ul>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>".$is_approved."</td>
                                             <td>".$claimedRequest['establishment_name']."</td>
                                             <td>".$claimedRequest['clmd_name']."</td>
                                             <td>".$claimedRequest['clmd_contact']."</td>
                                             <td>".$claimedRequest['clmd_email']."</td>
+                                            <td>".convert_to_user_date($claimedRequest['create_date'])."</td>
+                                            <td>".convert_to_user_date($claimedRequest['update_date'])."</td>
                                         </tr>";
                                     }
                             	} ?>

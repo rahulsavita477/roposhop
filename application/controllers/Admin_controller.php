@@ -892,7 +892,7 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
-	public function viewRequest($req_id)
+	public function viewClaimRequest($req_id)
 	{
 		$data = array();
 		$res = $this->Admin_model->claimedRequest($req_id);
@@ -5050,8 +5050,8 @@ class Admin_controller extends CI_Controller
 		redirectWithMessage('Error: invalid token', 'signout');
 	}
 
-	public function acceptRequest()
-	{
+	public function actionOnclaimRequest() {
+
 		$this->isLoggedIn();
 
 		$merchant_id = $this->input->post('merchant_id');
@@ -5059,8 +5059,12 @@ class Admin_controller extends CI_Controller
 		$userId = $this->input->post('user_id');
 		$email = $this->input->post('email');
 		$name = $this->input->post('name');
-		$failed_controller = 'viewRequest/'.$clmd_id;
+		$rejectRequest = $this->input->post('reject');
+		$submitRequest = $this->input->post('submit');
+		$notes = $this->input->post('notes');
+		$failed_controller = 'viewClaimRequest/'.$clmd_id;
 		$success_controller = 'page/claimedRequest';
+		$error = array();
 
 		$merchant_data = array();
 		$merchant_data['contact'] = $this->input->post('contact');
@@ -5069,56 +5073,106 @@ class Admin_controller extends CI_Controller
 		$merchant_data['update_date'] = $this->current_date;
 		$merchant_data['business_proof'] = $this->input->post('clmd_business_proof');
 
-		if (!$merchant_data['business_proof'])
-			redirectWithMessage("Error: Unable to upload profile picture!", $failed_controller);
+		if (isset($rejectRequest)) {
+			
+			// update claimed request status
+			$claimData = array(
+				'status' => "REJECTED",
+				'notes' => $notes	
+			);
+			$isClaimUpdated = $this->Admin_model->updateData('claimed_requests', $claimData, array('clmd_id' => $clmd_id));		
+			if (isset($isClaimUpdated['db_error'])) {
+				array_push($error, 'Claim Request: Update Operations Failed.');
+			}
 
-		//check email is already exist or not
-		$isExistUser = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
-		if (isset($isExistUser['db_error'])) 
-			redirectWithMessage('Error: '.$isExistUser['msg'], $failed_controller);
-		else if ($isExistUser) 
-			redirectWithMessage('Error: Email already exist!', $failed_controller);
+			if(count($error) == 0) {
 
-		//copy business proof image from temporary folder to seller folder
-		copy(
-        	TEMP_FOLDER_PATH.$merchant_data['business_proof'], 
-        	SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_data['business_proof']
-        );
+				// send mail for signup done
+				$mail_data = array();
+				$mail_data['merchant_name'] = $name;
+				$mail_data['shop_name'] = $merchant_data['establishment_name'];
+				$mail_data['email'] = $email;
+				$mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_REJECTED;
+				
+				$this->common_controller->sendMail($mail_data);
 
-		//update merchant account with e-mail address for varification
-		$user_data = array();
-		$user_data['email'] = $email;
-		$user_data['first_name'] = $name;
-		$user_data['status'] = 1;
-		// $user_data['password'] = DEFAULT_PASSWORD;
-		$user_data['update_date'] = $this->current_date;
-		$this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
+				redirectWithMessage('Claim Rejected', $success_controller);
+			}
+		} elseif (isset($submitRequest)) {
 
-		//send mail for signup done
-        $mail_data = array();
-        $mail_data['merchant_name'] = $name;
-        $mail_data['shop_name'] = $merchant_data['establishment_name'];
-        $mail_data['email'] = $email;
-        // $mail_data['password'] = DEFAULT_PASSWORD;
-        $mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
-        
-        $this->common_controller->sendMail($mail_data);
+			if (!$merchant_data['business_proof']) {
+				array_push($error, 'Attachment: Business Proof is mandatory.');
+			}
 
-		$condition = array('merchant_id' => $merchant_id);
-		$isUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $condition);
-		if (isset($isUpdated['db_error'])) 
-			redirectWithMessage('Error: '.$isUpdated['msg'], $failed_controller);
+			// update user account with e-mail address
+			$user_data = array();
+			$user_data['email'] = $email;
+			$user_data['first_name'] = $name;
+			$user_data['status'] = 1;
+			$user_data['update_date'] = $this->current_date;
+			$isUserUpdated = $this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
+			if (isset($isUserUpdated['db_error'])) {
+				array_push($error, 'User: Update Operations Failed.');
+			}
 
-		//update claimed approved status
-		$isUpdated = $this->Admin_model->updateData(
-			'claimed_requests', 
-			array('is_clmd_approved' => 1), 
-			array('clmd_id' => $clmd_id)
-		);		
-		if (isset($isUpdated['db_error'])) 
-			redirectWithMessage('Error: '.$isUpdated['msg'], $failed_controller);
+			// move business proof image from temporary folder to seller folder
+			$source = TEMP_FOLDER_PATH . $merchant_data['business_proof'];
+			$destinationDir = SELLER_ATTATCHMENTS_PATH . $merchant_id . '/';
+			$destination = $destinationDir . $merchant_data['business_proof'];
 
-		redirectWithMessage('Merchant status changed successfully!!!', $success_controller);
+			// Ensure destination folder exists
+			if (!is_dir($destinationDir)) {
+				mkdir($destinationDir, 0777, true); // recursive create
+			}
+
+			// Move file (rename is better than copy+unlink)
+			if (file_exists($source)) {
+				$copyBusinessProof = copy($source, $destination);
+				if (!$copyBusinessProof) {
+					array_push($error, 'Business Proof: Unable to copy.');
+				}
+			} else {
+				array_push($error, 'Business Proof: Not Found.');
+			}
+
+			// update merchant details
+			$condition = array('merchant_id' => $merchant_id);
+			$isMerchantUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $condition);
+			if (isset($isMerchantUpdated['db_error'])) {
+				array_push($error, 'Merchant: Update Operations Failed.');
+			}
+			
+			if(count($error) == 0) {
+			
+				// update claimed request status
+				$claimData = array(
+					'status' => "APPROVED",
+					'notes' => $notes	
+				);
+				$isClaimUpdated = $this->Admin_model->updateData('claimed_requests', $claimData, array('clmd_id' => $clmd_id));		
+				if (isset($isClaimUpdated['db_error'])) {
+					array_push($error, 'Claim Request: Update Operations Failed.');
+				}
+
+				if(count($error) == 0) {
+
+					// send mail for signup done
+					$mail_data = array();
+					$mail_data['merchant_name'] = $name;
+					$mail_data['shop_name'] = $merchant_data['establishment_name'];
+					$mail_data['email'] = $email;
+					$mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
+					
+					$this->common_controller->sendMail($mail_data);
+
+					redirectWithMessage('Claim Approved Successfully', $success_controller);
+				}
+			}
+
+			$this->session->set_flashdata('errors', $error);
+			$this->redirectBackToErrorPage();
+			die;
+		}
 	}
 
 	//add category method
