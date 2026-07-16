@@ -17,7 +17,7 @@ class Merchant_controller extends CI_Controller
         $this->admin_controller = new Admin_controller();
 
         //current date
-        $this->current_date = date("Y-m-d H:i:s");
+        $this->current_date = gmdate("Y-m-d H:i:s");
 
         $this->ci = get_instance();
         $this->ci->load->library('form_validation');

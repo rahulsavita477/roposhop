@@ -44,7 +44,7 @@ class V1_api_controller extends CI_Controller
 		}
 
 		//current date
-		$this->current_date = date("Y-m-d H:i:s");
+		$this->current_date = gmdate("Y-m-d H:i:s");
 	}
 
 	//get consumer app version
@@ -856,7 +856,7 @@ class V1_api_controller extends CI_Controller
 
      		$review_data['consumer_id'] = $con_id;
      		$review_data['merchant_id'] = $mer_id;
-     		$review_data['update_date'] = date("Y-m-d H:i:s");
+     		$review_data['update_date'] = gmdate("Y-m-d H:i:s");
      		
      		$condition = array('consumer_id' => $con_id, 'merchant_id' => $mer_id);
 			$isExistMerchantReview = $this->am3->selectRecords($condition, 'merchant_review', 'review_id');
@@ -870,7 +870,7 @@ class V1_api_controller extends CI_Controller
 			}
 			else
 			{
-				$review_data['create_date'] = date("Y-m-d H:i:s");
+				$review_data['create_date'] = gmdate("Y-m-d H:i:s");
 				
 				$review_id = $this->am3->insertData('merchant_review', $review_data);
 
@@ -921,7 +921,7 @@ class V1_api_controller extends CI_Controller
 
      		$review_data['consumer_id'] = $con_id;
      		$review_data['product_id'] = $prd_id;
-     		$review_data['update_date'] = date("Y-m-d H:i:s"); 
+     		$review_data['update_date'] = gmdate("Y-m-d H:i:s");
 
      		$condition = array('consumer_id' => $con_id, 'product_id' => $prd_id);
 			$isExistProductReview = $this->am3->selectRecords($condition, 'product_review', 'review_id');
@@ -935,9 +935,9 @@ class V1_api_controller extends CI_Controller
 			}
 			else
 			{
-				$review_data['create_date'] = date("Y-m-d H:i:s");
+				$review_data['create_date'] = gmdate("Y-m-d H:i:s");
 				
-				$review_id = $this->am3->insertData('product_review', $review_data);     		
+				$review_id = $this->am3->insertData('product_review', $review_data);
 
 				$msg = 'Product review inserted!';
 			}
@@ -1630,7 +1630,7 @@ class V1_api_controller extends CI_Controller
 			{
 				$token_data = array();
 				$token_data['auth_token'] = md5(uniqid(rand(), true));
-				$token_data['update_date'] = date("Y-m-d H:i:s");
+				$token_data['update_date'] = gmdate("Y-m-d H:i:s");
 
 				$this->am3->updateData('user', $token_data, $where);
 			}
@@ -3754,7 +3754,7 @@ class V1_api_controller extends CI_Controller
 		$arrayResponse = $data;
 		$arrayResponse['code'] = $code;
 		$arrayResponse['msg'] = $msg;
-		$arrayResponse['response_date_time'] = date("Y-m-d H:i:s");
+		$arrayResponse['response_date_time'] = gmdate("Y-m-d H:i:s");
 
 		echo json_encode($arrayResponse);
 		die;

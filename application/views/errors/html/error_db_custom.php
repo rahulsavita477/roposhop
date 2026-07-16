@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $arrayResponse = array();
 $arrayResponse['code'] = CODE_ERROR_DB;
 $arrayResponse['msg'] = $message;
-$arrayResponse['response_date_time'] = date("Y-m-d H:i:s");
+$arrayResponse['response_date_time'] = gmdate("Y-m-d H:i:s");
 
 echo json_encode($arrayResponse);
 ?>

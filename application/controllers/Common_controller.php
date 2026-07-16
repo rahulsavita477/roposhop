@@ -379,7 +379,7 @@ class Common_controller extends CI_Controller
 
         //get time differance between current and db time
         $time1 = new DateTime($record['result'][0]['otpCreatetime']);
-        $time2 = new DateTime(date("Y-m-d H:i:s"));
+        $time2 = new DateTime(gmdate("Y-m-d H:i:s"));
         $since_start = $time1->diff($time2);
         $minutes = $since_start->days * 24 * 60;
         $minutes += $since_start->h * 60;

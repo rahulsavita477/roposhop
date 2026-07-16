@@ -23,7 +23,7 @@ class Excel_controller extends CI_Controller
         $this->objPHPExcel = new PHPExcel();
 
         //current date
-        $this->current_date = date("Y-m-d H:i:s");
+        $this->current_date = gmdate("Y-m-d H:i:s");
     }
 
     //load address page

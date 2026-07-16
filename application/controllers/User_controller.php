@@ -103,8 +103,8 @@ class User_controller extends CI_Controller
     {
         $data = array();
         $where['current_status'] = 1;
-        $where['start_date <= '] = date("Y-m-d h:i:s");
-        $where['end_date >= '] = date("Y-m-d h:i:s");
+        $where['start_date <= '] = gmdate("Y-m-d h:i:s");
+        $where['end_date >= '] = gmdate("Y-m-d h:i:s");
         $data = $this->getOffers($where); //get offers
         
         $data['categories'] = $this->categories['result']; //get categories
@@ -1489,7 +1489,7 @@ class User_controller extends CI_Controller
         $review_data['rating'] = $this->input->post('rating');
         $review_data['status'] = 0;
         $review_data['consumer_id'] = $_COOKIE['consumer_id'];
-        $review_data['update_date'] = date("Y-m-d H:i:s");
+        $review_data['update_date'] = gmdate("Y-m-d H:i:s");
 
         $msg = 'Your rating update successfully';
 
@@ -1506,7 +1506,7 @@ class User_controller extends CI_Controller
             }
             else
             {
-                $review_data['create_date'] = date("Y-m-d H:i:s");
+                $review_data['create_date'] = gmdate("Y-m-d H:i:s");
                 $this->am1->insertData('merchant_review', $review_data);
             }
 
@@ -1529,7 +1529,7 @@ class User_controller extends CI_Controller
             }
             else
             {
-                $review_data['create_date'] = date("Y-m-d H:i:s");
+                $review_data['create_date'] = gmdate("Y-m-d H:i:s");
                 $this->am1->insertData('product_review', $review_data);
             }
 

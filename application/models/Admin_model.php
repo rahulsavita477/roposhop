@@ -23,6 +23,8 @@ class Admin_model extends CI_Model
         $this->router->fetch_class();
         $ci =& get_instance();
         $this->controller_name = $ci->router->fetch_class();
+
+        $this->current_date = gmdate("Y-m-d H:i:s"); // will return UTC time
     }
 
     public function trimAllColumnsValue()
@@ -53,7 +55,7 @@ print_r($tables); die;
 
         // Load the file helper and write the file to your server
         $this->load->helper('file');
-        $file_name = date("Y-m-d_H-i-s").'.gz';
+        $file_name = $this->current_date.'.gz';
 
         // Ensure destination folder exists
         if (!is_dir(DB_BACKUP_PATH)) {
@@ -83,6 +85,7 @@ print_r($tables); die;
         $data['atch_url'] = $file_name;
         $data['atch_type'] = "ZIP";
         $data['atch_for'] = "DB_BACKUP";
+        $data['create_date'] = $this->current_date;
         $this->insertData('attatchments', $data);
     }
 

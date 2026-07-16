@@ -331,7 +331,7 @@ class Admin_controller extends CI_Controller
 			{
 				$token_data = array();
 				$token_data['auth_token'] = md5(uniqid(rand(), true));
-				$token_data['update_date'] = date("Y-m-d H:i:s");
+				$token_data['update_date'] = $this->current_date;
 
 				$this->Admin_model->updateData('user', $token_data, $where);
 			}
@@ -3007,7 +3007,7 @@ class Admin_controller extends CI_Controller
 					$data['parent_category_id'] = $parent_cat_id;
 				}
 
-				$data['update_date'] = date("Y-m-d H:i:s");
+				$data['update_date'] = $this->current_date;
 				$condition = array('category_id' => $category_ids[$i]);
 				$isUpdated = $this->Admin_model->updateData('product_category', $data, $condition);
 
