@@ -357,6 +357,7 @@ function getCity(state_id)
 //get city of state
 function getBrand()
 {
+    $('#divLoading').css('display', 'block');
     $('#brands').empty();
     
     $.ajax({
@@ -383,6 +384,7 @@ function getBrand()
                 }
 
                 $('#brands').append(brand_options);
+                $('#divLoading').css('display', 'none');
             }
         },
     });

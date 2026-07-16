@@ -561,7 +561,7 @@ if (isset($page_label) && $page_label == "edit") {
 											</div>
 		                        		</div>
 
-										<?php if(!$brand_id && $seller_suggested_brand_name): ?>
+										<?php if(!isset($brand_id) && isset($seller_suggested_brand_name)): ?>
 											<div class="col-sm-3">
 												<label>Seller Suggested Brand</label>
 												<div class="other" style="display:flex; align-items:center; gap:8px;">

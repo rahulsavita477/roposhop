@@ -171,41 +171,44 @@ else
                                 // Below is the URL for product view in read only mode. But design need to be improve
                                 
                                 echo "<tr>
-                                        <td>
-                                            <div class='input-group input-group'>
-                                                <div class='input-group-btn'>
-                                                    <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
-                                                    <ul class='dropdown-menu'>
-                                                        ".$rejectProduct."
-                                                        ".$verifyProduct."
-                                                        <li>
-                                                            <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href='".base_url("editProduct/$prd_id/duplicate")."' title='Create Duplicate Product'><i class='fa fa-copy'></i>Duplicate</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href='".base_url("editProduct/$prd_id/edit")."' title='Edit'><i class='fa fa-edit'></i>Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href='".base_url("deleteProduct/$prd_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
-                                                        </li>";
-                                                echo "</ul>
-                                                </div>
+                                    <td>
+                                        <div class='input-group input-group'>
+                                            <div class='input-group-btn'>
+                                                <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                <ul class='dropdown-menu'>
+                                                    ".$rejectProduct."
+                                                    ".$verifyProduct."
+                                                    <li>
+                                                        <a target='_blank' href='".base_url("getAllProducts/0?product_id=$prd_id")."' title='Change Status'><i class='fa fa-check-circle'></i>Listing</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("editProduct/$prd_id/duplicate")."' title='Create Duplicate Product'><i class='fa fa-copy'></i>Duplicate</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("editProduct/$prd_id/edit")."' title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("deleteProduct/$prd_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
+                                                    </li>";
+                                            echo "</ul>
                                             </div>
-                                        </td>
-                                        <td class='statusLabel'>".$status."</td>
-                                        <td class='statusLabel'>".$verificationStatus."</td>
-                                        <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
-                                        <td>".$prd_value['category_name']."</td>
-                                        <td>".$prd_value['brand_name']."</td>
-                                        <td>".format_inr_price($prd_value['mrp_price'])."</td>
-                                        <td>".$prd_value['source']."</td>
-                                        <td>".$prd_value['created_by']."</td>
-                                        <td>".convert_to_user_date($prd_value['create_date'])."</td>
-                                        <td>".$prd_value['updated_by']."</td>
-                                        <td>".convert_to_user_date($prd_value['update_date'])."</td>
-                                    </tr>";
+                                        </div>
+                                    </td>
+                                    <td class='statusLabel'>".$status."</td>
+                                    <td class='statusLabel'>".$verificationStatus."</td>
+                                    <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
+                                    <td>".$prd_value['category_name']."</td>
+                                    <td>".$prd_value['brand_name']."</td>
+                                    <td>".format_inr_price($prd_value['mrp_price'])."</td>
+                                    <td>".$prd_value['source']."</td>
+                                    <td>".$prd_value['created_by']."</td>
+                                    <td>".convert_to_user_date($prd_value['create_date'])."</td>
+                                    <td>".$prd_value['updated_by']."</td>
+                                    <td>".convert_to_user_date($prd_value['update_date'])."</td>
+                                </tr>";
                             }
                         } ?>
                     </tbody>

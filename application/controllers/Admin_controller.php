@@ -3367,32 +3367,40 @@ class Admin_controller extends CI_Controller
 		$this->isLoggedIn();
 		$controller = 'products';
 
-		if ($prd_id) 
-		{
-			//delete product
-			$tbl_name = 'product';
-			$where = array('product_id' => $prd_id);
-			$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
-			if (isset($isDeleted['db_error'])) 
-				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-			$folder_path = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
-			$msg = 'Product deleted successfully!';
+		if ($prd_id) {
 
-			if (is_dir($folder_path)) 
-			{
-				if (deleteFolder($folder_path))
+			// find seller listing with that product to restrict the delete the product
+			$listingExist = $this->Admin_model->listingProducts(['product.product_id' => $prd_id]);
+			if($listingExist) {
+
+				redirectWithMessage('This product cannot be deleted as it is associated with merchant listings. Please unlink the merchant before deleting.', $controller);
+
+			} else { //delete product
+				
+				$tbl_name = 'product';
+				$where = array('product_id' => $prd_id);
+				$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
+				if (isset($isDeleted['db_error'])) 
+					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				$folder_path = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
+				$msg = 'Product deleted successfully!';
+
+				if (is_dir($folder_path)) 
 				{
-					$this->Admin_model->deleteRecord('attatchments', array('link_id' => $prd_id, 'atch_for' => 'PRODUCT', 'atch_type' => 'IMAGE'));
-					if (isset($isDeleted['db_error'])) 
-						redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+					if (deleteFolder($folder_path))
+					{
+						$this->Admin_model->deleteRecord('attatchments', array('link_id' => $prd_id, 'atch_for' => 'PRODUCT', 'atch_type' => 'IMAGE'));
+						if (isset($isDeleted['db_error'])) 
+							redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+					}
+					else
+						$msg = "Error: Unable to delete folder";
 				}
-				else
-					$msg = "Error: Unable to delete folder";
-			}
 
-			$isDeleted = $this->saveDeleteItem($prd_id, 'PRODUCT');
-			if (isset($isDeleted['db_error'])) 
-				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				$isDeleted = $this->saveDeleteItem($prd_id, 'PRODUCT');
+				if (isset($isDeleted['db_error'])) 
+					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+			}
 		}
 		else
 			$msg = 'Erorr: product id not found!';
