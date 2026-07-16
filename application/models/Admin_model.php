@@ -53,12 +53,18 @@ print_r($tables); die;
 
         // Load the file helper and write the file to your server
         $this->load->helper('file');
-        $file_name = date("Y-m-d H:i:s").'.gz';
-        write_file(DB_BACKUP_PATH.date("Y-m-d H:i:s").'.gz', $backup);
+        $file_name = date("Y-m-d_H-i-s").'.gz';
+
+        // Ensure destination folder exists
+        if (!is_dir(DB_BACKUP_PATH)) {
+            mkdir(DB_BACKUP_PATH, 0777, true); // recursive create
+        }
+
+        write_file(DB_BACKUP_PATH.$file_name, $backup);
 
         // Load the download helper and send the file to your desktop
-        //$this->load->helper('download');
-        //force_download('mybackup.gz', $backup);
+        $this->load->helper('download');
+        force_download('mybackup.gz', $backup);
 
         $prefs = array(
             'tables' => array('user'),   // Array of tables to backup.
