@@ -1,5 +1,5 @@
 <?php
-$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = '';
+$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = '';
 
 $parse_url = parse_url($_SERVER['REQUEST_URI']);
 $url = explode('/', $_SERVER['REQUEST_URI']);
@@ -79,6 +79,9 @@ elseif (in_array("claimedRequests", $url))
     $claim_requests = 'active';
 elseif (in_array("maintenance", $url))
     $maintenance = 'active';
+elseif (in_array("offerings", $url)) {
+    $sellerOfferings = 'active';
+}
 
 $usr_profile_pic = $shop_logo = $this->config->item('site_url').'assets/admin/img/avatar3.png';
 

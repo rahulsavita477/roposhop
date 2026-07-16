@@ -176,20 +176,21 @@ function calculatePercentage($oldFigure, $newFigure)
 }
 
 //-- function for converting time according to timezone
-function convert_to_user_date($date, $format = 'j-n-Y g:i:s A', $serverTimeZone = 'UTC')
-{
+function convert_to_user_date($date, $format = 'j-n-Y g:i A', $serverTimeZone = 'UTC') {
+    
     $userTimeZone = isset($_COOKIE['timezone']) ? $_COOKIE['timezone'] : $serverTimeZone;
     
-    try 
-    {
+    try {
+        
         if($date) {
+        
             $dateTime = new DateTime ($date, new DateTimeZone($serverTimeZone));
             $dateTime->setTimezone(new DateTimeZone($userTimeZone));
 
             return $dateTime->format($format);
         } else {
             
-            return 'No Backup Found';
+            return '';
         }
     } catch (Exception $e) {
         return '';
@@ -529,3 +530,10 @@ function renderImagesReadonly($images, $images_dir) {
     return $html;
 }
 
+function format_inr_price($amount) {
+    // Format number in Indian style (lakhs/crores)
+    $formatted = number_format($amount, 2, '.', ',');
+    
+    // Add Rupee symbol
+    return '₹ ' . $formatted;
+}

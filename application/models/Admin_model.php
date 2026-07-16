@@ -275,10 +275,12 @@ print_r($tables); die;
 
     public function products($where=array(), $isRequestedProduct = false)
     {
-        $this->db->select('product_id, product.product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, product.description, mrp_price, category_name, hasVarient, product.brand_id, name as brand_name, product.create_date, product.update_date, in_the_box, product.notes, product.isEnabled, brand_name as seller_suggested_brand_name');
+        $this->db->select('product_id, product.product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, product.description, mrp_price, category_name, hasVarient, product.brand_id, name as brand_name, product.create_date, product.update_date, in_the_box, product.notes, product.isEnabled, brand_name as seller_suggested_brand_name, verification_status, source, u1.first_name as created_by,  u2.first_name as updated_by');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'inner');
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
         $this->db->join('requested_product2', 'requested_product2.req_prd_id = product.product_id', 'left');
+        $this->db->join('user as u1', 'u1.userId = product.created_by', 'left');
+        $this->db->join('user as u2', 'u2.userId = product.updated_by', 'left');
 
         if (count($where)>0) {
             
@@ -452,7 +454,7 @@ print_r($tables); die;
 
     public function getProductsForLinking($sel_id=null, $where='')
     {
-        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified, product.isEnabled');
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified, product.isEnabled, verification_status');
         
         $merchant_where = $sel_id ? 'AND merchant_id = '.$sel_id : '';
     

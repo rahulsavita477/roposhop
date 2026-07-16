@@ -85,14 +85,19 @@
                                         $action = "";
                                     }
 
+                                    $brand_name = '';
+                                    if($req_prd['brand_name']) {
+                                        $brand_name = "<i class='fa fa-exclamation-triangle' title='New Brand Suggestion'></i>&nbsp;".$req_prd['brand_name'];
+                                    }
+
                                     echo "<tr>
                                         ".$action."
                                         <td>".$status."</td>
                                         <td>".$req_prd['merchant_name']."</td>
                                         <td>".$req_prd['product_name']."</td>
                                         <td>".$req_prd['category_name']."</td>
-                                        <td><i class='fa fa-exclamation-triangle' title='New Brand Suggestion'></i>&nbsp;".$req_prd['brand_name']."</td>
-                                        <td>".$req_prd['sell_price']."</td>
+                                        <td>".$brand_name."</td>
+                                        <td>".format_inr_price($req_prd['sell_price'])."</td>
                                         <td>".convert_to_user_date($req_prd['create_date'])."</td>
                                         <td>".convert_to_user_date($req_prd['update_date'])."</td>
                                     </tr>";

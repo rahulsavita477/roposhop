@@ -98,12 +98,30 @@ else
                         <tr>
                             <!-- <th>Product ID</th> -->
                             <th>Action</th>
-                            <th>Visibility Status</th>
+                            <th>
+                                Visibility
+                                <i class="fa fa-info-circle text-primary"
+                                    data-toggle="tooltip"
+                                    data-placement="right"
+                                    title="Product Visibility On User Website"
+                                ></i>&nbsp;&nbsp;&nbsp;
+                            </th>
+                            <th>
+                                Verification
+                                <i class="fa fa-info-circle text-primary"
+                                    data-toggle="tooltip"
+                                    data-placement="right"
+                                    title="Admin Verification On Product"
+                                ></i>&nbsp;&nbsp;&nbsp;
+                            </th>
                             <th>Product</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Price</th>
+                            <th>Source&nbsp;&nbsp;&nbsp;</th>
+                            <th>Created By</th>
                             <th>Created Date</th>
+                            <th>Updated By&nbsp;&nbsp;&nbsp;</th>
                             <th>Updated Date</th>
                         </tr>
                     </thead>
@@ -113,7 +131,12 @@ else
                             // $count = 1;
                             // <td>".$prd_id."</td>
 
+                            // echo "<pre>"; print_r($data); 
+
                             foreach ($data as $prd_value) {
+
+                                $prd_id = $prd_value['product_id'];
+                                $cat_id = $prd_value['category_id'];
 
                                 if ($prd_value['isEnabled']) {
 
@@ -126,8 +149,24 @@ else
                                     $newStatus = 1;
                                 }
 
-                                $prd_id = $prd_value['product_id'];
-                                $cat_id = $prd_value['category_id'];
+                                $verifyProduct = "<li><a href='".base_url("verifyProduct/$prd_id/VERIFIED")."' onclick='return confirm(\"Are you sure?\")' title='Verify Product'><i class='fa fa-check text-success'></i> Verify Product</a></li>";
+                                $rejectProduct = "<li><a href='".base_url("verifyProduct/$prd_id/REJECTED")."' onclick='return confirm(\"Are you sure?\")' title='Reject Product'><i class='fa fa-times text-danger'></i> Reject Product</a></li>";
+                                
+                                if ($prd_value['verification_status'] == "VERIFIED") {
+
+                                    $verifyProduct = false;
+                                    $rejectProduct = false;
+                                    $verificationStatus = "<span class='label label-success'>".$prd_value['verification_status']."</span>";
+                                    
+                                } elseif ($prd_value['verification_status'] == "REJECTED") {
+
+                                    $rejectProduct = false;
+                                    $verificationStatus = "<span class='label label-danger'>".$prd_value['verification_status']."</span>";
+
+                                } elseif ($prd_value['verification_status'] == "PENDING")  {
+
+                                    $verificationStatus = "<span class='label label-warning'>".$prd_value['verification_status']."</span>";
+                                }
                                 
                                 // Below is the URL for product view in read only mode. But design need to be improve
                                 
@@ -137,6 +176,8 @@ else
                                                 <div class='input-group-btn'>
                                                     <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                     <ul class='dropdown-menu'>
+                                                        ".$rejectProduct."
+                                                        ".$verifyProduct."
                                                         <li>
                                                             <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
                                                         </li>
@@ -154,11 +195,15 @@ else
                                             </div>
                                         </td>
                                         <td class='statusLabel'>".$status."</td>
+                                        <td class='statusLabel'>".$verificationStatus."</td>
                                         <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
                                         <td>".$prd_value['category_name']."</td>
                                         <td>".$prd_value['brand_name']."</td>
-                                        <td>".$prd_value['mrp_price']."</td>
+                                        <td>".format_inr_price($prd_value['mrp_price'])."</td>
+                                        <td>".$prd_value['source']."</td>
+                                        <td>".$prd_value['created_by']."</td>
                                         <td>".convert_to_user_date($prd_value['create_date'])."</td>
+                                        <td>".$prd_value['updated_by']."</td>
                                         <td>".convert_to_user_date($prd_value['update_date'])."</td>
                                     </tr>";
                             }

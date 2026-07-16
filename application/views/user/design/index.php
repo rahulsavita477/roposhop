@@ -182,11 +182,11 @@
                         <?php foreach ($brands['result'] as $brand) {
                             $brand_url = base_url('brands/'. url_title($brand['name'], '-', true).'?brand_id='.$brand['brand_id']);
                             if (!empty($brand['brand_logo'])) { ?>
-                                <a href="<?= $brand_url ?>" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;">
-                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" alt="<?= $brand['brand_logo'] ?>" style="height:80px;width:auto;">
+                                <a href="<?= $brand_url ?>" class="partner">
+                                    <img src="<?= base_url(BRAND_ATTATCHMENTS_PATH.$brand['brand_id'].'/'.$brand['brand_logo']) ?>" alt="<?= $brand['brand_logo'] ?>" style="height:60px;width:auto;">
                                 </a>
                             <?php } else { ?>
-                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:90px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
+                                <a href="<?= $brand_url ?>" class="partner" style="display:flex;align-items:center;justify-content:center;height:60px;max-width:200px;background:#007BFF;border-radius:8px;text-decoration:none;padding:5px 15px;box-sizing:border-box;">
                                     <span style="color:#fff;margin:0;font-size:14px;font-weight:600;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars($brand['name']) ?></span>
                                 </a>
                             <?php }
@@ -234,7 +234,7 @@
 
                             if ($merchant_logo) {
 
-                                echo '<a href="'.$merchentHref.'" class="partner" style="width:auto;height:90px;max-height:90px;max-width:200px;"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
+                                echo '<a href="'.$merchentHref.'" class="partner"><img src="'.$merchant_logo.'" style="height:80px;width: auto;"></a>';
                             
                             } else {
                         ?>

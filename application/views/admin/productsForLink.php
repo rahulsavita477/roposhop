@@ -155,12 +155,12 @@
             
                 <!-- select requested product for linking -->
                 <?php if ($req_products && isset($_GET['list_new_product']) && $_COOKIE['site_code'] == "seller") { ?>
-                    <div class="box-body" style="padding-bottom: 0px;">
+                    <div class="box-body" style="padding-bottom: 0px; display: none;">
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-2 input-field" style="padding-right: 5px;">
                                 <label>Link Requested Products:</label>
                             </div>
-                            <div class="col-sm-3" style="padding-left: 0px;">
+                            <div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
                                 <select class="form-control" id="req_prd_id">
                                     <?php
                                     $count = 0;
@@ -185,7 +185,7 @@
                                 </select>
                             </div>
                             <?php if ($count > 0) { ?>
-                                <div class="col-sm-2">
+                                <div class="col-sm-3" style="padding-left: 0px;">
                                     <button class='btn btn-primary'
                                         onclick="fillListingDetailOfRequestedProduct();">Next</button>
                                 </div>
@@ -194,12 +194,27 @@
                 </div>";
                 } ?>
                 
-                <div class="box-body table-responsive" style="padding-top: 0px;">
+                <div class="box-body table-responsive">
                     <table class="table table-bordered table-striped data-pagination-table">
                         <thead>
                             <tr>
-                                <th>Action</th>
-                                <th>Status</th>
+                                <th>Action&nbsp;&nbsp;&nbsp;</th>
+                                <th>
+                                    Visibility
+                                    <i class="fa fa-info-circle text-primary"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Product Visibility On User Website"
+                                    ></i>&nbsp;&nbsp;&nbsp;
+                                </th>
+                                <th>
+                                    Verification
+                                    <i class="fa fa-info-circle text-primary"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Admin Verification On Product"
+                                    ></i>&nbsp;&nbsp;&nbsp;
+                                </th>
                                 <!-- <th>Product image</th> -->
                                 <th>Product name</th>
                                 <th>MRP</th>
@@ -233,6 +248,19 @@
                                             $newStatus = 1;
                                         }
                                         
+                                        if ($prd_value['verification_status'] == "VERIFIED") {
+
+                                            $verificationStatus = "<span class='label label-success'>".$prd_value['verification_status']."</span>";
+                                            
+                                        } elseif ($prd_value['verification_status'] == "REJECTED") {
+
+                                            $verificationStatus = "<span class='label label-danger'>".$prd_value['verification_status']."</span>";
+
+                                        } elseif ($prd_value['verification_status'] == "PENDING")  {
+
+                                            $verificationStatus = "<span class='label label-warning'>".$prd_value['verification_status']."</span>";
+                                        }
+                                        
                                         echo "<tr>";
                                         if ($sel_id) {
 
@@ -246,8 +274,9 @@
                                         }
 
                                         echo "<td class='statusLabel'>".$status."</td>
+                                            <td class='statusLabel'>".$verificationStatus."</td>
                                             <td>".$prd_value['product_name']."</td>
-                                            <td>".$prd_value['mrp_price']."</td>
+                                            <td>".format_inr_price($prd_value['mrp_price'])."</td>
                                             <td>".$prd_value['category_name']."</td>
                                             <td>".$prd_value['brand_name']."</td>
                                             <td>".convert_to_user_date($prd_value['create_date'])."</td>
@@ -288,7 +317,14 @@
                                 <!-- <th>Product ID</th> -->
                                 <th>Action</th>
                                 <!-- <th>Is Verified</th> -->
-                                <th>Visibility Status</th>
+                                <th>
+                                    Visibility
+                                    <i class="fa fa-info-circle text-primary"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Product Visibility On User Website"
+                                    ></i>&nbsp;&nbsp;&nbsp;
+                                </th>
                                 <th>Product Name</th>
                                 <?php if ($_COOKIE['site_code'] == 'admin') {
                                     echo "<th>Merchant Name</th>";
@@ -365,8 +401,8 @@
                                             <td>".$prd_value['product_name']."</td>
                                             ".$merchant_name_td."
                                             <td>".$prd_value['brand_name']."</td>
-                                            <td>".$prd_value['mrp_price']."</td>
-                                            <td>".$prd_value['price']."</td>
+                                            <td>".format_inr_price($prd_value['mrp_price'])."</td>
+                                            <td>".format_inr_price($prd_value['price'])."</td>
                                             <td>".$in_stock."</td>
                                             <td>".convert_to_user_date($prd_value['create_date'])."</td>
                                             <td>".convert_to_user_date($prd_value['update_date'])."</td>

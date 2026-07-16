@@ -295,10 +295,6 @@ label {
     color: orange;
 }
 
-.fa-check-circle{
-    color: #3364b0;
-}
-
 .fa-map-marker {
     color: #8e6e53;
 }
@@ -395,16 +391,20 @@ label {
     color: #e67e22;
 } */
 
+.fa-check-circle{
+    color: #3364b0;
+}
+
 .fa-check {
     color: #3c763d;
 }
 
-.box-primary1{
-	border: 2px solid #ccc;
+.fa-exclamation-triangle, .fa-copy {
+    color: #f0ad4e;
 }
 
-.fa-exclamation-triangle {
-    color: #f0ad4e;
+.box-primary1{
+	border: 2px solid #ccc;
 }
 /* .custom-toast-error {
     position: fixed;
@@ -439,4 +439,8 @@ label {
 
 .lockedCheckbox {
     color: #ccc !important;
+}
+
+.tooltip {
+    white-space: normal !important;
 }

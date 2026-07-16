@@ -24,7 +24,7 @@ class Admin_controller extends CI_Controller
 			$this->dashboard();
 
 		//current date
-		$this->current_date = date("Y-m-d H:i:s");
+		$this->current_date = gmdate("Y-m-d H:i:s"); // will return UTC time
 
 		//allow header
         header("Access-Control-Allow-Headers: Content-Type");
@@ -3067,6 +3067,16 @@ class Admin_controller extends CI_Controller
 		else $this->products();
 	}
 
+	public function verifyProduct($prd_id, $verify_status) {
+		
+		$data = ['verification_status' => $verify_status];
+		$condition = ['product_id' => $prd_id];
+		$updated = $this->Admin_model->updateData('product', $data, $condition);
+
+		if (isset($updated['db_error'])) redirectWithMessage('Error: '.$updated['msg'], 'products');
+		else $this->products();
+	}
+
 	public function addProductVarient()
 	{
 		$this->isLoggedIn();
@@ -3595,6 +3605,7 @@ class Admin_controller extends CI_Controller
 		$request_id = $this->input->post('request_id');
 		$merchant_id = $this->input->post('merchant_id');
 		$data['update_date'] = $this->current_date;
+		$data['updated_by'] = $this->input->cookie('user_id', true);
 		$prd_tags = $this->input->post('selected_tag_ids');
 		$key_features = $this->input->post('key_feature_values');
 		$old_prd_id = $this->input->post('old_prd_id');
@@ -3641,6 +3652,8 @@ class Admin_controller extends CI_Controller
 			} else { //insert new/duplicate product
 
 				$data['create_date'] = $this->current_date;
+				$data['verification_status'] = "APPROVED";
+				$data['created_by'] = $this->input->cookie('user_id', true);
 
 				$prd_id = $this->Admin_model->insertData('product', $data);
 
@@ -5261,6 +5274,7 @@ class Admin_controller extends CI_Controller
 		$prd_data['mrp_price'] = $this->input->post('prd_price');
 		$prd_data['description'] = $this->input->post('prd_desc');
 		$prd_data['in_the_box'] = $this->input->post('in_the_box');
+		$prd_data['updated_by'] = $this->input->cookie('user_id', true);
 		$prd_data['update_date'] = $this->current_date;
 
 		//set null for blank fields
@@ -5278,6 +5292,8 @@ class Admin_controller extends CI_Controller
 		} else { //insert new product
 		
 			$prd_data['create_date'] = $this->current_date;
+			$prd_data['created_by'] = $this->input->cookie('user_id', true);
+			$prd_data['source'] = "SELLER";
 
 			$prd_id = $this->Admin_model->insertData('product', $prd_data);
 
