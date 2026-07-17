@@ -101,7 +101,9 @@ $route['api/v1/city/(:num)'] = $v1_api_controller.'cityAJAX/$1';
 if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOST'], 'seller') !== false) {
 	
 	$route['dashboard'] = $admin_controller.'dashboard';
-	$route['getAllProducts/(:num)'] = $admin_controller.'getProductsForLinking/$1';
+	$route['listings'] = $admin_controller.'listings';
+	$route['listings/add'] = $admin_controller.'getProductsForLinking';
+	// $route['getAllProducts'] = $admin_controller.'getProductsForLinking';
 	$route['getProductDetail/(:num)/(:num)/(:num)/(:any)'] = $admin_controller.'getProductDetail/$1/$2/$3/$4';
 	$route['insertListingInfo'] = $admin_controller.'addListing';
 	$route['page/(:any)'] = $admin_controller.'pageLoad/$1';

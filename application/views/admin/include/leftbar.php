@@ -1,8 +1,11 @@
 <?php
-$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = '';
+$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = $list_new_product = '';
 
-$parse_url = parse_url($_SERVER['REQUEST_URI']);
-$url = explode('/', $_SERVER['REQUEST_URI']);
+// $parse_url = parse_url($_SERVER['REQUEST_URI']);
+// $url = explode('/', $_SERVER['REQUEST_URI']);
+
+$path = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH);
+$url = explode('/', trim($path, '/'));
 
 $dashboard_page = in_array("dashboard", $url) ? "active" : '';
 $sellerServicePolicyScreen = in_array("service_policy", $url) ? "active" : '';
@@ -11,19 +14,22 @@ $category_page = (in_array("category", $url) || in_array("addCategory", $url) ||
 $attributes_page = (in_array("attributes", $url) || in_array("addAttribute", $url) || in_array("editAttribute", $url)) ? "active" : "";
 $address_management = ((isset($_GET['user_id']) || isset($_GET['address_id'])) && $_COOKIE['site_code'] == 'seller') ? "active" : "";
 
-if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array("addSeller", $url) || in_array("seller", $url) || in_array("getAllProducts", $url) || in_array("getProductDetail", $url) || isset($_GET['user_id']) || isset($_GET['address_id']) || in_array("viewRequest", $url))
+if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array("addSeller", $url) || in_array("seller", $url) || in_array("listings", $url) || in_array("getProductDetail", $url) || isset($_GET['user_id']) || isset($_GET['address_id']) || in_array("viewRequest", $url))
 {
     $seller_page = "active";
 
-    if (in_array("sellersList", $url) || in_array("getAllProducts", $url) || in_array("getProductDetail", $url))
+    if (in_array("listings", $url) && in_array("add", $url)) {
+        $list_new_product = 'active';
+    } elseif (in_array("sellersList", $url) || in_array("listings", $url) || in_array("getProductDetail", $url)) {
         $product_seller_linking = 'active';
-    elseif (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url) || isset($_GET['user_id']) || isset($_GET['address_id']))
+    } elseif (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url) || isset($_GET['user_id']) || isset($_GET['address_id'])) {
         $seller_management = 'active';
-}
-elseif (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url))
+    }
+} elseif (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url)) {
     $brand_page = "active";
-elseif (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']) || in_array("insertProduct", $url) )
+} elseif (in_array("products", $url) || in_array("addProduct", $url) || in_array("editProduct", $url) || isset($_GET['cat']) || in_array("insertProduct", $url)) {
     $products_page = "active";
+}
 elseif (in_array("countryManagement", $url) || in_array("stateManagement", $url) || in_array("editCountry", $url) || in_array("addCountry", $url) || (isset($_GET['getStateList']) && $parse_url['path'] != '/stateExcel') || isset($_GET['addNewState']) || in_array('cityManagement', $url) || (isset($_GET['getCityList']) && $parse_url['path'] != '/cityExcel') || isset($_GET['addNewCity']) || in_array("areaManagement", $url) || ((isset($_GET['getAreaList'])) && $parse_url['path'] != '/areaExcel') || isset($_GET['addNewArea'])) 
 {
     $place_management = "active";
@@ -163,9 +169,15 @@ if (isset($_COOKIE['shop_logo']))
                                 </a>
                             </li>
                             <li class="<?= $product_seller_linking ?>">
-                                <a href="<?= base_url('getAllProducts/0') ?>">
-                                    <i class="fa fa-list-alt"></i> 
+                                <a href="<?= base_url('listings') ?>">
+                                    <i class="fa fa-list-alt"></i>
                                     Product Listing
+                                </a>
+                            </li>
+                            <li class="<?= $list_new_product ?>">
+                                <a href="<?= base_url('listings/add') ?>">
+                                    <i class="fa fa-plus"></i>
+                                    List New Product
                                 </a>
                             </li>
                         </ul>

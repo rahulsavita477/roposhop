@@ -285,7 +285,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                             <?php } ?>
                             
                             <div class="box-footer">
-                                <a href='<?= base_url("getAllProducts/$seller_id") ?>' class='btn btn-default'>Cancel</a>
+                                <button type="button" onclick="window.history.back()" class='btn btn-default'>Cancel</button>
                                 <button type="submit" class="btn btn-primary">Complete Linking</button>
                             </div>
                         </div>

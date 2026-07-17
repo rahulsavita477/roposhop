@@ -1955,32 +1955,86 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function getProductsForLinking($sel_id)
+	public function listings()
 	{
 		$this->isLoggedIn();
 
-		$res['sel_id'] = isset($sel_id) ? $sel_id : $_COOKIE['merchant_id'];
-		$brand_id = isset($_GET['brand_id']) ? $_GET['brand_id'] : '';
-		$category_id = isset($_GET['category_id']) ? $_GET['category_id'] : '';
+		if($this->input->cookie('site_code', true) == 'seller') {
+			$res['sel_id'] = $_COOKIE['merchant_id'];
+		} else {
+			$res['sel_id'] = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
+		}
+		
+		$res['product_id'] = isset($_GET['product']) ? $_GET['product'] : '';
 
 		//get all products of merchant
 		$where = array();
-		if ($brand_id) 
-			$where['product.brand_id'] = $brand_id;
+		if ($res['product_id']) {
+			$where['product_listing.product_id'] = $res['product_id'];
+		}
+		if ($res['sel_id']) {
+			$where['product_listing.merchant_id'] = $res['sel_id'];
+		}
 
-		if ($category_id) 
-			$where['product.category_id'] = $category_id;
+		// get all listed products with merchant
+		$res['listingProducts'] = $this->Admin_model->getListings($res['sel_id'], $where);
+		if (isset($res['listingProducts']['db_error'])) {
+			redirectWithMessage('Error: '.$res['listingProducts']['msg'], $controller);
+		}
+		// echo "<pre>"; print_r($res['listingProducts']); die;
 
-		$res['products'] = $this->Admin_model->getProductsForLinking($sel_id, $where);
-		if (isset($res['products']['db_error'])) 
-			redirectWithMessage('Error: '.$res['products']['msg'], $controller);
-		//echo "<pre>"; print_r($res['products']); die;
+		// get all products
+		$products = $this->Admin_model->selectRecords('', 'product', '*');
+		if (isset($products['db_error'])) {
+			redirectWithMessage('Error: '.$products['msg'], $controller);
+		} else if (isset($products['result'])) {
+			$res['products'] = isset($products['result']) ? $products['result'] : []; 
+		}
+		// echo "<pre>"; print_r($res); die;
 
-		//get all requested products by merchant
-		$res['req_products'] = $this->Admin_model->getRequestedProductsAvailableForLinking();
-		if (isset($res['req_products']['db_error'])) 
-			redirectWithMessage('Error: '.$res['req_products']['msg'], $controller);
-		// echo "<pre>"; print_r($res['req_products']); die;
+		//get all sellers
+		$res['merchants'] = $this->sellers;
+
+		//echo "<pre>"; print_r($res); die;
+		$this->load->view('admin/include/header');
+		$this->load->view('admin/include/leftbar');
+		$this->load->view('admin/listings', $res);
+		$this->load->view('admin/include/footer');
+		die;
+	}
+
+	public function getProductsForLinking()
+	{
+		$this->isLoggedIn();
+
+		if($this->input->cookie('site_code', true) == 'seller') {
+			$res['sel_id'] = $_COOKIE['merchant_id'];
+		} else {			
+			$res['sel_id'] = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
+		}
+		
+		$res['brand_id'] = isset($_GET['brand_id']) ? $_GET['brand_id'] : '';
+		$res['category_id'] = isset($_GET['category_id']) ? $_GET['category_id'] : '';
+
+		//get all products of merchant
+		$where = array();
+		if ($res['brand_id']) {
+			$where['product.brand_id'] = $res['brand_id'];
+		}
+
+		if ($res['category_id']) {
+			$where['product.category_id'] = $res['category_id'];
+		}
+
+		// get those products which are not linked with merchant
+		if($res['sel_id']) {
+
+			$res['unassignedProducts'] = $this->Admin_model->getProductsForLinking($res['sel_id'], $where);
+			if (isset($res['products']['db_error'])) {
+				redirectWithMessage('Error: '.$res['products']['msg'], $controller);
+			}
+		}
+
 		//get all categories
 		$res['categories'] = $this->Admin_model->selectRecords('', 'product_category', 'category_id, category_name', array('category_name' => 'ASC'));
 		if (isset($res['categories']['db_error'])) 

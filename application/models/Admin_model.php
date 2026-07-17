@@ -463,24 +463,11 @@ print_r($tables); die;
 
     public function getProductsForLinking($sel_id=null, $where='')
     {
-        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified, product.isEnabled, verification_status');
-        
-        $merchant_where = $sel_id ? 'AND merchant_id = '.$sel_id : '';
-    
-        $this->db->join('product_listing', 'product_listing.product_id = product.product_id '.$merchant_where, 'left');
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, product.create_date, product.update_date, in_the_box, category_name, product.isEnabled, verification_status');
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
-        $this->db->join('attatchments', 'product.product_id = attatchments.link_id AND atch_for = "PRODUCT" AND atch_type = "IMAGE"', 'left');
-        $this->db->join('merchant', 'product_listing.merchant_id = merchant.merchant_id', 'left');
         if($where) $this->db->where($where);
-        $this->db->group_by('product.product_id');
-
-        if($sel_id == null) {
-            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product2 WHERE isLinked = 0)');
-        } 
-        // else {
-            // $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product2 WHERE isLinked = 0 AND merchant_id = '.$sel_id.')');
-        // }
+        $this->db->where('product.product_id NOT IN (SELECT product_id FROM product_listing WHERE merchant_id = '.$sel_id.')');
         
         $query = $this->db->get('product');
         //echo $this->db->last_query(); die;
@@ -493,6 +480,55 @@ print_r($tables); die;
             return $query->result_array();
         else
             return FALSE;
+    }
+
+    public function getListings($sel_id, $where='')
+    {
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, category_name, isVerified, product.isEnabled, verification_status');
+        $this->db->join('product_listing', 'product_listing.product_id = product.product_id', 'left');
+        $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
+        $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
+        $this->db->join('merchant', 'product_listing.merchant_id = merchant.merchant_id', 'left');
+        if($where) $this->db->where($where);
+        
+        $query = $this->db->get('product');
+        //echo $this->db->last_query(); die;
+
+        $isDbError = $this->dbError();
+        if (isset($isDbError['db_error'])) {
+            return $isDbError;
+        }
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getListing($where='')
+    {
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified, product.isEnabled, verification_status');
+        $this->db->join('product', 'product_listing.product_id = product.product_id', 'left');
+        $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
+        $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
+        $this->db->join('attatchments', 'product_listing.product_id = attatchments.link_id AND atch_for = "PRODUCT" AND atch_type = "IMAGE"', 'left');
+        $this->db->join('merchant', 'product_listing.merchant_id = merchant.merchant_id', 'left');
+        if($where) $this->db->where($where);
+                
+        $query = $this->db->get('product_listing');
+        //echo $this->db->last_query(); die;
+
+        $isDbError = $this->dbError();
+        if (isset($isDbError['db_error'])) {
+            return $isDbError;
+        }
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
     }
 
     public function getAvailableProductsForOfferlink($mer_id)
