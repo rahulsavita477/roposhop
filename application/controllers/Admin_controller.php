@@ -115,8 +115,8 @@ class Admin_controller extends CI_Controller
 		$metaData = array();
 		$defaultMetaData = $this->site_settings();
 
-		if ($id)
-		{
+		if ($id) {
+
 			$requestedMetaData = $this->Admin_model->selectRecords($where, $tbl_name, $column.', meta_keyword, meta_description');
 			if($requestedMetaData) {
 				
@@ -128,9 +128,7 @@ class Admin_controller extends CI_Controller
 			//get attatchment
 			$requestedImageMetaData = $this->Admin_model->selectRecords(array('link_id' => $id, 'atch_type' => 'IMAGE', 'atch_for' => $atch_for), 'attatchments', 'atch_url');
 			$metaData['metaImage'] = ($requestedImageMetaData && $requestedImageMetaData['result'][0]['atch_url']) ? $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/'.$folder.$id.'/'.$requestedImageMetaData['result'][0]['atch_url'] : '';
-		}
-		else
-		{
+		} else {
 			$metaData['metaDescription'] = $defaultMetaData[$meta_description];
 			$metaData['metaImage'] = '';
 		}

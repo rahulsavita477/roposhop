@@ -1548,32 +1548,36 @@ class User_controller extends CI_Controller
 
         //get offer listing products
         $data['offer_listing_products'] = $this->am1->getListingOffers(array('ofr_id' => $offer_id));
-        if ($data['offer_listing_products']) 
-        {
+        if ($data['offer_listing_products']) {
+
             $i = 0;
-            foreach ($data['offer_listing_products'] as $product) 
-            {
+            foreach ($data['offer_listing_products'] as $product) {
+
                 $attatchments = array();
 
                 //get product images
                 $product_id = $product['product_id'];
                 $product_imgs = $this->attatchments($product_id, "PRODUCT");
 
-                if ($product_imgs['result']) 
-                {
-                    foreach ($product_imgs['result'] as $atch_value) 
+                if ($product_imgs['result']) {
+
+                    foreach ($product_imgs['result'] as $atch_value) {
                         array_push($attatchments, base_url(PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']));
+                    }
                     
-                    if ($attatchments)
+                    if ($attatchments) {
                         $data['offer_listing_products'][$i]['products_images'] = $attatchments;
-                }
-                else
+                    }
+                } else {
                     $data['offer_listing_products'][$i]['products_images'] = false;
+                }
 
                 $i++;
             }
         }
 
+        // echo "<pre>"; print_r($data); die;
+        
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
 
@@ -1586,10 +1590,10 @@ class User_controller extends CI_Controller
         $data['meta_data']['description'] = '';
 
         //load view
-        $this->load->view('user/include/header', $data);
-        $this->load->view('user/include/sidebar', $data);
+        $this->load->view('user/design/include/header', $data);
         $this->load->view('user/offer');
-        $this->load->view('user/include/footer');
+        $this->load->view('ajaxFunctions');
+        $this->load->view('user/design/include/footer');
     }
 
     public function search()
