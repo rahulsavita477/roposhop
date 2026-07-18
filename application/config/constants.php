@@ -115,10 +115,10 @@ define('CODE_ERROR_PHP_NOTICE', 1011);
 //define('CODE_ERROR_DB', 1013);
 
 //EMAIL CONFIGURATION DETAIL
-define('EMAIL_ID', 'RopoShop@RopoShop.com');
-define('EMAIL_NAME', 'RopoShop');
+define('EMAIL_ID', 'ROPOshop@ROPOshop.com');
+define('EMAIL_NAME', 'ROPOshop');
 define('EMAIL_PROTOCOL', 'smtp');
-define('EMAIL_HOST', 'ssl://mail.RopoShop.com');
+define('EMAIL_HOST', 'ssl://mail.ROPOshop.com');
 define('EMAIL_PORT', 465);
 
 //DISTANCE UNIT
@@ -136,9 +136,9 @@ define('MAIL_CODE_STEP_1_REGISTRATION', 106);
 define('MAIL_CODE_STEP_2_REGISTRATION', 107);
 define('MAIL_CODE_CLAIM_BUSINESS_APPROVED', 108);
 define('MAIL_CODE_CLAIM_BUSINESS_REJECTED', 105);
-define('ROPO_SHOP_BRAND_NAME', "RopoShop");
-define('SUPPORT_EMAIL', "RopoShop");
-define('SUPPORT_MAIL', "RopoShop@RopoShop.com");
+define('ROPO_SHOP_BRAND_NAME', "ROPOshop");
+define('SUPPORT_EMAIL', "ROPOshop");
+define('SUPPORT_MAIL', "ROPOshop@ROPOshop.com");
 define('SUPPORT_NUMBER', "+91-7389102962");
 // define('EMAIL_SIGNATURE', "<br /><br />Thanks and Regards,<br />".ROPO_SHOP_BRAND_NAME." Support Team");
 

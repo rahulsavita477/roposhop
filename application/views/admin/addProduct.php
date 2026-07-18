@@ -777,17 +777,17 @@ if (isset($page_label) && $page_label == "edit") {
 												<div class="row nextFormLine">
 													<div class="col-sm-4">
 														<label for="">Meta Title</label>
-														<input type="text" class="form-control" placeholder="Enter meta title" name="meta_title" value="<?= $meta_title; ?>" id="" />
+														<input type="text" class="form-control" placeholder="Meta Title" name="meta_title" value="<?= $meta_title; ?>" id="" />
 													</div>
 
 													<div class="col-sm-4">
 														<label for="">Meta Keywords</label>
-														<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
+														<textarea rows="1" class="form-control" placeholder="Meta Keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
 													</div>
 
 													<div class="col-sm-4">
 														<label for="">Meta Description</label>
-														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description" id=""><?= $meta_description ?></textarea>
+														<textarea rows="1" class="form-control" placeholder="Meta Description" name="meta_description" id=""><?= $meta_description ?></textarea>
 													</div>
 												</div>
 
@@ -809,7 +809,7 @@ if (isset($page_label) && $page_label == "edit") {
 												</div>
 
 												<div class="row nextFormLine">
-													<div class="col-sm-6">
+													<div class="col-sm-12">
 														<div class="table-responsive editTable">
 															<table class="table table-bordered dataTable">
 																<thead>
@@ -854,7 +854,10 @@ if (isset($page_label) && $page_label == "edit") {
 															</table>
 														</div>
 													</div>
-													<div class="col-sm-6">
+												</div>
+
+												<div class="row nextFormLine">
+													<div class="col-sm-12">
 														<div class="table-responsive editTable">
 															<table class="table table-bordered dataTable">
 																<thead>
@@ -1189,43 +1192,7 @@ if (isset($page_label) && $page_label == "edit") {
 											</div>
 											
 											<div class="row nextFormLine">
-												<div class="col-sm-6">
-													<div class="table-responsive editTable">
-														<table class="table table-bordered dataTable">
-															<thead>
-																<tr>
-																	<th colspan="3" class="text-align-center">
-																		HTML Files
-																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
-																	</th>
-																</tr>
-																<tr>
-																	<th></th>
-																	<th id="">Prefix Path</th>
-																	<th id="">File Path</th>
-																</tr>
-															</thead>
-															<tbody id="HTMLFiles_tableBody" class="in">
-																<?php 
-																for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
-																	$link_id = isset($html_files['result'][$j]['html_file_id']) ? $html_files['result'][$j]['html_file_id'] : '';
-																	$link    = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
-
-																	echo "<tr>
-																			<td>HTML Link".$i."</td>
-																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
-																			<td>
-																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-																			</td>
-																		</tr>";
-																} ?>
-															</tbody>
-														</table>
-													</div><!-- /.box-body -->
-												</div>
-
-												<div class="col-sm-6">
+												<div class="col-sm-12">
 													<div class="table-responsive editTable">
 														<table class="table table-bordered dataTable">
 															<thead>
@@ -1275,6 +1242,44 @@ if (isset($page_label) && $page_label == "edit") {
 															</tbody>
 														</table>
 													</div>
+												</div>
+											</div>
+
+											<div class="row nextFormLine">
+												<div class="col-sm-12">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="3" class="text-align-center">
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+																<tr>
+																	<th></th>
+																	<th id="">Prefix Path</th>
+																	<th id="">File Path</th>
+																</tr>
+															</thead>
+															<tbody id="HTMLFiles_tableBody" class="in">
+																<?php 
+																for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+																	$link_id = isset($html_files['result'][$j]['html_file_id']) ? $html_files['result'][$j]['html_file_id'] : '';
+																	$link    = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
+
+																	echo "<tr>
+																			<td>HTML Link".$i."</td>
+																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td>
+																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																			</td>
+																		</tr>";
+																} ?>
+															</tbody>
+														</table>
+													</div><!-- /.box-body -->
 												</div>
 											</div>
 										</div>

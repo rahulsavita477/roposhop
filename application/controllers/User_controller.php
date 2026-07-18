@@ -866,10 +866,10 @@ class User_controller extends CI_Controller
             $data['tree_list'] = $this->tree_list; //get categories in tree format
 
             //meta data
-            $data['meta_data']['title'] = 'user login | RopoShop';
-            $data['meta_data']['keywords'] = 'RopoShop';
-            $data['meta_data']['description'] = 'RopoShop';
-            $data['meta_data']['image'] = 'RopoShop';
+            $data['meta_data']['title'] = 'user login | ROPOshop';
+            $data['meta_data']['keywords'] = 'ROPOshop';
+            $data['meta_data']['description'] = 'ROPOshop';
+            $data['meta_data']['image'] = 'ROPOshop';
 
             //load user register view
             $this->load->view('user/design/include/header', $data);

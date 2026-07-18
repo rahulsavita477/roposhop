@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>RopoShop | Reset Password</title>
+    <title>ROPOshop | Reset Password</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?= $this->config->item('site_url').'assets/favicon.ico' ?>" />
 
@@ -37,7 +37,7 @@
             <div class="header-left">
                 <a href="<?= base_url() ?>" class="logo">
                     <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>"
-                        alt="RopoShop" width="180">
+                        alt="ROPOshop" width="180">
                 </a>
             </div><!-- End .header-left -->
         </div><!-- End .container -->

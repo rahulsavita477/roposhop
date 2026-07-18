@@ -177,7 +177,7 @@ textarea.form-control {
 }
 
 .well {
-    padding: 0px 5px;
+    padding: 1px 10px;
     margin-bottom: 0px;
     border: none;
     -webkit-box-shadow: none !important;

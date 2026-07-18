@@ -8,7 +8,7 @@ else
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>RopoShop | Dashboard</title>
+        <title>ROPOshop | Dashboard</title>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').('assets/favicon.ico') ?>">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
@@ -72,7 +72,7 @@ else
 
         <!-- header logo: style can be found in header.less -->
         <header class="header">
-            <a href="<?= base_url('dashboard') ?>" class="logo">RopoShop</a>
+            <a href="<?= base_url('dashboard') ?>" class="logo">ROPOshop</a>
             
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">

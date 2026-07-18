@@ -77,7 +77,7 @@ else
         <div class="container">
             <div class="header-left">
                 <a href="<?= $site_url ?>" class="logo">
-                    <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>" alt="RopoShop" width="180">
+                    <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>" alt="ROPOshop" width="180">
                 </a>
 
             </div><!-- End .header-left -->

@@ -1,8 +1,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>RopoShop - Research Online Purchase Offline</title>
-        <meta name="description" content="RopoShop." />
+        <title>ROPOshop - Research Online Purchase Offline</title>
+        <meta name="description" content="ROPOshop." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--Bootstrap 4-->
         <link rel="stylesheet" href="<?= $this->config->item('site_url').'assets/admin/css/bootstrap1.min.css' ?>" />
@@ -14,7 +14,7 @@
     <body>
         <!--header-->
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary sticky-navigation">
-            <a class="navbar-brand" href="<?= base_url() ?>"><strong>RopoShop</strong></a>
+            <a class="navbar-brand" href="<?= base_url() ?>"><strong>ROPOshop</strong></a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -45,11 +45,11 @@
                 <div class="row">
                     <div class="col-md-6 text-white wow fadeIn">
                         <div class="mt-5 pt-5 d-none d-md-block"></div>
-                        <h1>RopoShop</h1>
+                        <h1>ROPOshop</h1>
                         <h2>A Platform to <span class="text-orange">Research Online and Purchase Offline</span> </h2>
                         <p class="mt-4 lead">
                             Presently in India, consumer's ability to discover prse off-lineoducts on-line but purcha is limited.
-RopoShop is a suit of software (Consumer application + Sellers Web Portal) for consumers and sellers that
+ROPOshop is a suit of software (Consumer application + Sellers Web Portal) for consumers and sellers that
 provides a platform to share information about products with the ultimate goal to enhance
 deal making.
                       </p>
@@ -70,9 +70,9 @@ deal making.
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 col-sm-8 mx-auto text-center wow fadeIn">
-                        <h2 class="text-primary">Why RopoShop?</h2>
+                        <h2 class="text-primary">Why ROPOshop?</h2>
                         <p class="lead">
-                            RopoShop offers a user same convenience of shopping at home as Online Shopping, once user have decided on what
+                            ROPOshop offers a user same convenience of shopping at home as Online Shopping, once user have decided on what
 he/she want to buy and from which seller then only he/she need to visit the shop and make purchase.
                         </p>
                     </div>
@@ -89,7 +89,7 @@ he/she want to buy and from which seller then only he/she need to visit the shop
 sense . There is risk involve whether it will
 reach on time? Product size and
 colour may differ. Even the product may be damaged.</p>
-<p class="card-text">With RopoShop You buy product from shop after physical checks so there is no Risk.</p>
+<p class="card-text">With ROPOshop You buy product from shop after physical checks so there is no Risk.</p>
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@ colour may differ. Even the product may be damaged.</p>
                                 <h5 class="card-title text-primary pt-5">Delivery time</h5>
                                 <p class="card-text">Online shopping takes a minimum of six to seven days to
 deliver the product while In Offline shopping You get the product immediately.                              </p>
-                                <p class="card-text">With RopoShop you also get the possession of product immediately.</p>
+                                <p class="card-text">With ROPOshop you also get the possession of product immediately.</p>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@ deliver the product while In Offline shopping You get the product immediately.  
                                 </div>
                                 <h5 class="card-title text-primary pt-5">Variety</h5>
                                 <p class="card-text">Variety that a customer gets online is hard to match with offline shopping. In online shopping You can virtually find any product no matter how hard to find it is in the offline store.</p>
-<p class="card-text">RopoShop also offer same kind of Variety of prodcts as Online.</p>
+<p class="card-text">ROPOshop also offer same kind of Variety of prodcts as Online.</p>
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@ deliver the product while In Offline shopping You get the product immediately.  
                                 <p class="card-text">When buying offline You gets products as soon as You pay for it but in online shopping You
 have to wait to get the product. When You want to get the product instantly than offline shopping
 become necessary.</p>
-<p class="card-text">RopoShop alows You to get products as soon as You purchase it.</p>
+<p class="card-text">ROPOshop alows You to get products as soon as You purchase it.</p>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@ purchase it from offline market
                     <div class="col-md-6 col-sm-8 mx-auto text-center">
                         <h2 class="text-primary">Pricing</h2>
                         <p class="lead">
-                            RopoShop services are absolutly free.
+                            ROPOshop services are absolutly free.
                         </p>
                     </div>
                 </div>
@@ -193,7 +193,7 @@ purchase it from offline market
                     <div class="col-md-6 offset-md-3 col-sm-10 offset-sm-1 col-xs-12">
                         <h2 class="text-primary">Awailable to download soon</h2>
                         <p class="mt-4 lead">
-                            RopoShop app for Android phones is under alpha testing and will be availabel soon for you. Stay tune for updates. 
+                            ROPOshop app for Android phones is under alpha testing and will be availabel soon for you. Stay tune for updates. 
                         </p>
                         <p class="mt-5">
                             <a href="#" class="mr-2"><img src="<?= $this->config->item('site_url').'assets/admin/img/google-play.png' ?>" class="store-img"/></a>
@@ -213,7 +213,7 @@ purchase it from offline market
                     </div>
                     <div class="col-md-4 p-5">
                         <p><em class="material-icons dp36">email</em></p>
-                        <p class="lead">support@RopoShop.com</p>
+                        <p class="lead">support@ROPOshop.com</p>
                     </div>
                     <div class="col-md-4 p-5">
                         <p><em class="material-icons dp36">location_on</em></p>
@@ -228,14 +228,14 @@ purchase it from offline market
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center wow fadeIn">
-                        <h2 class="hero-heading text-muted">RopoShop</h2>
+                        <h2 class="hero-heading text-muted">ROPOshop</h2>
                         <p class="mt-4">
                             <a href="https://twitter.com/" target="_blank"><em class="ion-social-twitter text-twitter-alt icon-sm mr-3"></em></a>
                             <a href="https://facebook.com/" target="_blank"><em class="ion-social-github text-facebook-alt icon-sm mr-3"></em></a>
                             <a href="https://www.linkedin.com/" target="_blank"><em class="ion-social-linkedin text-linkedin-alt icon-sm mr-3"></em></a>
                         </p>
                         <p class="pt-2 text-muted">
-                            &copy; 2018 RopoShop
+                            &copy; 2018 ROPOshop
                         </p>
                     </div>
                 </div>

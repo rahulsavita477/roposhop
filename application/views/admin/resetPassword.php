@@ -2,7 +2,7 @@
 <html lang="en" class="bg-black">
     <head>
         <meta charset="UTF-8">
-        <title>RopoShop | Reset Password</title>
+        <title>ROPOshop | Reset Password</title>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').'assets/4d_logo.ico' ?>">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         

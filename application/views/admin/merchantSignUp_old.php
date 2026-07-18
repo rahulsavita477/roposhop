@@ -1,7 +1,7 @@
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
-        <title>RopoShop | Mechant signup</title>
+        <title>ROPOshop | Mechant signup</title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').'assets/4d_logo.ico' ?>">
         <!-- bootstrap 3.0.2 -->

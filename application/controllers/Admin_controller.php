@@ -932,6 +932,9 @@ class Admin_controller extends CI_Controller
 		$data['current_status'] = $this->input->post('offer_status');
 		$data['merchant_id'] = $merchant_id;
 		$data['updated_by'] = $this->input->cookie('user_id', true);
+		$data['meta_title'] = $this->input->post('meta_title');
+		$data['meta_keyword'] = $this->input->post('meta_keyword');
+		$data['meta_description'] = $this->input->post('meta_description');
 		$data['update_date'] = $this->current_date;
 		
 		//set null for blank fields

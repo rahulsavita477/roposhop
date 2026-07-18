@@ -14,9 +14,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="col-sm-12" style="margin-top: 10px;">
+                    <div class="col-sm-12" style="margin-top: 10px; padding-right: 10px;">
                         <a href="<?= base_url('page/addOffer') ?>" class="btn btn-primary pull-right">
-                            <i class="fa fa-plus"></i> Add New Offer</a> 
+                            <i class="fa fa-plus"></i> Add New Offer</a>
                     </div>
 
                     <div class="box-body table-responsive">
