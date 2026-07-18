@@ -1,4 +1,4 @@
-<?php 
+<?php
 $merchant_id = isset($merchant_id) ? $userId : $_GET['merchant_id'];
 $user_id = isset($userId) ? $userId : $_GET['user_id'];
 $address_id = isset($address_id) ? $address_id : '';
@@ -17,12 +17,11 @@ $business_days = isset($business_days) ? $business_days : set_value('business_da
 $business_hours = isset($business_hours) ? $business_hours : set_value('business_hours');
 $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : $_COOKIE['merchant_id'];
 
-if (isset($page_label) && $page_label == "edit") 
+if (isset($page_label) && $page_label == "edit") {
     $page_title = 'Edit address';
-else if (isset($page_label) && $page_label == "view") 
+} elseif (isset($page_label) && $page_label == "view") {
     $page_title = 'View address';
-else
-{
+} else {
     $page_label = "add";
     $page_title = 'Add Address';
 }
@@ -64,24 +63,24 @@ else
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label>Address Line 1 *</label>
-                                    <textarea rows="1" name="line1" class="form-control" placeholder="Line1 Address" required><?= $line1 ?></textarea>
+                                    <label for="">Address Line 1 *</label>
+                                    <textarea rows="1" name="line1" class="form-control" placeholder="Line1 Address" id="" required><?= $line1 ?></textarea>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <label>Line2 address</label>
-                                    <textarea rows="1" name="line2" class="form-control" placeholder="Line2 Address"><?= $line2 ?></textarea>
+                                    <label for="">Line2 address</label>
+                                    <textarea rows="1" name="line2" class="form-control" placeholder="Line2 Address" id=""><?= $line2 ?></textarea>
                                 </div>
 
                                 <div class="col-sm-4">
-                                    <label>Landmark</label>
-                                    <textarea rows="1" name="landmark" class="form-control" placeholder="Landmark"><?= $landmark ?></textarea>
+                                    <label for="">Landmark</label>
+                                    <textarea rows="1" name="landmark" class="form-control" placeholder="Landmark" id=""><?= $landmark ?></textarea>
                                 </div>
                             </div>
                             
 		                    <div class="row nextFormLine">
                                 <div class="col-sm-3">
-                                    <label>Country *</label>
+                                    <label for="cnt_id">Country *</label>
                                     <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
                                         <?php if ($countries) {
 
@@ -104,7 +103,7 @@ else
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <label>State *</label>
+                                    <label for="states">State *</label>
                                     <div class="other" style="display: flex; align-items: center; gap: 8px;">
 										<select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
 
@@ -113,7 +112,7 @@ else
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <label>City *</label>
+                                    <label for="state_cities">City *</label>
                                     <div class="other" style="display: flex; align-items: center; gap: 8px;">
 										<select class="form-control" name="city_id" id="state_cities" required></select>
 
@@ -122,37 +121,37 @@ else
                                 </div>
 
                                 <div class="col-sm-3" style="padding-left: 0px;">
-                                    <label>Postal Code *</label>
-                                    <input type="number" name="pin" value="<?= $pin ?>" class="form-control" placeholder="Postal Code" required/>
+                                    <label for="">Postal Code *</label>
+                                    <input type="number" name="pin" value="<?= $pin ?>" class="form-control" placeholder="Postal Code" id="" required />
                                 </div>
 		                    </div>
 
                             <div class="row nextFormLine">
                                 <div class="col-sm-4">
-                                    <label>Shop Contact Number</label>
-                                    <input type="text" name="contact" class="form-control" placeholder="Shop Contact Number" value="<?= $contact ?>" />
+                                    <label for="">Shop Contact Number</label>
+                                    <input type="text" name="contact" class="form-control" placeholder="Shop Contact Number" value="<?= $contact ?>" id="" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Address Business Days</label>
-                                    <input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" />
+                                    <label for="">Address Business Days</label>
+                                    <input type="text" name="business_days" class="form-control" placeholder="Enter Company Business Days" value="<?= $business_days ?>" id="" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Address Business Hours</label>
-                                    <input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" />
+                                    <label for="">Address Business Hours</label>
+                                    <input type="text" name="business_hours" class="form-control" placeholder="Enter Company Business Hours" value="<?= $business_hours ?>" id="" />
                                 </div>
                             </div>
 
                             <div class="row nextFormLine">
                                 <div class="col-sm-2">
-                                    <label>Latitude</label>
+                                    <label for="lat">Latitude</label>
                                     <input type="number" step="any" name="lat" class="form-control" placeholder="Enter Latitude" onkeyup="initialize();" value="<?= $lat ?>" id="lat" required />
                                 </div>
                                 <div class="col-sm-2">
-                                    <label>Longitude</label>
+                                    <label for="long">Longitude</label>
                                     <input type="number" step="any" name="long" id="long" class="form-control" placeholder="Enter Longitude" onkeyup="initialize();" value="<?= $long ?>" required />
                                 </div>
                                 <div class="col-sm-8">
-                                    <label class="label_hide" style="width: 100%;">make space equal to label</label>
+                                    <label class="label_hide" style="width: 100%;" for="">make space equal to label</label>
                                     <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get Coordinates from Address</button>
                                     <span class="text-muted small">
                                         Or click anywhere on the map to select your location and fetch its coordinates.
@@ -167,13 +166,12 @@ else
                                 </div>
                             </div>
 
-                            <div class="box-footer" align="right">
-                                <?php 
-                                if ($_COOKIE['site_code'] == 'seller') 
+                            <div class="box-footer" style="margin-right: 10px; text-align: right;">
+                                <?php if ($_COOKIE['site_code'] == 'seller') {
                                     echo "<a href='".base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id']."' class='btn btn-default'>Cancel</a>";
-                                else
+                                } else {
                                     echo "<a href='../page/addressManagement?user_id=$user_id&merchant_id=$merchant_id' class='btn btn-default'>Cancel</a>";
-                                ?>
+                                } ?>
 					        	
 					            <button type="submit" class="btn btn-primary">Submit</button>
 					        </div>
@@ -188,7 +186,7 @@ else
 <?php require_once('include/imageModel.php'); ?>
 
 <script>
-function getLatLongFromAddress() 
+function getLatLongFromAddress()
 {
     geocoder = new google.maps.Geocoder();
     line1 = ($('[name="line1"]').val()) ? $('[name="line1"]').val()+', ' : '';
@@ -213,12 +211,12 @@ function getLatLongFromAddress()
 
             //call map for map initialization
             initialize();
-        } 
-    }); 
+        }
+    });
 }
 
 //initialize google map
-function initialize() 
+function initialize()
 {
     var lat = ($('[name="lat"]').val()) ? $('[name="lat"]').val() : 22.7196;
     var long = ($('[name="long"]').val()) ? $('[name="long"]').val() : 75.8577;
@@ -247,7 +245,7 @@ function initialize()
 var gmarkers = [];
 
 //set marker on click map
-function setMarkerOnClickMap(latLng, map) 
+function setMarkerOnClickMap(latLng, map)
 {
     //remove old markers from map
     for(i=0; i<gmarkers.length; i++)
@@ -274,22 +272,22 @@ function setMarkerOnClickMap(latLng, map)
 }
 
 //show address div on click marker
-function showFormattedAddress(lat, long) 
+function showFormattedAddress(lat, long)
 {
     infowindow = new google.maps.InfoWindow();
     latlng = new google.maps.LatLng(lat, long);
     geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) 
+        if (status == google.maps.GeocoderStatus.OK)
             infowindow.setContent(results[0].formatted_address);
     });
 }
 
-function validateForm() 
+function validateForm()
 {
     //for address lat
     var isValid = floatValidation($("input[name='lat']").val());
-    if (!isValid) 
+    if (!isValid)
     {
         alert("wrong latitude!");
         return false;
@@ -297,7 +295,7 @@ function validateForm()
     
     //for address long
     var isValid = floatValidation($("input[name='long']").val());
-    if (!isValid) 
+    if (!isValid)
     {
         alert("wrong longitude!");
         return false;
@@ -306,7 +304,7 @@ function validateForm()
 
 $(document).ready(function() {
     cnt_id = $('#cnt_id').val();
-    if (parseInt(cnt_id)) 
+    if (parseInt(cnt_id))
         getState(cnt_id);
 });
 </script>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 //user data
 $usr_id = isset($user['userId']) ? $user['userId'] : '';
 $email = isset($user['email']) ? $user['email'] : set_value('email');
@@ -14,10 +14,11 @@ $testUserChecked = "";
 $executiveUserChecked = "";
 
 //user profile picture
-if ( isset($user['profile_image']) )
+if (isset($user['profile_image'])) {
     $profile_pic = $user['profile_image'];
-else
+} else {
     $profile_pic = $this->config->item('site_url').'assets/admin/img/avatar3.png';
+}
 
 //merchant data
 $merchant_id = isset($merchant['merchant_id']) ? $merchant['merchant_id'] : '';
@@ -42,60 +43,60 @@ $seller_images = isset($merchant['images']) ? $merchant['images'] : '';
 $page_label = isset($merchant['page_label']) ? $merchant['page_label'] : 'Add Seller and shop detail';
 
 //seller/merchant logo
-if ( isset($merchant['merchant_logo']) )
+if (isset($merchant['merchant_logo'])) {
     $merchant_logo = $merchant['merchant_logo'];
-else
+} else {
     $merchant_logo = $this->config->item('site_url').'assets/admin/img/avatar3.png';
+}
 
 //get user roles
 $showAddressManagementButton = false;
 $count = 0;
 $user_roles = '';
-if ($roles) 
-{
-	foreach ($roles as $role) 
-	{
-		if ($role['type_name'] == "ADMIN")
+if ($roles) {
+
+	foreach ($roles as $role) {
+
+		if ($role['type_name'] == "ADMIN") {
 			$adminChecked = 'checked="checked"';
+		}
 
-		if ($role['type_name'] == "BUYER")
+		if ($role['type_name'] == "BUYER") {
 			$buyerChecked = 'checked="checked"';
+		}
 
-		if ($role['type_name'] == "SELLER")
-		{
+		if ($role['type_name'] == "SELLER") {
 			$sellerChecked = 'checked="checked"';
 			$showAddressManagementButton = true;
 		}
 
-		if ($role['type_name'] == "TEST USER")
+		if ($role['type_name'] == "TEST USER") {
 			$testUserChecked = 'checked="checked"';
+		}
 
-		if ($role['type_name'] == "EXECUTIVE")
+		if ($role['type_name'] == "EXECUTIVE") {
 			$executiveUserChecked = 'checked="checked"';
+		}
 	
-		if ($count > 0 && sizeof($roles) > $count)
+		if ($count > 0 && sizeof($roles) > $count) {
 			$user_roles .= ',&nbsp;&nbsp;';
+		}
 
 		$user_roles .= $role['type_name'];
 
 		$count++;
 	}
-}
-else
+} else {
 	$user_roles = "Not defined";
+}
 
-if (isset($_GET['edit'])) 
-{
+if (isset($_GET['edit'])) {
 	$page_label = 'edit';
 	$page_title = 'Edit user';
-}
-else if (isset($_GET['view'])) 
-{
+} elseif (isset($_GET['view'])) {
 	$page_label = 'view';
 	$page_title = 'View user';
-}
-else
-{
+} else {
 	$page_label = "add";
 	$page_title = 'Add user';
 }
@@ -113,10 +114,9 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <?php
-            if($_COOKIE['site_code'] == 'admin')
+            <?php if($_COOKIE['site_code'] == 'admin') {
             	echo "<li><a href='".base_url('page/userManagement')."'>User Management</a></li>";
-            ?>
+			} ?>
             <li class="active"><?= $page_title ?></li>
         </ol>
     </section>
@@ -131,31 +131,32 @@ $detail_label = ($_COOKIE['site_code'] == 'ADMIN') ? 'User Detail' : 'Owner Deta
 					<?php if (isset($_GET['view'])) { ?>
 						<div class="box-header">
 					        <h3 class="box-title"><?= $detail_label ?></h3>
-					        <div class="box-footer" align="right">
-					        	<?php if ($_COOKIE['site_code'] == 'admin')
+					        <div class="box-footer" style="margin-right: 10px; text-align: right;">
+					        	<?php if ($_COOKIE['site_code'] == 'admin') {
 					            	echo "<a href='".base_url("page/userManagement")."' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;";
+								}
 					            
 					            echo "<a href='".base_url("editUser/$usr_id?edit")."' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;";
 
-			            		if ($usr_id != $_COOKIE['user_id'])
+			            		if ($usr_id != $_COOKIE['user_id']) {
 					            	echo "<a href='".base_url("deleteUser/$usr_id")."' title='Delete'><i class='fa fa-trash-o'></i></a>";
+								}
 					            ?>
 					        </div>
 						</div>
 
 						<div class="box-body">
-							<?php if ($profile_pic)
+							<?php if ($profile_pic) {
 								echo '<img src="'.$profile_pic.'" width="100px" />';
-							?>
+							} ?>
 
 				        	<div class="row form-group">
 				            	<div class="col-sm-2">
-				            		<?php
-				            		if ($_COOKIE['site_code'] == 'seller')
+				            		<?php if ($_COOKIE['site_code'] == 'seller') {
 				            			echo "<label>Owner's Full Name: </label>";
-				            		else
+									} else {
 				            			echo "<label>Full Name: </label>";
-				            		?>
+									} ?>
 				                </div>
 				                <div class="col-sm-10">
 					                <?= $fname ?>

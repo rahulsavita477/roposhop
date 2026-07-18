@@ -526,7 +526,7 @@ $page_title = 'Add requested product';
 												
 				                                echo "<tr>
 			                        					<td>HTML LINK".$i."</td>
-			                        					<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
+			                        					<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
 			                                            <td>
 			                                            	<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 			                                            	<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

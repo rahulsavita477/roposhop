@@ -75,46 +75,56 @@ else
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>S.NO.</th>
-                                    <th>Offer ID</th>
-                                    <th>Offer Title</th>
+                                    <!-- <th>S.NO.</th>
+                                    <th>Offer ID</th> -->
+                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th>Title</th>
                                     <th>Seller Name</th>
-                                    <th>Offer Status</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th>Action</th>
+                                    <th>Source&nbsp;&nbsp;&nbsp;</th>
+                                    <th>Created By</th>
+                                    <th>Created Date</th>
+                                    <th>Updated By&nbsp;&nbsp;&nbsp;</th>
+                                    <th>Updated Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                if (isset($merchant_offers) && $merchant_offers) 
-                                {
-                                    $count = 1;
+                                <?php if (isset($merchant_offers) && $merchant_offers) {
 
-                                    foreach ($merchant_offers as $offer_value)
-                                    {
+                                    // $count = 1;
+                                    // <td>".$count."</td>
+                                    // <td>".$offer_id."</td>
+
+                                    foreach ($merchant_offers as $offer_value) {
+
                                         $offer_id = $offer_value['offer_id'];
 
-                                        if ($offer_value['current_status']) 
+                                        if ($offer_value['current_status']) {
                                             $current_status = "<span class='label label-success'>Active</span>";
-                                        else
-                                            $current_status = "<span class='label label-danger'>Not active</span>"; 
+                                        } else {
+                                            $current_status = "<span class='label label-danger'>Not active</span>";
+                                        }
 
                                         echo "<tr>
-                                                <td>".$count."</td>
-                                                <td>".$offer_id."</td>
-                                                <td><a href='".base_url("editOffer/$offer_id/view")."'>".$offer_value['offer_title']."</a></td>
-                                                <td>".$offer_value['establishment_name']."</td>
-                                                <td>".$current_status."</td>
-                                                <td>".$offer_value['start_date']."</td>
-                                                <td>".$offer_value['end_date']."</td>
-                                                <td>
-                                                    <a href='".base_url("editOffer/$offer_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                    <a href='".base_url("deleteOffer/$offer_id")."' class='btn btn-danger'>Delete</a>
-                                                </td>
-                                            </tr>";
+                                            <td>
+                                                <a href='".base_url("editOffer/$offer_id/edit")."' class='btn btn-primary'>Edit</a>
+                                                <a href='".base_url("deleteOffer/$offer_id")."' class='btn btn-danger'>Delete</a>
+                                            </td>
+                                            <td class='statusLabel'>".$current_status."</td>
+                                            <td><a href='".base_url("editOffer/$offer_id/view")."'>".$offer_value['offer_title']."</a></td>
+                                            <td>".$offer_value['establishment_name']."</td>
+                                            <td>".convert_to_user_date($offer_value['start_date'])."</td>
+                                            <td>".convert_to_user_date($offer_value['end_date'])."</td>
+                                            <td>".$offer_value['source']."</td>
+                                            <td>".$offer_value['created_by']."</td>
+                                            <td>".convert_to_user_date($offer_value['create_date'])."</td>
+                                            <td>".$offer_value['updated_by']."</td>
+                                            <td>".convert_to_user_date($offer_value['update_date'])."</td>
+                                        </tr>";
 
-                                        $count++;
+                                        // $count++;
                                     }
                                 } ?>
                             </tbody>

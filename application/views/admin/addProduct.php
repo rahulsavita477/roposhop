@@ -133,7 +133,7 @@ if (isset($page_label) && $page_label == "edit") {
 
 <!---------------------########### START PRODUCT VIEW FORM ###################------------------>
 					        <?php if ($page_label == "view") { ?>
-						        <div class="box-footer" align="right">									
+						        <div class="box-footer" style="margin-right: 10px; text-align: right;">
 						            <a href='<?= base_url("products") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
 						            <a href='<?= base_url("editProduct/$product_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
 						            <a href='<?= base_url("deleteProduct/$product_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
@@ -419,7 +419,7 @@ if (isset($page_label) && $page_label == "edit") {
 
 		                        	<div class="row form-group" style="clear: both;">
 		                        		<div class="col-sm-2">
-		                        			<label>Meta Description:</label>	
+		                        			<label>Meta Description:</label>
 		                        		</div>
 		                        		<div class="col-sm-10">
 		                        			<?= $meta_description ?>
@@ -492,7 +492,7 @@ if (isset($page_label) && $page_label == "edit") {
 	                        </div>
 
 						    <!-- form start -->
-						    <?php 
+						    <?php
 							if ($page_label == 'edit') {
 								$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
 							} else {
@@ -786,25 +786,25 @@ if (isset($page_label) && $page_label == "edit") {
 													</div>
 
 													<div class="col-sm-4">
-														<label for="">Meta Description:</label>
+														<label for="">Meta Description</label>
 														<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description" id=""><?= $meta_description ?></textarea>
 													</div>
 												</div>
 
 												<div class="row nextFormLine">
 													<div class="col-sm-4">
-														<label>Notes</label>
-														<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+														<label for="">Notes</label>
+														<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes" id=""><?= $notes ?></textarea>
 													</div>
 
 													<div class="col-sm-4">
-														<label>Amazon Product ID</label>
-														<input type="text" class="form-control" placeholder="Enter amazon product id..." name="amazon_prd_id" value="<?= $amazon_prd_id ?>" />
+														<label for="">Amazon Product ID</label>
+														<input type="text" class="form-control" placeholder="Enter amazon product id" name="amazon_prd_id" value="<?= $amazon_prd_id ?>" id="" />
 													</div>
 
 													<div class="col-sm-4">
-														<label>Flipkart Product ID</label>
-														<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" />
+														<label for="">Flipkart Product ID</label>
+														<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" value="<?= $flipkart_prd_id ?>" id="" />
 													</div>
 												</div>
 
@@ -873,6 +873,7 @@ if (isset($page_label) && $page_label == "edit") {
 																</thead>
 																<tbody id="HTMLFiles_tableBody" class="in">
 																	<?php for ($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+																		
 																		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
 																		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 
@@ -886,7 +887,7 @@ if (isset($page_label) && $page_label == "edit") {
 																		
 																		echo "<tr>
 																				<td>HTML Link".$i."</td>
-																				<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																				<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
 																				<td>
 																					<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																					<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
@@ -1160,30 +1161,30 @@ if (isset($page_label) && $page_label == "edit") {
 												</div>
 
 												<div class="col-sm-4">
-													<label>Meta Keywords</label>
-													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword"><?= $meta_keyword ?></textarea>
+													<label for="">Meta Keywords</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
 												</div>
 
 												<div class="col-sm-4">
-													<label>Meta Description:</label>
-													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description"><?= $meta_description ?></textarea>
+													<label for="">Meta Description</label>
+													<textarea rows="1" class="form-control" placeholder="please enter meta description" name="meta_description" id=""><?= $meta_description ?></textarea>
 												</div>
 											</div>
 											
 											<div class="row nextFormLine">
 												<div class="col-sm-4">
-													<label>Notes</label>
-													<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes"><?= $notes ?></textarea>
+													<label for="">Notes</label>
+													<textarea rows="1" class="form-control" placeholder="please enter notes" name="notes" id=""><?= $notes ?></textarea>
 												</div>
 
 												<div class="col-sm-4">
-													<label>Amazon Product ID:</label>
-													<input type="text" class="form-control" placeholder="Enter amazon product id" name="amazon_prd_id" />
+													<label for="">Amazon Product ID:</label>
+													<input type="text" class="form-control" placeholder="Enter amazon product id" name="amazon_prd_id" id="" />
 												</div>
 												
 												<div class="col-sm-4">
-													<label>Flipkart Product ID:</label>
-													<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" />
+													<label for="">Flipkart Product ID:</label>
+													<input type="text" class="form-control" placeholder="Enter flipkart product id..." name="flipkart_prd_id" id="" />
 												</div>
 											</div>
 											
@@ -1212,7 +1213,7 @@ if (isset($page_label) && $page_label == "edit") {
 
 																	echo "<tr>
 																			<td>HTML Link".$i."</td>
-																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
 																			<td>
 																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

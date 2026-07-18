@@ -56,15 +56,15 @@ else
                         <div class="row">
                             <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
                                 <div class="col-sm-3 input-field" style="padding-right: 5px;">
-                                    <label>Category</label>
-                                    <select class="form-control" name="category_id">
+                                    <label for="">Category</label>
+                                    <select class="form-control" name="category_id" id="">
                                         <?= $category_options ?>
                                     </select>
                                 </div>
                                 
                                 <div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
-                                    <label>Brand</label>
-                                    <select class="form-control" name="brand_id">
+                                    <label for="">Brand</label>
+                                    <select class="form-control" name="brand_id" id="">
                                         <?= $brand_options ?>
                                     </select>
                                 </div> 

@@ -58,7 +58,7 @@ else
 				<div class="box box-primary">
 					<div class="box-header">
 						<?php if ($page_label == "view") { ?>
-						<div class="box-footer" align="right">
+						<div class="box-footer" style="margin-right: 10px; text-align: right;">
 							<a href='<?= base_url("brand") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
 							<a href='<?= base_url("editBrand/$brand_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
 							<a href='<?= base_url("deleteBrand/$brand_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
@@ -121,15 +121,14 @@ else
 								<label>HTML File(s):</label>
 							</div>
 							<div class="col-sm-9">
-								<?php
-									for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-		                        	{
-		                        		$link = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
-										
-										if ($link) 
-											echo $this->config->item('site_url').HTML_FILES_PATH.$link."<br />";
-		                        	}
-                                	?>
+								<?php for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ ) {
+
+									$link = isset($html_files['result'][$j]['html_file']) ? $html_files['result'][$j]['html_file'] : '';
+									
+									if ($link) {
+										echo $this->config->item('site_url').HTML_FILES_PATH.$link."<br />";
+									}
+								} ?>
 							</div>
 						</div>
 
@@ -293,7 +292,7 @@ else
 														
 														echo "<tr>
 															<td>HTML LINK".$i."</td>
-															<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+															<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
 															<td>
 																<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

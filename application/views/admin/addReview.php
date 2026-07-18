@@ -32,7 +32,7 @@ $page_title = ($page_type == 'view') ? $page_label.' review' : 'Edit '.$page_lab
 				<div class="box box-primary">
 				    <div class="box-header">
 				    	<?php if ($page_type == "view") { ?>
-					        <div class="box-footer" align="right" style="margin-right: 10px;">
+					        <div class="box-footer" style="margin-right: 10px; text-align: right;"
 					            <a href='<?= base_url("review/$page_label") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
 					            <a href='<?= base_url("editReview/$review_id/$page_label") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
 					            <a href='<?= base_url("deleteReview/$review_id/$page_label") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>

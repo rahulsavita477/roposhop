@@ -681,10 +681,12 @@ class Admin_controller extends CI_Controller
 			//get all brands
 			$data['sellers'] = $this->sellers;
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id, name', array('name' => 'ASC'));
-			if (isset($res['brands']['db_error'])) 
+			if (isset($res['brands']['db_error'])) {
 				redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
+			}
 
-			
+			$data['atch_path'] = $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH;
+
 			// $pageName = "addOffer_old";
 		}
 		else if ($pageName == "merchantReview") 
@@ -904,18 +906,17 @@ class Admin_controller extends CI_Controller
 		$this->load->view('admin/include/footer');
 	}
 
-	public function addOffer()
-	{
+	public function addOffer() {
+
 		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : (isset($_COOKIE['merchant_id']) ? $_COOKIE['merchant_id'] : NULL);
 		
-		if ($_COOKIE['site_code'] == 'admin') 
+		if ($_COOKIE['site_code'] == 'admin') {
 			$controller = 'sellers/offers';
-		else if ($_COOKIE['site_code'] == 'seller') 
-		{
+		} elseif ($_COOKIE['site_code'] == 'seller') {
+
 			$controller = 'page/offerManagement';
 
-			if (!$merchant_id) 
-			{
+			if (!$merchant_id) {
 				$msg = 'Error: Merchant id not found';
 				redirectWithMessage($msg, $controller);
 			}
@@ -935,28 +936,30 @@ class Admin_controller extends CI_Controller
 		//set null for blank fields
 		setNULLToBlank($data);
 		
-		if ($offer_id) 
-		{
+		if ($offer_id) {
+
 			$condition = array('offer_id' => $offer_id);
 			$isUpdated = $this->Admin_model->updateData('product_listing_offer', $data, $condition);
 
 			$msg = "Offer updated successfully!!";
 			
-			if (isset($isUpdated['db_error'])) 
+			if (isset($isUpdated['db_error'])) {
 				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-		}
-		else
-		{
+			}
+		} else {
+
 			$data['create_date'] = $this->current_date;
 
 			$offer_id = $this->Admin_model->insertData('product_listing_offer', $data);
-			if (isset($offer_id['db_error'])) 
+			if (isset($offer_id['db_error'])) {
 				redirectWithMessage('Error: '.$offer_id['msg'], $controller);
+			}
 
-			if ($offer_id)
+			if ($offer_id) {
 				$msg = "Offer inserted successfully!!";
-			else
+			} else {
 				$msg = "Error: Unable to insert offer!";
+			}
 		}
 
 		//offer folder path
@@ -968,49 +971,53 @@ class Admin_controller extends CI_Controller
 		$img_data['atch_for'] = "OFFER";
 
 		//insert offer images
-		$isUploaded = $this->upload_image( $folder, $img_data );
-		if (isset($isUploaded['db_error'])) 
+		$isUploaded = $this->upload_image($folder, $img_data);
+		if (isset($isUploaded['db_error'])) {
 			redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
+		}
 		
-		$lst_ids = ($this->input->post('selected_prd_lst_ids')) ? $this->input->post('selected_prd_lst_ids') : array();
+		// $lst_ids = ($this->input->post('selected_prd_lst_ids')) ? $this->input->post('selected_prd_lst_ids') : array();
 
-		$db_ofr_mp_prd = $this->Admin_model->selectRecords(array('ofr_id' => $offer_id), 'offer_listing_mp', '*');
-		if (isset($db_ofr_mp_prd['db_error'])) 
-			redirectWithMessage('Error: '.$db_ofr_mp_prd['msg'], $controller);
+		// $db_ofr_mp_prd = $this->Admin_model->selectRecords(array('ofr_id' => $offer_id), 'offer_listing_mp', '*');
+		// if (isset($db_ofr_mp_prd['db_error'])) 
+		// 	redirectWithMessage('Error: '.$db_ofr_mp_prd['msg'], $controller);
 
-		$db_lst_ids = array();
-		if ($db_ofr_mp_prd['result'])
-		{
-			foreach ($db_ofr_mp_prd['result'] as $mp_value) 
-				array_push($db_lst_ids, $mp_value['lst_id']);
-		}
+		// $db_lst_ids = array();
+		// if ($db_ofr_mp_prd['result']) {
 
-		$delete_prd = array_diff($db_lst_ids, $lst_ids);
-		$insert_prd = array_diff($lst_ids, $db_lst_ids);
+		// 	foreach ($db_ofr_mp_prd['result'] as $mp_value) {
+		// 		array_push($db_lst_ids, $mp_value['lst_id']);
+		// 	}
+		// }
 
-		//delete user roles
-		foreach ($delete_prd as $del_prd) 
-		{
-			$where = array('ofr_id' => $offer_id, 'lst_id' => $del_prd);
-			$isDeleted = $this->Admin_model->deleteRecord('offer_listing_mp', $where);
+		// $delete_prd = array_diff($db_lst_ids, $lst_ids);
+		// $insert_prd = array_diff($lst_ids, $db_lst_ids);
 
-			if (isset($isDeleted['db_error'])) 
-				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-		}
+		// foreach ($delete_prd as $del_prd) {
+
+		// 	$where = array('ofr_id' => $offer_id, 'lst_id' => $del_prd);
+		// 	$isDeleted = $this->Admin_model->deleteRecord('offer_listing_mp', $where);
+
+		// 	if (isset($isDeleted['db_error'])) {
+		// 		redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+		// 	}
+		// }
 
 		//insert listing mapping
-		foreach ($insert_prd as $ins_prd) 
-		{ 
-			$prd_data = array('ofr_id' => $offer_id, 'lst_id' => $ins_prd);
-			$map_id = $this->Admin_model->insertData('offer_listing_mp', $prd_data);
+		// foreach ($insert_prd as $ins_prd) {
 
-			if ( isset($map_id['db_error']) ) 
-				redirectWithMessage('Error: '.$map_id['msg'], $controller);
-		}
+		// 	$prd_data = array('ofr_id' => $offer_id, 'lst_id' => $ins_prd);
+		// 	$map_id = $this->Admin_model->insertData('offer_listing_mp', $prd_data);
+
+		// 	if (isset($map_id['db_error'])) {
+		// 		redirectWithMessage('Error: '.$map_id['msg'], $controller);
+		// 	}
+		// }
 
 		$isAddedHTMLFile = $this->addHTMLFiles($offer_id, 'OFFER');
-		if (!$isAddedHTMLFile) 
+		if (!$isAddedHTMLFile) {
 			$msg = 'Error: unable to perform action for HTML Files!';
+		}
 
 		$this->updateTableDate('merchant', array('merchant_id' => $merchant_id));
 		redirectWithMessage($msg, $controller);
@@ -3590,7 +3597,7 @@ class Admin_controller extends CI_Controller
 	}
 
 	public function deleteBrand( $brand_id = '' ) {
-		
+
 		$this->isLoggedIn();
 
 		if ($brand_id) {

@@ -52,7 +52,7 @@ $cat_name_data = array(
 				<div class="box box-primary">
 				    <div class="box-header">
 				        <?php if ($page_label == "view") { ?>
-					        <div class="box-footer" align="right" style="margin-right: 10px;">
+					        <div class="box-footer" style="margin-right: 10px; text-align: right;">
 					            <a href='<?= base_url("category") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
 					            <a href='<?= base_url("editCategory/$cat_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
 					            <a href='<?= base_url("deleteCategory/$cat_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
@@ -367,7 +367,7 @@ $cat_name_data = array(
 																	
 																	echo "<tr>
 																			<td>HTML LINK".$i."</td>
-																			<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
 																			<td>
 																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
