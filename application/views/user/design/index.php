@@ -2,54 +2,34 @@
     <div class="page-wrapper">
 <main class="main">
     <?php if($offers): ?>
-    <div class="home-slider-container">
-        <div class="home-slider owl-carousel owl-theme owl-theme-light">
-            <?php
-            foreach ($offers as $offer) { ?>
-                <div class="home-slide">
-                    <div class="slide-bg owl-lazy" data-src="<?= base_url('assets/user/assets2/images/slider/slide-1.jpg') ?>" style="width: 50%; margin: 5%;"></div><!-- End .slide-bg -->
-                    <div class="container">
-                        <div class="row justify-content-end">
-                            <div class="col-8 col-md-6 text-center slide-content-right">
-                                <div class="home-slide-content">
-                                    <div class="slide-border-top">
-                                        <img src="assets/user/assets2/images/slider/border-top.png" alt="Border" width="290" height="38" />
-                                    </div>
-                                    <h1><?= $offer['offer_title'] ?></h1>
-                                    <a href="<?= base_url().'offer/'.url_title($offer['offer_title'], '-', true).'?offer_id='.$offer['offer_id'] ?>" class="btn btn-primary">Know More</a>
-                                    <div class="slide-border-bottom">
-                                        <img src="assets/user/assets2/images/slider/border-bottom.png" alt="Border" width="290" height="111">
-                                    </div><!-- End .slide-border-bottom -->
-                                </div><!-- End .home-slide-content -->
-                            </div><!-- End .col-lg-5 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .home-slide -->
-
-                <!-- Need to remove below static part -->
-                <div class="home-slide">
-                    <div class="slide-bg owl-lazy"  data-src="<?= base_url('assets/user/assets2/images/slider/slide-2.jpg') ?>"></div><!-- End .slide-bg -->
-                    <div class="container">
-                        <div class="row justify-content-end">
-                            <div class="col-8 col-md-6 text-center slide-content-right">
-                                <div class="home-slide-content">
-                                    <div class="slide-border-top">
-                                        <img src="<?= base_url('assets/user/assets2/images/slider/border-top.png') ?>" alt="Border" width="290" height="38">
-                                    </div><!-- End .slide-border-top -->
-                                    <h3>up to 70% off</h3>
-                                    <h1>Mobile Phones</h1>
-                                    <a href="<?= base_url('categories/mobile-phones?category=61') ?>" class="btn btn-primary">Shop Now</a>
-                                    <div class="slide-border-bottom">
-                                        <img src="<?= base_url('assets/user/assets2/images/slider/border-bottom.png') ?>" alt="Border" width="290" height="111">
-                                    </div><!-- End .slide-border-bottom -->
-                                </div><!-- End .home-slide-content -->
-                            </div><!-- End .col-lg-5 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .container -->
-                </div><!-- End .home-slide -->
-            <?php } ?>
-        </div><!-- End .home-slider -->
-    </div><!-- End .home-slider-container -->
+        <div class="home-slider-container">
+            <div class="home-slider owl-carousel owl-theme owl-theme-light">
+                <?php foreach ($offers as $offer) { ?>
+                    <div class="home-slide">
+                        <div class="container">
+                            <div class="row justify-content-end">
+                                <div class="col-md-6 text-center slide-content-left">
+                                    <img src="<?= $offer['offer_images'][0] ?>" />
+                                </div>
+                                
+                                <div class="col-md-6 text-center slide-content-right" style="margin: auto;">
+                                    <div class="home-slide-content">
+                                        <div class="slide-border-top">
+                                            <img src="assets/user/assets2/images/slider/border-top.png" alt="Border" width="290" height="38" />
+                                        </div>
+                                        <h1><?= $offer['offer_title'] ?></h1>
+                                        <a href="<?= base_url().'offer/'.url_title($offer['offer_title'], '-', true).'?offer_id='.$offer['offer_id'] ?>" class="btn btn-primary">Know More</a>
+                                        <div class="slide-border-bottom">
+                                            <img src="assets/user/assets2/images/slider/border-bottom.png" alt="Border" width="290" height="111">
+                                        </div><!-- End .slide-border-bottom -->
+                                    </div><!-- End .home-slide-content -->
+                                </div><!-- End .col-lg-5 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .container -->
+                    </div><!-- End .home-slide -->
+                <?php } ?>
+            </div><!-- End .home-slider -->
+        </div><!-- End .home-slider-container -->
     <?php endif; ?>
 
     <div class="info-boxes-container">

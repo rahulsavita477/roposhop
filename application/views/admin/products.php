@@ -70,7 +70,7 @@ else
                                 </div> 
 
                                 <div class="col-sm-3" style="padding-left: 0px;">
-                                    <label class="label_hide">make space equal to label</label><br />
+                                    <label class="label_hide" for="">make space equal to label</label><br />
                                     <button class="btn btn-primary" type="submit">Find</button>
                                     <a href="<?= base_url('products') ?>" title="Reset Filter">
                                         <span class="fa-stack fa-lg">
@@ -82,7 +82,7 @@ else
                             </form>
 
                             <div class="col-sm-3 input-field">
-                                <label class="label_hide">make space equal to label</label><br />
+                                <label class="label_hide" for="">make space equal to label</label><br />
                                 <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
                             </div>
                         </div>
@@ -192,8 +192,8 @@ else
                                                     </li>
                                                     <li>
                                                         <a href='".base_url("deleteProduct/$prd_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
-                                                    </li>";
-                                            echo "</ul>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
                                     </td>

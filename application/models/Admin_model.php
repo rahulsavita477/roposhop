@@ -891,19 +891,25 @@ print_r($tables); die;
             return FALSE;
     }
 
+
     public function getSellerOffers($offer_id = '', $merchant_id = '')
     {
-        $this->db->select('product_listing_offer.*, establishment_name');
+        $this->db->select('product_listing_offer.*, establishment_name, u1.first_name as created_by,  u2.first_name as updated_by');
         $this->db->join('merchant', 'product_listing_offer.merchant_id = merchant.merchant_id', 'left');
+        $this->db->join('user as u1', 'u1.userId = product_listing_offer.created_by', 'left');
+        $this->db->join('user as u2', 'u2.userId = product_listing_offer.updated_by', 'left');
 
-        if (!empty($merchant_id)) 
+        if (!empty($merchant_id)) {
             $this->db->where(array('product_listing_offer.merchant_id' => $merchant_id));
+        }
         
-        if (isset($_GET['status'])) 
+        if (isset($_GET['status'])) {
             $this->db->where(array('product_listing_offer.current_status' => $_GET['status']));
+        }
 
-        if (isset($_GET['seller'])) 
+        if (isset($_GET['seller'])) {
             $this->db->where(array('product_listing_offer.merchant_id' => $_GET['seller']));
+        }
 
         $query = $this->db->get('product_listing_offer');
         //echo $this->db->last_query(); die;

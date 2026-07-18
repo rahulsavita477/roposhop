@@ -908,7 +908,7 @@ class Admin_controller extends CI_Controller
 
 	public function addOffer() {
 
-		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : (isset($_COOKIE['merchant_id']) ? $_COOKIE['merchant_id'] : NULL);
+		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : (isset($_COOKIE['merchant_id']) ? $_COOKIE['merchant_id'] : null);
 		
 		if ($_COOKIE['site_code'] == 'admin') {
 			$controller = 'sellers/offers';
@@ -928,9 +928,10 @@ class Admin_controller extends CI_Controller
 		$data['description'] = $this->input->post('offer_desc');
 		$data['start_date'] = $this->input->post('offer_startDate');
 		$data['end_date'] = $this->input->post('offer_endDate');
-		$data['ofr_brd_id'] = $this->input->post('ofr_brd_id') ? $this->input->post('ofr_brd_id') : NULL;
+		$data['ofr_brd_id'] = $this->input->post('ofr_brd_id') ? $this->input->post('ofr_brd_id') : null;
 		$data['current_status'] = $this->input->post('offer_status');
 		$data['merchant_id'] = $merchant_id;
+		$data['updated_by'] = $this->input->cookie('user_id', true);
 		$data['update_date'] = $this->current_date;
 		
 		//set null for blank fields
@@ -949,6 +950,8 @@ class Admin_controller extends CI_Controller
 		} else {
 
 			$data['create_date'] = $this->current_date;
+			$data['created_by'] = $this->input->cookie('user_id', true);
+			$data['source'] = ($this->input->post('merchant_id')) ? "ADMIN" : "SELLER";
 
 			$offer_id = $this->Admin_model->insertData('product_listing_offer', $data);
 			if (isset($offer_id['db_error'])) {
@@ -4512,40 +4515,44 @@ class Admin_controller extends CI_Controller
 		$data['pageName'] = $type;
 		$controller = 'dashboard';
 
-		if ($this->sellers)
-		{
+		if ($this->sellers) {
+
 			$data['success'] = true;
 			$data['data'] = $this->sellers;	
 			$data['merchant_offers'] = $this->getOffer();
 
-			if (isset($data['merchant_offers']['db_error'])) 
+			if (isset($data['merchant_offers']['db_error'])) {
 				echo "<script>window.alert('".$data['merchant_offers']['msg']."');</script>";
-			else
-			{
+			} else {
+
 				$i = 0;
 
-				foreach ($this->sellers as $value) 
-				{
+				foreach ($this->sellers as $value) {
+
 					$address_res = $this->getUserAddress(array('address.userId' => $value['userId']));
-					if (isset($address_res['db_error'])) 
+					if (isset($address_res['db_error'])) {
 						redirectWithMessage('Error: '.$address_res['msg'], $controller);
-					else if ($address_res) 
-					{
+					} elseif ($address_res) {
+
 						$j = 0;
 						$data['data'][$i]['address'] = $address_res['result'];
-						foreach ($address_res['result'] as $add_value) 
-						{
+						
+						foreach ($address_res['result'] as $add_value) {
+
 							$country = $this->getCountry($add_value['country_id']);
-							if (isset($country['db_error'])) 
+							if (isset($country['db_error'])) {
 								redirectWithMessage('Error: '.$country['msg'], $controller);
+							}
 							
 							$state = $this->getState($add_value['state_id']);
-							if ( isset($state['db_error']) ) 
+							if (isset($state['db_error'])) { 
 								redirectWithMessage('Error: '.$state['msg'], $controller);
+							}
 							
 							$city = $this->getcity('', '', $add_value['city_id']);
-							if ( isset($city['db_error']) ) 
+							if (isset($city['db_error'])) { 
 								redirectWithMessage('Error: '.$city['msg'], $controller);
+							}
 
 							$data['data'][$i]['address'][$j]['country_name'] = $country['result'][0]['name'];
 							$data['data'][$i]['address'][$j]['state_name'] = $state['result'][0]['name'];
@@ -4553,16 +4560,14 @@ class Admin_controller extends CI_Controller
 
 							$j++;
 						}
-					}
-					else
+					} else {
 						$data['data'][$i]['address'] = array();
+					}
 
 					$i++;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			$data['success'] = false;
 			$data['data'] = array();
 		}
