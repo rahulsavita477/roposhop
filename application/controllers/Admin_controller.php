@@ -3427,7 +3427,7 @@ class Admin_controller extends CI_Controller
 			$listingExist = $this->Admin_model->listingProducts(['product.product_id' => $prd_id]);
 			if($listingExist) {
 
-				redirectWithMessage('This product cannot be deleted as it is associated with merchant listings. Please unlink the merchant before deleting.', $controller);
+				redirectWithMessage('This product cannot be deleted because it is linked to merchant listings. Please unlink the associated merchant listings before deleting. You can view these listings using the ‘Listing’ option available in the Action menu.', $controller);
 
 			} else { //delete product
 				
@@ -3527,66 +3527,82 @@ class Admin_controller extends CI_Controller
 		return false;
 	}
 
-	public function deleteCategory($cat_id = '')
-	{
+	public function deleteCategory($cat_id = '') {
+
 		$this->isLoggedIn();
 		$controller = 'category';
 
-		if ($cat_id) 
-		{
+		if ($cat_id) {
+			
 			//delete category
 			$cat_tbl_name = 'product_category';
 			$columns = 'category_id';
 			$where = array('parent_category_id' => $cat_id);
 			$cat_result = $this->Admin_model->selectRecords($where, $cat_tbl_name, $columns);	
 
-			if (isset($cat_result['db_error'])) 
+			if (isset($cat_result['db_error'])) {
+
 				redirectWithMessage('Error: '.$cat_result['msg'], $controller);
-			else if ($cat_result) 
-				$msg = 'Error: Unable to delete the category!';
-			else
-			{
-				//delete category				
-				$where = 'category_id = '.$cat_id.' or parent_category_id = '.$cat_id;
-				$isDeleted = $this->Admin_model->deleteRecord($cat_tbl_name, $where);
-				if (isset($isDeleted['db_error'])) 
-					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-				$folder_path = CATEGORY_ATTACHMENT_PATH.$cat_id;
-				$msg = 'Category deleted successfully!';
 
-				if (is_dir($folder_path)) 
-				{
-					if (deleteFolder($folder_path))
-						$this->Admin_model->deleteRecord('attatchments', array('link_id' => $cat_id, 'atch_for' => 'CATEGORY', 'atch_type' => 'IMAGE'));
-					else
-						$msg = "Error: Unable to delete folder";
-				}
+			} else if ($cat_result) {
 
-				$isDeleted = $this->saveDeleteItem($cat_id, 'CATEGORY');
-				if (isset($isDeleted['db_error'])) 
-					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				$msg = 'This category cannot be deleted because it has child categories. Please remove or reassign the child categories before deleting.';
+				redirectWithMessage($msg, $controller);
 			}
-		}
-		else
+			
+			// check is category linked with product
+			$product_result = $this->Admin_model->selectRecords(array('category_id' => $cat_id), 'product', 'product_id');	
+			if (isset($product_result['db_error'])) {
+				
+				redirectWithMessage('Error: '.$product_result['msg'], $controller);
+
+			} else if ($product_result) {
+
+				$msg = 'This category cannot be deleted because it is linked to one or more products. Please remove or reassign those products before deleting the category.';
+				redirectWithMessage($msg, $controller);
+			} 
+
+			//delete category
+			$where = 'category_id = '.$cat_id.' or parent_category_id = '.$cat_id;
+			$isDeleted = $this->Admin_model->deleteRecord($cat_tbl_name, $where);
+			if (isset($isDeleted['db_error'])) 
+				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+			$folder_path = CATEGORY_ATTACHMENT_PATH.$cat_id;
+			$msg = 'Category deleted successfully!';
+
+			if (is_dir($folder_path)) {
+
+				if (deleteFolder($folder_path)) {
+					$this->Admin_model->deleteRecord('attatchments', array('link_id' => $cat_id, 'atch_for' => 'CATEGORY', 'atch_type' => 'IMAGE'));
+				} else {
+					$msg = "Error: Unable to delete folder";
+				}
+			}
+
+			$isDeleted = $this->saveDeleteItem($cat_id, 'CATEGORY');
+			if (isset($isDeleted['db_error'])) 
+				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+		} else {
 			$msg = 'Erorr: category id not found!';
+		}
 
 		redirectWithMessage($msg, $controller);
 	}
 
-	public function deleteBrand( $brand_id = '' )
-	{
+	public function deleteBrand( $brand_id = '' ) {
+		
 		$this->isLoggedIn();
 
-		if ($brand_id) 
-		{
+		if ($brand_id) {
+
 			$tbl_name = 'product';
 			$columns  = 'product_id';
 			$where = array('brand_id' => $brand_id);
-			$brand_prd_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);	
-			if ($brand_prd_res)
-				$msg = "Error: Can't delete this brand There are some product related to this brand!";
-			else
-			{
+			$brand_prd_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
+			if ($brand_prd_res) {
+				$msg = "This brand cannot be deleted because it is associated with one or more products. Please remove or reassign those products before deleting the brand.";
+			} else {
+
 				$tbl_name = 'brand';
 				$where = array('brand_id' => $brand_id);
 				$this->Admin_model->deleteRecord($tbl_name, $where);
@@ -4829,7 +4845,7 @@ class Admin_controller extends CI_Controller
 		else if($req_prd_id)
 			$listing_data['req_prd_id'] = $req_prd_id;
 
-		$controller = 'getAllProducts/'.$merchant_id;
+		$controller = 'listings';
 
 		//set null for blank fields
 		setNULLToBlank($listing_data);

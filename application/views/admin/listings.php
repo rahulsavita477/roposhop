@@ -84,7 +84,7 @@
         <div class="box">
             <?php if($_COOKIE['site_code'] == "seller") {
                 
-                echo '<div class="row"><a href="'.base_url('getAllProducts/'.$_COOKIE['merchant_id'].'?list_new_product=Yes').'" class="btn btn-primary pull-right" style="margin: 10px 25px 0px 0px;"><i class="fa fa-plus"></i> List New Product</a></div>';
+                echo '<div class="row"><a href="'.base_url('listings/add').'" class="btn btn-primary pull-right" style="margin: 10px 25px 0px 0px;"><i class="fa fa-plus"></i> List New Product</a></div>';
             } ?>
 
             <div class="box-body table-responsive">
@@ -209,7 +209,7 @@
                                         <td>".$prd_value['brand_name']."</td>
                                         <td>".format_inr_price($prd_value['mrp_price'])."</td>
                                         <td>".format_inr_price($prd_value['price'])."</td>
-                                        <td>".$in_stock."</td>
+                                        <td class='statusLabel'>".$in_stock."</td>
                                         <td>".convert_to_user_date($prd_value['create_date'])."</td>
                                         <td>".convert_to_user_date($prd_value['update_date'])."</td>
                                     </tr>";

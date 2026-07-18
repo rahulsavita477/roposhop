@@ -38,7 +38,7 @@ $cat_name_data = array(
         <h1>Category<small><?= ucfirst($page_label) ?></small></h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?= base_url('category') ?>">Category Management</a></li>
+            <li><a href="<?= base_url('category') ?>">Categories</a></li>
             <li class="active"><?= $page_title ?></li>
         </ol>
     </section>

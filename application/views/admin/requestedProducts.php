@@ -92,7 +92,7 @@
 
                                     echo "<tr>
                                         ".$action."
-                                        <td>".$status."</td>
+                                        <td class='statusLabel'>".$status."</td>
                                         <td>".$req_prd['merchant_name']."</td>
                                         <td>".$req_prd['product_name']."</td>
                                         <td>".$req_prd['category_name']."</td>

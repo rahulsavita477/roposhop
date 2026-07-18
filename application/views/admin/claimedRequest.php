@@ -25,7 +25,14 @@
                                     <th>Claimed ID</th>
                                     <th>Merchant ID</th> -->
                                     <th>Action</th>
-                                    <th>Verification Status</th>
+                                    <th>
+                                        Verification
+                                        <i class="fa fa-info-circle text-primary"
+                                            data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="Admin Verification Status on Product"
+                                        ></i>
+                                    </th>
                                     <th>Shop Name</th>
                                     <th>Claimed Name</th>
                                     <th>Contact</th>
@@ -69,7 +76,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>".$is_approved."</td>
+                                            <td class='statusLabel'>".$is_approved."</td>
                                             <td>".$claimedRequest['establishment_name']."</td>
                                             <td>".$claimedRequest['clmd_name']."</td>
                                             <td>".$claimedRequest['clmd_contact']."</td>

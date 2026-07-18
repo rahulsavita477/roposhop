@@ -21,7 +21,7 @@ else
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?= base_url('page/attributes') ?>">Attribute Management</a></li>
+            <li><a href="<?= base_url('page/attributes') ?>">Attributies</a></li>
             <li class="active"><?= $page_title ?></li>
         </ol>
     </section>

@@ -144,7 +144,7 @@ $usr_type = isset($_GET['user_type']) ? $_GET['user_type'] : '';
                                             </div>
                                         </div>
                                     </td>
-                                    <td>".$status."</td>
+                                    <td class='statusLabel'>".$status."</td>
                                     <td>
                                         <a href='".base_url("editUser/$usr_id?view")."'>".$name."</a>
                                     </td>

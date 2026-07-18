@@ -179,7 +179,7 @@ else
                                                     ".$rejectProduct."
                                                     ".$verifyProduct."
                                                     <li>
-                                                        <a target='_blank' href='".base_url("getAllProducts/0?product_id=$prd_id")."' title='Change Status'><i class='fa fa-check-circle'></i>Listing</a>
+                                                        <a target='_blank' href='".base_url("listings?product_id=$prd_id")."' title='Change Status'><i class='fa fa-list-alt'></i>Listing</a>
                                                     </li>
                                                     <li>
                                                         <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>

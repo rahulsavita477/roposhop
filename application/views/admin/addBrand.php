@@ -42,7 +42,7 @@ else
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="<?= base_url('brand') ?>">Brand Management</a></li>
+			<li><a href="<?= base_url('brand') ?>">Brands</a></li>
 			<li class="active">
 				<?= $page_title ?>
 			</li>

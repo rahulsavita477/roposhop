@@ -8,7 +8,11 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?= base_url('sellers/sellersList') ?>">Sellers</a></li>
+            <?php if($_COOKIE['site_code'] == "admin") {
+                echo '<li class="active">Seller</li>';
+            } else {
+                echo '<li><a href="'.base_url('listings').'">Product Listing</a></li>';
+            } ?>
             <li class="active">List New Product</li>
         </ol>
     </section>

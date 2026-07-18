@@ -513,14 +513,19 @@ if (isset($page_label) && $page_label == "edit") {
 											
 		                        			<?php
 											if ($page_label == 'add') {
+
 												$product_id = 0;
 												$page_label = "'add'";
+												$readonly = "";
+
 											} else {
+
 												$page_label = "'edit'";
+												$readonly = "readonly";
 											}
 
 											echo '<select class="form-control" name="parent_cat_id" 
-													onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
+													onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" '.$readonly.' required>';
 
 											if ($status) {
 												echo "<option value=''>Select Category</option>";

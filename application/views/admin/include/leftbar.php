@@ -1,10 +1,10 @@
 <?php
-$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = $list_new_product = '';
+$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $product_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = $list_new_product = '';
 
 // $parse_url = parse_url($_SERVER['REQUEST_URI']);
 // $url = explode('/', $_SERVER['REQUEST_URI']);
 
-$path = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH);
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $url = explode('/', trim($path, '/'));
 
 $dashboard_page = in_array("dashboard", $url) ? "active" : '';
@@ -19,9 +19,15 @@ if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array(
     $seller_page = "active";
 
     if (in_array("listings", $url) && in_array("add", $url)) {
+        
         $list_new_product = 'active';
+        $product_linking = 'active';
+
     } elseif (in_array("sellersList", $url) || in_array("listings", $url) || in_array("getProductDetail", $url)) {
+        
         $product_seller_linking = 'active';
+        $product_linking = 'active';
+
     } elseif (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url) || isset($_GET['user_id']) || isset($_GET['address_id'])) {
         $seller_management = 'active';
     }
@@ -362,8 +368,8 @@ if (isset($_COOKIE['shop_logo']))
                     </li>
 
                     <!-- product linking -->
-                    <li class="<?= $product_seller_linking ?>">
-                        <a href="<?= base_url().'getAllProducts/'.$_COOKIE['merchant_id'] ?>">
+                    <li class="<?= $product_linking ?>">
+                        <a href="<?= base_url('listings') ?>">
                             <i class="fa fa-th-list"></i> 
                             Product Listing
                         </a>

@@ -173,9 +173,9 @@ else if($pageName == "offerManagement")
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td>".$isApproved."</td>
-                                                    <td>".$is_completed."</td>
-                                                    <td>".$current_status."</td>
+                                                    <td class='statusLabel'>".$isApproved."</td>
+                                                    <td class='statusLabel'>".$is_completed."</td>
+                                                    <td class='statusLabel'>".$current_status."</td>
                                                     <td><a href='".base_url("seller/$merchant_id/view")."'>".$seller_value['establishment_name']."</a></td>
                                                     <td>".$seller_value['first_name']."</td>
                                                     <td>".$seller_value['email']."</td>
