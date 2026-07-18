@@ -82,12 +82,12 @@
 
                                     echo "<tr>
                                             ".$action."
-                                            <td>".$status."</td>
+                                            <td class='statusLabel'>".$status."</td>
                                             <td>".$req_product['product_name']."</td>
                                             <td>".$req_product['brand_name']."</td>
                                             <td>".$req_product['prd_price']."</td>
                                             <td>".$req_product['sell_price']."</td>
-                                            <td>".$in_stock."</td>
+                                            <td class='statusLabel'>".$in_stock."</td>
                                             <td>".convert_to_user_date($req_product['create_date'])."</td>
                                             <td>".convert_to_user_date($req_product['update_date'])."</td>
                                         </tr>";

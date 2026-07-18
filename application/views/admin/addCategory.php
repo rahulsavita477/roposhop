@@ -52,7 +52,7 @@ $cat_name_data = array(
 				<div class="box box-primary">
 				    <div class="box-header">
 				        <?php if ($page_label == "view") { ?>
-					        <div class="box-footer" align="right">
+					        <div class="box-footer" align="right" style="margin-right: 10px;">
 					            <a href='<?= base_url("category") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
 					            <a href='<?= base_url("editCategory/$cat_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
 					            <a href='<?= base_url("deleteCategory/$cat_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>

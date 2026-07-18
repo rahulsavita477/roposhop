@@ -123,8 +123,8 @@
                             } ?>
                             <th>Brand</th>
                             <th>MRP</th>
-                            <th>Listing Price</th>
-                            <th>In Stock</th>
+                            <th>Listing Price&nbsp;&nbsp;&nbsp;</th>
+                            <th>In Stock&nbsp;&nbsp;&nbsp;</th>
                             <th>Created Date</th>
                             <th>Updated Date</th>
                         </tr>

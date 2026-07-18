@@ -309,35 +309,36 @@ function getState(cnt_id)
 }
 
 //get city of state
-function getCity(state_id)
-{
+function getCity(state_id) {
+    
     $('#state_cities').empty();
     state_id = (state_id) ? state_id : ($("#states").val());
 
-    if (state_id) 
-    {
+    if (state_id) {
+
         $.ajax({
             type: "GET",
             url: '<?= base_url("cities") ?>/'+state_id,
             success: function(data){
-                if ( data ) 
-                {
+                if (data) {
+
                     $('#state_cities').empty();
                     city_data = JSON.parse(data);
 
                     if(city_data.length > 0) {
                         
                         city_options = "<option value=''>select city</option>";
-                        usr_city_id = <?= (!empty($city_id) ? json_encode($city_id) : '""'); ?>
+                        usr_city_id = <?= (isset($_GET['city_id']) && !empty($_GET['city_id']) ? $_GET['city_id'] : '""'); ?>
 
-                        for (var i = 0; i < city_data.length; i++) 
-                        {
+                        for (var i = 0; i < city_data.length; i++) {
+
                             city_name = city_data[i].name;
                             city_id = city_data[i].city_id;
                             selected = "";
 
-                            if (usr_city_id == city_id)
+                            if (usr_city_id == city_id){
                                 selected = "selected";
+                            }
 
                             city_options += "<option value='"+city_id+"' "+selected+">"+city_name+"</option>";
                         }
@@ -348,7 +349,7 @@ function getCity(state_id)
                     $('#state_cities').append(city_options);
                 }
             },
-        }); 
+        });
     } else {
         alert('Error: State not selected');
     }

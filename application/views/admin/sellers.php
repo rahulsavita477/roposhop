@@ -40,24 +40,24 @@ else if($pageName == "offerManagement")
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label>Establishment (Shop) Name <sup>*</sup></label>
+                                <label for="shop_name">Establishment (Shop) Name <sup>*</sup></label>
                                 <input type="text" class="form-control" id="shop_name" name="establishment_name" required="required" />
                             </div>
                         
                             <div class="col-sm-6">
-                                <label>E-Mail Address <sup>*</sup></label>
+                                <label for="email">E-Mail Address <sup>*</sup></label>
                                 <input type="email" class="form-control" id="email" name="email" required="required" />
                             </div>
                         </div>
 
                         <div class="row nextFormLine">
                             <div class="col-sm-6">
-                                <label>Owner's Full Name</label>
+                                <label for="owner_name">Owner's Full Name</label>
                                 <input type="text" class="form-control" id="owner_name" name="name" />
                             </div>
 
                             <div class="col-sm-6">
-                                <label>Contact Number</label>
+                                <label for="owner_contact">Contact Number</label>
                                 <input type="text" class="form-control" id="owner_contact" name="contact" />
                             </div>
                         </div>
@@ -95,13 +95,13 @@ else if($pageName == "offerManagement")
                                         <!-- <th>S.No.</th>
                                         <th>Seller ID</th> -->
                                         <th>Action</th>
-                                        <th>Business Verification</th>
-                                        <th>Profile Completion</th>
-                                        <th>Visibility Status</th>
+                                        <th>Business Verification&nbsp;&nbsp;&nbsp;</th>
+                                        <th>Profile Completion&nbsp;&nbsp;&nbsp;</th>
+                                        <th>Visibility Status&nbsp;&nbsp;&nbsp;</th>
                                         <th>Business Name</th>
                                         <th>Owner Name</th>
                                         <th>Email</th>
-                                        <th>Contact Number</th>
+                                        <th>Contact Number&nbsp;&nbsp;&nbsp;</th>
                                         <th>City</th>
                                         <!-- <th>State</th>
                                         <th>Country</th> -->
@@ -168,8 +168,8 @@ else if($pageName == "offerManagement")
                                                                     </li>
                                                                     <li>
                                                                         <a href='".base_url("deleteMerchant/$merchant_id/$user_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
-                                                                    </li>";
-                                                            echo "</ul>
+                                                                    </li>
+                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </td>

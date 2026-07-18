@@ -59,7 +59,7 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 								<input type="hidden" name="merchant_id" value="<?= $_GET['merchant_id'] ?>" />
 
 								<div class="col-sm-3 input-field" style="padding-right: 5px;">
-									<label>State</label>
+									<label for="state_id">State</label>
 									<select class="form-control" name="state_id" id="state_id" onchange="getCity(this.value);" required>
 										<option value="">select state</option>
 										<?php foreach ($states as $state) {
@@ -71,15 +71,14 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 											}
 
 											echo "<option value='".$state['state_id']."' ".$selected.">".$state['name']."</option>";
-										}
-										?>
+										} ?>
 									</select>
 								</div>
 								
 								<div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
-									<label>City</label>
+									<label for="state_cities">City</label>
 									<select class="form-control" name="city_id" id="state_cities"></select>
-								</div> 
+								</div>
 
 								<div class="col-sm-3" style="padding-left: 0px;">
 									<label class="label_hide">make space equal to label</label><br />

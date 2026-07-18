@@ -819,12 +819,12 @@ else
 
 	                            <div class="row nextFormLine">
 	                        		<div class="col-sm-6">
-	                        			<label>Meta Keyword</label>
-	                        			<textarea class="form-control" rows="1" name="meta_keyword" placeholder="Enter Meta Keyword"><?= $meta_keyword ?></textarea>
+	                        			<label for="">Meta Keyword</label>
+	                        			<textarea class="form-control" rows="1" name="meta_keyword" placeholder="Enter Meta Keyword" id=""><?= $meta_keyword ?></textarea>
 	                        		</div>
 	                        		<div class="col-sm-6">
-	                        			<label>Meta Description</label>
-	                        			<textarea class="form-control" rows="1" name="meta_description" placeholder="Enter Meta Description"><?= $meta_description ?></textarea>
+	                        			<label for="">Meta Description</label>
+	                        			<textarea class="form-control" rows="1" name="meta_description" placeholder="Enter Meta Description" id=""><?= $meta_description ?></textarea>
 	                        		</div>
 	                        	</div>
 					        </div>

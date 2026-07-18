@@ -785,7 +785,7 @@ print_r($tables); die;
 
     public function merchantReviews($where = array(), $limit = '', $start = '', $order_by=array())
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, merchant_review.merchant_id, review_title, merchant_review.create_date as review_date, merchant_review.update_date as last_updated, first_name as consumer_name, consumer.userId as consumer_user_id, establishment_name as shop_name, merchant_review.status AS enabled, picture', FALSE);
+        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, merchant_review.merchant_id, review_title, merchant_review.create_date as review_date, merchant_review.update_date as last_updated, first_name as consumer_name, consumer.userId as consumer_user_id, establishment_name as shop_name, merchant_review.status AS enabled, picture, merchant.create_date, merchant.update_date', FALSE);
         $this->db->join('merchant', 'merchant.merchant_id = merchant_review.merchant_id', 'left');
         $this->db->join('consumer', 'consumer.consumer_id = merchant_review.consumer_id', 'inner');
         $this->db->join('user', 'consumer.userId = user.userId', 'inner');
@@ -833,7 +833,7 @@ print_r($tables); die;
 
     public function productReviews($where=array(), $limit='', $start='', $order_by=array())
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, product_review.product_id, review_title, product_review.create_date as review_date, product_review.update_date as last_updated, first_name as consumer_name, product_name, product_review.status AS enabled, picture, ', FALSE);
+        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, product_review.product_id, review_title, product_review.create_date as review_date, product_review.update_date as last_updated, first_name as consumer_name, product_name, product_review.status AS enabled, picture, product.create_date, product.update_date', FALSE);
         $this->db->join('product', 'product.product_id = product_review.product_id', 'left');
         $this->db->join('consumer', 'consumer.consumer_id = product_review.consumer_id', 'left');
         $this->db->join('user', 'consumer.userId = user.userId', 'left');

@@ -20,12 +20,12 @@
                                 <!-- <th>S.No.</th>
                                 <th>Requested ID</th> -->
                                 <th>Action</th>
-                                <th>Admin Review</th>
+                                <th>Admin Review&nbsp;&nbsp;&nbsp;</th>
                                 <th>Merchant Name</th>
                                 <th>Product Name</th>
-                                <th>Category Name</th>
-                                <th>Suggested Brand</th>
-                                <th>Seller Price</th>
+                                <th>Category Name&nbsp;&nbsp;&nbsp;</th>
+                                <th>Suggested Brand&nbsp;&nbsp;&nbsp;</th>
+                                <th>Seller Price&nbsp;&nbsp;&nbsp;</th>
                                 <th>Created Date</th>
                                 <th>Updated Date</th>
                             </tr>
