@@ -233,20 +233,3 @@
         </div>
     </section><!-- /.content -->
 </aside><!-- ./wrapper -->
-
-<script type="text/javascript">
-function fillListingDetailOfRequestedProduct() {
-    
-    let req_prd_id = $('#req_prd_id').val();
-    let sellerId = $('#loggedinSellerId').val();   // from PHP
-    let listingId = 0;
-
-    if (req_prd_id && sellerId) {
-    
-        // window.location = "<?= base_url('fillListingDetailOfRequestedProduct') ?>/" + req_prd_id;
-        window.location.href = "<?= base_url('getProductDetail'); ?>/" + req_prd_id + "/" + sellerId + "/" + listingId+"/true";
-    
-    } else if (!req_prd_id) alert('Error: please select requested product');
-    else if (!sellerId) alert('Error: seller not found');
-}
-</script>

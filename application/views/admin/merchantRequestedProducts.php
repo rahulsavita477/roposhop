@@ -42,12 +42,19 @@
 
                                 if ($req_product['merchant_id'] == $_COOKIE['merchant_id']) {
 
-                                    $editRequestedProductBtn = "<li><a href='".base_url("editRequestedProduct").'/'.$req_product['request_id']."' title='Edit'><i class='fa fa-edit'></i>Edit</a></li>";
+                                    $editRequestedProductBtn = "<li>
+                                        <form id='editForm".$req_product['request_id']."' method='post' action='".base_url('editRequestedProduct')."'>
+                                            <input type='hidden' name='request_id' value='".$req_product['request_id']."' />
+                                        </form>
+
+                                        <a href='javascript:void(0)' onclick='document.getElementById(\"editForm".$req_product['request_id']."\").submit();' title='Edit'><i class='fa fa-edit'></i> Edit</a>
+                                    </li>";
+
                                     $deleteRequestedProductBtn = "<li><a href='".base_url("deleteRequestProduct").'/'.$req_product['request_id']."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>";
 
-                                    if ($req_product['isLinked'] == 1) {
+                                    if ($req_product['requestProductStatus'] == "APPROVED") {
 
-                                        $status = "<span class='label label-success'>APPROVED</span>";
+                                        $status = "<span class='label label-success'>".$req_product['requestProductStatus']."</span>";
                                         $editRequestedProductBtn = false;
                                         $deleteRequestedProductBtn = false;
 
@@ -60,7 +67,7 @@
                                         $status = "<span class='label label-danger'>".$req_product['requestProductStatus']."</span>";
                                     }
 
-                                    if (!$req_product['isLinked'] && ($editRequestedProductBtn || $deleteRequestedProductBtn)) {
+                                    if ($editRequestedProductBtn || $deleteRequestedProductBtn) {
                                         $action = "<td>
                                             <div class='input-group input-group'>
                                                 <div class='input-group-btn'>
@@ -85,8 +92,8 @@
                                             <td class='statusLabel'>".$status."</td>
                                             <td>".$req_product['product_name']."</td>
                                             <td>".$req_product['brand_name']."</td>
-                                            <td>".$req_product['prd_price']."</td>
-                                            <td>".$req_product['sell_price']."</td>
+                                            <td>".format_inr_price($req_product['prd_price'])."</td>
+                                            <td>".format_inr_price($req_product['sell_price'])."</td>
                                             <td class='statusLabel'>".$in_stock."</td>
                                             <td>".convert_to_user_date($req_product['create_date'])."</td>
                                             <td>".convert_to_user_date($req_product['update_date'])."</td>

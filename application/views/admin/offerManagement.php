@@ -54,12 +54,16 @@
 
                                         echo "<tr>
                                             <td>
-                                            <div class='input-group input-group'>
+                                                <div class='input-group input-group'>
                                                     <div class='input-group-btn'>
                                                         <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                         <ul class='dropdown-menu'>
                                                             <li>
-                                                                <a href='".base_url("editOffer/$offer_id/edit")."' title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                                <form id='offer/edit".$offer_id."' method='post' action='".base_url('offer/edit')."'>
+                                                                    <input type='hidden' name='offer_id' value='".$offer_id."' />
+                                                                </form>
+
+                                                                <a href='javascript:void(0)' onclick='document.getElementById(\"offer/edit".$offer_id."\").submit();' title='Edit'><i class='fa fa-edit'></i> Edit</a>
                                                             </li>
                                                             <li>
                                                                 <a href='".base_url("deleteOffer/$offer_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
@@ -69,7 +73,12 @@
                                                 </div>
                                             </td>
                                             <td class='statusLabel'>".$current_status."</td>
-                                            <td><a href='".base_url("editOffer/$offer_id/view")."'>".$offer_value['offer_title']."</a></td>
+                                            <td>
+                                                <form id='offer/view".$offer_id."' method='post' action='".base_url('offer/view')."'>
+                                                    <input type='hidden' name='offer_id' value='".$offer_id."' />
+                                                </form>
+                                                <a href='javascript:void(0)' onclick='document.getElementById(\"offer/view".$offer_id."\").submit();' title='".$offer_value['offer_title']."'>".$offer_value['offer_title']."</a>
+                                            </td>
                                             <td>".convert_to_user_date($offer_value['start_date'])."</td>
                                             <td>".convert_to_user_date($offer_value['end_date'])."</td>
                                             <td>".$offer_value['source']."</td>

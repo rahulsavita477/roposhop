@@ -1063,8 +1063,9 @@ class Admin_controller extends CI_Controller
 		redirectWithMessage($msg, $controller);
 	}
 
-	public function editOffer($offer_id, $type_name)
+	public function editOffer($type_name)
 	{
+		$offer_id = $this->input->post('offer_id');
 		$controller = 'sellers/offers';
 
 		$offer_detail = array();
@@ -1170,21 +1171,28 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function editRequestedProduct($req_id = '')
-	{
-		if ($req_id)
-		{
+	public function editRequestedProduct($req_id = '') {
+
+		$req_id = $this->input->post('request_id');
+
+		if ($req_id) {
+
 			$req_prd = $this->Admin_model->getRequestedProduct(array('request_id' => $req_id));
-			if (isset($req_prd['db_error'])) 
+			if (isset($req_prd['db_error'])) {
 				redirectWithMessage('Error: '.$req_prd['msg'], 'page/merchantRequestedProducts');
+			}
+			
 			// echo "<pre>"; print_r($req_prd); die;
-			if ($req_prd)
-			{
+
+			if ($req_prd) {
+
 				$data = $req_prd[0];
 				
 				$products = $this->Admin_model->selectRecords('', 'product', 'product_name as label, product_id as id');
-				if (isset($products['db_error'])) 
+				if (isset($products['db_error'])) {
 					redirectWithMessage('Error: '.$products['msg'], $controller);
+				}
+
 				$data['products'] = json_encode($products['result']);
 
 				//get categories
@@ -4105,22 +4113,22 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
-	public function fillListingDetailOfRequestedProduct($req_prd_id)
-	{
-		if ($req_prd_id) 
-		{
-			$data = array();
-			$data['req_prd_id'] = $req_prd_id;
+	// public function fillListingDetailOfRequestedProduct($req_prd_id)
+	// {
+	// 	if ($req_prd_id) 
+	// 	{
+	// 		$data = array();
+	// 		$data['req_prd_id'] = $req_prd_id;
 
-			$this->load->view('admin/include/header');
-			$this->load->view('admin/include/leftbar');
-			$this->load->view('admin/fillListingDetailOfRequestedProduct', $data);
-			$this->load->view('admin/include/footer');
-			die;
-		}
-		else
-			redirectWithMessage('Error: Requested product id could not found!', 'listings');
-	}
+	// 		$this->load->view('admin/include/header');
+	// 		$this->load->view('admin/include/leftbar');
+	// 		$this->load->view('admin/fillListingDetailOfRequestedProduct', $data);
+	// 		$this->load->view('admin/include/footer');
+	// 		die;
+	// 	}
+	// 	else
+	// 		redirectWithMessage('Error: Requested product id could not found!', 'listings');
+	// }
 
 	//delete attatchment
 	public function deleteAttactchment($atch_url, $controller, $id)

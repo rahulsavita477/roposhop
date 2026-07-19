@@ -53,21 +53,24 @@ if (isset($page_label) && $page_label == 'view') {
             <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
-				    <div class="box-footer">
-				        <?php if ($page_label == "view") {
-							echo '<div class="box-footer" style="margin-right: 10px; text-align: right;">';
+					<?php if ($page_label == "view"): ?>
+						<div class="box-footer">
+							<div class="box-footer" style="margin-right: 10px; text-align: right;">
+								<?php if ($_COOKIE['site_code'] == 'admin') { ?>
+									<a href='<?= base_url("sellers/offers") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+								<?php } else { ?>
+									<a href='<?= base_url("page/offerManagement") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+								<?php } ?>
+							
+								<form action="<?= base_url('offer/edit') ?>" method="post" id='offer/edit' style="display: inline;">
+									<input type="hidden" name="offer_id" value="<?= $offer_id ?>" />
+								</form>
+								<a href='javascript:void(0)' onclick='document.getElementById("offer/edit").submit();' title='Edit'><i class='fa fa-edit'></i></a>
 
-							if ($_COOKIE['site_code'] == 'admin') {
-						?>
-							<a href='<?= base_url("sellers/offers") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
-						<?php } else { ?>
-							<a href='<?= base_url("page/offerManagement") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
-						<?php } ?>
-							<a href='<?= base_url("editOffer/$offer_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
-							<a href='<?= base_url("deleteOffer/$offer_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
+								<a href='<?= base_url("deleteOffer/$offer_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
 							</div>
-					    <?php } ?>
-					</div><!-- /.box-header -->
+						</div><!-- /.box-header -->
+					<?php endif; ?>
 
 					<?php if ($page_label == "view") { ?>
 						<div class="box-body">

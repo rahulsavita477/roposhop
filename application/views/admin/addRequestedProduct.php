@@ -152,14 +152,19 @@ $page_title = 'Add requested product';
 		                        <div class="row">
 	                        		<div class="col-sm-3">
 	                        			<label>Category *</label>
-	                        			<?php 
+	                        			<?php
 										if ($page_label == 'add') {
+
 	                        				$page_label = "'add'";
+											$readonly = '';
+
 										} else {
-	                        				$page_label = "'edit'";
+	                        		
+											$page_label = "'edit'";
+											$readonly = 'readonly';
 										}
 
-										echo '<select class="form-control" name="parent_cat_id" onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
+										echo '<select class="form-control" name="parent_cat_id" onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" '.$readonly.' required>';
 
 								    		if ($status) {
 

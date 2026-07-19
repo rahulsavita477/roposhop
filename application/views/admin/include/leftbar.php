@@ -53,18 +53,18 @@ elseif (in_array("userManagement", $url) || in_array("addUser", $url) || isset($
     $userManagement = "active";
 elseif (in_array("claimedRequest", $url) || in_array("viewClaimRequest", $url)) {
     $claimed_request = 'active';
-} elseif ( in_array("offerManagement", $url) || in_array("addOffer", $url) || isset($_GET['ofr_id']) || in_array("editOffer", $url) || in_array("offers", $url) )
+} elseif (in_array("offerManagement", $url) || in_array("offer", $url)) {
     $offerManagement = "active";
-elseif (in_array("review", $url) || in_array("merchantReview", $url) || in_array("editReview", $url) || in_array("viewReview", $url))
-{
+} elseif (in_array("review", $url) || in_array("merchantReview", $url) || in_array("editReview", $url) || in_array("viewReview", $url)) {
     $review = "active";
-    if (in_array("merchant", $url) || in_array("merchantReview", $url))
+    if (in_array("merchant", $url) || in_array("merchantReview", $url)) {
         $merchantReview = 'active';
-    elseif (in_array("product", $url))
+    } elseif (in_array("product", $url)) {
         $productReview = 'active';
-}
-elseif (in_array("requestProduct", $url) || in_array("fillListingDetailOfRequestedProduct", $url) || in_array("requestedProducts", $url) || in_array("merchantRequestedProducts", $url) || in_array("editRequestedProduct", $url) || isset($_GET['req_prd_id']))
+    }
+} elseif (in_array("requestProduct", $url) || in_array("fillListingDetailOfRequestedProduct", $url) || in_array("requestedProducts", $url) || in_array("merchantRequestedProducts", $url) || in_array("editRequestedProduct", $url) || isset($_GET['req_prd_id'])) {
     $requestProduct = "active";
+}
 elseif (isset($_SERVER['REDIRECT_URL']) && (strpos("/productExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/merchantExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/addressExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/listingExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/countryExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/stateExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/cityExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/areaExcel", $_SERVER['REDIRECT_URL']) !== false || strpos("/importAddressXls", $_SERVER['REDIRECT_URL']) !== false))
 {
     $data_import_export = "active";

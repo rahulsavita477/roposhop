@@ -44,7 +44,7 @@
                                     $list_id = $req_prd['listing_id'];
                                     $merchant_id = $req_prd['merchant_id'];
                                                                         
-                                    $approveRequestedProductBtn = "<li><a href='".base_url()."addProduct?req_prd_id=".$req_prd_id."' title='Approve Product'><i class='fa fa-check'></i>Approve</a></li>";
+                                    $approveRequestedProductBtn = "<li><a href='".base_url()."changeRequestedProductStatus/".$req_prd['request_id']."/APPROVED' title='Approve Product' onclick='return confirm(\"Are you sure you want to approve this requested project?\")'><i class='fa fa-check'></i>Approve</a></li>";
                                     // $approveRequestedProductBtn = "<li><a href='".base_url()."changeRequestedProductStatus/".$req_prd['request_id']."/APPROVED' title='Approve Product' onclick='return confirm(\"Do you want to approve the requested product?\")'><i class='fa fa-check'></i>Approve</a></li>";
                                     $editListingBtn = "<li><a href='".base_url()."getProductDetail/".$prd_id."/".$merchant_id."/".$list_id."/true' title='Update Listing' target='_blank'><i class='fa fa-list-alt text-primary'></i>Manage Listing</a></li>";
                                     $editProductBtn = "<li><a href='".base_url()."editProduct/".$prd_id."/edit' title='Update Product Info' target='_blank'><i class='fa fa-gears'></i>Manage Product</a></li>";
@@ -72,9 +72,9 @@
                                                 <div class='input-group-btn'>
                                                     <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                     <ul class='dropdown-menu'>
+                                                        ".$approveRequestedProductBtn."
                                                         ".$editListingBtn."
                                                         ".$editProductBtn."
-                                                        ".$approveRequestedProductBtn."
                                                         ".$rejectRequestedProductBtn."
                                                         ".$deleteRequestedProductBtn."
                                                     </ul>

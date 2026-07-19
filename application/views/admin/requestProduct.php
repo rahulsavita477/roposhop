@@ -91,18 +91,23 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                 <div class="col-sm-3">
                                     <label>Category *</label>
                                     <?php if ($page_label == 'Add') {
+
 										$product_id = 0;
 										$page_label = "'add'";
+                                        $readonly = '';
+
 									} else {
+
 										$page_label = "'edit'";
+                                        $readonly = 'readonly';
 									}
 
-									echo '<select class="form-control" name="parent_cat_id" '.($disableProductDetailFrom ? 'disabled' : '').' onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" required>';
+									echo '<select class="form-control" name="parent_cat_id" '.($disableProductDetailFrom ? 'disabled' : '').' onchange="getCategoryAttribtes(this.value, '.$product_id.', '.$page_label.');" '.$readonly.' required>';
 
 										echo "<option value=''>select category</option>";
 
-										foreach ($categories as $cat_key => $cat_value) 
-										{
+										foreach ($categories as $cat_key => $cat_value) {
+
 												$selected = $cat_value['category_id'] == $category_id ? 'selected' : '';
 
 												echo "<option value='".$cat_value['category_id']."' ".$selected.">".$cat_value['category_name']."</option>";
@@ -434,12 +439,12 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
 									</div>
 								</div>
                             <?php endif; ?>
-                        </div>
 
-                        <div class="box-footer text-align-right">
-                            <a href="<?= base_url('page/merchantRequestedProducts') ?>"
-                                class="btn btn-default">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="box-footer text-align-right">
+                                <a href="<?= base_url('page/merchantRequestedProducts') ?>"
+                                    class="btn btn-default">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
                     </div><!-- /.box -->
                 </div> <!-- /.row -->
@@ -663,6 +668,8 @@ function validateForm() {
             return false;
         }
     }
+
+    return confirm("<?= UPDATE_MSG ?>");
 }
 </script>
 

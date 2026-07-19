@@ -149,7 +149,7 @@ $merchant_id = $_COOKIE['merchant_id'];
 
 	                        <div class="row form-group">
                         		<div class="col-sm-3">
-                        			<label>Return Terms:</label>	
+                        			<label>Return Terms:</label>
                         		</div>
                         		<div class="col-sm-9">
                         			<textarea class="form-control" rows="1" name="return_policy" placeholder="Please enter return terms..."></textarea>
