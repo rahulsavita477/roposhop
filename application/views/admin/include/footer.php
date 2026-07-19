@@ -2,6 +2,9 @@
         
         <!-- jQuery (only one version) -->
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        
+        <!-- AdminLTE App -->
+        <script src="<?= $this->config->item('site_url').'assets/admin/js/AdminLTE/app.js' ?> " type="text/javascript"></script>
 
         <!-- jQuery UI (needed for autocomplete) -->
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -20,8 +23,6 @@
         <!-- AdminLTE -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.18/js/adminlte.min.js"></script>
 
-        <!-- AdminLTE App -->
-        <script src="<?= $this->config->item('site_url').'assets/admin/js/AdminLTE/app.js' ?> " type="text/javascript"></script>
         
         <script type="text/javascript">
         function confirmSave(msg) {

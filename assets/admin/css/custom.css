@@ -15,6 +15,7 @@
 
 .table-responsive {
     overflow: auto;
+    border: none;
 }
 
 .table-responsive table {
@@ -89,10 +90,6 @@
 .label_hide {
     visibility: hidden;
     margin-bottom: 3px;
-}
-
-.btn-file {
-    width: auto !important;
 }
 
 .image-preview {
@@ -277,19 +274,19 @@ label {
     padding-right: 0px;
 }
 
-.termsAvailabilitySelectBox {
+/* .termsAvailabilitySelectBox {
     padding-left: 0px; 
     padding-right: 0px;
-}
+} */
 
-.termsLabel {
+/* .termsLabel {
     padding-left: 0px; 
     text-align: right;
-}
+} */
 
-.termsTextArea {
+/* .termsTextArea {
     padding-left: 0px;
-}
+} */
 
 /* .fa-shield {
     color: orange;
@@ -443,4 +440,24 @@ label {
 
 .tooltip {
     white-space: normal !important;
+}
+
+.btn-file {
+    display: inline-block;
+    max-width: 100%;   /* button will not exceed td width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    height: 100%;
+    font-size: 100px;
+    text-align: right;
+    opacity: 0;
+    cursor: pointer;
 }

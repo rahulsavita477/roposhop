@@ -96,7 +96,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                 <div class="col-sm-1">
                                     <label>Selling Price *:</label>
                                 </div>
-                                <div class="col-sm-2" style="padding-left: 0px;">
+                                <div class="col-sm-2">
                                     <input type="number" class="form-control" placeholder="Enter Selling Price" name="sell_price" value="<?= $sell_price ?>" id="" required />
                                 </div>
                             </div>
@@ -125,13 +125,13 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
                                     </select>
                                 </div>
                                 <div class="col-sm-1 termsLabel">
-                                    <label>Return On:</label>
+                                    <label for="">Return On:</label>
                                 </div>
                                 <div class="col-sm-2 termsTextArea">
                                     <input type="date" class="form-control" name="back_in_stock" value="<?= $will_back_in_stock_on ?>" id="" />
                                 </div>
-                                <div class="col-sm-1" style="text-align: right; padding-right: 0px;">
-                                    <label>Seller Offerings:</label>
+                                <div class="col-sm-1">
+                                    <label for="">Seller Offerings:</label>
                                 </div>
                                 <div class="col-sm-6">
                                     <textarea class="form-control" rows="2" name="seller_offering" placeholder="Enter Offering" id=""><?= $seller_offering ?></textarea>

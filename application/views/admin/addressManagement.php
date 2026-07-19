@@ -77,12 +77,12 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 									</select>
 								</div>
 								
-								<div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
+								<div class="col-sm-3 input-field">
 									<label for="state_cities">City</label>
 									<select class="form-control" name="city_id" id="state_cities"></select>
 								</div>
 
-								<div class="col-sm-3" style="padding-left: 0px;">
+								<div class="col-sm-3">
 									<label class="label_hide" for="">make space equal to label</label><br />
 									<button class="btn btn-primary" type="button" onclick="submitBoth()">Find</button>
 									<button type="submit" name="reset" value="1" class="btn btn-link" title="Reset Filter" style="padding:0; border:none; background:none;">
@@ -136,7 +136,7 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 					$city_name = $add_value['city_name']; 
 					?>
 
-        			<div class="col-sm-3" style="padding-right: 0px;">
+        			<div class="col-sm-3">
 						<div class="box box-primary1">
 							<div class="box-body">
 								<div class="row form-group">

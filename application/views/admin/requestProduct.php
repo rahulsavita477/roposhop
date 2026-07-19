@@ -265,9 +265,9 @@ if(isset($merchant_id) && $merchant_id != $_COOKIE['merchant_id'] && $page_label
                                             <tbody style="height: auto;" id="productImages_tableBody"
                                                 class="collapse in">
                                                 <tr>
-                                                    <?php 
+                                                    <?php
 													$images = isset($images) ? $images : '';
-													echo renderImages($images, $product_images_dir, $request_id, 'editRequestedProduct', 6); 
+													echo renderImages($images, $product_images_dir, $request_id, 'editRequestedProduct', 6);
 													?>
                                                 </tr>
                                             </tbody>
