@@ -2077,7 +2077,7 @@ class Admin_controller extends CI_Controller
 			$isUpdated = $this->Admin_model->updateData('product_listing', array('isVerified' => $status, 'update_date' => $this->current_date), $condition);
 
 			$msg = "Successfully changed!";
-			$controller = "getAllProducts/".$seller_id;
+			$controller = "listings";
 		}
 		else
 		{
@@ -3371,7 +3371,7 @@ class Admin_controller extends CI_Controller
 	public function deleteListing($list_id, $sel_id)
 	{
 		$this->isLoggedIn();
-		$controller = 'getAllProducts/'.$sel_id;
+		$controller = 'listings';
 
 		$isDeleted = $this->Admin_model->deleteRecord('product_listing', array('listing_id' => $list_id));
 		if (isset($isDeleted['db_error'])) 
@@ -4119,7 +4119,7 @@ class Admin_controller extends CI_Controller
 			die;
 		}
 		else
-			redirectWithMessage('Error: Requested product id could not found!', 'getAllProducts/'.$_COOKIE['merchant_id']);
+			redirectWithMessage('Error: Requested product id could not found!', 'listings');
 	}
 
 	//delete attatchment

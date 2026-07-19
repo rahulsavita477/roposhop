@@ -66,7 +66,7 @@ $will_back_in_stock_on = isset($product_listing[0]['will_back_in_stock_on']) ? $
             <?php if ($_COOKIE['site_code'] == 'admin') {  ?>
                 <li><a href="<?= base_url('sellers/sellersList') ?>">Sellers</a></li>
             <?php } ?>
-            <li><a href="<?= base_url('getAllProducts/'.$seller_id) ?>">Linked/Requested Products</a></li>
+            <li><a href="<?= base_url('listings') ?>">Linked/Requested Products</a></li>
             <li class="active"><?= $page_title ?></li>
         </ol>
     </section>

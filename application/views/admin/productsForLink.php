@@ -141,7 +141,7 @@
                     </thead>
                     <tbody>
                         <?php if($unassignedProducts) {
-                            
+
                             foreach ($unassignedProducts as $prd_value) {
 
                                 $prd_id = $prd_value['product_id'];
@@ -223,14 +223,5 @@ function fillListingDetailOfRequestedProduct() {
     
     } else if (!req_prd_id) alert('Error: please select requested product');
     else if (!sellerId) alert('Error: seller not found');
-}
-
-function getListing() {
-    //for selected category
-    var merchant_id = $('[name="merchant_id"]').val();
-    if (merchant_id)
-        window.location = "<?= base_url('getAllProducts/') ?>" + merchant_id;
-    else
-        alert('select merchant');
 }
 </script>

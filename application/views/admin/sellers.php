@@ -252,7 +252,7 @@ function getAllProducts()
 {
     sel_id = $('#sel_id').val();
     if (sel_id)
-        window.location = "<?= base_url('getAllProducts') ?>/"+sel_id;
+        window.location = "<?= base_url('listings') ?>/";
     else
         alert('Error: please select the seller');
 }

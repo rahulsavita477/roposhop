@@ -249,9 +249,4 @@ function fillListingDetailOfRequestedProduct() {
     } else if (!req_prd_id) alert('Error: please select requested product');
     else if (!sellerId) alert('Error: seller not found');
 }
-
-function changeURL(seller_id) {
-    let a = "<?= base_url('getAllProducts/') ?>";
-    window.location.href = a + seller_id.value + '?list_new_product=Yes';
-}
 </script>

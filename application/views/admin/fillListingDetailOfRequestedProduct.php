@@ -157,7 +157,7 @@ $merchant_id = $_COOKIE['merchant_id'];
                         	</div>
 
 							<div class="box-footer" align="right">
-								<a href='<?= base_url("getAllProducts/$merchant_id") ?>' class='btn btn-default'>Cancel</a>
+								<a href='<?= base_url("listings") ?>' class='btn btn-default'>Cancel</a>
 					            <button type="submit" class="btn btn-primary">Submit</button>
 					        </div>
 					    </div>
