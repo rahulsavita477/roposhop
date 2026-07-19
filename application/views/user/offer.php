@@ -20,7 +20,7 @@
 									</div>';
 								}
 							} else {
-								$imgs = $this->config->item('site_url').'assets/user/download (1).jpeg';
+								$imgs = $this->config->item('site_url').'assets/user/noImage.jpeg';
 								echo '<div class="product-item">
 									<img style="width: auto; max-width: 343px; margin-left: auto; margin-right: auto; height: auto; max-height: 400px;" class="product-single-image" src="'.$imgs.'" data-zoom-image="'.$imgs.'" alt="'.$offers[0]['offer_title'].'" />
 								</div>';

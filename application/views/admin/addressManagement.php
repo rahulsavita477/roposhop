@@ -39,10 +39,11 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
         <div class="row">
         	<?php if ($_COOKIE['site_code'] == 'admin') { ?>
 	        	<div class="col-sm-1">
-					<?php
-					if ($merchant_logo) 
-						echo '<img src="'.$merchant_logo.'" height="80px">';
-					?>
+					<?php if ($merchant_logo) {
+						echo '<img src="'.$merchant_logo.'" height="80px" />';
+					} else {
+						echo '<img src="'.base_url('assets/admin/img/shopAvtar.png').'" height="80px" />';
+					} ?>
 	        	</div>
 				<div class="col-sm-5">
 					<h2 style="margin: 0px;"><?= $shop_name ?></h2>

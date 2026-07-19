@@ -381,7 +381,7 @@ class User_controller extends CI_Controller
                         $data['result'][$i]['products_images'] = $attatchments;
                 }
                 else
-                    $data['result'][$i]['products_images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                    $data['result'][$i]['products_images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
                 //get product rating
                 $data['result'][$i]['rating'] = $this->getProductRating($product_id);
@@ -498,7 +498,7 @@ class User_controller extends CI_Controller
                     $data['product']['images'] = $attatchments;
             }
             else
-                $data['product']['images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['product']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //get product reviews
             $product_reviews = $this->am1->productReviews(array('product_review.product_id' => $product_id), 0, 3);
@@ -601,7 +601,7 @@ class User_controller extends CI_Controller
         if ($product_imgs['result']) 
             $data['product']['image'] = base_url(PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url']);
         else
-            $data['product']['image'] = base_url('assets/user/download (1).jpeg');
+            $data['product']['image'] = base_url('assets/user/noImage.jpeg');
 
         //get product reviews order by selected filter
         if (!isset($_GET['orderby'])) 
@@ -764,7 +764,7 @@ class User_controller extends CI_Controller
             if (count($attatchments)>0)
                 $data['merchant']['images'] = $attatchments;
             else
-                $data['merchant']['images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['merchant']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //get seller heighlights
             $data['merchant']['heighlights'] = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_offering', '*');
@@ -829,7 +829,7 @@ class User_controller extends CI_Controller
                     $data['product']['images'] = $attatchments;
             }
             else
-                $data['product']['images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['product']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //average rating information
             $rating_info = $this->am1->selectRecords(array('product_id' => $product_id), 'product_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
@@ -1209,7 +1209,7 @@ class User_controller extends CI_Controller
             if (count($attatchments)>0)
                 $merchants['shop_images'] = $attatchments;
             else
-                $merchants['shop_images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $merchants['shop_images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //get seller heighlights
             $merchants['merchant_heighlights'] = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_offering', '*');

@@ -499,7 +499,7 @@ class V1_api_controller extends CI_Controller
                 $data['product']['image'] = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url'];
             }
             else
-                $data['product']['image'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['product']['image'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 
