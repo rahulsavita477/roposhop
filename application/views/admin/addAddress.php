@@ -1,6 +1,5 @@
 <?php
-$merchant_id = isset($merchant_id) ? $userId : $_GET['merchant_id'];
-$user_id = isset($userId) ? $userId : $_GET['user_id'];
+$user_id = isset($userId) ? $userId : ($user_id ? $user_id : '');
 $address_id = isset($address_id) ? $address_id : '';
 $lat = isset($latitude) ? $latitude : set_value('lat');
 $long = isset($longitude) ? $longitude : set_value('long');
@@ -15,7 +14,6 @@ $is_default_address = isset($is_default_address) ? $is_default_address : 0;
 $contact = isset($contact) ? $contact : set_value('contact');
 $business_days = isset($business_days) ? $business_days : set_value('business_days');
 $business_hours = isset($business_hours) ? $business_hours : set_value('business_hours');
-$merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : $_COOKIE['merchant_id'];
 
 if (isset($page_label) && $page_label == "edit") {
     $page_title = 'Edit address';
@@ -222,8 +220,8 @@ function getLatLongFromAddress() {
 }
 
 //initialize google map
-function initialize()
-{
+function initialize() {
+
     let lat = ($('[name="lat"]').val()) ? $('[name="lat"]').val() : 22.7196;
     let long = ($('[name="long"]').val()) ? $('[name="long"]').val() : 75.8577;
 
@@ -251,16 +249,17 @@ function initialize()
 var gmarkers = [];
 
 //set marker on click map
-function setMarkerOnClickMap(latLng, map)
-{
+function setMarkerOnClickMap(latLng, map) {
+
     //remove old markers from map
-    for(i=0; i<gmarkers.length; i++)
+    for(i=0; i<gmarkers.length; i++) {
         gmarkers[i].setMap(null);
+    }
 
     //set marker on google map
     var marker = new google.maps.Marker({
-                    position: latLng
-                });
+        position: latLng
+    });
 
     // To add the marker to the map, call setMap();
     marker.setMap(map);
@@ -278,19 +277,20 @@ function setMarkerOnClickMap(latLng, map)
 }
 
 //show address div on click marker
-function showFormattedAddress(lat, long)
-{
+function showFormattedAddress(lat, long) {
+
     infowindow = new google.maps.InfoWindow();
     latlng = new google.maps.LatLng(lat, long);
     geocoder = new google.maps.Geocoder();
     geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK)
+        if (status == google.maps.GeocoderStatus.OK) {
             infowindow.setContent(results[0].formatted_address);
+        }
     });
 }
 
-function validateForm()
-{
+function validateForm() {
+
     //for address lat
     var isValid = floatValidation($("input[name='lat']").val());
     if (!isValid)
@@ -306,6 +306,8 @@ function validateForm()
         alert("wrong longitude!");
         return false;
     }
+
+    return confirm("<?= UPDATE_MSG ?>");
 }
 
 function cancelForm() {
@@ -317,9 +319,13 @@ function cancelForm() {
 }
 
 $(document).ready(function() {
+    
     cnt_id = $('#cnt_id').val();
-    if (parseInt(cnt_id))
+    
+    if (parseInt(cnt_id)) {
+    
         getState(cnt_id);
+    }
 });
 </script>
 

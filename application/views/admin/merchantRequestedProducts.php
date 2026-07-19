@@ -79,6 +79,8 @@
                                                 </div>
                                             </div>
                                         </td>";
+                                    } else {
+                                        $action = "<td></td>";
                                     }
 
                                     if ( $req_product['in_stock'] ) {
@@ -88,16 +90,16 @@
                                     }
 
                                     echo "<tr>
-                                            ".$action."
-                                            <td class='statusLabel'>".$status."</td>
-                                            <td>".$req_product['product_name']."</td>
-                                            <td>".$req_product['brand_name']."</td>
-                                            <td>".format_inr_price($req_product['prd_price'])."</td>
-                                            <td>".format_inr_price($req_product['sell_price'])."</td>
-                                            <td class='statusLabel'>".$in_stock."</td>
-                                            <td>".convert_to_user_date($req_product['create_date'])."</td>
-                                            <td>".convert_to_user_date($req_product['update_date'])."</td>
-                                        </tr>";
+                                        ".$action."
+                                        <td class='statusLabel'>".$status."</td>
+                                        <td>".$req_product['product_name']."</td>
+                                        <td>".$req_product['brand_name']."</td>
+                                        <td>".format_inr_price($req_product['prd_price'])."</td>
+                                        <td>".format_inr_price($req_product['sell_price'])."</td>
+                                        <td class='statusLabel'>".$in_stock."</td>
+                                        <td>".convert_to_user_date($req_product['create_date'])."</td>
+                                        <td>".convert_to_user_date($req_product['update_date'])."</td>
+                                    </tr>";
 
                                     // $count++;
                                 }

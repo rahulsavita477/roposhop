@@ -95,7 +95,13 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 
 							<div class="col-sm-3 input-field">
 								<label class="label_hide" for="">make space equal to label</label><br />
-								<a href="<?= base_url('page/addAddress?user_id='.$user_id.'&merchant_id='.$merchant_id) ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Address</a>
+								<form method="post" action="<?= base_url('page/addAddress') ?>" style="display:inline;">
+									<input type="hidden" name="user_id" value="<?= $user_id ?>" />
+									<input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
+									<button type="submit" class="btn btn-primary pull-right">
+										<i class="fa fa-plus"></i> Add New Address
+									</button>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -134,7 +140,13 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 							<div class="box-body">
 								<div class="row form-group">
 					                <div class="col-sm-12 address">
-										<a href='<?= base_url("page/addAddress?address_id=$address_id&merchant_id=".$merchant_id) ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+										<form id="editForm<?= $address_id ?>" method="post" action="<?= base_url('page/addAddress') ?>" style="display:inline;">
+											<input type="hidden" name="address_id" value="<?= $address_id ?>" />
+											<input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
+											<input type="hidden" name="user_id" value="<?= $user_id ?>" />
+											<a href="javascript:void(0)" onclick="document.getElementById('editForm<?= $address_id ?>').submit();" title="Edit"><i class="fa fa-edit"></i></a>&nbsp;
+										</form>
+										
 					                	<?php if (!$isPrimary) {
 											echo "<a href='".base_url("deleteAddress/$address_id").'/'.$user_id."/".$merchant_id."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>";
 										} ?>

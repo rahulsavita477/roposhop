@@ -92,7 +92,7 @@ elseif (in_array("maintenance", $url))
     $maintenance = 'active';
 elseif (in_array("offerings", $url)) {
     $sellerOfferings = 'active';
-} elseif (in_array("addressManagement", $url)) {
+} elseif (in_array("addressManagement", $url) || in_array("addAddress", $url)) {
     $address_management = "active";
     $seller_management = 'active';
     $seller_page = "active";

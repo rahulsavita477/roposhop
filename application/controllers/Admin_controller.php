@@ -753,17 +753,25 @@ class Admin_controller extends CI_Controller
 			$data['page_label'] = 'view';
 			
 			if($this->input->post('merchant_id')) {
+
 				$merchant_id = $this->input->post('merchant_id');
+
 			} elseif($this->session->flashdata('merchant_id')) {
+
 				$merchant_id = $this->session->flashdata('merchant_id');
+				$this->session->unset_userdata('merchant_id');
 			}
 			
 			if($this->input->post('user_id')) {
-				$user_id = $this->input->post('user_id');
-			} elseif($this->session->flashdata('user_id')) {
-				$user_id = $this->session->flashdata('user_id');
-			}
 
+				$user_id = $this->input->post('user_id');
+
+			} elseif($this->session->flashdata('user_id')) {
+
+				$user_id = $this->session->flashdata('user_id');
+				$this->session->unset_userdata('user_id');
+			}
+			
 			//get merchant logo and name
 			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name, merchant_id");
 			if (isset($data['merchant']['db_error'])) {
@@ -829,11 +837,12 @@ class Admin_controller extends CI_Controller
 		} elseif ($pageName == "addAddress") {
 		
 			$data = array();
-			
-			//get address detail
-			if (isset($_GET['address_id'])) {
+			$address_id = $this->input->post('address_id');
 
-				$address_res = $this->getUserAddress(array('address_id' => $_GET['address_id']));
+			//get address detail
+			if (isset($address_id)) {
+
+				$address_res = $this->getUserAddress(array('address_id' => $address_id));
 				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
 				} elseif ($address_res) {
@@ -851,6 +860,8 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$data['countries']['msg'], $controller);
 			}
 
+			$data['merchant_id'] = $this->input->post('merchant_id');
+			$data['user_id'] = $this->input->post('user_id');
 			// echo "<pre>"; print_r($data); die;
 		}
 		else if ($pageName == "service_policy") 

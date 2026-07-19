@@ -78,9 +78,9 @@ else
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <?php if ($page_label == "view") { ?>
-			    		<div class='box-footer' style="text-align: right; padding-bottom: 0px;">
-							<a href='../../sellers/sellersTable' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
-							<a href='../../seller/<?= $merchant_id ?>/edit' title='Edit'><i class='fa fa-edit'></i></a>
+			    		<div class='box-footer' style="text-align: right; margin-right: 10px;">
+							<a href='<?= base_url("sellers/sellersTable") ?>' title='Back'><i class='fa fa-undo' aria-hidden='true'></i></a>&nbsp;
+							<a href='<?= base_url("sellers/$merchant_id/edit") ?>' title='Edit'><i class='fa fa-edit'></i></a>
 						</div>
 						
 						<div class="box-body">

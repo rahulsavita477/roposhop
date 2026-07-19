@@ -70,7 +70,7 @@
                     </div>
                 <?php }
 			} else {
-                echo "No seller offerings found!";
+                echo '<div class="col-sm-3">No seller offerings found!</div>';
             } ?>
         </section><!-- /.content -->
     </aside><!-- /.right-side -->

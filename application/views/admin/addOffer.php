@@ -307,7 +307,7 @@ if (isset($page_label) && $page_label == 'view') {
 					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="1" id="" required><?= $offer_desc; ?></textarea>
 					                </div>
 	                        	</div>
-								<div class="row">
+								<div class="row nextFormLine">
 									<div class="col-sm-12">
 										<div class="table-responsive editTable">
 											<table class="table table-bordered dataTable">
@@ -329,7 +329,7 @@ if (isset($page_label) && $page_label == 'view') {
 									</div>
 								</div>
 
-								<?php if ($offer_id): ?>
+								<?php if ($offer_id && $_COOKIE['site_code'] == 'admin'): ?>
 									<!-- Toggle button/link -->
 									<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
 									
@@ -352,56 +352,54 @@ if (isset($page_label) && $page_label == 'view') {
 												</div>
 											</div>
 
-											<?php if ($_COOKIE['site_code'] == 'admin') { ?>
-												<div class="row">
-													<div class="col-sm-12">
-														<div class="table-responsive editTable">
-															<table class="table table-bordered dataTable">
-																<thead>
-																	<tr>
-																		<th colspan="4" class="text-align-center">
-																			HTML Files
-																			<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
-																		</th>
-																	</tr>
-																	<tr>
-																		<th></th>
-																		<th id="">Prefix Path</th>
-																		<th id="">File Path</th>
-																		<th id="">Action</th>
-																	</tr>
-																</thead>
-																<tbody id="HTMLFiles_tableBody" class="in">
-																	<?php for($i = 1, $j = 0; $i <= 5; $i++, $j++) {
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="4" class="text-align-center">
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+																<tr>
+																	<th></th>
+																	<th id="">Prefix Path</th>
+																	<th id="">File Path</th>
+																	<th id="">Action</th>
+																</tr>
+															</thead>
+															<tbody id="HTMLFiles_tableBody" class="in">
+																<?php for($i = 1, $j = 0; $i <= 5; $i++, $j++) {
 
-																		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
-																		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
+																	$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
+																	$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 
-																		if ($link) {
+																	if ($link) {
 
-																			$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
-																			<a href='".base_url("deleteLink/$link_id/$offer_id/OFFER")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
-																		} else {
-																			$buttons = '';
-																		}
-																		
-																		echo "<tr>
-																				<td>HTML LINK".$i."</td>
-																				<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
-																				<td>
-																					<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-																					<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-																				</td>
-																				<td>".$buttons."</td>
-																			</tr>";
+																		$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+																		<a href='".base_url("deleteLink/$link_id/$offer_id/OFFER")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
+																	} else {
+																		$buttons = '';
 																	}
-																	?>
-																</tbody>
-															</table>
-														</div>
+																	
+																	echo "<tr>
+																			<td>HTML LINK".$i."</td>
+																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td>
+																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																			</td>
+																			<td>".$buttons."</td>
+																		</tr>";
+																}
+																?>
+															</tbody>
+														</table>
 													</div>
-												</div><!-- /.box-body -->
-											<?php } ?>
+												</div>
+											</div><!-- /.box-body -->
 										</div>
 									</div>
 								<?php endif; ?>

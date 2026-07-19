@@ -172,20 +172,6 @@ function setCities(state_id) {
     });
 }
 
-//get city of state
-function getCity(city_id)
-{
-    if (city_id != 'null') 
-    {
-        return $.ajax({
-            type: "POST",
-            url: '<?= base_url("api/v1/city/") ?>'+city_id,
-            success: function(data){
-            },
-        });
-    }
-}
-
 function saveLocation()
 {
     let n_state_id = $('#state_id').val();
@@ -291,39 +277,42 @@ function getCookie(cname) {
 //get state of country
 function getState(cnt_id)
 {
+    $('#divLoading').css('display', 'block');
     cnt_id = (cnt_id) ? cnt_id : ($("#cnt_id").val());
     $('#states').empty();
+    
+    if (cnt_id) {
 
-    if (cnt_id) 
-    {
         $.ajax({
             type: "GET",
             url: '<?= base_url("states") ?>/'+cnt_id,
             success: function(data){
-                if ( data ) 
-                {
+                if (data) {
+                    
                     $('#states').empty();
                     state_data = JSON.parse(data);
                     state_options = "<option value=''>select state</option>";
                     usr_state_id = <?= (!empty($state_id) ? json_encode($state_id) : '""'); ?>
 
-                    for (var i = 0; i < state_data.length; i++) 
-                    {
+                    for (let i = 0; i < state_data.length; i++) {
+
                         state_name = state_data[i].name;
                         state_id = state_data[i].state_id;
                         selected = "";
 
-                        if (state_id == usr_state_id)
+                        if (state_id == usr_state_id) {
                             selected = "selected";
+                        }
 
                         state_options += "<option value='"+state_id+"' "+selected+">"+state_name+"</option>";
                     }
 
                     $('#states').append(state_options);
-
+                    $('#divLoading').css('display', 'none');
                     state_id = $('#states').val();
-                    if (parseInt(state_id)) 
+                    if (parseInt(state_id)) {
                         getCity(state_id);
+                    }
                 }
             },
         }); 
@@ -337,6 +326,7 @@ function getCity(state_id, selected_city_id) {
     
     $('#state_cities').empty();
     state_id = (state_id) ? state_id : ($("#states").val());
+    $('#divLoading').css('display', 'block');
 
     if (state_id) {
 
@@ -351,8 +341,8 @@ function getCity(state_id, selected_city_id) {
 
                     if(city_data.length > 0) {
                         
-                        city_options = "<option value=''>select city</option>";
-                        usr_city_id = <?= (isset($_GET['city_id']) && !empty($_GET['city_id']) ? $_GET['city_id'] : '""'); ?>
+                        city_options = "<option value=''>Select City</option>";
+                        usr_city_id = <?= (isset($_GET['city_id']) && !empty($_GET['city_id']) ? $_GET['city_id'] : (!empty($city_id) ? json_encode($city_id) : '""')); ?>
 
                         for (var i = 0; i < city_data.length; i++) {
 
@@ -370,6 +360,7 @@ function getCity(state_id, selected_city_id) {
                         city_options = "<option value=''>No cities found</option>";
                     }
 
+                    $('#divLoading').css('display', 'none');
                     $('#state_cities').append(city_options);
                 }
             },

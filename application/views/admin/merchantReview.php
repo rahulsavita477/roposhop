@@ -227,11 +227,10 @@
 					</div>
 				</div>
 			</div>
-	<?php } 
-		} 
-		else 
-			echo "Review not available";
-	?>
+	<?php }
+	} else {
+		echo '<div class="col-sm-12">Review not available</div>';
+	} ?>
 </aside>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
