@@ -20,7 +20,9 @@
         <!-- AdminLTE -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.18/js/adminlte.min.js"></script>
 
-
+        <!-- AdminLTE App -->
+        <script src="<?= $this->config->item('site_url').'assets/admin/js/AdminLTE/app.js' ?> " type="text/javascript"></script>
+        
         <script type="text/javascript">
         function confirmSave(msg) {
             return confirm(msg);
