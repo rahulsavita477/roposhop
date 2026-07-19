@@ -193,7 +193,16 @@
                                                     <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                     <ul class='dropdown-menu'>
                                                         <li>
-                                                            <a href='".base_url()."getProductDetail/".$prd_id."/".$sel_id."/".$list_id."/false' title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                            <form id='editForm{$list_id}' method='post' action='".base_url('listings/product')."'>
+                                                                <input type='hidden' name='product_id' value='{$prd_id}'>
+                                                                <input type='hidden' name='merchant_id' value='{$sel_id}'>
+                                                                <input type='hidden' name='listing_id' value='{$list_id}'>
+                                                                <input type='hidden' name='isRequestedProduct' value='false'>
+                                                            </form>
+
+                                                            <a href='javascript:void(0)' onclick='document.getElementById(\"editForm{$list_id}\").submit();' title='Edit'>
+                                                                <i class='fa fa-edit'></i> Edit
+                                                            </a>
                                                         </li>
                                                         <li>
                                                             <a href='".base_url()."deleteListing/".$list_id."/".$sel_id."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>

@@ -1216,15 +1216,15 @@ class User_controller extends CI_Controller
 
             //merchant nearest address
             $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
-            if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
-            {
+            if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) {
+
                 $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant_detail['result'][0]['userId']);
                 if($getNearestAddressId) {
                     $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
                 }
-            }
-            else
+            } else {
                 $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
+            }
 
             $merchants['address']['nearest_address'] = isset($getAddress) ? $getAddress['result'][0] : null;
             $merchants['address']['total_address'] = isset($getAddress) ? $getAddress['count'] : 0;

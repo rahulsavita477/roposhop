@@ -249,12 +249,12 @@ if (isset($_COOKIE['shop_logo']))
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="<?= $countryManagement ?>">
+                            <!-- <li class="<?= $countryManagement ?>">
                                 <a href="<?= base_url('page/countryManagement') ?>">
                                     <i class="fa fa-flag"></i> 
                                     Country Management
                                 </a>
-                            </li>
+                            </li> -->
 
                             <li class="<?= $stateManagement ?>">
                                 <a href="<?= base_url('page/stateManagement') ?>">
@@ -311,24 +311,24 @@ if (isset($_COOKIE['shop_logo']))
                                     Address
                                 </a>
                             </li>
-                            <li class="<?= $countryExcel ?>">
+                            <!-- <li class="<?= $countryExcel ?>">
                                 <a href="<?= base_url('countryExcel') ?>">
                                     <i class="fa fa-flag"></i> 
                                     Country
                                 </a>
-                            </li>
-                            <li class="<?= $stateExcel ?>">
+                            </li> -->
+                            <!-- <li class="<?= $stateExcel ?>">
                                 <a href="<?= base_url('stateExcel') ?>">
                                     <i class="fa fa-globe"></i> 
                                     State
                                 </a>
-                            </li>
-                            <li class="<?= $cityExcel ?>">
+                            </li> -->
+                            <!-- <li class="<?= $cityExcel ?>">
                                 <a href="<?= base_url('cityExcel') ?>">
                                     <i class="fa fa-home"></i> 
                                     City
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="<?= $areaExcel ?>">
                                 <a href="<?= base_url('areaExcel') ?>">
                                     <i class="fa fa-location-arrow"></i> 
@@ -346,11 +346,11 @@ if (isset($_COOKIE['shop_logo']))
                     </li>
 
                     <!-- site maintenance -->
-                    <li class="<?= $maintenance ?>">
+                    <!-- <li class="<?= $maintenance ?>">
                         <a href="<?= base_url('page/maintenance') ?>">
                             <i class="fa fa-wrench"></i> <span>Maintenance</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </section>
         </aside>

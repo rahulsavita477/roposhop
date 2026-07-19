@@ -572,6 +572,8 @@ function validateForm() {
         alert('seller price could not more then product price');
         return false;
     }
+    
+    return confirm("<?= UPDATE_MSG ?>");
 }
 </script>
 

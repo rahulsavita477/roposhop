@@ -104,7 +104,8 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['listings'] = $admin_controller.'listings';
 	$route['listings/add'] = $admin_controller.'getProductsForLinking';
 	// $route['getAllProducts'] = $admin_controller.'getProductsForLinking';
-	$route['getProductDetail/(:num)/(:num)/(:num)/(:any)'] = $admin_controller.'getProductDetail/$1/$2/$3/$4';
+	// $route['getProductDetail/(:num)/(:num)/(:num)/(:any)'] = $admin_controller.'getProductDetail/$1/$2/$3/$4';
+	$route['listings/product'] = $admin_controller.'getProductDetail';
 	$route['insertListingInfo'] = $admin_controller.'addListing';
 	$route['page/(:any)'] = $admin_controller.'pageLoad/$1';
 	$route['signout'] = $admin_controller.'logout';

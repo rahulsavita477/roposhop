@@ -140,7 +140,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if($unassignedProducts) { 
+                        <?php if($unassignedProducts) {
+                            
                             foreach ($unassignedProducts as $prd_value) {
 
                                 $prd_id = $prd_value['product_id'];
@@ -173,9 +174,14 @@
                                 echo "<tr>";
                                 if ($sel_id) {
 
-                                    echo "<td>
-                                            <a href='".base_url("getProductDetail/$prd_id/$sel_id/0/false")."'>Link</a>
-                                        </td>";
+                                    echo "<form method='post' action='".base_url('listings/product')."'>
+                                        <input type='hidden' name='product_id' value='{$prd_id}'>
+                                        <input type='hidden' name='merchant_id' value='{$sel_id}'>
+
+                                        <td>
+                                            <button type='submit' class='btn-custom btn-primary'>Link</button>
+                                        </td>
+                                    </form>";
                                 } else {
                                     echo "<td>
                                         <button type='button' class='btn-custom btn-primary'>Select seller to link</button>

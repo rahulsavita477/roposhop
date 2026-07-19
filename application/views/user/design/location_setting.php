@@ -14,19 +14,17 @@
 
                 <div class="form-group ml-2 mt-1">
                     <select class="form-control mx-auto" id="state_id">
-                        <option value="0">-- select state --</option>
-                        <?php
-                        foreach ($states['result'] as $state) 
-                        {
+                        <option value="0">Select State</option>
+                        <?php foreach ($states['result'] as $state) {
+
                             $selected = '';
-                            if (isset($_COOKIE['state_id']) && $_COOKIE['location_selection'] == 'manual') 
-                            {
+                            if (isset($_COOKIE['state_id']) && $_COOKIE['location_selection'] == 'manual') {
+
                                 $selected = ($_COOKIE['state_id'] == $state['state_id']) ? "selected='selected'" : '';
                             }
                             
                             echo "<option ".$selected." value='".$state['state_id']."'>".$state['name']."</option>";
-                        }
-                        ?>
+                        } ?>
                     </select>
                 </div>
 
@@ -37,31 +35,34 @@
                 <button type="button" onclick="saveLocation()" class="btn-custom btn-primary">Submit</button>
             </form>
         </div>
-    </div>  
+    </div>
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#state_id").change(function() {
-            //get and set cities
-            let state_id = $('#state_id').val();
-            
-            if (state_id == 0) 
-                $('#state_cities').css('display', 'none');
-            else //get and set cities
-                setCities(state_id);
-        });
+$(document).ready(function() {
+   
+    $("#state_id").change(function() {
 
         //get and set cities
-        state_id = $('#state_id').val();
-
-        if (state_id != 0 && getCookie('state_id') != '')
-        {
-            setCities(getCookie('state_id'));
-
-            setTimeout(function(){
-                $('#state_cities').val(getCookie('city_id'));
-            }, 2000);
+        let state_id = $('#state_id').val();
+        
+        if (state_id == 0) {
+            $('#state_cities').css('display', 'none');
+        } else { //get and set cities
+            setCities(state_id);
         }
     });
+
+    //get and set cities
+    state_id = $('#state_id').val();
+
+    if (state_id != 0 && getCookie('state_id') != '') {
+        
+        setCities(getCookie('state_id'));
+
+        setTimeout(function(){
+            $('#state_cities').val(getCookie('city_id'));
+        }, 2000);
+    }
+});
 </script>

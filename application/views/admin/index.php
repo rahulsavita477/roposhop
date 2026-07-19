@@ -117,12 +117,12 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <?php if ( $_COOKIE['site_code'] == "admin" ) { ?>
+                    <?php if ($_COOKIE['site_code'] == "admin") { ?>
                         <a href="<?= base_url('sellers/sellersList') ?>" class="small-box-footer">
                             More info <i class="fa fa-arrow-circle-right"></i>
                         </a>
-                    <?php } else if ( $_COOKIE['site_code'] == "seller" ) { 
-                        $url = 'getAllProducts/'.$_COOKIE['merchant_id'];
+                    <?php } elseif ($_COOKIE['site_code'] == "seller") {
+                        $url = 'listings';
                     ?>
                         <a href="<?= base_url($url) ?>" class="small-box-footer">
                             More info <i class="fa fa-arrow-circle-right"></i>

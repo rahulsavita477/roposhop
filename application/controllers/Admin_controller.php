@@ -4061,12 +4061,17 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
-	public function getProductDetail($prd_id = '', $sel_id='', $list_id='', $isRequestedProduct=false)
-	{
-		$this->isLoggedIn();
+	public function getProductDetail() {
 
-		if ($prd_id) 
-		{
+		$this->isLoggedIn();
+		
+		$prd_id = $this->input->post('product_id');
+		$sel_id = $this->input->post('merchant_id');
+		$list_id = $this->input->post('listing_id');
+		$isRequestedProduct = $this->input->post('isRequestedProduct');
+
+		if ($prd_id) {
+
 			$prd_res = $this->productDetail($prd_id, $isRequestedProduct);
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
@@ -4078,13 +4083,13 @@ class Admin_controller extends CI_Controller
 			$prd_res['seller_id'] = $sel_id;
 			$prd_res['product_listing'] = array();
 			
-			if ($list_id)
-			{
+			if ($list_id) {
+
 				$product_listing = $this->Admin_model->selectRecords(array('listing_id' => $list_id), 'product_listing', '*');
 				$prd_res['product_listing'] = $product_listing['result'];
-			}
-			else
-			{
+			
+			} else {
+				
 				$seller_default_values = $this->Admin_model->selectRecords(array('merchant_id' => $sel_id), 'merchant', 'finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering');
 
 				if ($seller_default_values)

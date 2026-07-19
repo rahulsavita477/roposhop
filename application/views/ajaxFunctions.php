@@ -135,36 +135,39 @@ function getMerchantAddress(n_merchant_id, n_page)
 }
 
 //get city of state
-function setCities(state_id)
-{
-    $('#state_cities').empty();
+function setCities(state_id) {
 
+    $('#divLoading').css('display', 'block');
+    $('#state_cities').empty();
+    
     $.ajax({
         type: "POST",
         url: '<?= base_url("cities/") ?>'+state_id,
-        success: function(data){
-            if (data == 'null') 
-            {
+        success: function(data) {
+
+            if (data == 'null') {
+
                 $('#state_cities').css('display', 'none');
                 return;
             }
 
             let city_data = JSON.parse(data);
-            let city_options = "<option value='0'>--select city--</option>";
+            let city_options = "<option value='0'>Select City</option>";
 
-            for (var i = 0; i < city_data.length; i++) 
-            {
+            for (var i = 0; i < city_data.length; i++) {
+
                 city_name = city_data[i].name;
                 city_id = city_data[i].city_id;
 
-                if (city_data[i].status == 1) 
-                {
+                if (city_data[i].status == 1) {
+
                     city_options += "<option value='"+city_id+"'>"+city_name+"</option>";
                 }
             }
 
             $('#state_cities').append(city_options);
             $('#state_cities').css('display', 'block');
+            $('#divLoading').css('display', 'none');
         },
     });
 }
@@ -195,27 +198,48 @@ function saveLocation()
         return;
     }
 
-    //set city detail
-    $.when(getCity($("#state_cities").val())).done(function(city){        
-        resp = JSON.parse(city);
-
-        document.cookie = "latitude="+resp.result[0].latitude+";path=/";
-        document.cookie = "longitude="+resp.result[0].longitude+";path=/";
+    // set city detail
+    $.when(getCoordinatesGoogle(s_city_name, 'indore', 'india')).done(function(city) {
+        
+        document.cookie = "latitude="+city.lat+";path=/";
+        document.cookie = "longitude="+city.lng+";path=/";
 
         /*if (resp.result == null || resp.result == 'undefined' || resp.result.length == 0)
         {
 
         }*/
+
+        document.cookie = "city_id="+n_city_id+";path=/";
+        document.cookie = "state_id="+n_state_id+";path=/";
+        document.cookie = "location="+s_city_name+";path=/";
+        document.cookie = "location_selection=manual;path=/";
+        
+        $("#location").html('<i class="fa fa-map-marker"></i> &nbsp; '+s_city_name);
+
+        alert("location changed");
     });
+}
 
-    document.cookie = "city_id="+n_city_id+";path=/";
-    document.cookie = "state_id="+n_state_id+";path=/";
-    document.cookie = "location="+s_city_name+";path=/";
-    document.cookie = "location_selection=manual;path=/";
-    
-    $("#location").html('<i class="fa fa-map-marker"></i> &nbsp; '+s_city_name);
+async function getCoordinatesGoogle(city, state, country) {
 
-    alert("location changed");
+    const address = encodeURIComponent(`${city}, ${state}, ${country}`);
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=<?=GOOGLE_MAP_API_KEY?>`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.status === "OK") {
+            const location = data.results[0].geometry.location;
+            console.log(`Latitude: ${location.lat}, Longitude: ${location.lng}`);
+            return location;
+        } else {
+            console.log("Coordinates not found.");
+            return null;
+        }
+  } catch (error) {
+    console.error("Error fetching coordinates:", error);
+  }
 }
 
 function getCookie(cname) {

@@ -25,7 +25,7 @@
                                 <tr>
                                     <!-- <th>S.NO.</th> -->
                                     <th>Action</th>
-                                    <th>Status</th>
+                                    <th>Status&nbsp;&nbsp;&nbsp;</th>
                                     <th>Title</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
