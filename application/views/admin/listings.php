@@ -193,7 +193,7 @@
                                                     <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                     <ul class='dropdown-menu'>
                                                         <li>
-                                                            <form id='editForm{$list_id}' method='post' action='".base_url('listings/product')."'>
+                                                            <form id='editForm{$list_id}' method='post' action='".base_url('listings/product')."' style='display:none;'>
                                                                 <input type='hidden' name='product_id' value='{$prd_id}'>
                                                                 <input type='hidden' name='merchant_id' value='{$sel_id}'>
                                                                 <input type='hidden' name='listing_id' value='{$list_id}'>

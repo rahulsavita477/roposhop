@@ -161,7 +161,14 @@ else if($pageName == "offerManagement")
                                                                         <a href='".base_url("changeSellerStatus/$merchant_id/$status_value/status")."' onclick='return confirm(\"Do you want to change the seller visibility status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href='".base_url("page/addressManagement?user_id=$user_id&merchant_id=$merchant_id")."' title='Manage Address'><i class='fa fa-map-marker'></i>Manage Address</a>
+                                                                        <form id='manageAddressForm".$merchant_id."' action='".base_url('page/addressManagement')."' method='post' style='display:none;'>
+                                                                            <input type='hidden' name='user_id' value='".$user_id."' />
+                                                                            <input type='hidden' name='merchant_id' value='".$merchant_id."' />
+                                                                        </form>
+
+                                                                        <a href='javascript:void(0)' onclick='document.getElementById(\"manageAddressForm".$merchant_id."\").submit();' title='Manage Address'>
+                                                                        <i class='fa fa-map-marker'></i> Manage Address
+                                                                        </a>
                                                                     </li>
                                                                     <li>
                                                                         <a href='".base_url("seller/$merchant_id/edit")."'title='Edit'><i class='fa fa-edit'></i>Edit</a>
@@ -293,3 +300,8 @@ function openVerifyModal(merchant_id, user_id, shop_name, owner_name, owner_cont
     $('#verifyModal').modal('show');
 }
 </script>
+<style>
+.fa-map-marker {
+    color: #ff0000;
+}
+</style>

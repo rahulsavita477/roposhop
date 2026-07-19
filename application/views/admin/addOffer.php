@@ -62,7 +62,7 @@ if (isset($page_label) && $page_label == 'view') {
 									<a href='<?= base_url("page/offerManagement") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
 								<?php } ?>
 							
-								<form action="<?= base_url('offer/edit') ?>" method="post" id='offer/edit' style="display: inline;">
+								<form action="<?= base_url('offer/edit') ?>" method="post" id='offer/edit' style="display:none;">
 									<input type="hidden" name="offer_id" value="<?= $offer_id ?>" />
 								</form>
 								<a href='javascript:void(0)' onclick='document.getElementById("offer/edit").submit();' title='Edit'><i class='fa fa-edit'></i></a>

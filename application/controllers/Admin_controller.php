@@ -439,8 +439,8 @@ class Admin_controller extends CI_Controller
 	}
 
 	//load any kind of page
-	public function pageLoad($pageName)
-	{
+	public function pageLoad($pageName) {
+
 		$this->isLoggedIn();
 
 		$controller = 'dashboard';
@@ -449,25 +449,27 @@ class Admin_controller extends CI_Controller
 		$data['categories'] = array();
 		
 		$countries = $this->getCountry();
-		if (isset($countries['db_error'])) 
+		if (isset($countries['db_error'])) {
 			redirectWithMessage('Error: '.$countries['msg'], $controller);
+		}
 
 		$data['countries'] = $countries ? $countries['result'] : [];
 
-		if ($pageName == "addCategory") 
-		{
+		if ($pageName == "addCategory") {
+
 			$data['status'] = true;
 			
 			$data['categories'] = $this->getAllCategories();
-			if (isset($data['categories']['db_error'])) 
+			if (isset($data['categories']['db_error'])) {
 				redirectWithMessage('Error: '.$data['categories']['msg'], $controller);
+			}
 
 			$data['attributes'] = $this->getAllAttributes();
-			if (isset($data['attributes']['db_error'])) 
+			if (isset($data['attributes']['db_error'])) {
 				redirectWithMessage('Error: '.$data['attributes']['msg'], $controller);
-		}
-		elseif ($pageName == "attributes") 
-		{
+			}
+		} elseif ($pageName == "attributes") {
+
 			$data['status'] = false;
 
 			$attributes = $this->getAllAttributes();
@@ -744,56 +746,69 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$req_prds['msg'], $controller);
 
 			$data['req_products'] = $req_prds;
-		}
-		else if ($pageName == "addressManagement") 
-		{
+
+		} elseif ($pageName == "addressManagement") {
+
 			$data['address'] = array();
 			$data['page_label'] = 'view';
-			$merchant_id = $_GET['merchant_id'];
-			$user_id = $_GET['user_id'];
+			
+			if($this->input->post('merchant_id')) {
+				$merchant_id = $this->input->post('merchant_id');
+			} elseif($this->session->flashdata('merchant_id')) {
+				$merchant_id = $this->session->flashdata('merchant_id');
+			}
+			
+			if($this->input->post('user_id')) {
+				$user_id = $this->input->post('user_id');
+			} elseif($this->session->flashdata('user_id')) {
+				$user_id = $this->session->flashdata('user_id');
+			}
 
 			//get merchant logo and name
-			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name");
-			if (isset($data['merchant']['db_error'])) 
+			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name, merchant_id");
+			if (isset($data['merchant']['db_error'])) {
 				redirectWithMessage('Error: '.$data['merchant']['msg'], $controller);
+			}
 
-			if (isset($_GET['user_id']) && isset($_GET['merchant_id']) && isset($_GET['state_id']))
-			{
+			if (isset($user_id) && isset($merchant_id) && isset($_GET['state_id'])) {
 				$state_id = $_GET['state_id'];
 				$city_id = isset($_GET['city_id']) ? $_GET['city_id'] : '';
 
 				//get all states
 				$states = $this->Admin_model->selectRecords('', 'state', '*');
-				if (isset($states['db_error'])) 
+				if (isset($states['db_error'])) {
 					redirectWithMessage('Error: '.$states['msg'], $controller);
+				}
 				$data['states'] = $states['result'];
 
 				//get user address
 				$where = array();
 				$where['address.userId'] = $user_id;
 				$where['address.state_id'] = $state_id;
-				if ($city_id) 
+				if ($city_id) {
 					$where['address.city_id'] = $city_id;
+				}
 
 				$address_res = $this->getUserAddress($where);
-				if (isset($address_res['db_error'])) 
+				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
-				else if ($address_res) 
+				}
+				elseif ($address_res) {
 					$data['address'] = $address_res['result'];
-			}
-			else
-			{
+				}
+			} else {
 				//get user address
-				$address_res = $this->getUserAddress(array('address.userId' => $_GET['user_id']));
-				if (isset($address_res['db_error'])) 
+				$address_res = $this->getUserAddress(array('address.userId' => $user_id));
+				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
-				else if ($address_res) 
-				{
+				} elseif ($address_res) {
+
 					$data['address'] = $address_res['result'];
 
 					$states = $this->Admin_model->selectRecords('', 'state', '*');
-					if (isset($states['db_error'])) 
+					if (isset($states['db_error'])) {
 						redirectWithMessage('Error: '.$states['msg'], $controller);
+					}
 
 					$data['states'] = $states['result'];
 				}
@@ -801,6 +816,7 @@ class Admin_controller extends CI_Controller
 
 			//get user detail
 			if($user_id) {
+				
 				$user = $this->Admin_model->selectRecords(['userId' => $user_id], 'user', '*');
 				if (isset($user['db_error'])) {
 					redirectWithMessage('Error: '.$user['msg'], $controller);
@@ -808,29 +824,34 @@ class Admin_controller extends CI_Controller
 					
 				$data['user'] = $user['result'][0];
 			}
-		}
-		else if ($pageName == "addAddress") 
-		{
+
+			// echo "<pre>"; print_r($data); die;
+		} elseif ($pageName == "addAddress") {
+		
 			$data = array();
 			
 			//get address detail
-			if (isset($_GET['address_id'])) 
-			{
+			if (isset($_GET['address_id'])) {
+
 				$address_res = $this->getUserAddress(array('address_id' => $_GET['address_id']));
-				if (isset($address_res['db_error'])) 
+				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
-				else if ($address_res) 
+				} elseif ($address_res) {
 					$data = $address_res['result'][0];
+				}
 
 				$data['page_label'] = 'edit';
-			}
-			else
+			} else {
 				$data['page_label'] = 'add';
+			}
 
 			//get countries
 			$data['countries'] = $this->getCountry();
-			if (isset($data['countries']['db_error'])) 
+			if (isset($data['countries']['db_error'])) {
 				redirectWithMessage('Error: '.$data['countries']['msg'], $controller);
+			}
+
+			// echo "<pre>"; print_r($data); die;
 		}
 		else if ($pageName == "service_policy") 
 		{
@@ -1036,26 +1057,28 @@ class Admin_controller extends CI_Controller
 		return $seller_offer;
 	}
 
-	public function deleteAddress($address_id, $user_id, $merchant_id)
-	{
-		if ($address_id && $user_id) 
-		{
+	public function deleteAddress($address_id, $user_id, $merchant_id) {
+
+		if ($address_id && $user_id) {
+			
 			$isDeleted = $this->Admin_model->deleteRecord('address', array('address_id' => $address_id));
 
-			$msg = 'Address deleted successfully!!!';
-			$controller = 'page/addressManagement?user_id='.$user_id.'&merchant_id='.$merchant_id;
+			$msg = 'Address deleted successfully';
+			
+			$this->session->set_flashdata('user_id', $user_id);
+			$this->session->set_flashdata('merchant_id', $merchant_id);
 
-			if (isset($isDeleted['db_error'])) 
+			$controller = 'page/addressManagement';
+
+			if (isset($isDeleted['db_error'])) {
 				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-			else 
-			{
+			} else {
 				$isDeleted = $this->saveDeleteItem($address_id, 'ADDRESS');
-				if (isset($isDeleted['db_error'])) 
+				if (isset($isDeleted['db_error'])) {
 					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				}
 			}
-		}
-		else
-		{
+		} else {
 			$msg = 'Error: user id and address is required!';
 			$controller = 'dashboard';
 		}
@@ -4354,23 +4377,26 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage($msg, 'seller/'.$merchant_id.'/edit');
 	}
 	
-	public function addAddress()
-	{
+	public function addAddress() {
+
 		$user_id = $this->input->post('user_id');
 		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : $_COOKIE['merchant_id'];
 
-		if ($user_id && $merchant_id) 
-		{
+		if ($user_id && $merchant_id) {
+			
 			$address_id = $this->insertAddress($user_id);
-			if ($address_id) 
+			if ($address_id) {
 				$msg = 'Merchat address update successfully!!!!';
-			else
+			} else {
 				$msg = "Error: lat, long are not in correct format.";
+			}
 
-			$controller = 'page/addressManagement?user_id='.$user_id.'&merchant_id='.$merchant_id;
-		}
-		else
-		{
+			$this->session->set_flashdata('user_id', $user_id);
+			$this->session->set_flashdata('merchant_id', $merchant_id);
+
+			$controller = 'page/addressManagement';
+
+		} else {
 			$msg = 'Error: user id and merchant id is required!';
 			$controller = 'dashboard';
 		}

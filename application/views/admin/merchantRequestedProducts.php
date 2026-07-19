@@ -43,7 +43,7 @@
                                 if ($req_product['merchant_id'] == $_COOKIE['merchant_id']) {
 
                                     $editRequestedProductBtn = "<li>
-                                        <form id='editForm".$req_product['request_id']."' method='post' action='".base_url('editRequestedProduct')."'>
+                                        <form id='editForm".$req_product['request_id']."' method='post' action='".base_url('editRequestedProduct')."' style='display:none;'>
                                             <input type='hidden' name='request_id' value='".$req_product['request_id']."' />
                                         </form>
 

@@ -35,12 +35,23 @@ if (isset($page_label) && $page_label == "edit") {
             Seller Address
             <small><?= ucfirst($page_label) ?></small>
         </h1>
+
+        <!-- hidden form outside breadcrumb -->
+        <form id="viewAddressForm" method="post" action="<?= base_url('page/addressManagement') ?>" style="display:none;">
+            <input type="hidden" name="user_id" value="<?= $user_id ?>" />
+            <input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
+        </form>
+
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
             <?php if ($_COOKIE['site_code'] == 'admin') { ?>
                 <li><a href="<?= base_url('sellers/sellersTable') ?>">Seller Management</a></li>
             <?php } ?>
-            <li><a href="<?= base_url('page/addressManagement?user_id='.$user_id.'&merchant_id='.$merchant_id) ?>">View address</a></li>
+            <li>
+                <a href="javascript:void(0)" onclick="document.getElementById('viewAddressForm').submit();" title="View address">
+                    View address
+                </a>
+            </li>
             <li class="active"><?= $page_title ?></li>
         </ol>
     </section>
@@ -53,7 +64,7 @@ if (isset($page_label) && $page_label == "edit") {
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <!-- form start -->
-				    <form method="post" action="<?= base_url('addAddress') ?>" onsubmit="return validateForm()">
+				    <form method="post" action="<?= base_url('addAddress') ?>" onsubmit="return validateForm()" id="addressForm">
 				    	<div class="box-body">
 
 					    	<input type="hidden" name="address_id" value="<?= $address_id ?>" />
@@ -166,13 +177,8 @@ if (isset($page_label) && $page_label == "edit") {
                                 </div>
                             </div>
 
-                            <div class="box-footer" style="margin-right: 10px; text-align: right;">
-                                <?php if ($_COOKIE['site_code'] == 'seller') {
-                                    echo "<a href='".base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id']."' class='btn btn-default'>Cancel</a>";
-                                } else {
-                                    echo "<a href='../page/addressManagement?user_id=$user_id&merchant_id=$merchant_id' class='btn btn-default'>Cancel</a>";
-                                } ?>
-					        	
+                            <div class="box-footer" style="text-align: right;">
+                                <a href='javascript:void(0)' onclick="cancelForm()" class='btn btn-default'>Cancel</a>
 					            <button type="submit" class="btn btn-primary">Submit</button>
 					        </div>
 					    </div>
@@ -186,8 +192,8 @@ if (isset($page_label) && $page_label == "edit") {
 <?php require_once('include/imageModel.php'); ?>
 
 <script>
-function getLatLongFromAddress()
-{
+function getLatLongFromAddress() {
+
     geocoder = new google.maps.Geocoder();
     line1 = ($('[name="line1"]').val()) ? $('[name="line1"]').val()+', ' : '';
     line2 = ($('[name="line2"]').val()) ? $('[name="line2"]').val()+', ' : '';
@@ -218,17 +224,17 @@ function getLatLongFromAddress()
 //initialize google map
 function initialize()
 {
-    var lat = ($('[name="lat"]').val()) ? $('[name="lat"]').val() : 22.7196;
-    var long = ($('[name="long"]').val()) ? $('[name="long"]').val() : 75.8577;
+    let lat = ($('[name="lat"]').val()) ? $('[name="lat"]').val() : 22.7196;
+    let long = ($('[name="long"]').val()) ? $('[name="long"]').val() : 75.8577;
 
     //set location on google map using lat long
-    var myLatlng = new google.maps.LatLng(lat, long);
-    var mapOptions = {
-                        zoom: 15,
-                        center: myLatlng,
-                        draggable: true
-                    }
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
+    let myLatlng = new google.maps.LatLng(lat, long);
+    let mapOptions = {
+        zoom: 15,
+        center: myLatlng,
+        draggable: true
+    }
+    let map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
     setMarkerOnClickMap(myLatlng, map);
 
     google.maps.event.addListener(map, 'click', function (e) {
@@ -300,6 +306,14 @@ function validateForm()
         alert("wrong longitude!");
         return false;
     }
+}
+
+function cancelForm() {
+
+    let form = document.getElementById("addressForm");
+    // Cancel ke liye action change karo
+    form.action = "<?= base_url('page/addressManagement') ?>";
+    form.submit();
 }
 
 $(document).ready(function() {

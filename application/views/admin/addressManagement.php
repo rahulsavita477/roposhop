@@ -11,8 +11,9 @@ if (isset($page_label) && $page_label == "edit") {
 
 $merchant_logo = isset($merchant['result'][0]['merchant_logo']) ? $merchant['result'][0]['merchant_logo'] : '';
 $shop_name = isset($merchant['result'][0]['establishment_name']) ? $merchant['result'][0]['establishment_name'] : '';
-$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
-$merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
+$merchant_id = isset($merchant['result'][0]['merchant_id']) ? $merchant['result'][0]['merchant_id'] : '';
+$merchant_id = isset($merchant['result'][0]['merchant_id']) ? $merchant['result'][0]['merchant_id'] : '';
+$user_id = isset($user['userId']) ? $user['userId'] : '';
 $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 ?>
 
@@ -53,15 +54,15 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 				<div class="box box-primary">
 					<div class="box-body">
 						<div class="row">
-							<form method="get" action="<?= base_url('page/addressManagement') ?>">
+							<form id="addressForm" method="post" action="<?= base_url('page/addressManagement') ?>">
 		
-								<input type="hidden" name="user_id" value="<?= $_GET['user_id'] ?>" />
-								<input type="hidden" name="merchant_id" value="<?= $_GET['merchant_id'] ?>" />
+								<input type="hidden" name="user_id" value="<?= $user_id ?>" />
+								<input type="hidden" name="merchant_id" value="<?= $merchant_id ?>" />
 
 								<div class="col-sm-3 input-field" style="padding-right: 5px;">
 									<label for="state_id">State</label>
 									<select class="form-control" name="state_id" id="state_id" onchange="getCity(this.value);" required>
-										<option value="">select state</option>
+										<option value="">Select State</option>
 										<?php foreach ($states as $state) {
 
 											if (isset($_GET['state_id']) && $state['state_id'] == $_GET['state_id']) {
@@ -81,35 +82,34 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 								</div>
 
 								<div class="col-sm-3" style="padding-left: 0px;">
-									<label class="label_hide">make space equal to label</label><br />
-									<button class="btn btn-primary" type="submit">Find</button>
-									<a href="<?= base_url('page/addressManagement?user_id='.$_GET["user_id"].'&merchant_id=').$_GET["merchant_id"] ?>" title="Reset Filter">
+									<label class="label_hide" for="">make space equal to label</label><br />
+									<button class="btn btn-primary" type="button" onclick="submitBoth()">Find</button>
+									<button type="submit" name="reset" value="1" class="btn btn-link" title="Reset Filter" style="padding:0; border:none; background:none;">
 										<span class="fa-stack fa-lg">
 											<i class="fa fa-filter fa-stack-1x"></i>
 											<i class="fa fa-times fa-stack-1x text-danger" style="margin-top: 6px; margin-left: 6px; font-size: 0.6em;"></i>
 										</span>
-									</a>
+									</button>
 								</div>
 							</form>
 
 							<div class="col-sm-3 input-field">
-								<label class="label_hide">make space equal to label</label><br />
-								<a href="<?= base_url('page/addAddress?user_id='.$_GET['user_id'].'&merchant_id='.$_GET['merchant_id']) ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Address</a>
+								<label class="label_hide" for="">make space equal to label</label><br />
+								<a href="<?= base_url('page/addAddress?user_id='.$user_id.'&merchant_id='.$merchant_id) ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Address</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			
-        	<?php
-            //address data
-			if (count($address)>0) 
-			{
-				foreach ($address as $add_value) 
-				{
+        	<?php if (count($address)>0) {
+
+				foreach ($address as $add_value) {
+
 					$isPrimary = "";
-					if ( $add_value['is_default_address'] == 1 ) 
+					if ( $add_value['is_default_address'] == 1 ) {
 						$isPrimary = '<h3 class="box-title"><b>Primary Address</b></h3>';
+					}
 
 					$address_id = $add_value['address_id'];
 					$lat = $add_value['latitude'];
@@ -129,33 +129,31 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 					$city_name = $add_value['city_name']; 
 					?>
 
-        			<div class="col-sm-3">
+        			<div class="col-sm-3" style="padding-right: 0px;">
 						<div class="box box-primary1">
 							<div class="box-body">
 								<div class="row form-group">
 					                <div class="col-sm-12 address">
-										<a href='<?= base_url("page/addAddress?address_id=$address_id&merchant_id=".$_GET['merchant_id']) ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
-					                	<?php 
-										if (!$isPrimary)
-											echo "<a href='".base_url("deleteAddress/$address_id").'/'.$_GET['user_id']."/".$merchant_id."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>";
-										?>
+										<a href='<?= base_url("page/addAddress?address_id=$address_id&merchant_id=".$merchant_id) ?>' title='Edit'><i class='fa fa-edit'></i></a>&nbsp;
+					                	<?php if (!$isPrimary) {
+											echo "<a href='".base_url("deleteAddress/$address_id").'/'.$user_id."/".$merchant_id."' onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i></a>";
+										} ?>
 					                </div>
 					            	<div class="col-sm-12 address">
 					            		<?= $line1.'<br />'.$line2.'<br />'.$landmark.'<br />'.$city_name." - ".$pin.'<br />'.$state_name.", ".$country_name."<br /><br />" ?>
-					            		<label>Lat-Long :</label> <?= $lat.", ".$long ?><br />
-					            		<label>Phone no :</label> <?= $contact ?><br />
-					            		<label>Business days :</label> <?= $business_days ?><br />
-					            		<label>Business hours :</label> <?= $business_hours ?>
+					            		<label for="">Lat-Long :</label> <?= $lat.", ".$long ?><br />
+					            		<label for="">Phone no :</label> <?= $contact ?><br />
+					            		<label for="">Business days :</label> <?= $business_days ?><br />
+					            		<label for="">Business hours :</label> <?= $business_hours ?>
 									</div>
 					            </div>
 				        	</div>
 			        	</div>
 			        </div>
 				<?php }
-			} 
-			else
-				echo "No shop found!";
-			?>
+			} else {
+				echo '<div class="col-md-12">No shop found!</p></div>';
+			} ?>
         </section><!-- /.content -->
     </aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
@@ -175,8 +173,23 @@ $user_name = isset($user['first_name']) ? $user['first_name'] : '';
 
 <script type="text/javascript">
 $(document).ready(function() {
+
     state_id = $('#state_id').val();
-	if (parseInt(state_id)) 
+	
+	if (parseInt(state_id)) {
 		getCity(state_id);
+	}
 });
+
+function submitBoth() {
+
+    let form = document.getElementById("addressForm");
+    let stateId = document.getElementById("state_id").value;
+    let cityId = document.getElementById("state_cities").value;
+	let query = "?state_id=" + stateId + "&city_id=" + cityId; // build GET query
+
+    // change form action dynamically
+    form.action = "<?= base_url('page/addressManagement') ?>" + query;
+    form.submit();
+}
 </script>

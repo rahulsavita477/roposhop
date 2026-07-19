@@ -59,7 +59,7 @@
                                                         <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
                                                         <ul class='dropdown-menu'>
                                                             <li>
-                                                                <form id='offer/edit".$offer_id."' method='post' action='".base_url('offer/edit')."'>
+                                                                <form id='offer/edit".$offer_id."' method='post' action='".base_url('offer/edit')."' style='display:none;'>
                                                                     <input type='hidden' name='offer_id' value='".$offer_id."' />
                                                                 </form>
 
@@ -74,7 +74,7 @@
                                             </td>
                                             <td class='statusLabel'>".$current_status."</td>
                                             <td>
-                                                <form id='offer/view".$offer_id."' method='post' action='".base_url('offer/view')."'>
+                                                <form id='offer/view".$offer_id."' method='post' action='".base_url('offer/view')."' style='display:none;'>
                                                     <input type='hidden' name='offer_id' value='".$offer_id."' />
                                                 </form>
                                                 <a href='javascript:void(0)' onclick='document.getElementById(\"offer/view".$offer_id."\").submit();' title='".$offer_value['offer_title']."'>".$offer_value['offer_title']."</a>

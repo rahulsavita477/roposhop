@@ -1,5 +1,5 @@
 <?php
-$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $product_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = $list_new_product = '';
+$seller_page = $brand_page = $products_page = $place_management = $seller_management = $product_seller_linking = $product_linking = $countryManagement = $stateManagement = $cityManagement = $areaManagement = $userManagement = $offerManagement = $requestProduct = $merchantReview = $productReview = $review = $data_import_export = $productExcel = $merchantExcel = $listingExcel = $addressExcel = $siteSettings = $claimed_request = $countryExcel = $stateExcel = $cityExcel = $areaExcel = $maintenance = $sellerOfferings = $list_new_product = $address_management = '';
 
 // $parse_url = parse_url($_SERVER['REQUEST_URI']);
 // $url = explode('/', $_SERVER['REQUEST_URI']);
@@ -12,10 +12,9 @@ $sellerServicePolicyScreen = in_array("service_policy", $url) ? "active" : '';
 $sellerProfileScreen = in_array("merchantSignupStep2", $url) ? "active" : '';
 $category_page = (in_array("category", $url) || in_array("addCategory", $url) || in_array("editCategory", $url)) ? "active" : "";
 $attributes_page = (in_array("attributes", $url) || in_array("addAttribute", $url) || in_array("editAttribute", $url)) ? "active" : "";
-$address_management = ((isset($_GET['user_id']) || isset($_GET['address_id'])) && $_COOKIE['site_code'] == 'seller') ? "active" : "";
 
-if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array("addSeller", $url) || in_array("seller", $url) || in_array("listings", $url) || in_array("getProductDetail", $url) || isset($_GET['user_id']) || isset($_GET['address_id']) || in_array("viewRequest", $url))
-{
+if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array("addSeller", $url) || in_array("seller", $url) || in_array("listings", $url) || in_array("getProductDetail", $url) || isset($_GET['user_id']) || isset($_GET['address_id']) || in_array("viewRequest", $url)) {
+
     $seller_page = "active";
 
     if (in_array("listings", $url) && in_array("add", $url)) {
@@ -28,7 +27,7 @@ if (in_array("sellersTable", $url) || in_array("sellersList", $url) || in_array(
         $product_seller_linking = 'active';
         $product_linking = 'active';
 
-    } elseif (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url) || isset($_GET['user_id']) || isset($_GET['address_id'])) {
+    } elseif (in_array("sellersTable", $url) || in_array("addSeller", $url) || in_array("seller", $url)) {
         $seller_management = 'active';
     }
 } elseif (in_array("brand", $url) || in_array("addBrand", $url) || in_array("editBrand", $url)) {
@@ -93,15 +92,12 @@ elseif (in_array("maintenance", $url))
     $maintenance = 'active';
 elseif (in_array("offerings", $url)) {
     $sellerOfferings = 'active';
+} elseif (in_array("addressManagement", $url)) {
+    $address_management = "active";
+    $seller_management = 'active';
+    $seller_page = "active";
 }
-
-$usr_profile_pic = $shop_logo = $this->config->item('site_url').'assets/admin/img/avatar3.png';
-
-if (isset($_COOKIE['image']))
-    $usr_profile_pic = $_COOKIE['image'];
-
-if (isset($_COOKIE['shop_logo']))
-    $shop_logo = $_COOKIE['shop_logo'];    
+// $address_management = ((isset($_GET['user_id']) || isset($_GET['address_id'])) && $_COOKIE['site_code'] == 'seller') ? "active" : "";
 ?>
 
 <style type="text/css">
@@ -411,10 +407,12 @@ if (isset($_COOKIE['shop_logo']))
 
                     <!-- Address management -->
                     <li class="<?= $address_management ?>">
-                        <a href="<?= base_url().'page/addressManagement?user_id='.$_COOKIE['user_id'].'&merchant_id='.$_COOKIE['merchant_id'] ?>">
-                            <i class="fa fa-home"></i> 
-                            Shop Address
-                        </a>
+                        <form id="addressForm" action="<?= base_url('page/addressManagement') ?>" method="post" style="display:none;">
+                            <input type="hidden" name="user_id" value="<?= $_COOKIE['user_id'] ?>">
+                            <input type="hidden" name="merchant_id" value="<?= $_COOKIE['merchant_id'] ?>">
+                        </form>
+
+                        <a href="javascript:void(0)" onclick="document.getElementById('addressForm').submit();" title="Shop Address"><i class="fa fa-home"></i> Shop Address</a>
                     </li>
 
                     <li class="<?= $sellerProfileScreen ?>">

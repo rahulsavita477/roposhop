@@ -333,7 +333,7 @@ function getState(cnt_id)
 }
 
 //get city of state
-function getCity(state_id) {
+function getCity(state_id, selected_city_id) {
     
     $('#state_cities').empty();
     state_id = (state_id) ? state_id : ($("#states").val());
