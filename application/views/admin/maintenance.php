@@ -3,7 +3,7 @@
     <!-- bread crumb -->
     <section class="content-header">
         <h1>
-            Roposhop
+            ROPOshop
             <small>Maintanance</small>
         </h1>
         <ol class="breadcrumb">
@@ -18,7 +18,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="col-sm-12" style="margin-top: 10px;">
-                        <a href="<?= base_url('admin_controller/updateSellerImages') ?>" class="btn btn-success">Update seller shop images</a>
+                        <a href="<?= base_url('admin_controller/updateSellerImages') ?>" class="btn btn-primary">Update seller shop images</a>
                     </div>
                 </div>
             </div>

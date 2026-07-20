@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Roposhop</title>
+    <title>ROPOshop</title>
 
     <meta name="" content="HTML5 Template" />
     <meta name="" content="P">
@@ -55,7 +55,7 @@
                     </div>
 
 
-                    <button class="btn btn-success">Submit</button>
+                    <button class="btn-custom btn-primary">Submit</button>
 
                         
 

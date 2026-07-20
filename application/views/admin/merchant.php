@@ -319,7 +319,7 @@
 							<form action="<?= base_url('addReview') ?>" method="post">
 								<input type="hidden" name="review_for" value="merchant">
 								<input type="hidden" name="merchant_id" value="<?= $_GET['merchant_id'] ?>">
-								<textarea rows="8" style="width: 98%; margin-top: 80px;" placeholder="Write your review........" name="review" required></textarea>
+								<textarea rows="1" style="width: 98%; margin-top: 80px;" placeholder="Write your review........" name="review" required></textarea>
 								<div class="stars">
 									<input class="star star-5" id="star-5" type="radio" name="star" value="5" />
 									<label class="star star-5" for="star-5"></label>

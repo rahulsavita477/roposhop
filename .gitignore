@@ -1,4 +1,4 @@
-## ROPOSHOP SPECIFIC GIT IGNORE
+## ROPOshop SPECIFIC GIT IGNORE
 #assets/*
 #!assets/admin/*
 #!assets/user/*
@@ -9,6 +9,7 @@ assets/product/
 assets/seller/
 assets/temp/
 assets/profile_pics/
+assets/offer/
 
 ## STANDARD GIT IGNORE CONTENT
 

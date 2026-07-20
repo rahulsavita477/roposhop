@@ -77,7 +77,7 @@ else
         <div class="container">
             <div class="header-left">
                 <a href="<?= $site_url ?>" class="logo">
-                    <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>" alt="Roposhop" width="180">
+                    <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>" alt="ROPOshop" width="180">
                 </a>
 
             </div><!-- End .header-left -->
@@ -123,7 +123,7 @@ else
                     else
                     {
                         echo "<a href='".$site_url."/userProfile' class='btn-info btn-custom'><i class='icon-user'></i></a>&nbsp;";
-                        echo "&nbsp;<a href='".$site_url."/userLogout' class='btn-warning btn-custom'><i class='fas fa-power-off'></i></a>";   
+                        echo "&nbsp;<a href='".$site_url."/userLogout' class='btn-default btn-custom' title='logout'><i class='fas fa-power-off'></i></a>";   
                     }
                     ?>        
                 </div>
@@ -152,8 +152,8 @@ else
                     } 
                     ?>  
 
-                    <li><a href="<?= base_url('brands') ?>">Brands</a></li>
-                    <li><a href="<?= base_url('merchants') ?>">Sellers</a></li>
+                    <li><a href="<?= $site_url ?>/brands">Brands</a></li>
+                    <li><a href="<?= $site_url ?>/merchants">Sellers</a></li>
                 </ul>
             </nav>
         </div><!-- End .header-bottom -->

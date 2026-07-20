@@ -135,52 +135,41 @@ function getMerchantAddress(n_merchant_id, n_page)
 }
 
 //get city of state
-function setCities(state_id)
-{
-    $('#state_cities').empty();
+function setCities(state_id) {
 
+    $('#divLoading').css('display', 'block');
+    $('#state_cities').empty();
+    
     $.ajax({
         type: "POST",
         url: '<?= base_url("cities/") ?>'+state_id,
-        success: function(data){
-            if (data == 'null') 
-            {
+        success: function(data) {
+
+            if (data == 'null') {
+
                 $('#state_cities').css('display', 'none');
                 return;
             }
 
             let city_data = JSON.parse(data);
-            let city_options = "<option value='0'>--select city--</option>";
+            let city_options = "<option value='0'>Select City</option>";
 
-            for (var i = 0; i < city_data.length; i++) 
-            {
+            for (var i = 0; i < city_data.length; i++) {
+
                 city_name = city_data[i].name;
                 city_id = city_data[i].city_id;
 
-                if (city_data[i].status == 1) 
-                {
+                if (city_data[i].status == 1) {
+
                     city_options += "<option value='"+city_id+"'>"+city_name+"</option>";
                 }
             }
 
             $('#state_cities').append(city_options);
             $('#state_cities').css('display', 'block');
+            $('#divLoading').css('display', 'none');
         },
     });
-}
-
-//get city of state
-function getCity(city_id)
-{
-    if (city_id != 'null') 
-    {
-        return $.ajax({
-            type: "POST",
-            url: '<?= base_url("api/v1/city/") ?>'+city_id,
-            success: function(data){
-            },
-        });
-    }
 }
 
 function saveLocation()
@@ -195,27 +184,48 @@ function saveLocation()
         return;
     }
 
-    //set city detail
-    $.when(getCity($("#state_cities").val())).done(function(city){        
-        resp = JSON.parse(city);
-
-        document.cookie = "latitude="+resp.result[0].latitude+";path=/";
-        document.cookie = "longitude="+resp.result[0].longitude+";path=/";
+    // set city detail
+    $.when(getCoordinatesGoogle(s_city_name, 'indore', 'india')).done(function(city) {
+        
+        document.cookie = "latitude="+city.lat+";path=/";
+        document.cookie = "longitude="+city.lng+";path=/";
 
         /*if (resp.result == null || resp.result == 'undefined' || resp.result.length == 0)
         {
 
         }*/
+
+        document.cookie = "city_id="+n_city_id+";path=/";
+        document.cookie = "state_id="+n_state_id+";path=/";
+        document.cookie = "location="+s_city_name+";path=/";
+        document.cookie = "location_selection=manual;path=/";
+        
+        $("#location").html('<i class="fa fa-map-marker"></i> &nbsp; '+s_city_name);
+
+        alert("location changed");
     });
+}
 
-    document.cookie = "city_id="+n_city_id+";path=/";
-    document.cookie = "state_id="+n_state_id+";path=/";
-    document.cookie = "location="+s_city_name+";path=/";
-    document.cookie = "location_selection=manual;path=/";
-    
-    $("#location").html('<i class="fa fa-map-marker"></i> &nbsp; '+s_city_name);
+async function getCoordinatesGoogle(city, state, country) {
 
-    alert("location changed");
+    const address = encodeURIComponent(`${city}, ${state}, ${country}`);
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=<?=GOOGLE_MAP_API_KEY?>`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.status === "OK") {
+            const location = data.results[0].geometry.location;
+            console.log(`Latitude: ${location.lat}, Longitude: ${location.lng}`);
+            return location;
+        } else {
+            console.log("Coordinates not found.");
+            return null;
+        }
+  } catch (error) {
+    console.error("Error fetching coordinates:", error);
+  }
 }
 
 function getCookie(cname) {
@@ -252,7 +262,7 @@ function getCookie(cname) {
 // }
 
 // function getCityName(lat, lng) {
-//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI';
+//     var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=GOOGLEAPIKEY';
 
 //     $.getJSON(GEOCODING).done(function(location) {
 //         s_city_name = location.results[0].address_components[0].long_name;
@@ -264,4 +274,135 @@ function getCookie(cname) {
 //         // alert("location changed");
 //     })
 // }
+//get state of country
+function getState(cnt_id)
+{
+    $('#divLoading').css('display', 'block');
+    cnt_id = (cnt_id) ? cnt_id : ($("#cnt_id").val());
+    $('#states').empty();
+    
+    if (cnt_id) {
+
+        $.ajax({
+            type: "GET",
+            url: '<?= base_url("states") ?>/'+cnt_id,
+            success: function(data){
+                if (data) {
+                    
+                    $('#states').empty();
+                    state_data = JSON.parse(data);
+                    state_options = "<option value=''>select state</option>";
+                    usr_state_id = <?= (!empty($state_id) ? json_encode($state_id) : '""'); ?>
+
+                    for (let i = 0; i < state_data.length; i++) {
+
+                        state_name = state_data[i].name;
+                        state_id = state_data[i].state_id;
+                        selected = "";
+
+                        if (state_id == usr_state_id) {
+                            selected = "selected";
+                        }
+
+                        state_options += "<option value='"+state_id+"' "+selected+">"+state_name+"</option>";
+                    }
+
+                    $('#states').append(state_options);
+                    $('#divLoading').css('display', 'none');
+                    state_id = $('#states').val();
+                    if (parseInt(state_id)) {
+                        getCity(state_id);
+                    }
+                }
+            },
+        }); 
+    } else {
+        alert('Error: Country not selected');
+    }
+}
+
+//get city of state
+function getCity(state_id, selected_city_id) {
+    
+    $('#state_cities').empty();
+    state_id = (state_id) ? state_id : ($("#states").val());
+    $('#divLoading').css('display', 'block');
+
+    if (state_id) {
+
+        $.ajax({
+            type: "GET",
+            url: '<?= base_url("cities") ?>/'+state_id,
+            success: function(data){
+                if (data) {
+
+                    $('#state_cities').empty();
+                    city_data = JSON.parse(data);
+
+                    if(city_data.length > 0) {
+                        
+                        city_options = "<option value=''>Select City</option>";
+                        usr_city_id = <?= (isset($_GET['city_id']) && !empty($_GET['city_id']) ? $_GET['city_id'] : (!empty($city_id) ? json_encode($city_id) : '""')); ?>
+
+                        for (var i = 0; i < city_data.length; i++) {
+
+                            city_name = city_data[i].name;
+                            city_id = city_data[i].city_id;
+                            selected = "";
+
+                            if (usr_city_id == city_id){
+                                selected = "selected";
+                            }
+
+                            city_options += "<option value='"+city_id+"' "+selected+">"+city_name+"</option>";
+                        }
+                    } else {
+                        city_options = "<option value=''>No cities found</option>";
+                    }
+
+                    $('#divLoading').css('display', 'none');
+                    $('#state_cities').append(city_options);
+                }
+            },
+        });
+    } else {
+        alert('Error: State not selected');
+    }
+}
+
+//get city of state
+function getBrand()
+{
+    $('#divLoading').css('display', 'block');
+    $('#brands').empty();
+    
+    $.ajax({
+        type: "GET",
+        url: '<?= base_url("brands") ?>',
+        success: function(data) {
+            if (data) {
+
+                $('#brands').empty();
+                brands = JSON.parse(data);
+
+                if(brands.length > 0) {
+                    
+                    brand_options = "<option value=''>select brand</option>";
+                    
+                    for (var i = 0; i < brands.length; i++) {
+
+                        brand_name = brands[i].name;
+                        brand_id = brands[i].brand_id;
+                        brand_options += "<option value='"+brand_id+"'>"+brand_name+"</option>";
+                    }
+                } else {
+                    brand_options = "<option value=''>No brand found</option>";
+                }
+
+                $('#brands').append(brand_options);
+                $('#divLoading').css('display', 'none');
+            }
+        },
+    });
+}
 </script>

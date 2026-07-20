@@ -13,8 +13,8 @@
          right: 0.6rem !important;
          }
          button.owl-prev, button.owl-next{
-         width: 20px !important;
-         height: 20px !important;
+         /* width: 20px !important;
+         height: 20px !important; */
          background:transparent !important;
          }
          .featured-col {
@@ -143,7 +143,7 @@
                         <div class="col-xs-12">
                            <span class="rating-right" style="background:#28a745">2&nbsp;<i class="fa fa-star"></i> (1) </span>
                            <figure class="float-left">
-                              <img src="http://roposhop.local/assets/product/164/1556113728.jpeg">
+                              <img src="http://ROPOshop.local/assets/product/164/1556113728.jpeg">
                            </figure>
                         </div>
                         <div class="col-xs-12">
@@ -176,7 +176,7 @@
                      <div class="row">
                         <div class="col-md-4 col-xs-12 ">
                            <figure class="">
-                              <img src="http://roposhop.local/assets/product/164/1556113728.jpeg">
+                              <img src="http://ROPOshop.local/assets/product/164/1556113728.jpeg">
                            </figure>
                         </div>
                         <div class="col-md-8 col-xs-12">
@@ -244,7 +244,7 @@
                      <div class="row">
                         <div class="col-md-4 col-xs-12 d-flex flex-column justify-content-center">
                            <figure class="d-flex flex-column justify-content-center">
-                              <img class="d-flex flex-column justify-content-center" src="http://roposhop.local/assets/product/164/1556113728.jpeg">
+                              <img class="d-flex flex-column justify-content-center" src="http://ROPOshop.local/assets/product/164/1556113728.jpeg">
                            </figure>
                         </div>
                         <div class="col-md-8 col-xs-12">

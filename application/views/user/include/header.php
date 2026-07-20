@@ -108,7 +108,7 @@ $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SER
 						<span class="icon-bar"></span>
 					</a>
   					<div class="navbar-inner">
-    					<a class="brand" href="<?= $site_url ?>"><img src="<?= $this->config->item('site_url').'assets/logo.png' ?>" alt="roposhop" class="site_logo" /></a>
+    					<a class="brand" href="<?= $site_url ?>"><img src="<?= $this->config->item('site_url').'assets/logo.png' ?>" alt="ROPOshop" class="site_logo" /></a>
 
 						<form method="get" action="<?= $site_url.'/search' ?>" class="form-inline navbar-search">
 	    					<input class="srchTxt" type="text" name="str" placeholder="Search: Product, Brand, Seller and More...." required />
@@ -128,7 +128,7 @@ $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SER
 							<?php
 							if (!isset($_COOKIE['consumer_id'])) 
 								echo '<li>
-			 							<a href="'.$site_url.'/userLogin'.'" style="padding-right:0"><span class="btn btn-success">Login</span></a>
+			 							<a href="'.$site_url.'/userLogin'.'" style="padding-right:0"><span class="btn-custom btn-primary">Login</span></a>
 									</li>';	
 							?>
     					</ul>

@@ -91,24 +91,29 @@ $route['api/v1/users/check'] = $v1_api_controller.'checkUserExist';
 //AJAX REQUEST
 $route['states/(:num)'] = $admin_controller.'statesAJAX/$1';
 $route['cities/(:num)'] = $admin_controller.'citiesAJAX/$1';
+$route['brands'] = $admin_controller.'brandsAJAX';
 
 //USER PANEL AJAX REQUEST
 $route['api/v1/product/(:num)'] = $v1_api_controller.'getProductAJAX/$1';
 $route['api/v1/merchant/(:num)/listings'] = $v1_api_controller.'getMerchantProductsAJAX/$1';
 $route['api/v1/city/(:num)'] = $v1_api_controller.'cityAJAX/$1';
 
-//RESET PASSWORD API
-$route['account/resetPassword/(:num)'] = $user_controller.'resetPasswordPage/$1';
-$route['resetPassword'] = $user_controller.'resetPassword';
+if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOST'], 'seller') !== false) {
+	
+	$route['dashboard'] = $admin_controller.'dashboard';
+	$route['listings'] = $admin_controller.'listings';
+	$route['listings/add'] = $admin_controller.'getProductsForLinking';
+	// $route['getAllProducts'] = $admin_controller.'getProductsForLinking';
+	// $route['getProductDetail/(:num)/(:num)/(:num)/(:any)'] = $admin_controller.'getProductDetail/$1/$2/$3/$4';
+	$route['listings/product'] = $admin_controller.'getProductDetail';
+	$route['insertListingInfo'] = $admin_controller.'addListing';
+	$route['page/(:any)'] = $admin_controller.'pageLoad/$1';
+	$route['signout'] = $admin_controller.'logout';
+	$route['editRequestedProduct'] = $admin_controller.'editRequestedProduct';
 
-if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOST'], 'seller') !== false)
-{
 	//ADMIN AND SELLER CONTROLLER ROUTES
 	$route['admin'] = $admin_controller.'dashboard';
-	$route['signout'] = $admin_controller.'logout';
 	$route['login'] = $admin_controller.'login';
-	$route['page/(:any)'] = $admin_controller.'pageLoad/$1';
-	$route['dashboard'] = $admin_controller.'dashboard';
 	$route['doLogin'] = $admin_controller.'doLogin';
 	$route['addCategory'] = $admin_controller.'addCategory';
 	$route['home'] = $admin_controller.'home';
@@ -132,16 +137,15 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['addProductVarient'] = $admin_controller.'addProductVarient';
 	$route['sellers/(:any)'] = $admin_controller.'sellers/$1';
 	$route['deleteProductVarientValue/(:num)/(:num)'] = $admin_controller.'deleteProductVarientValue/$1/$2';
+	$route['deleteProductVarient/(:num)/(:num)'] = $admin_controller.'deleteProductVarient/$1/$2';
 	$route['addSeller'] = $admin_controller.'addSeller';
 	$route['seller/(:num)/(:any)'] = $admin_controller.'seller/$1/$2';
 	$route['changeSellerStatus/(:num)/(:num)/(:any)'] = $admin_controller.'changeSellerStatus/$1/$2/$3';
 	$route['verifySeller'] = $admin_controller.'verifySeller';
+	$route['verifyProduct/(:num)/(:any)'] = $admin_controller.'verifyProduct/$1/$2';
 	$route['deleteAttactchment/(:any)/(:any)/(:any)'] = $admin_controller.'deleteAttactchment/$1/$2/$3';
 	$route['deleteProduct/(:num)'] = $admin_controller.'deleteProduct/$1';
 	$route['changeProductStatus/(:num)/(:num)'] = $admin_controller.'updateProductStatus/$1/$2';
-	$route['getAllProducts/(:num)'] = $admin_controller.'getProductsForLinking/$1';
-	$route['getProductDetail/(:num)/(:num)/(:num)/(:any)'] = $admin_controller.'getProductDetail/$1/$2/$3/$4';
-	$route['insertListingInfo'] = $admin_controller.'addListing';
 	$route['deleteListing/(:num)/(:num)'] = $admin_controller.'deleteListing/$1/$2';
 	$route['addCountry'] = $admin_controller.'addCountry';
 	$route['editCountry/(:num)'] = $admin_controller.'editCountry/$1';
@@ -160,13 +164,12 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['remove_merchant'] = $admin_controller.'remove_merchant';
 	$route['addOffer'] = $admin_controller.'addOffer';
 	$route['deleteOffer/(:num)'] = $admin_controller.'deleteOffer/$1';
-	$route['editOffer/(:num)/(:any)'] = $admin_controller.'editOffer/$1/$2';
+	$route['offer/(:any)'] = $admin_controller.'editOffer/$1';
 	$route['seller'] = $admin_controller.'dashboard';
-	$route['signup'] = $admin_controller.'merchantSignUp';
+	// $route['signup'] = $admin_controller.'merchantSignUp';
 	$route['addRequestedProduct'] = $admin_controller.'addRequestedProduct';
 	// $route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'fillListingDetailOfRequestedProduct/$1';
-	$route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
-	$route['editRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
+	// $route['fillListingDetailOfRequestedProduct/(:num)'] = $admin_controller.'editRequestedProduct/$1';
 	$route['addAddress'] = $admin_controller.'addAddress';
 	$route['deleteAddress/(:num)/(:num)/(:num)'] = $admin_controller.'deleteAddress/$1/$2/$3';
 	$route['deleteMerchant/(:num)/(:num)'] = $admin_controller.'deleteMerchant/$1/$2';
@@ -175,6 +178,7 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['editReview/(:num)/(:any)'] = $admin_controller.'editReview/$1/$2';
 	$route['addReview'] = $admin_controller.'addReview';
 	$route['deleteRequestProduct/(:num)'] = $admin_controller.'deleteRequestProduct/$1';
+	$route['changeRequestedProductStatus/(:num)/(:any)'] = $admin_controller.'changeRequestedProductStatus/$1/$2';
 	$route['deleteFeature/(:num)/(:num)'] = $admin_controller.'deleteProductKeyFeature/$1/$2';
 	$route['deleteSellerOffering/(:num)/(:num)'] = $admin_controller.'deleteSellerOffering/$1/$2';
 	$route['addKeyFeature'] = $admin_controller.'addProductKeyFeature';
@@ -182,12 +186,13 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['viewReview/(:num)/(:any)'] = $admin_controller.'viewReview/$1/$2';
 	$route['changeReviewStatus/(:num)/(:num)/(:any)'] = $admin_controller.'changeReviewStatus/$1/$2/$3';
 	$route['deleteReview/(:num)/(:any)'] = $admin_controller.'deleteReview/$1/$2';
-	$route['insertSellerDefaultValues'] = $admin_controller.'insertSellerDefaultValues';
+	$route['updateSellerServicePolicy'] = $admin_controller.'updateSellerServicePolicy';
 	$route['addSellerOffering'] = $admin_controller.'addSellerOffering';
 	$route['updateSiteSetting'] = $admin_controller.'updateSiteSetting';
-	$route['viewRequest/(:num)'] = $admin_controller.'viewRequest/$1';
-	$route['acceptRequest'] = $admin_controller.'acceptRequest';
+	$route['viewClaimRequest/(:num)'] = $admin_controller.'viewClaimRequest/$1';
+	$route['actionOnclaimRequest'] = $admin_controller.'actionOnclaimRequest';
 	$route['deleteClaimedRequest/(:num)'] = $admin_controller.'deleteClaimedRequest/$1';
+	$route['verifyListing/(:num)/(:num)/(:num)'] = $admin_controller.'verifyListing/$1/$2/$3';
 
 	//excel actions(routing)
 	$route['addressExcel'] = $excel_controller.'loadAddressExcelPage';
@@ -215,17 +220,25 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false || strpos($_SERVER['HTTP_HOS
 	$route['exportTemplateForArea/(:num)'] = $excel_controller.'exportTemplateForArea/$1';
 	$route['generateSimpleXlsReport'] = $excel_controller.'generateSimpleXlsReport';
 
-	//merchant actions(routing)
-	$route['merchantLoginSignup'] = $merchant_controller.'loginSignupPage';
-	$route['merchantSignupStep2/(:num)/(:num)'] = $merchant_controller.'merchantSignupStep2/$1/$2';
-	$route['updateMerchant'] = $merchant_controller.'updateMerchant';
-	$route['insertSeller'] = $merchant_controller.'insertSeller';
-	$route['merchantLoginWithoutStep2Completion/(:num)/(:num)'] = $merchant_controller.'merchantLoginWithoutStep2Completion/$1/$2';
-	$route['merchantLogin'] = $merchant_controller.'login';
-	$route['verifyListing/(:num)/(:num)/(:num)'] = $admin_controller.'verifyListing/$1/$2/$3';
-}
-else
-{
+	if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false) {
+		
+		$route['resetPassword'] = $admin_controller.'resetPassword';
+		$route['account/resetPassword/(:num)'] = $admin_controller.'resetPasswordPage/$1';
+
+	} elseif (strpos($_SERVER['HTTP_HOST'], 'seller') !== false) { // merchant actions(routing)
+
+		$route['resetPassword'] = $merchant_controller.'resetPassword';
+		$route['merchantLoginSignup'] = $merchant_controller.'loginSignupPage';
+		$route['merchantSignupStep2/(:num)/(:num)'] = $merchant_controller.'merchantSignupStep2/$1/$2';
+		$route['updateMerchant'] = $merchant_controller.'updateMerchant';
+		$route['insertSeller'] = $merchant_controller.'insertSeller';
+		$route['merchantLoginWithoutStep2Completion/(:num)/(:num)'] = $merchant_controller.'merchantLoginWithoutStep2Completion/$1/$2';
+		$route['merchantLogin'] = $merchant_controller.'login';
+		$route['account/resetPassword/(:num)'] = $merchant_controller.'resetPasswordPage/$1';
+	}
+
+} else {
+
 	//USER CONTROLLER ROUTES
 	$route['products'] = $user_controller.'product';
 	$route['products/(:any)'] = $user_controller.'product_detail/$1';
@@ -254,4 +267,6 @@ else
 	$route['product/rating/(:num)'] = $user_controller.'productRatingPage/$1';
 	$route['merchant/rating/(:num)'] = $user_controller.'merchantRatingPage/$1';
 	$route['merchant/(:num)/address'] = $user_controller.'merchantAddress/$1';
+	$route['account/resetPassword/(:num)'] = $user_controller.'resetPasswordPage/$1';
+	$route['resetPassword'] = $user_controller.'resetPassword';
 }

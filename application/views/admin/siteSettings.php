@@ -25,10 +25,10 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 <aside class="right-side">
 	<!-- bread crumb -->
     <section class="content-header">
-        <h1>Site setting</h1>
+        <h1>Site Setting</h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Site setting</li>
+            <li class="active">Site Setting</li>
         </ol>
     </section>
 
@@ -36,146 +36,88 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <!-- form start -->
 				    <?= form_open_multipart('updateSiteSetting') ?>
-				    	<div class="box-body">
+				    	<div class="">
 				    		<div class="box-body">
-				    			<h3>Home Page:</h3>
-					    		<div class="row form-group">
-							    	<div class="col-sm-2">
+				    			<h3 class="siteSettingHeader">Home Page:</h3>
+					    		<div class="row">
+							    	<div class="col-sm-4">
 										<label>Title:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter home page title" name="home_page_title" required><?= $home_page_title ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter home page title" name="home_page_title" required><?= $home_page_title ?></textarea>
-									</div>
-								</div>
-
-						        <div class="row form-group">
-							    	<div class="col-sm-2">
+									<div class="col-sm-4">
 										<label>Meta Description:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter home page meta description" name="home_page_meta_description" required><?= $home_page_meta_description ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter home page meta description" name="home_page_meta_description" required><?= $home_page_meta_description ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+									<div class="col-sm-4">
 										<label>Key Words:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter home page key words" name="home_page_key_words" required><?= $home_page_key_words ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter home page key words" name="home_page_key_words" required><?= $home_page_key_words ?></textarea>
 									</div>
 								</div>
 							</div>
 
 							<div class="box-body">
-				    			<h3>Title Suffix:</h3>
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+				    			<h3 class="siteSettingHeader">Title Suffix:</h3>
+								<div class="row">
+							    	<div class="col-sm-4">
 										<label>Product:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter product title suffix" name="product_title_suffix"><?= $product_title_suffix ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter product title suffix" name="product_title_suffix"><?= $product_title_suffix ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+									<div class="col-sm-4">
 										<label>Merchant:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter merchant title suffix" name="merchant_title_suffix"><?= $merchant_title_suffix ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchant title suffix" name="merchant_title_suffix"><?= $merchant_title_suffix ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Category:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter category title suffix" name="category_title_suffix"><?= $category_title_suffix ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter category title suffix" name="category_title_suffix"><?= $category_title_suffix ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4 nextFormLine">
 										<label>Brand:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter brand title suffix" name="brand_title_suffix"><?= $brand_title_suffix ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brand title suffix" name="brand_title_suffix"><?= $brand_title_suffix ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4 nextFormLine">
 										<label>Listing:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter listing title suffix" name="listing_title_suffix"><?= $listing_title_suffix ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter listing title suffix" name="listing_title_suffix"><?= $listing_title_suffix ?></textarea>
 									</div>
 								</div>
 							</div>
 
 							<div class="box-body">
-				    			<h3>Meta Data For All Brands:</h3>
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+				    			<h3 class="siteSettingHeader">Meta Data For All Brands:</h3>
+								<div class="row">
+							    	<div class="col-sm-4">
 										<label>Title:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter brands title" name="brands_meta_title"><?= $brands_meta_title ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brands title" name="brands_meta_title"><?= $brands_meta_title ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Description:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter brands description" name="brands_meta_description"><?= $brands_meta_description ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brands description" name="brands_meta_description"><?= $brands_meta_description ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+									<div class="col-sm-4">
 										<label>Key Words:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter brands meta keywords" name="brands_meta_keywords"><?= $brands_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter brands meta keywords" name="brands_meta_keywords"><?= $brands_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>
 
 							<div class="box-body">
-				    			<h3>Meta Data For All Products:</h3>
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+				    			<h3 class="siteSettingHeader">Meta Data For All Products:</h3>
+								<div class="row">
+							    	<div class="col-sm-4">
 										<label>Title:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter products title" name="products_meta_title"><?= $products_meta_title ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter products title" name="products_meta_title"><?= $products_meta_title ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Description:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter products description" name="products_meta_description"><?= $products_meta_description ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter products description" name="products_meta_description"><?= $products_meta_description ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Key Words:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter products meta keywords" name="products_meta_keywords"><?= $products_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter products meta keywords" name="products_meta_keywords"><?= $products_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -183,59 +125,35 @@ $categories_meta_keywords = isset($site_settings['categories_meta_keywords']) ? 
 							<div class="box-body">
 				    			<h3>Meta Data For All Categories:</h3>
 								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Title:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter categories title" name="categories_meta_title"><?= $categories_meta_title ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter categories title" name="categories_meta_title"><?= $categories_meta_title ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Description:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter categories description" name="categories_meta_description"><?= $categories_meta_description ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter categories description" name="categories_meta_description"><?= $categories_meta_description ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Key Words:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter categories meta keywords" name="categories_meta_keywords"><?= $categories_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter categories meta keywords" name="categories_meta_keywords"><?= $categories_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>
 
 							<div class="box-body">
 				    			<h3>Meta Data For All Merchants:</h3>
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+								<div class="row">
+							    	<div class="col-sm-4">
 										<label>Title:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter merchants title" name="merchants_meta_title"><?= $merchants_meta_title ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchants title" name="merchants_meta_title"><?= $merchants_meta_title ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Description:</label>
+										<textarea rows="1" class="form-control" placeholder="please enter merchants description" name="merchants_meta_description"><?= $merchants_meta_description ?></textarea>
 									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchants description" name="merchants_meta_description"><?= $merchants_meta_description ?></textarea>
-									</div>
-								</div>
-
-								<div class="row form-group">
-							    	<div class="col-sm-2">
+							    	<div class="col-sm-4">
 										<label>Key Words:</label>
-									</div>
-									<div class="col-sm-10">
-										<textarea class="form-control" placeholder="please enter merchants meta keywords" name="merchants_meta_keywords"><?= $merchants_meta_keywords ?></textarea>
+										<textarea rows="1" class="form-control" placeholder="please enter merchants meta keywords" name="merchants_meta_keywords"><?= $merchants_meta_keywords ?></textarea>
 									</div>
 								</div>
 							</div>

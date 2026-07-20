@@ -22,7 +22,7 @@ class User_controller extends CI_Controller
 
         //get categories in tree format
         $parent_categories = $this->am1->selectRecords(array('has_parent' => 0), 'product_category', '*');
-        $categories = $parent_categories['result'];
+        $categories = $parent_categories ? $parent_categories['result'] : [];
 
         $i = 0;
         foreach ($categories as $category) 
@@ -103,14 +103,15 @@ class User_controller extends CI_Controller
     {
         $data = array();
         $where['current_status'] = 1;
-        $where['start_date <= '] = date("Y-m-d h:i:s");
-        $where['end_date >= '] = date("Y-m-d h:i:s");
+        $where['start_date <= '] = gmdate("Y-m-d h:i:s");
+        $where['end_date >= '] = gmdate("Y-m-d h:i:s");
         $data = $this->getOffers($where); //get offers
-
+        
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
         $this->limit = '';
-
+        // echo "<pre>"; print_r($data); die;
+        
         for ($i=0; $i < sizeof($data['categories']) ; $i++) 
         { 
             if ($data['categories'][$i]['has_parent'] == 0)
@@ -143,6 +144,7 @@ class User_controller extends CI_Controller
         $data['meta_data']['image'] = base_url('assets/ropo-promo.jpg');
 
         //load view
+        // echo "<pre>"; print_r($data); die;
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/index', $data);
         $this->load->view('ajaxFunctions');
@@ -151,58 +153,40 @@ class User_controller extends CI_Controller
 
     public function resetPasswordPage($user_id)
     {
-        $this->load->view('user/include/header', array());
-        $this->load->view('resetPassword', array('user_id' => $user_id));
-        $this->load->view('user/include/footer');
+        // $this->load->view('user/include/header', array());
+        $this->load->view('user/resetPassword', array('user_id' => $user_id));
+        // $this->load->view('user/include/footer');
     }
 
-    public function resetPassword()
-    {
+    public function resetPassword() {
+
         $otp = $this->input->post('otp');
         $password = $this->input->post('password');
         $cpassword = $this->input->post('cpassword');
         $user_id = $this->input->post('user_id');
 
-        if ($password != $cpassword) 
-        {
-            echo "<script>window.alert('password and confirm password are not same!');</script>";
-            $this->resetPasswordPage($user_id);
-        }
-        else
-        {
-            $record = $this->am1->selectRecords(array('userId' => $user_id, 'passwordOtp' => $otp), 'user', 'otpCreatetime');
-            if (!$record) 
-            {
-                echo "<script>window.alert('otp is not valid, Please reset your password again!');</script>";
-                $this->resetPasswordPage($user_id);
-                die;   
-            }
+        if ($password != $cpassword) {
 
-            //get time differance between current and db time
-            $time1 = new DateTime($record['result'][0]['otpCreatetime']);
-            $time2 = new DateTime(date("Y-m-d H:i:s"));
-            $since_start = $time1->diff($time2);
-            $minutes = $since_start->days * 24 * 60;
-            $minutes += $since_start->h * 60;
-            $minutes += $since_start->i;
-            
-            if ($minutes <= 1440) 
-            {
-                $data = array();
-                $data['passwordOtp'] = '';
-                $data['otpCreatetime'] = '';
-                $data['password'] = $password;
-                $condition = array('userId' => $user_id);
-                $this->am1->updateData('user', $data, $condition);
+			$this->session->set_flashdata('errors', 'Password and Confirm Password are not same.');
+			$this->resetPasswordPage($user_id);
+			die;
 
-                echo "<script>window.alert('Password updated, Please go for signin!');</script>";
-                $this->login_page();
-            }
-            else
-            {
-                echo "<script>window.alert('Expired link, Please reset your password again!');</script>";
-                $this->resetPasswordPage($user_id);
-            }
+        } else {
+
+			$res = $this->common_controller->resetPassword($user_id, $otp, $password);
+
+            if ($res['status']) {
+            				
+				echo "<script>window.alert('".$res['msg']."');</script>";
+				$this->login_page();
+                die;
+
+			} else {
+				
+				$this->session->set_flashdata('errors', $res['msg']);
+				$this->resetPasswordPage($user_id);
+				die;
+			}
         }
     }
 
@@ -305,15 +289,27 @@ class User_controller extends CI_Controller
         // $this->load->view('user/location_setting');
         // $this->load->view('user/include/footer');
 
-        // $response = file_get_contents("https://ipinfo.io/json");
-        // $location = json_decode($response, true);
+        // if lat, long not available in cookies then set them using ip address
+        $latitude = $this->input->cookie('latitude', true);
+        $longitiude = $this->input->cookie('longitude', true);
 
-        // echo "IP: " . $data['ip'] . "<br>";
-        // echo "City: " . $location['city'] . "<br>";
-        // echo "State Region: " . $location['region'] . "<br>";
-        // echo "Country: " . $data['country'] . "<br>";
-        // echo "Location: " . $data['loc'] . "<br>"; // "lat,long"        
-        // die;
+        if(!$latitude || !$longitiude) {
+            $response = file_get_contents("https://ipinfo.io/json");
+            $location = json_decode($response, true);
+
+            $this->load->helper('cookie');
+        
+            // echo "IP: " . $location['ip'] . "<br>";
+            // echo "City: " . $location['city'] . "<br>";
+            // echo "State Region: " . $location['region'] . "<br>";
+            // echo "Country: " . $location['country'] . "<br>";
+            // echo $location['loc']; // "lat,long"
+            $parts = explode(',', $location['loc']);
+
+            set_cookie('latitude', $parts[0], 3600);
+            set_cookie('longitude', $parts[1], 3600);
+            
+        }
 
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/location_setting');
@@ -385,7 +381,7 @@ class User_controller extends CI_Controller
                         $data['result'][$i]['products_images'] = $attatchments;
                 }
                 else
-                    $data['result'][$i]['products_images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                    $data['result'][$i]['products_images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
                 //get product rating
                 $data['result'][$i]['rating'] = $this->getProductRating($product_id);
@@ -441,16 +437,25 @@ class User_controller extends CI_Controller
             $data['meta_data']['image'] = $metaData['metaImage'];
 
             //get brand name
-            if($product_detail) {
+            if($product_detail['result'][0]['brand_id']) {
                 
                 $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
                 $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
                 $data['product']['brand_name'] = $brand ? $brand['result'][0]['name']: "";
-                $data['product']['brand_logo'] = $brand ? base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']) : "";
+                if($brand['result'][0]['brand_logo']) {
+                    $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+                } else {
+                    $data['product']['brand_logo'] = '';
+                }
+            } elseif($product_detail['result'][0]['product_id']) { // if brand id not available find from requested product
+                
+                $brandName = $this->am1->selectRecords(array('req_prd_id' => $product_detail['result'][0]['product_id']), 'requested_product2', 'brand_name');
+                $data['product']['requested_brand_name'] = $brandName ? $brandName['result'][0]['brand_name'] : '';
             }
 
             //get product attributes
             $prd_att_res = $this->am1->productAttributes($product_id);
+            // echo "<pre>"; print_r($prd_att_res); die;
             if ($prd_att_res && $data['product']) 
                 $data['product']['specifications'] = $prd_att_res;
             else
@@ -472,7 +477,7 @@ class User_controller extends CI_Controller
             else
                 $data['product']['varients'] = false;
 
-            //get product key features
+            //get Product Features
             $prd_feature = $this->am1->selectRecords(array('product_id' => $product_id), 'product_key_features', 'feature');
             if ($prd_feature) 
             {
@@ -493,7 +498,7 @@ class User_controller extends CI_Controller
                     $data['product']['images'] = $attatchments;
             }
             else
-                $data['product']['images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['product']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //get product reviews
             $product_reviews = $this->am1->productReviews(array('product_review.product_id' => $product_id), 0, 3);
@@ -508,7 +513,7 @@ class User_controller extends CI_Controller
 
             //get product listing information
             $sold_by_merchants = $this->am1->getProductListings(array('product_listing.product_id' => $product_id));
-            $data['product']['sold_by_merchants'] = $sold_by_merchants['result'];
+            $data['product']['sold_by_merchants'] = $sold_by_merchants ? $sold_by_merchants['result'] : [];
 
             if ($sold_by_merchants) 
             {
@@ -517,7 +522,7 @@ class User_controller extends CI_Controller
                 $i = 0;
                 foreach ($sold_by_merchants['result'] as $merchant) 
                 {
-                    if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+                    if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
                     {
                         $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant['userId']);
                         $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
@@ -561,7 +566,6 @@ class User_controller extends CI_Controller
             }
         }
 
-
         //load product detail view
         /*$this->load->view('user/include/header', $data);
         $this->load->view('user/include/sidebar', $data);
@@ -569,6 +573,7 @@ class User_controller extends CI_Controller
         $this->load->view('user/include/footer');*/
         
         //load view
+        // echo "<pre>"; print_r($data); die;
         $this->load->view('user/design/include/header', $data);
         $this->load->view('user/design/product_detail', $data);
         $this->load->view('user/design/include/footer');
@@ -596,7 +601,7 @@ class User_controller extends CI_Controller
         if ($product_imgs['result']) 
             $data['product']['image'] = base_url(PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url']);
         else
-            $data['product']['image'] = base_url('assets/user/download (1).jpeg');
+            $data['product']['image'] = base_url('assets/user/noImage.jpeg');
 
         //get product reviews order by selected filter
         if (!isset($_GET['orderby'])) 
@@ -759,14 +764,14 @@ class User_controller extends CI_Controller
             if (count($attatchments)>0)
                 $data['merchant']['images'] = $attatchments;
             else
-                $data['merchant']['images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['merchant']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //get seller heighlights
             $data['merchant']['heighlights'] = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_offering', '*');
 
             //merchant nearest address
             $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
-            if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+            if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
             {
                 $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant_detail['result'][0]['userId']);
                 $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
@@ -788,13 +793,20 @@ class User_controller extends CI_Controller
             //product detail
             $data['product'] = $product_detail['result'][0];
 
-            //get brand name
-            $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
-            $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
-            $data['product']['brand_name'] = $brand['result'][0]['name'];
-            $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+            // if brand id available then fetch the brand details
+            if($product_detail['result'][0]['brand_id']) {
 
-            //get product key features
+                $where = array('brand_id' => $product_detail['result'][0]['brand_id']);
+                $brand = $this->am1->selectRecords($where, 'brand', 'name, brand_logo');
+                $data['product']['brand_name'] = $brand['result'][0]['name'];
+                if($brand['result'][0]['brand_logo']) {
+                    $data['product']['brand_logo'] = base_url(BRAND_ATTATCHMENTS_PATH.$product_detail['result'][0]['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+                } else {
+                    $data['product']['brand_logo'] = '';
+                }
+            }
+
+            //get Product Features
             $prd_feature = $this->am1->selectRecords(array('product_id' => $product_id), 'product_key_features', 'feature');
             $key_features = array();
             if ($prd_feature) 
@@ -817,7 +829,7 @@ class User_controller extends CI_Controller
                     $data['product']['images'] = $attatchments;
             }
             else
-                $data['product']['images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['product']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //average rating information
             $rating_info = $this->am1->selectRecords(array('product_id' => $product_id), 'product_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
@@ -846,18 +858,18 @@ class User_controller extends CI_Controller
 
     public function login_page()
     {
-        if (isset($_COOKIE['user_id'])) 
+        if (isset($_COOKIE['user_id'])) {
             redirect('', 'refresh');
-        else
-        {
+        } else {
+            
             $data['categories'] = $this->categories['result']; //get categories
             $data['tree_list'] = $this->tree_list; //get categories in tree format
 
             //meta data
             $data['meta_data']['title'] = 'user login | ROPOshop';
-            $data['meta_data']['keywords'] = 'roposhop';
-            $data['meta_data']['description'] = 'roposhop';
-            $data['meta_data']['image'] = 'roposhop';
+            $data['meta_data']['keywords'] = 'ROPOshop';
+            $data['meta_data']['description'] = 'ROPOshop';
+            $data['meta_data']['image'] = 'ROPOshop';
 
             //load user register view
             $this->load->view('user/design/include/header', $data);
@@ -922,116 +934,130 @@ class User_controller extends CI_Controller
             return FALSE;
     }
     
-    public function insertUser()
-    {
+    public function insertUser() {
+        
         $user_id = $this->input->post('user_id');
+        $consumer_id = $this->input->post('consumer_id');
         
         $user_data = array();
         $consumer_data = array();
 
-        //user data
+        // consumer data
         $consumer_data['gender'] = $this->input->post('gender');
         $dob = $this->input->post('dob');
         $consumer_data['phone'] = $this->input->post('phone');
 
-        if ($dob) 
-            $consumer_data['birthday'] = date("d-m-Y", strtotime($dob));
+        if ($dob) {
+            $consumer_data['birthday'] = date("Y-m-d", strtotime($dob));
+        }
 
         $user_data['status'] = 1;
-        $user_data['first_name'] = $this->input->post('full_name');    
+        $user_data['first_name'] = $this->input->post('full_name');
 
-        if ($user_id) 
-        {
-            if ($_FILES['file']['name'] != '')
+        // request came from user update profile
+        if($consumer_id) {
+
+            $userDeatils = $this->am1->selectRecords(array('consumer_id' => $consumer_id), 'consumer', 'userId');
+            $user_id = $userDeatils['result'][0]['userId'];
+        }
+
+        if ($user_id) {
+
+            if ($_FILES['file']['name'] != '') {
                 $user_data['picture'] = $this->common_controller->single_upload(PROFILE_PIC_PATH);
+            }
 
             $condition = array('userId' => $user_id);
             $this->am1->updateData('user', $user_data, $condition);
 
-            //check consumer detail is already exist or not
+            // check consumer detail is already exist or not
             $isConsumerExist = $this->am1->selectRecords(array('userId' => $user_id), 'consumer', 'userId');
-            if ($isConsumerExist) 
+            if ($isConsumerExist) {
                 $this->am1->updateData('consumer', $consumer_data, $condition);
-            else
-            {
+            } else {
                 $consumer_data['userId'] = $user_id;
                 $this->am1->insertData('consumer', $consumer_data);
             }
 
-            //get user detail
-            $usr_details = $this->am1->getUser($user_id, 1);
+            $this->redirect('Profile updated successfully', 'userProfile');
 
-            $this->redirect('Profile updated successfully', 'userProfile?profile=view');
-        }
-        else
-        {
+        } else {
+
             $user_data['email'] = $this->input->post('email');
             $user_data['password'] = $this->input->post('password');
             $confirm_password = $this->input->post('confirm_password');
             
-            if ($confirm_password != $user_data['password']) 
+            if ($confirm_password != $user_data['password']) {
                 $this->redirect('Error: password and confirm password should be same', 'login');
+            }
             
-            //check email is already exist or not
+            // check email is already exist or not
             $isEmailExist = $this->am1->selectRecords(array('email' => $user_data['email']), 'user', 'userId');
 
-            if ($isEmailExist) 
+            if ($isEmailExist) {
                 $this->redirect('Error: email already exist!', 'login');
-            else
-            {
+            } else {
+
                 $user_id = $this->am1->insertData('user', $user_data);
 
-                if ($user_id)
-                {
+                if ($user_id) {
+
                     //insert user role
                     $type_data['usr_id'] = $user_id;
                     $type_data['type_name'] = 'BUYER';
-
                     $type_id = $this->am1->insertData('user_type', $type_data);
 
-                    if (!$type_id)
+                    if (!$type_id) {
                        $this->redirect('Error: unable to add you as a consumer', 'login');
-                   else
-                   {
+                    } else {
+                        
                         $usr_details = $this->am1->getUser($user_id, 1);
             
-                        if (isset($usr_details['db_error'])) 
+                        if (isset($usr_details['db_error'])) {
                             $this->redirect('Error: '.$usr_details['msg'], 'login');
+                        }
 
                         $usr_roles = $this->am1->selectRecords(array('usr_id' => $user_id), 'user_type', 'type_name');
-                        if (isset($usr_roles['db_error'])) 
+                        if (isset($usr_roles['db_error'])) {
                             $this->redirect('Error: '.$usr_roles['msg'], 'login');
+                        }
 
-                        if ($usr_details) 
-                        {
+                        if ($usr_details) {
+
                             $isValidUser = false;
-                            foreach ($usr_roles['result'] as $role) 
-                            {
-                                if ($role['type_name'] == 'BUYER') 
-                                {
+                            foreach ($usr_roles['result'] as $role) {
+
+                                if ($role['type_name'] == 'BUYER') {
+
                                     $isValidUser = true;
                                     break;
                                 }
                             }
 
-                            if ($isValidUser) 
-                            {                                
-                                $consumer = $this->am1->selectRecords(array('userId' => $user_id), 'consumer', 'consumer_id');
-                                if (isset($consumer['db_error'])) 
-                                    $this->redirect('Error: '.$consumer['msg'], $controller);
+                            if ($isValidUser) {
+                                
+                                //insert user role
+                                $consumer_data['userId'] = $user_id;
 
-                                $_COOKIE['consumer_id'] = $consumer['result'][0]['consumer_id'];
-                                redirect('userProfile?profile=view', 'refresh');
-                            }
-                            else
+                                $consumer_id = $this->am1->insertData('consumer', $consumer_data);
+                                if (isset($consumer_id['db_error'])) {
+                                    $this->redirect('Error: '.$consumer_id['msg'], $controller);
+                                } elseif ($consumer_id) {
+                                    setcookie('consumer_id', $consumer_id, null, "/");
+                                }
+
+                                $this->redirect('Singup completed', 'userProfile');
+
+                            } else {
                                 $this->redirect('Error: Not authorised for login!', $controller);
-                        }
-                        else
+                            }
+                        } else {
                             $this->redirect('Error: You are not a varified user, please contact to system administrator!', $controller);
+                        }
                    }
-                }           
-                else
+                } else {
                     $this->redirect('Error: unable to add you', 'login');
+                }
             }
         }
     }
@@ -1117,10 +1143,10 @@ class User_controller extends CI_Controller
         redirect(base_url(), 'refresh');
     }
 
-    public function userProfile()
-    {
-        if (!isset($_COOKIE['consumer_id'])) 
-        {   
+    public function userProfile() {
+        
+        if (!isset($_COOKIE['consumer_id'])) {
+            
             $this->login_page();
             die;
         }
@@ -1132,10 +1158,16 @@ class User_controller extends CI_Controller
         $user = $this->am1->getConsumer($_COOKIE['consumer_id']);
 
         //load view
-        $this->load->view('user/include/header', $data);
-        $this->load->view('user/include/sidebar', $data);
+        // echo "<pre>"; print_r($user); die;
+        $this->load->view('user/design/include/header', $data);
         $this->load->view('user/userProfile', $user);
-        $this->load->view('user/include/footer');
+        $this->load->view('user/design/include/footer');
+        die;
+        
+        // $this->load->view('user/include/header', $data);
+        // $this->load->view('user/include/sidebar', $data);
+        // $this->load->view('user/userProfile', $user);
+        // $this->load->view('user/include/footer');
     }
 
     public function merchants()
@@ -1155,12 +1187,16 @@ class User_controller extends CI_Controller
             $where = array('merchant_id' => $merchant_id);
             $merchant_detail = $this->am1->selectRecords($where, 'merchant', '*');
             $merchants['merchant_detail'] = $merchant_detail['result'][0];
-
+            
             $data['establishment_name'] = $merchant_detail['result'][0]['establishment_name'];
-
+            
             //merchant logo
             if ($merchant_detail['result'][0]['merchant_logo'])
                 array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_detail['result'][0]['merchant_logo']);
+
+            // get merchant's user detail
+            $userDetails = $this->am1->selectRecords(['userId' => $merchant_detail['result'][0]['userId']], 'user', '*');
+            $data['userDetail'] = $userDetails['result'][0];
 
             //get merchant shop images
             $product_imgs = $this->attatchments($merchant_id, "SELLER");
@@ -1173,23 +1209,25 @@ class User_controller extends CI_Controller
             if (count($attatchments)>0)
                 $merchants['shop_images'] = $attatchments;
             else
-                $merchants['shop_images'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $merchants['shop_images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             //get seller heighlights
             $merchants['merchant_heighlights'] = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_offering', '*');
 
             //merchant nearest address
             $address_columns = 'address.*, country.name as country_name, state.name as state_name, city.name as city_name';
-            if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
-            {
-                $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant_detail['result'][0]['userId']);
-                $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
-            }
-            else
-                $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
+            if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) {
 
-            $merchants['address']['nearest_address'] = $getAddress ? $getAddress['result'][0] : null;
-            $merchants['address']['total_address'] = $getAddress ? $getAddress['count'] : 0;
+                $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant_detail['result'][0]['userId']);
+                if($getNearestAddressId) {
+                    $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
+                }
+            } else {
+                $getAddress = $this->am1->getUserAddress(array('address.userId' => $merchant_detail['result'][0]['userId']), $address_columns);
+            }
+
+            $merchants['address']['nearest_address'] = isset($getAddress) ? $getAddress['result'][0] : null;
+            $merchants['address']['total_address'] = isset($getAddress) ? $getAddress['count'] : 0;
 
             //get product reviews
             $merchant_reviews = $this->am1->merchantReviews(array('merchant_review.merchant_id' => $merchant_id), 3, 0);
@@ -1236,7 +1274,7 @@ class User_controller extends CI_Controller
         $data['meta_data']['image'] = $metaData['metaImage'];
 
         // echo "<pre>"; print_r($merchants);die;
-        //echo "<pre>"; print_r($data);die;
+        // echo "<pre>"; print_r($data);die;
         // echo $page; die;
 
         //load view
@@ -1343,9 +1381,9 @@ class User_controller extends CI_Controller
         // echo "<pre>"; prin        $this->l        $this->load->view('user/design/category', $data);   
         
         $this->load->view('user/design/include/header', $data);
-        $this->load->view('ajaxFunctions', $data);             
+        $this->load->view('ajaxFunctions', $data);
         $this->load->view('user/design/merchant_addresses', $data);
-        $this->load->view('ajaxFunctions', $data);             
+        $this->load->view('ajaxFunctions', $data);
         $this->load->view('user/design/include/footer');
     }
 
@@ -1361,7 +1399,12 @@ class User_controller extends CI_Controller
             $brands['brand'] = $brand['result'][0];
 
             $attatchments = array();
-            array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$_GET['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+
+            // if brand logo available then push into the array with path
+            if($brand['result'][0]['brand_logo']) {
+
+                array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$_GET['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+            }
 
             //get product images
             $brand_id = $brand['result'][0]['brand_id'];
@@ -1401,6 +1444,7 @@ class User_controller extends CI_Controller
             // $this->load->view('user/include/footer');
 
             //load view
+            // echo "<pre>"; print_r($brands); die;
             $this->load->view('user/design/include/header', $data);
             $this->load->view('user/design/brand_detail', $brands);
             $this->load->view('ajaxFunctions');
@@ -1445,7 +1489,7 @@ class User_controller extends CI_Controller
         $review_data['rating'] = $this->input->post('rating');
         $review_data['status'] = 0;
         $review_data['consumer_id'] = $_COOKIE['consumer_id'];
-        $review_data['update_date'] = date("Y-m-d H:i:s");
+        $review_data['update_date'] = gmdate("Y-m-d H:i:s");
 
         $msg = 'Your rating update successfully';
 
@@ -1462,7 +1506,7 @@ class User_controller extends CI_Controller
             }
             else
             {
-                $review_data['create_date'] = date("Y-m-d H:i:s");
+                $review_data['create_date'] = gmdate("Y-m-d H:i:s");
                 $this->am1->insertData('merchant_review', $review_data);
             }
 
@@ -1485,7 +1529,7 @@ class User_controller extends CI_Controller
             }
             else
             {
-                $review_data['create_date'] = date("Y-m-d H:i:s");
+                $review_data['create_date'] = gmdate("Y-m-d H:i:s");
                 $this->am1->insertData('product_review', $review_data);
             }
 
@@ -1504,32 +1548,36 @@ class User_controller extends CI_Controller
 
         //get offer listing products
         $data['offer_listing_products'] = $this->am1->getListingOffers(array('ofr_id' => $offer_id));
-        if ($data['offer_listing_products']) 
-        {
+        if ($data['offer_listing_products']) {
+
             $i = 0;
-            foreach ($data['offer_listing_products'] as $product) 
-            {
+            foreach ($data['offer_listing_products'] as $product) {
+
                 $attatchments = array();
 
                 //get product images
                 $product_id = $product['product_id'];
                 $product_imgs = $this->attatchments($product_id, "PRODUCT");
 
-                if ($product_imgs['result']) 
-                {
-                    foreach ($product_imgs['result'] as $atch_value) 
+                if ($product_imgs['result']) {
+
+                    foreach ($product_imgs['result'] as $atch_value) {
                         array_push($attatchments, base_url(PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']));
+                    }
                     
-                    if ($attatchments)
+                    if ($attatchments) {
                         $data['offer_listing_products'][$i]['products_images'] = $attatchments;
-                }
-                else
+                    }
+                } else {
                     $data['offer_listing_products'][$i]['products_images'] = false;
+                }
 
                 $i++;
             }
         }
 
+        // echo "<pre>"; print_r($data); die;
+        
         $data['categories'] = $this->categories['result']; //get categories
         $data['tree_list'] = $this->tree_list; //get categories in tree format
 
@@ -1542,10 +1590,10 @@ class User_controller extends CI_Controller
         $data['meta_data']['description'] = '';
 
         //load view
-        $this->load->view('user/include/header', $data);
-        $this->load->view('user/include/sidebar', $data);
+        $this->load->view('user/design/include/header', $data);
         $this->load->view('user/offer');
-        $this->load->view('user/include/footer');
+        $this->load->view('ajaxFunctions');
+        $this->load->view('user/design/include/footer');
     }
 
     public function search()
@@ -1577,7 +1625,7 @@ class User_controller extends CI_Controller
                 {
                     $key_features = array();
 
-                    //get product key features
+                    //get Product Features
                     $prd_feature = $this->am1->selectRecords(array('product_id' => $value['product_id']), 'product_key_features', 'feature');
                     if ($prd_feature) 
                     {
@@ -1611,7 +1659,7 @@ class User_controller extends CI_Controller
                 $i = 0;
                 foreach ($merchants['result'] as $merchant) 
                 {
-                    if (isset($_COOKIE['lat']) && isset($_COOKIE['long'])) 
+                    if (isset($_COOKIE['latitude']) && isset($_COOKIE['longitude'])) 
                     {
                         $getNearestAddressId = $this->am1->getNearestAddress('Where userId = '.$merchant['userId']);
                         $getAddress = $this->am1->getUserAddress(array('address_id' => $getNearestAddressId[0]['address_id']), $address_columns);
@@ -1653,25 +1701,29 @@ class User_controller extends CI_Controller
         $claimed_data['clmd_merchant_id'] = $this->input->post('merchant_id');
         $claimed_data['clmd_message'] = ($this->input->post('message')) ? $this->input->post('message') : "";
 
-        if ($_FILES['file']['name'] != '')
+        if ($_FILES['file']['name'] != '') {
             $claimed_data['clmd_business_proof'] = $this->common_controller->single_upload(TEMP_FOLDER_PATH);
+        }
 
         $clmd_id = $this->am1->insertData('claimed_requests', $claimed_data);
-        if ($clmd_id) 
-        {
+        if ($clmd_id) {
+
             $claimed_data['establishment_name'] = $this->input->post('establishment_name');
             $claimed_data['request_id'] = $clmd_id;
-            $claimed_data['request_url'] = "<a href='".base_url('merchants/'.$claimed_data['establishment_name'].'?merchant_id='.$claimed_data['clmd_merchant_id'])."'>Shop Detail</a>";
+            $claimed_data['request_url'] = base_url('merchants/'.$claimed_data['establishment_name'].'?merchant_id='.$claimed_data['clmd_merchant_id']);
             $claimed_data['code'] = MAIL_CODE_CLAIM_BUSINESS;
             $claimed_data['atch'] = base_url().TEMP_FOLDER_PATH.$claimed_data['clmd_business_proof'];
 
             $isSend = $this->common_controller->sendMail($claimed_data);
-        }
 
-        if ($isSend) 
-            $this->redirect('Mail has been sent! We will review your request.', $controller);
-        else
-            $this->redirect('Error: Unable to send mail!', $controller);
+            if ($isSend) {
+                $this->redirect('Mail has been sent! We will review your request.', $controller);
+            } else {
+                $this->redirect('Error: Unable to send mail!', $controller);
+            }
+        } else {
+            $this->redirect('Internal error', $controller);
+        }
     }
 
     public function redirect($msg, $controller)

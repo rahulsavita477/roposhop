@@ -119,10 +119,7 @@ else
 		                                        <td>".$prd_value['mrp_price']."</td>
 		                    				</tr>";
 		                    		}
-		                    	}
-		                    	else
-		                    		echo "<tr><td colspan='8' align='center'>No Record found.</td></tr>";
-		                    	?>
+		                    	} ?>
 		                    </tbody>
 		                </table>
 		            </div><!-- /.box-body -->

@@ -168,10 +168,7 @@ $city_id = isset($_GET['city_id']) ? $_GET['city_id'] : "";
                                                     </div>
                                                 </div>';
                             		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='22' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->
@@ -208,42 +205,4 @@ $(document).ready(function(){
 	if (parseInt(state_id)) 
 		getCity(state_id);
 });
-
-//get city of state
-function getCity(state_id)
-{
-	$('#state_cities').empty();
-
-	if (state_id) 
-	{
-		$.ajax({
-	        type: "GET",
-	        url: '<?= base_url("cities") ?>/'+state_id,
-	        success: function(data){
-	            if (data) 
-	            {
-	            	city_data = JSON.parse(data);
-	            	city_options = "<option value=''>Please select city!!</option>";
-	            	usr_city_id = <?= (!empty($_GET['city_id']) ? json_encode($_GET['city_id']) : '""'); ?>
-
-	            	for (var i = 0; i < city_data.length; i++) 
-	            	{
-	            		city_name = city_data[i].name;
-	            		city_id = city_data[i].city_id;
-	            		selected = "";
-
-	            		if (usr_city_id == city_id)
-	            			selected = "selected";
-
-	            		city_options += "<option value='"+city_id+"' "+selected+">"+city_name+"</option>";
-	            	}
-
-	            	$('#state_cities').append(city_options);
-	            }
-	        },
-	    });	
-	}
-	else
-		$('#state_cities').append('<option value="">--City not available--</option>');
-}
 </script>

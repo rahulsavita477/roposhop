@@ -17,7 +17,7 @@ class Merchant_controller extends CI_Controller
         $this->admin_controller = new Admin_controller();
 
         //current date
-        $this->current_date = date("Y-m-d H:i:s");
+        $this->current_date = gmdate("Y-m-d H:i:s");
 
         $this->ci = get_instance();
         $this->ci->load->library('form_validation');
@@ -28,7 +28,7 @@ class Merchant_controller extends CI_Controller
 
         //get categories in tree format
         $parent_categories = $this->am2->selectRecords(array('has_parent' => 0), 'product_category', '*');
-        $categories = $parent_categories['result'];
+        $categories = $parent_categories ? $parent_categories['result'] : [];
 
         $i = 0;
         foreach ($categories as $category) 
@@ -59,8 +59,8 @@ class Merchant_controller extends CI_Controller
 
         $data['meta_data']['title'] = 'Seller Login';
         $data['meta_data']['keywords'] = '';
-        $data['meta_data']['description'] = 'Ropo Shop Seller login';
-        $data['meta_data']['image'] = 'roposhop';
+        $data['meta_data']['description'] = 'ROPOshop Seller login';
+        $data['meta_data']['image'] = 'ROPOshop';
 
         //load user register view
         // $this->load->view('user/include/header', $data);
@@ -74,7 +74,7 @@ class Merchant_controller extends CI_Controller
     }
 
     public function insertSeller()
-    {    
+    {
         if ($this->ci->form_validation->run('UC_step1_registration') == FALSE)
         {
             $this->loginSignupPage();
@@ -90,7 +90,7 @@ class Merchant_controller extends CI_Controller
         $user_contact = $this->input->post('contact_number');
         $user_data['create_date'] = $this->current_date;
         $user_data['update_date'] = $this->current_date;
-        $confirm_password = $this->input->post('confirm_password');
+        // $confirm_password = $this->input->post('confirm_password');
         
         //insert user detail
         $user_id = $this->am2->insertData('user', $user_data);
@@ -113,7 +113,7 @@ class Merchant_controller extends CI_Controller
                 $seller_data['contact'] = $this->input->post('contact_number');
                 $seller_data['establishment_name'] = $this->input->post('shop_name');
                 $seller_data['is_verified'] = 0;
-                $seller_data['status'] = 0;
+                $seller_data['status'] = 1;
                 $seller_data['create_date'] = $this->current_date;
                 $seller_data['update_date'] = $this->current_date;
 
@@ -184,17 +184,18 @@ class Merchant_controller extends CI_Controller
             //get seller(shop) images
             $seller_imgs = $this->admin_controller->attatchments($merchant_id, "SELLER");
             $data['user']['shop_image'] = ($seller_imgs) ? $seller_imgs : false;
-            //echo "<pre>"; print_r($data); die;
 
             $data['meta_data']['title'] = 'Seller signup';
             $data['meta_data']['keywords'] = '';
-            $data['meta_data']['description'] = 'Ropo Shop signup step 2';
+            $data['meta_data']['description'] = 'ROPOshop signup step 2';
+            $data['seller_images_dir'] = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/';
 
             //load user register view
             // $this->load->view('user/include/header', $data);
             // $this->load->view('merchant/signupStep2', $data);
             // $this->load->view('user/include/footer');
 
+            //echo "<pre>"; print_r($data); die;
             //load user register view
             $this->load->view('user/design/include/header', $data);
             $this->load->view('user/design/merchant_signupStep2', $data);
@@ -207,6 +208,7 @@ class Merchant_controller extends CI_Controller
         $user_id = $this->input->post('user_id');
         $email = $this->input->post('email');
         $merchant_id = $this->input->post('merchant_id');
+        $isVerified = $this->input->post('is_verified');
         $controller = 'merchantSignupStep2/'.$user_id.'/'.$merchant_id;
 
         if ($user_id && $merchant_id) 
@@ -221,6 +223,10 @@ class Merchant_controller extends CI_Controller
             $seller_data['status'] = 1;
             $seller_data['is_completed'] = 1;
             $seller_data['update_date'] = $this->current_date;
+            $seller_data['establishment_name'] = $this->input->post('comp_name');
+            $seller_data['description'] = $this->input->post('description');
+            $seller_data['business_days'] = $this->input->post('global_business_days');
+            $seller_data['business_hours'] = $this->input->post('global_business_hours');
 
             //user data
             $user_data = array();
@@ -293,13 +299,16 @@ class Merchant_controller extends CI_Controller
                         redirectWithMessage('Error: '.$usr_details['msg'], $controller);
                     else
                     {
-                        //send mail to user for step 2 completion
-                        $mail_data = array();
-                        $mail_data['merchant_name'] = $user_data['first_name'];
-                        $mail_data['shop_name'] = $seller_data['establishment_name'];
-                        $mail_data['email'] = $email;
-                        $mail_data['code'] = MAIL_CODE_STEP_2_REGISTRATION;
-                        $this->common_controller->sendMail($mail_data);
+                        // send mail to user for step 2 completion if already not done
+                        if(!$isVerified) {
+                            
+                            $mail_data = array();
+                            $mail_data['merchant_name'] = $user_data['first_name'];
+                            $mail_data['shop_name'] = $seller_data['establishment_name'];
+                            $mail_data['email'] = $email;
+                            $mail_data['code'] = MAIL_CODE_STEP_2_REGISTRATION;
+                            $this->common_controller->sendMail($mail_data);
+                        }
 
                         //merchant cookie setup and redirect to seller dashboard
                         $usr_details['merchant_id'] = $merchant_id;
@@ -328,65 +337,56 @@ class Merchant_controller extends CI_Controller
     //login method
     public function login()
     {
-        if (!isset($_COOKIE['site_code'])) 
-        {
+        if (!isset($_COOKIE['site_code'])) {
+            
             redirect('', 'refresh');
             die;
         }
         
         //get controller
         $controller = 'merchantLoginSignup';
-
-        $usr_roles = array(); 
+        $usr_roles = array();
         $usr_details = array();
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         
-        if (!$username && !$password) 
-        {
+        if (!$username && !$password) {
             $this->loginSignupPage();
             die;
         }
         
         $usr_id = $this->am2->doLogin($username, $password);
-        if (isset($usr_id['db_error'])) 
+        if (isset($usr_id['db_error'])) {
             redirectWithMessage('Error: '.$usr_id['msg'], $controller);
-        else if ($usr_id) 
-        {
+        } elseif ($usr_id) {
+
             $usr_id = $usr_id['userId'];
             $usr_details = $this->am2->getUser($usr_id, 1);
             
-            if (isset($usr_details['db_error'])) 
+            if (isset($usr_details['db_error'])) {
                 redirectWithMessage('Error: '.$usr_details['msg'], $controller);
-            else
-            {
+            } else {
                 $usr_roles = $this->am2->selectRecords(array('usr_id' => $usr_id), 'user_type', '*');
-                if (isset($usr_roles['db_error'])) 
+                if (isset($usr_roles['db_error'])) {
                     redirectWithMessage('Error: '.$usr_roles['msg'], $controller);
-                else if ($usr_details) 
-                {
-                    $isValidUser = false;
+                } elseif ($usr_details) {
+                    
                     $usr_roles = array_column($usr_roles['result'], 'type_name');
 
-                    if (in_array('SELLER', $usr_roles))
-                    {
-                        $merchant = $this->am2->selectRecords(array('userId' => $usr_id), 'merchant', 'merchant_id, is_verified');
-                        if (isset($merchant['db_error'])) 
-                            redirectWithMessage('Error: '.$merchant['msg'], $controller);
-                        else if ($merchant)
-                        {
-                            $is_verified = $merchant['result'][0]['is_verified'];
-                            $merchant_id = $merchant['result'][0]['merchant_id'];
-                            $usr_details['merchant_id'] = $merchant_id;
+                    if (in_array('SELLER', $usr_roles)) {
 
-                            if (!$is_verified) 
-                                redirect('merchantSignupStep2/'.$usr_id.'/'.$merchant_id, 'refresh');
+                        $merchant = $this->am2->selectRecords(array('userId' => $usr_id), 'merchant', 'merchant_id, is_verified');
+                        if (isset($merchant['db_error'])) {
+                            redirectWithMessage('Error: '.$merchant['msg'], $controller);
+                        } elseif ($merchant) {
+                            $usr_details['is_verified'] = $merchant['result'][0]['is_verified'];
+                            $usr_details['merchant_id'] = $merchant['result'][0]['merchant_id'];
                         }
                         
                         $this->admin_controller->cookieSetupForLogin($usr_details);
-                    }
-                    else
-                    {
+
+                    } else {
+
                         //insert seller role
                         $type_data['usr_id'] = $usr_id;
                         $type_data['type_name'] = "SELLER";
@@ -418,5 +418,42 @@ class Merchant_controller extends CI_Controller
         }
         else
             redirectWithMessage('Error: Wrong credential!', 'merchantLoginSignup');
+    }
+
+    public function resetPasswordPage($user_id) {
+		
+        $this->load->view('merchant/resetPassword', array('user_id' => $user_id));
+    }
+	
+	public function resetPassword() {
+
+        $otp = $this->input->post('otp');
+        $password = $this->input->post('password');
+        $cpassword = $this->input->post('cpassword');
+        $user_id = $this->input->post('user_id');
+
+        if ($password != $cpassword) {
+
+			$this->session->set_flashdata('errors', 'Password and Confirm Password are not same.');
+			$this->resetPasswordPage($user_id);
+			die;
+
+        } else {
+
+			$res = $this->common_controller->resetPassword($user_id, $otp, $password);
+
+            if ($res['status']) {
+            				
+				echo "<script>window.alert('".$res['msg']."');</script>";
+				$this->loginSignupPage();
+                die;
+
+			} else {
+				
+				$this->session->set_flashdata('errors', $res['msg']);
+				$this->resetPasswordPage($user_id);
+				die;
+			}
+        }
     }
 }

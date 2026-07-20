@@ -16,7 +16,7 @@ class Admin_controller extends CI_Controller
 		ob_start();
 
 		//session start from here
-		session_start();
+		// session_start();
 
 		//get seller data
 		$this->sellers = $this->Admin_model->sellers();
@@ -24,7 +24,7 @@ class Admin_controller extends CI_Controller
 			$this->dashboard();
 
 		//current date
-		$this->current_date = date("Y-m-d H:i:s");
+		$this->current_date = gmdate("Y-m-d H:i:s"); // will return UTC time
 
 		//allow header
         header("Access-Control-Allow-Headers: Content-Type");
@@ -42,6 +42,7 @@ class Admin_controller extends CI_Controller
 
      	$this->ci = get_instance();
         $this->ci->load->library('form_validation');
+		$this->site_code = $this->input->cookie('site_code', true);
 	}
 
 	public function trimAllColumnsValue()
@@ -114,8 +115,8 @@ class Admin_controller extends CI_Controller
 		$metaData = array();
 		$defaultMetaData = $this->site_settings();
 
-		if ($id)
-		{
+		if ($id) {
+
 			$requestedMetaData = $this->Admin_model->selectRecords($where, $tbl_name, $column.', meta_keyword, meta_description');
 			if($requestedMetaData) {
 				
@@ -127,9 +128,7 @@ class Admin_controller extends CI_Controller
 			//get attatchment
 			$requestedImageMetaData = $this->Admin_model->selectRecords(array('link_id' => $id, 'atch_type' => 'IMAGE', 'atch_for' => $atch_for), 'attatchments', 'atch_url');
 			$metaData['metaImage'] = ($requestedImageMetaData && $requestedImageMetaData['result'][0]['atch_url']) ? $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/'.$folder.$id.'/'.$requestedImageMetaData['result'][0]['atch_url'] : '';
-		}
-		else
-		{
+		} else {
 			$metaData['metaDescription'] = $defaultMetaData[$meta_description];
 			$metaData['metaImage'] = '';
 		}
@@ -262,7 +261,7 @@ class Admin_controller extends CI_Controller
 				$usr_roles = $this->Admin_model->selectRecords(array('usr_id' => $usr_id), 'user_type', '*');
 				if (isset($usr_roles['db_error'])) 
 					redirectWithMessage('Error: '.$usr_roles['msg'], $controller);
-				else if ($usr_details) 
+				else if ($usr_details && $usr_roles) 
 				{
 					$usr_roles = array_column($usr_roles['result'], 'type_name');
 					
@@ -310,8 +309,11 @@ class Admin_controller extends CI_Controller
         }
 
         $_COOKIE['usr_detail'] = $usr_details[0];
-
-        redirect('dashboard', 'refresh');
+		if (isset($usr_details['is_verified']) && $usr_details['is_verified'] == 0) {
+			redirect('merchantSignupStep2/'.$usr_details[0]['userId'].'/'.$usr_details['merchant_id'], 'refresh');	
+		} else {
+			redirect('dashboard', 'refresh');
+		}
     }
 
 	public function createToken($user_id)
@@ -327,7 +329,7 @@ class Admin_controller extends CI_Controller
 			{
 				$token_data = array();
 				$token_data['auth_token'] = md5(uniqid(rand(), true));
-				$token_data['update_date'] = date("Y-m-d H:i:s");
+				$token_data['update_date'] = $this->current_date;
 
 				$this->Admin_model->updateData('user', $token_data, $where);
 			}
@@ -385,7 +387,7 @@ class Admin_controller extends CI_Controller
 		if (isset($not_varified_seller_count['db_error'])) 
 			$this->logout();
 
-		$pending_requested_product_count = $this->Admin_model->selectRecords(array('isLinked' => 0), 'requested_product', 'COUNT(request_id) AS pen_req_prd_cnt');
+		$pending_requested_product_count = $this->Admin_model->selectRecords(array('isLinked' => 0, 'status' => "PENDING"), 'requested_product2', 'COUNT(request_id) AS pen_req_prd_cnt');
 		if (isset($pending_requested_product_count['db_error'])) 
 			$this->logout();
 
@@ -414,7 +416,7 @@ class Admin_controller extends CI_Controller
 		$counts['not_varified_seller_count'] = $not_varified_seller_count['result'][0]['sel_cnt'];
 		$counts['pending_requested_product_count'] = $pending_requested_product_count['result'][0]['pen_req_prd_cnt'];
 		$counts['listed_products_count'] = $listed_products_count['result'][0]['lst_prd_cnt'];
-		$counts['last_db_backup_time'] = $last_db_backup_time['result'][0]['create_date'];
+		$counts['last_db_backup_time'] = $last_db_backup_time ? $last_db_backup_time['result'][0]['create_date'] : '';
 
 		if (($_COOKIE['site_code'] == 'seller') && isset($_COOKIE['merchant_id'])) 
 		{
@@ -437,8 +439,8 @@ class Admin_controller extends CI_Controller
 	}
 
 	//load any kind of page
-	public function pageLoad($pageName)
-	{
+	public function pageLoad($pageName) {
+
 		$this->isLoggedIn();
 
 		$controller = 'dashboard';
@@ -447,25 +449,27 @@ class Admin_controller extends CI_Controller
 		$data['categories'] = array();
 		
 		$countries = $this->getCountry();
-		if (isset($countries['db_error'])) 
+		if (isset($countries['db_error'])) {
 			redirectWithMessage('Error: '.$countries['msg'], $controller);
+		}
 
-		$data['countries'] = $countries['result'];
+		$data['countries'] = $countries ? $countries['result'] : [];
 
-		if ($pageName == "addCategory") 
-		{
+		if ($pageName == "addCategory") {
+
 			$data['status'] = true;
 			
 			$data['categories'] = $this->getAllCategories();
-			if (isset($data['categories']['db_error'])) 
+			if (isset($data['categories']['db_error'])) {
 				redirectWithMessage('Error: '.$data['categories']['msg'], $controller);
+			}
 
 			$data['attributes'] = $this->getAllAttributes();
-			if (isset($data['attributes']['db_error'])) 
+			if (isset($data['attributes']['db_error'])) {
 				redirectWithMessage('Error: '.$data['attributes']['msg'], $controller);
-		}
-		elseif ($pageName == "attributes") 
-		{
+			}
+		} elseif ($pageName == "attributes") {
+
 			$data['status'] = false;
 
 			$attributes = $this->getAllAttributes();
@@ -501,7 +505,7 @@ class Admin_controller extends CI_Controller
 			$states = $this->getState('', '', $country_id);
 			if (isset($states['db_error'])) 
 				redirectWithMessage('Error: '.$states['msg'], $controller);
-			else if ($states['result']) 
+			else if ($states && $states['result']) 
 				$data['states'] = $states['result'];
 			else
 				$data['states'] = false;
@@ -554,7 +558,7 @@ class Admin_controller extends CI_Controller
 			$cities = $this->getcity('', $state_id, '');
 			if (isset($cities['db_error'])) 
 				redirectWithMessage('Error: '.$cities['msg'], $controller);
-			else if ($cities['result']) 
+			else if ($cities && $cities['result']) 
 				$data['cities'] = $cities['result'];
 
 			if (isset($_GET['city_id'])) 
@@ -677,10 +681,12 @@ class Admin_controller extends CI_Controller
 			//get all brands
 			$data['sellers'] = $this->sellers;
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id, name', array('name' => 'ASC'));
-			if (isset($res['brands']['db_error'])) 
+			if (isset($res['brands']['db_error'])) {
 				redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
+			}
 
-			
+			$data['atch_path'] = $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH;
+
 			// $pageName = "addOffer_old";
 		}
 		else if ($pageName == "merchantReview") 
@@ -698,25 +704,33 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$rating_info['msg'], $controller);
 
 			$data['rating_info'] = $rating_info['result'][0];
-		}
-		else if ($pageName == "requestProduct") 
-		{
+
+			// echo "<pre>"; print_r($data); echo "</pre>"; die;
+		
+		} elseif ($pageName == "requestProduct") {
+
 			$products = $this->Admin_model->selectRecords('', 'product', 'product_name as label, product_id as id');
-			if (isset($products['db_error'])) 
+			if (isset($products['db_error'])) {
 				redirectWithMessage('Error: '.$products['msg'], $controller);
+			}
 
 			$data['brands'] = $this->Admin_model->selectRecords('', 'brand', 'brand_id AS id, name as label', array('name' => 'ASC'));
-			if (isset($data['brands']['db_error'])) 
+			if (isset($data['brands']['db_error'])) {
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
-			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
-			$data['products'] = json_encode($products['result']);
+			}
+
+			$data['products'] = $products ? json_encode($products['result']) : [];
 			$data['categories'] = $this->getAllCategories();
+			
+			// echo "<pre>"; print_r($data['brands']); echo "</pre>"; die;
 		}
 		else if ($pageName == "requestedProducts") 
 		{
 			$data['req_prds'] = $this->Admin_model->getRequestedProduct();
 			if (isset($data['req_prds']['db_error'])) 
 				redirectWithMessage('Error: '.$data['req_prds']['msg'], $controller);
+			
+			// echo "<pre>"; print_r($data); echo "</pre>"; die;
 		}
 		else if ($pageName == "merchantRequestedProducts") 
 		{
@@ -727,90 +741,130 @@ class Admin_controller extends CI_Controller
 			
 			$data['products'] = $products;
 
-			$req_prds = $this->Admin_model->getRequestedProduct(array('requested_product.merchant_id' => $_COOKIE['merchant_id']));
+			$req_prds = $this->Admin_model->getRequestedProduct(array('requested_product2.merchant_id' => $_COOKIE['merchant_id']));
 			if (isset($req_prds['db_error'])) 
 				redirectWithMessage('Error: '.$req_prds['msg'], $controller);
 
 			$data['req_products'] = $req_prds;
-		}
-		else if ($pageName == "addressManagement") 
-		{
+
+		} elseif ($pageName == "addressManagement") {
+
 			$data['address'] = array();
 			$data['page_label'] = 'view';
-			$merchant_id = $_GET['merchant_id'];
-			$user_id = $_GET['user_id'];
+			
+			if($this->input->post('merchant_id')) {
 
+				$merchant_id = $this->input->post('merchant_id');
+
+			} elseif($this->session->flashdata('merchant_id')) {
+
+				$merchant_id = $this->session->flashdata('merchant_id');
+				$this->session->unset_userdata('merchant_id');
+			}
+			
+			if($this->input->post('user_id')) {
+
+				$user_id = $this->input->post('user_id');
+
+			} elseif($this->session->flashdata('user_id')) {
+
+				$user_id = $this->session->flashdata('user_id');
+				$this->session->unset_userdata('user_id');
+			}
+			
 			//get merchant logo and name
-			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name");
-			if (isset($data['merchant']['db_error'])) 
+			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name, merchant_id");
+			if (isset($data['merchant']['db_error'])) {
 				redirectWithMessage('Error: '.$data['merchant']['msg'], $controller);
+			}
 
-			if (isset($_GET['user_id']) && isset($_GET['merchant_id']) && isset($_GET['state_id']))
-			{
+			if (isset($user_id) && isset($merchant_id) && isset($_GET['state_id'])) {
 				$state_id = $_GET['state_id'];
 				$city_id = isset($_GET['city_id']) ? $_GET['city_id'] : '';
 
 				//get all states
 				$states = $this->Admin_model->selectRecords('', 'state', '*');
-				if (isset($states['db_error'])) 
+				if (isset($states['db_error'])) {
 					redirectWithMessage('Error: '.$states['msg'], $controller);
+				}
 				$data['states'] = $states['result'];
 
 				//get user address
 				$where = array();
 				$where['address.userId'] = $user_id;
 				$where['address.state_id'] = $state_id;
-				if ($city_id) 
+				if ($city_id) {
 					$where['address.city_id'] = $city_id;
+				}
 
 				$address_res = $this->getUserAddress($where);
-				if (isset($address_res['db_error'])) 
+				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
-				else if ($address_res) 
+				}
+				elseif ($address_res) {
 					$data['address'] = $address_res['result'];
-			}
-			else
-			{
+				}
+			} else {
 				//get user address
-				$address_res = $this->getUserAddress(array('address.userId' => $_GET['user_id']));
-				if (isset($address_res['db_error'])) 
+				$address_res = $this->getUserAddress(array('address.userId' => $user_id));
+				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
-				else if ($address_res) 
-				{
+				} elseif ($address_res) {
+
 					$data['address'] = $address_res['result'];
 
 					$states = $this->Admin_model->selectRecords('', 'state', '*');
-					if (isset($states['db_error'])) 
+					if (isset($states['db_error'])) {
 						redirectWithMessage('Error: '.$states['msg'], $controller);
+					}
 
 					$data['states'] = $states['result'];
 				}
 			}
-		}
-		else if ($pageName == "addAddress") 
-		{
+
+			//get user detail
+			if($user_id) {
+				
+				$user = $this->Admin_model->selectRecords(['userId' => $user_id], 'user', '*');
+				if (isset($user['db_error'])) {
+					redirectWithMessage('Error: '.$user['msg'], $controller);
+				}
+					
+				$data['user'] = $user['result'][0];
+			}
+
+			// echo "<pre>"; print_r($data); die;
+		} elseif ($pageName == "addAddress") {
+		
 			$data = array();
-			
+			$address_id = $this->input->post('address_id');
+
 			//get address detail
-			if (isset($_GET['address_id'])) 
-			{
-				$address_res = $this->getUserAddress(array('address_id' => $_GET['address_id']));
-				if (isset($address_res['db_error'])) 
+			if (isset($address_id)) {
+
+				$address_res = $this->getUserAddress(array('address_id' => $address_id));
+				if (isset($address_res['db_error'])) {
 					redirectWithMessage('Error: '.$address_res['msg'], $controller);
-				else if ($address_res) 
+				} elseif ($address_res) {
 					$data = $address_res['result'][0];
+				}
 
 				$data['page_label'] = 'edit';
-			}
-			else
+			} else {
 				$data['page_label'] = 'add';
+			}
 
 			//get countries
 			$data['countries'] = $this->getCountry();
-			if (isset($data['countries']['db_error'])) 
+			if (isset($data['countries']['db_error'])) {
 				redirectWithMessage('Error: '.$data['countries']['msg'], $controller);
+			}
+
+			$data['merchant_id'] = $this->input->post('merchant_id');
+			$data['user_id'] = $this->input->post('user_id');
+			// echo "<pre>"; print_r($data); die;
 		}
-		else if ($pageName == "default_values") 
+		else if ($pageName == "service_policy") 
 		{
 			$data = array();
 			if (isset($_COOKIE['merchant_id'])) 
@@ -820,21 +874,57 @@ class Admin_controller extends CI_Controller
 					redirectWithMessage('Error: '.$default_values['msg'], 'dashboard');
 			}
 			
-			$pageName = 'seller_default_values';
+			$pageName = 'sellerServicePolicy';
 		}
 		else if ($pageName == "siteSettings")
 			$data['site_settings'] = $this->site_settings();
 		else if ($pageName == "claimedRequest")
 			$data['claimedRequests'] = $this->Admin_model->claimedRequest();
+		else if ($pageName == "offerings") {
 
+			//get seller offerings
+			$data['merchant'] = array('merchant_id' => $_COOKIE['merchant_id']);
+			$seller_offering = $this->Admin_model->selectRecords(array('merchant_id' => $_COOKIE['merchant_id']), 'merchant_offering', 'offering_id, offering');
+			if (isset($seller_offering['db_error'])) 
+				redirectWithMessage('Error: '.$seller_offering['msg'], $controller);
+			if ($seller_offering) 
+				$data['merchant']['seller_offering'] = $seller_offering['result'];
+			else
+				$data['merchant']['seller_offering'] = false;
+
+			$pageName = "sellerOfferings";
+		}
+
+		// echo "<pre>"; print_r($data); echo "</pre>"; die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/'.$pageName, $data);
+        $this->load->view('ajaxFunctions');
 		$this->load->view('admin/include/footer');
 		die;
 	}
 
-	public function viewRequest($req_id)
+	public function changeRequestedProductStatus($req_id, $status) {
+		
+		$isRequestedProductUpdated = $this->Admin_model->updateData('requested_product2', ['status' => $status], array('request_id' => $req_id));
+		// $isproductUpdated = $this->Admin_model->updateData('product', ['isEnabled' => 0], array('product_id' => $prd_id));
+		// $islistingUpdated = $this->Admin_model->updateData('product_listing', ['isVerified' => 0], array('isVerified' => $list_id));
+		$controller = 'page/requestedProducts';
+
+		if (isset($isRequestedProductUpdated['db_error'])) {
+			redirectWithMessage('Error: '.$isRequestedProductUpdated['msg'], $controller);
+		} 
+		// else if (isset($isproductUpdated['db_error'])) {
+		// 	redirectWithMessage('Error: '.$isproductUpdated['msg'], $controller);
+		// } else if (isset($islistingUpdated['db_error'])) {
+		// 	redirectWithMessage('Error: '.$islistingUpdated['msg'], $controller);
+		// } 
+		else {
+			redirectWithMessage('Requested product status updated successfully!', $controller);
+		}
+	}
+
+	public function viewClaimRequest($req_id)
 	{
 		$data = array();
 		$res = $this->Admin_model->claimedRequest($req_id);
@@ -846,18 +936,17 @@ class Admin_controller extends CI_Controller
 		$this->load->view('admin/include/footer');
 	}
 
-	public function addOffer()
-	{
-		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : (isset($_COOKIE['merchant_id']) ? $_COOKIE['merchant_id'] : NULL);
+	public function addOffer() {
+
+		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : (isset($_COOKIE['merchant_id']) ? $_COOKIE['merchant_id'] : null);
 		
-		if ($_COOKIE['site_code'] == 'admin') 
+		if ($_COOKIE['site_code'] == 'admin') {
 			$controller = 'sellers/offers';
-		else if ($_COOKIE['site_code'] == 'seller') 
-		{
+		} elseif ($_COOKIE['site_code'] == 'seller') {
+
 			$controller = 'page/offerManagement';
 
-			if (!$merchant_id) 
-			{
+			if (!$merchant_id) {
 				$msg = 'Error: Merchant id not found';
 				redirectWithMessage($msg, $controller);
 			}
@@ -869,36 +958,44 @@ class Admin_controller extends CI_Controller
 		$data['description'] = $this->input->post('offer_desc');
 		$data['start_date'] = $this->input->post('offer_startDate');
 		$data['end_date'] = $this->input->post('offer_endDate');
-		$data['ofr_brd_id'] = $this->input->post('ofr_brd_id') ? $this->input->post('ofr_brd_id') : NULL;
+		$data['ofr_brd_id'] = $this->input->post('ofr_brd_id') ? $this->input->post('ofr_brd_id') : null;
 		$data['current_status'] = $this->input->post('offer_status');
 		$data['merchant_id'] = $merchant_id;
+		$data['updated_by'] = $this->input->cookie('user_id', true);
+		$data['meta_title'] = $this->input->post('meta_title');
+		$data['meta_keyword'] = $this->input->post('meta_keyword');
+		$data['meta_description'] = $this->input->post('meta_description');
 		$data['update_date'] = $this->current_date;
 		
 		//set null for blank fields
 		setNULLToBlank($data);
 		
-		if ($offer_id) 
-		{
+		if ($offer_id) {
+
 			$condition = array('offer_id' => $offer_id);
 			$isUpdated = $this->Admin_model->updateData('product_listing_offer', $data, $condition);
 
 			$msg = "Offer updated successfully!!";
 			
-			if (isset($isUpdated['db_error'])) 
+			if (isset($isUpdated['db_error'])) {
 				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-		}
-		else
-		{
+			}
+		} else {
+
 			$data['create_date'] = $this->current_date;
+			$data['created_by'] = $this->input->cookie('user_id', true);
+			$data['source'] = ($this->input->post('merchant_id')) ? "ADMIN" : "SELLER";
 
 			$offer_id = $this->Admin_model->insertData('product_listing_offer', $data);
-			if (isset($offer_id['db_error'])) 
+			if (isset($offer_id['db_error'])) {
 				redirectWithMessage('Error: '.$offer_id['msg'], $controller);
+			}
 
-			if ($offer_id)
+			if ($offer_id) {
 				$msg = "Offer inserted successfully!!";
-			else
+			} else {
 				$msg = "Error: Unable to insert offer!";
+			}
 		}
 
 		//offer folder path
@@ -910,49 +1007,53 @@ class Admin_controller extends CI_Controller
 		$img_data['atch_for'] = "OFFER";
 
 		//insert offer images
-		$isUploaded = $this->upload_image( $folder, $img_data );
-		if (isset($isUploaded['db_error'])) 
+		$isUploaded = $this->upload_image($folder, $img_data);
+		if (isset($isUploaded['db_error'])) {
 			redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
+		}
 		
-		$lst_ids = ($this->input->post('selected_prd_lst_ids')) ? $this->input->post('selected_prd_lst_ids') : array();
+		// $lst_ids = ($this->input->post('selected_prd_lst_ids')) ? $this->input->post('selected_prd_lst_ids') : array();
 
-		$db_ofr_mp_prd = $this->Admin_model->selectRecords(array('ofr_id' => $offer_id), 'offer_listing_mp', '*');
-		if (isset($db_ofr_mp_prd['db_error'])) 
-			redirectWithMessage('Error: '.$db_ofr_mp_prd['msg'], $controller);
+		// $db_ofr_mp_prd = $this->Admin_model->selectRecords(array('ofr_id' => $offer_id), 'offer_listing_mp', '*');
+		// if (isset($db_ofr_mp_prd['db_error'])) 
+		// 	redirectWithMessage('Error: '.$db_ofr_mp_prd['msg'], $controller);
 
-		$db_lst_ids = array();
-		if ($db_ofr_mp_prd['result'])
-		{
-			foreach ($db_ofr_mp_prd['result'] as $mp_value) 
-				array_push($db_lst_ids, $mp_value['lst_id']);
-		}
+		// $db_lst_ids = array();
+		// if ($db_ofr_mp_prd['result']) {
 
-		$delete_prd = array_diff($db_lst_ids, $lst_ids);
-		$insert_prd = array_diff($lst_ids, $db_lst_ids);
+		// 	foreach ($db_ofr_mp_prd['result'] as $mp_value) {
+		// 		array_push($db_lst_ids, $mp_value['lst_id']);
+		// 	}
+		// }
 
-		//delete user roles
-		foreach ($delete_prd as $del_prd) 
-		{
-			$where = array('ofr_id' => $offer_id, 'lst_id' => $del_prd);
-			$isDeleted = $this->Admin_model->deleteRecord('offer_listing_mp', $where);
+		// $delete_prd = array_diff($db_lst_ids, $lst_ids);
+		// $insert_prd = array_diff($lst_ids, $db_lst_ids);
 
-			if (isset($isDeleted['db_error'])) 
-				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-		}
+		// foreach ($delete_prd as $del_prd) {
+
+		// 	$where = array('ofr_id' => $offer_id, 'lst_id' => $del_prd);
+		// 	$isDeleted = $this->Admin_model->deleteRecord('offer_listing_mp', $where);
+
+		// 	if (isset($isDeleted['db_error'])) {
+		// 		redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+		// 	}
+		// }
 
 		//insert listing mapping
-		foreach ($insert_prd as $ins_prd) 
-		{ 
-			$prd_data = array('ofr_id' => $offer_id, 'lst_id' => $ins_prd);
-			$map_id = $this->Admin_model->insertData('offer_listing_mp', $prd_data);
+		// foreach ($insert_prd as $ins_prd) {
 
-			if ( isset($map_id['db_error']) ) 
-				redirectWithMessage('Error: '.$map_id['msg'], $controller);
-		}
+		// 	$prd_data = array('ofr_id' => $offer_id, 'lst_id' => $ins_prd);
+		// 	$map_id = $this->Admin_model->insertData('offer_listing_mp', $prd_data);
+
+		// 	if (isset($map_id['db_error'])) {
+		// 		redirectWithMessage('Error: '.$map_id['msg'], $controller);
+		// 	}
+		// }
 
 		$isAddedHTMLFile = $this->addHTMLFiles($offer_id, 'OFFER');
-		if (!$isAddedHTMLFile) 
+		if (!$isAddedHTMLFile) {
 			$msg = 'Error: unable to perform action for HTML Files!';
+		}
 
 		$this->updateTableDate('merchant', array('merchant_id' => $merchant_id));
 		redirectWithMessage($msg, $controller);
@@ -967,26 +1068,28 @@ class Admin_controller extends CI_Controller
 		return $seller_offer;
 	}
 
-	public function deleteAddress($address_id, $user_id, $merchant_id)
-	{
-		if ($address_id && $user_id) 
-		{
+	public function deleteAddress($address_id, $user_id, $merchant_id) {
+
+		if ($address_id && $user_id) {
+			
 			$isDeleted = $this->Admin_model->deleteRecord('address', array('address_id' => $address_id));
 
-			$msg = 'Address deleted successfully!!!';
-			$controller = 'page/addressManagement?user_id='.$user_id.'&merchant_id='.$merchant_id;
+			$msg = 'Address deleted successfully';
+			
+			$this->session->set_flashdata('user_id', $user_id);
+			$this->session->set_flashdata('merchant_id', $merchant_id);
 
-			if (isset($isDeleted['db_error'])) 
+			$controller = 'page/addressManagement';
+
+			if (isset($isDeleted['db_error'])) {
 				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-			else 
-			{
+			} else {
 				$isDeleted = $this->saveDeleteItem($address_id, 'ADDRESS');
-				if (isset($isDeleted['db_error'])) 
+				if (isset($isDeleted['db_error'])) {
 					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				}
 			}
-		}
-		else
-		{
+		} else {
 			$msg = 'Error: user id and address is required!';
 			$controller = 'dashboard';
 		}
@@ -994,8 +1097,9 @@ class Admin_controller extends CI_Controller
 		redirectWithMessage($msg, $controller);
 	}
 
-	public function editOffer($offer_id, $type_name)
+	public function editOffer($type_name)
 	{
+		$offer_id = $this->input->post('offer_id');
 		$controller = 'sellers/offers';
 
 		$offer_detail = array();
@@ -1093,7 +1197,7 @@ class Admin_controller extends CI_Controller
 		}
 
 		$seller_data['user'] = $user[0];
-		
+		// echo "<pre>"; print_r($seller_data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/addUser', $seller_data);
@@ -1101,21 +1205,28 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function editRequestedProduct($req_id = '')
-	{
-		if ($req_id)
-		{
+	public function editRequestedProduct($req_id = '') {
+
+		$req_id = $this->input->post('request_id');
+
+		if ($req_id) {
+
 			$req_prd = $this->Admin_model->getRequestedProduct(array('request_id' => $req_id));
-			if (isset($req_prd['db_error'])) 
+			if (isset($req_prd['db_error'])) {
 				redirectWithMessage('Error: '.$req_prd['msg'], 'page/merchantRequestedProducts');
+			}
+			
 			// echo "<pre>"; print_r($req_prd); die;
-			if ($req_prd)
-			{
+
+			if ($req_prd) {
+
 				$data = $req_prd[0];
 				
 				$products = $this->Admin_model->selectRecords('', 'product', 'product_name as label, product_id as id');
-				if (isset($products['db_error'])) 
+				if (isset($products['db_error'])) {
 					redirectWithMessage('Error: '.$products['msg'], $controller);
+				}
+
 				$data['products'] = json_encode($products['result']);
 
 				//get categories
@@ -1254,7 +1365,12 @@ class Admin_controller extends CI_Controller
 		$data['first_name'] = $this->input->post('fname');
 		$data['update_date'] = $this->current_date;
 		$data['status'] = 1;
-		$controller = 'page/userManagement';
+		
+        if($this->site_code == 'admin') {
+			$controller = 'page/userManagement';
+		} else {
+			$controller = 'editUser/'.$usr_id.'?view';
+		}
 
 		//set null for blank fields
 		setNULLToBlank($data);
@@ -1280,8 +1396,7 @@ class Admin_controller extends CI_Controller
 			//check email is already exist or not
 			if (!$isFound) 
 			{
-				if ($clmd_id)
-					$data['password'] = DEFAULT_PASSWORD;
+				// if ($clmd_id) $data['password'] = DEFAULT_PASSWORD;
 
 				$usr_id = $this->Admin_model->insertData('user', $data);
 				if (isset($usr_id['db_error'])) 
@@ -1407,8 +1522,8 @@ class Admin_controller extends CI_Controller
 						{
 							$data = array();
 							$data['update_date'] = $this->current_date;
-							if (!$isExistUser['result'][0]['password']) 
-								$data['password'] = DEFAULT_PASSWORD;
+							// if (!$isExistUser['result'][0]['password']) 
+							// 	$data['password'] = DEFAULT_PASSWORD;
 
 							$isUpdated = $this->Admin_model->updateData('user', $data, $condition);
 							if (isset($isUpdated['db_error'])) 
@@ -1418,7 +1533,7 @@ class Admin_controller extends CI_Controller
 							redirectWithMessage('Error: could not found user as '.$ins_role, $controller);	
 					}
 				}
-			}			
+			}
 		}
 
 		if ($_COOKIE['user_id'] == $usr_id) 
@@ -1432,23 +1547,25 @@ class Admin_controller extends CI_Controller
 			setcookie('image', $usr_details[0]['profile_image'], null, "/");
 	    }
 	    
-	    if ($_COOKIE['site_code'] == 'seller') 
-	    	$this->addSeller();
+	    // if ($_COOKIE['site_code'] == 'seller') $this->addSeller();
 
 	    $this->updateTableDate('user', array('userId' => $usr_id));
 	    redirectWithMessage($msg, $controller);
 	}
 
-	public function addSeller()
-	{
+	public function addSeller() {
+		
+		$email = $this->input->post('email');
 		$merchant_id = $this->input->post('merchant_id');
 		$usr_id = $this->input->post('usr_id');
-		
+
 		//user data
 		$usr_data['first_name'] = $this->input->post('fname');
 		$usr_data['update_date'] = $this->current_date;
+		$usr_data['email'] = $email;
 
 		//merchant data
+		$mrchnt_data = array();
 		$mrchnt_data['establishment_name'] = $this->input->post('comp_name');
 		$mrchnt_data['meta_keyword'] = $this->input->post('meta_keyword');
 		$mrchnt_data['meta_description'] = $this->input->post('meta_description');
@@ -1458,173 +1575,148 @@ class Admin_controller extends CI_Controller
 		$mrchnt_data['business_hours'] = $this->input->post('business_hours');
 		$mrchnt_data['update_date'] = $this->current_date;
 
-		$email = $this->input->post('email');
-		$password = $this->input->post('psw');
-		$cpassword = $this->input->post('cpsw');
 		$seller_offering = $this->input->post('seller_offering_values');
 
-		if ($_COOKIE['site_code'] == 'admin') 
-			$controller = 'sellers/sellersTable';
-		else
-			$controller = 'merchant/signup';
+		// echo "<pre>"; print_r($this->input->post()); echo "</pre>";
+		// echo "<pre>"; print_r($_FILES); echo "</pre>";
+
+		$controller = 'sellers/sellersTable';
 		
-		if (!$usr_id && $email) 
-		{			
-			if(!preg_match("/^[0-9]{3}-[0-9]{4}-[0-9]{4}$/", $mrchnt_data['contact']))
-            	redirectWithMessage('Error: contact number should be in correct format', $controller);
+		if(!$usr_id) { // if ADMIN going to add new SELLER with email
 
-			//match password and confirm password
-			if ($cpassword && $password != $cpassword) 
-			{
-				$msg = "Error: Password and confirm password does not match!";
-				redirectWithMessage($msg, $controller);
+			if($email) {
+
+				$isFound = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
+				if (isset($isFound['db_error'])) {
+					redirectWithMessage('Error: '.$isFound['msg'], $controller);
+				} elseif (!$isFound) { // insert new user
+				
+					$usr_data['status'] = 1;
+					$usr_data['create_date'] = $this->current_date;
+
+				} else { // Add user as merchant if email already existing
+
+					// update user details
+					$usr_id = $isFound['result'][0]['userId'];
+					$condition = array('userId' => $usr_id);
+					$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
+					if (isset($isUpdated['db_error'])) {
+						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+					}
+				}
 			}
+			
+			if(!$usr_id) {
 
-			//check email is already exist or not
-			$isFound = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
-			if (isset($isFound['db_error'])) 
-				redirectWithMessage('Error: '.$isFound['msg'], $controller);
-			else if (!$isFound) //insert new user
-			{
-				$usr_data['email'] = $email;
-				$usr_data['status'] = 1;
-				$usr_data['password'] = $password;
-				$usr_data['create_date'] = $this->current_date;
+				// insert new user
+				$usr_id = $this->Admin_model->insertData('user', $usr_data);
+				if (isset($usr_id['db_error'])) {
+					redirectWithMessage('Error: '.$usr_id['msg'], $controller);
+				}
 			}
-			else //update user detail
-			{
-				//Add new merchant if we have already a exist user email and password
-				$usr_id = $isFound['result'][0]['userId'];
-				$condition = array('userId' => $usr_id);
-				$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
-				if (isset($isUpdated['db_error'])) 
-					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-
-				//add user type
-				$usr_type_data['usr_id'] = $usr_id;
-				$usr_type_data['type_name'] = "SELLER";
-				$isInserted = $this->Admin_model->insertData('user_type', $usr_type_data);
-				if (isset($isInserted['db_error'])) 
-					redirectWithMessage('Error: '.$isInserted['msg'], $controller);
-
-				//add merchant detail
-				$mrchnt_data['userId'] = $usr_id;
-				$mrchnt_data['create_date'] = $this->current_date;
-				$merchant = $this->Admin_model->insertData('merchant', $mrchnt_data);
-				if (isset($merchant['db_error'])) 
-					redirectWithMessage('Error: '.$merchant['msg'], $controller);
-
-				$address_id = $this->insertAddress($usr_id, 1);
-				if (!$address_id) 
-					$msg = "Error: lat, long are not in correct format.";
-				else
-					$msg = 'Merchant added successfully!!!';
-
-				$controller = 'login';
-			}
-
-			$mrchnt_data['is_verified'] = 1;
-		}
-
-		if (!$usr_id) 
-		{
-			//insert new user
-			$usr_id = $this->Admin_model->insertData('user', $usr_data);
-			if (isset($usr_id['db_error'])) 
-				redirectWithMessage('Error: '.$usr_id['msg'], $controller);
 
 			//add user type
 			$usr_type_data['usr_id'] = $usr_id;
 			$usr_type_data['type_name'] = "SELLER";
 			$isInserted = $this->Admin_model->insertData('user_type', $usr_type_data);
-			if (isset($isInserted['db_error'])) 
+			if (isset($isInserted['db_error'])) {
 				redirectWithMessage('Error: '.$isInserted['msg'], $controller);
+			}
 
-			//add merchant detail
+			// add merchant detail
 			$mrchnt_data['userId'] = $usr_id;
 			$mrchnt_data['create_date'] = $this->current_date;
 			$merchant_id = $this->Admin_model->insertData('merchant', $mrchnt_data);
-			if (isset($merchant_id['db_error'])) 
+			if (isset($merchant_id['db_error'])) {
 				redirectWithMessage('Error: '.$merchant_id['msg'], $controller);
+			}
 
 			$address_id = $this->insertAddress($usr_id, 1);
-			if (!$address_id) 
+			if (!$address_id) {
 				$msg = "Error: lat, long are not in correct format.";
-			else
-				$msg = 'Merchant added successfully!!!';
-		}
-		else if($usr_id && $merchant_id)
-		{
-			$msg = 'Merchat detail update successfully!!!!';
+			} else {
+				$msg = 'Merchant added successfully';
+			}
+		} elseif($usr_id && $merchant_id) {
 
-			if ($_COOKIE['site_code'] == 'seller') 
-				$controller = 'editUser/'.$usr_id.'?edit';
+			$msg = 'Merchat updated successfully';
+
+			// if ($_COOKIE['site_code'] == 'seller') 
+			// 	$controller = 'editUser/'.$usr_id.'?edit';
 
 			//update user detail
 			$condition = array('userId' => $usr_id);
 			$isUpdated = $this->Admin_model->updateData('user', $usr_data, $condition);
-			if (isset($isUpdated['db_error'])) 
+			if (isset($isUpdated['db_error'])) {
 				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			}
 
 			//update merchant detail
 			$condition = array('merchant_id' => $merchant_id);
 			$isUpdated = $this->Admin_model->updateData('merchant', $mrchnt_data, $condition);
-			if (isset($isUpdated['db_error'])) 
+			if (isset($isUpdated['db_error'])) {
 				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			}
 		}
 
-		if ($usr_id && $merchant_id) 
-		{	
+		if ($usr_id && $merchant_id) {
+			
 			//get merchant logo and business proof
 			$merchant_data = array();
 			$where = array('merchant_id' => $merchant_id);
 			$merchant = $this->Admin_model->selectRecords($where, 'merchant', 'merchant_logo, business_proof');
-			if (isset($merchant['db_error'])) 
+			if (isset($merchant['db_error'])) {
 				redirectWithMessage('Error: '.$merchant['msg'], $controller);
+			}
 
 			//merchant attachments path
 			$folder = SELLER_ATTATCHMENTS_PATH.$merchant_id;
 			
 			//insert seller logo
-			if (isset($_FILES['file8']) && $_FILES['file8']['name'] != '')
-			{
+			if (isset($_FILES['file8']) && $_FILES['file8']['name'] != '') {
+
 				$merchant_logo_name = $this->common_controller->single_upload($folder, '', 'file8');
-				if (!$merchant_logo_name)
+				
+				if (!$merchant_logo_name) {
 					$msg = "Error: Unable to upload merchant logo!";
-				else if (isset($merchant['result'][0]['merchant_logo']))
-				{
+				} elseif (isset($merchant['result'][0]['merchant_logo'])) {
+
 					$merchant_data['merchant_logo'] = $merchant_logo_name;
 
 					//remove old pic from seller folder
 					$picture = $merchant['result'][0]['merchant_logo'];
-					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture))
+					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture)) {
 						unlink(SELLER_ATTATCHMENTS_PATH.$picture);
+					}
 				}
 			}
 
 			//insert seller business proof
-			if (isset($_FILES['file9']) && $_FILES['file9']['name'] != '')
-			{
-				$merchant_business_proof = $this->common_controller->single_upload($folder, '', 'file9');
-				if (!$merchant_business_proof)
-					$msg = "Error: Unable to upload merchant business proof!";
-				else if (isset($merchant['result'][0]['business_proof']))
-				{
-					$merchant_data['business_proof'] = $merchant_business_proof;
+			if (isset($_FILES['file9']) && $_FILES['file9']['name'] != '') {
 
-					//remove old business from from seller folder
+				$merchant_business_proof = $this->common_controller->single_upload($folder, '', 'file9');
+				if (!$merchant_business_proof) {
+					$msg = "Error: Unable to upload merchant business proof!";
+				} elseif (isset($merchant['result'][0]['business_proof'])) {
+
+					$merchant_data['business_proof'] = $merchant_business_proof;
+					$merchant_data['is_verified'] = 1;
+
+					//remove old business proof from seller folder
 					$picture = $merchant['result'][0]['business_proof'];
-					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture))
+					if (is_file(SELLER_ATTATCHMENTS_PATH.$picture)) {
 						unlink(SELLER_ATTATCHMENTS_PATH.$picture);
+					}
 				}
 			}
 
-			$merchant_data['update_date'] = $this->current_date;
+			// $merchant_data['update_date'] = $this->current_date;
 
-			//update merchant row
-			$isUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $where);
-			if (isset($isUpdated['db_error'])) 
-				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			// //update merchant row
+			// $isUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $where);
+			// if (isset($isUpdated['db_error'])) {
+			// 	redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			// }
 
 			//atatchment data
 			$img_data['link_id'] = $merchant_id;
@@ -1633,46 +1725,47 @@ class Admin_controller extends CI_Controller
 
 			//insert seller images
 			$isUploaded = $this->upload_seller_image($folder, $img_data);
-			if (!$isUploaded) 
+			if (!$isUploaded) {
 				redirectWithMessage('Error: unable to upload image', $controller);
+			}
 
-			//insert product key features
-			if ($seller_offering) 
-			{
+			//insert seller's global offerings
+			if ($seller_offering) {
+
 				$seller_offering_data = array();
 				$seller_offering_data['merchant_id'] = $merchant_id;
 
-				foreach ($seller_offering as $seller_offering_value)
-				{
+				foreach ($seller_offering as $seller_offering_value) {
+
 					$seller_offering_data['offering'] = $seller_offering_value;
 					$seller_offering_id = $this->Admin_model->insertData('merchant_offering', $seller_offering_data);
 
-					if (isset($seller_offering_id['db_error'])) 
+					if (isset($seller_offering_id['db_error'])) {
 						redirectWithMessage('Error: '.$seller_offering_id['msg'], $controller);
-					else if (!$seller_offering_id)
+					} elseif (!$seller_offering_id) {
 						redirectWithMessage('Error: Unable to insert seller offering!', $controller);
+					}
 				}
 			}
 
-			//update seller default values
-			$default_values = array();
-			$default_values['finance_available'] = $this->input->post('finance_available');
-			$default_values['finance_terms'] = $this->input->post('finance_terms');
-			$default_values['home_delivery_available'] = $this->input->post('home_delievery');
-			$default_values['home_delivery_terms'] = $this->input->post('delievery_terms');
-			$default_values['installation_available'] = $this->input->post('installation_available');
-			$default_values['installation_terms'] = $this->input->post('installation_terms');
-			$default_values['replacement_available'] = $this->input->post('replacement_available');
-			$default_values['replacement_terms'] = $this->input->post('replacement_terms');
-			$default_values['return_available'] = $this->input->post('return_available');
-			$default_values['return_policy'] = $this->input->post('return_policy');
-			$default_values['seller_offering'] = $this->input->post('seller_offering');
-			$default_values['update_date'] = $this->current_date;
+			// seller default values
+			// $default_values = array();
+			$merchant_data['finance_available'] = $this->input->post('finance_available');
+			$merchant_data['finance_terms'] = $this->input->post('finance_terms');
+			$merchant_data['home_delivery_available'] = $this->input->post('home_delievery');
+			$merchant_data['home_delivery_terms'] = $this->input->post('delievery_terms');
+			$merchant_data['installation_available'] = $this->input->post('installation_available');
+			$merchant_data['installation_terms'] = $this->input->post('installation_terms');
+			$merchant_data['replacement_available'] = $this->input->post('replacement_available');
+			$merchant_data['replacement_terms'] = $this->input->post('replacement_terms');
+			$merchant_data['return_available'] = $this->input->post('return_available');
+			$merchant_data['return_policy'] = $this->input->post('return_policy');
+			$merchant_data['seller_offering'] = $this->input->post('seller_offering');
+			$merchant_data['update_date'] = $this->current_date;
 
-			$this->Admin_model->updateData('merchant', $default_values, array('merchant_id' => $merchant_id));
+			$this->Admin_model->updateData('merchant', $merchant_data, array('merchant_id' => $merchant_id));
 		}
 
-		$this->updateTableDate('merchant', array('merchant_id' => $merchant_id));
 		redirectWithMessage($msg, $controller);
 	}
 
@@ -1915,32 +2008,86 @@ class Admin_controller extends CI_Controller
 		die;
 	}
 
-	public function getProductsForLinking($sel_id)
+	public function listings()
 	{
 		$this->isLoggedIn();
 
-		$res['sel_id'] = isset($sel_id) ? $sel_id : $_COOKIE['merchant_id'];
-		$brand_id = isset($_GET['brand_id']) ? $_GET['brand_id'] : '';
-		$category_id = isset($_GET['category_id']) ? $_GET['category_id'] : '';
+		if($this->input->cookie('site_code', true) == 'seller') {
+			$res['sel_id'] = $_COOKIE['merchant_id'];
+		} else {
+			$res['sel_id'] = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
+		}
+		
+		$res['product_id'] = isset($_GET['product']) ? $_GET['product'] : '';
 
 		//get all products of merchant
 		$where = array();
-		if ($brand_id) 
-			$where['product.brand_id'] = $brand_id;
+		if ($res['product_id']) {
+			$where['product_listing.product_id'] = $res['product_id'];
+		}
+		if ($res['sel_id']) {
+			$where['product_listing.merchant_id'] = $res['sel_id'];
+		}
 
-		if ($category_id) 
-			$where['product.category_id'] = $category_id;
+		// get all listed products with merchant
+		$res['listingProducts'] = $this->Admin_model->getListings($res['sel_id'], $where);
+		if (isset($res['listingProducts']['db_error'])) {
+			redirectWithMessage('Error: '.$res['listingProducts']['msg'], $controller);
+		}
+		// echo "<pre>"; print_r($res['listingProducts']); die;
 
-		$res['products'] = $this->Admin_model->getProductsForLinking($sel_id, $where);
-		if (isset($res['products']['db_error'])) 
-			redirectWithMessage('Error: '.$res['products']['msg'], $controller);
-		//echo "<pre>"; print_r($res['products']); die;
+		// get all products
+		$products = $this->Admin_model->selectRecords('', 'product', '*');
+		if (isset($products['db_error'])) {
+			redirectWithMessage('Error: '.$products['msg'], $controller);
+		} else if (isset($products['result'])) {
+			$res['products'] = isset($products['result']) ? $products['result'] : []; 
+		}
+		// echo "<pre>"; print_r($res); die;
 
-		//get all requested products by merchant
-		$res['req_products'] = $this->Admin_model->getRequestedProductsAvailableForLinking();
-		if (isset($res['req_products']['db_error'])) 
-			redirectWithMessage('Error: '.$res['req_products']['msg'], $controller);
-		// echo "<pre>"; print_r($res['req_products']); die;
+		//get all sellers
+		$res['merchants'] = $this->sellers;
+
+		//echo "<pre>"; print_r($res); die;
+		$this->load->view('admin/include/header');
+		$this->load->view('admin/include/leftbar');
+		$this->load->view('admin/listings', $res);
+		$this->load->view('admin/include/footer');
+		die;
+	}
+
+	public function getProductsForLinking()
+	{
+		$this->isLoggedIn();
+
+		if($this->input->cookie('site_code', true) == 'seller') {
+			$res['sel_id'] = $_COOKIE['merchant_id'];
+		} else {			
+			$res['sel_id'] = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
+		}
+		
+		$res['brand_id'] = isset($_GET['brand_id']) ? $_GET['brand_id'] : '';
+		$res['category_id'] = isset($_GET['category_id']) ? $_GET['category_id'] : '';
+
+		//get all products of merchant
+		$where = array();
+		if ($res['brand_id']) {
+			$where['product.brand_id'] = $res['brand_id'];
+		}
+
+		if ($res['category_id']) {
+			$where['product.category_id'] = $res['category_id'];
+		}
+
+		// get those products which are not linked with merchant
+		if($res['sel_id']) {
+
+			$res['unassignedProducts'] = $this->Admin_model->getProductsForLinking($res['sel_id'], $where);
+			if (isset($res['products']['db_error'])) {
+				redirectWithMessage('Error: '.$res['products']['msg'], $controller);
+			}
+		}
+
 		//get all categories
 		$res['categories'] = $this->Admin_model->selectRecords('', 'product_category', 'category_id, category_name', array('category_name' => 'ASC'));
 		if (isset($res['categories']['db_error'])) 
@@ -1972,7 +2119,7 @@ class Admin_controller extends CI_Controller
 			$isUpdated = $this->Admin_model->updateData('product_listing', array('isVerified' => $status, 'update_date' => $this->current_date), $condition);
 
 			$msg = "Successfully changed!";
-			$controller = "getAllProducts/".$seller_id;
+			$controller = "listings";
 		}
 		else
 		{
@@ -1998,7 +2145,13 @@ class Admin_controller extends CI_Controller
 		if (isset($res['db_error'])) 
 			redirectWithMessage('Error: '.$res['msg'], 'dashboard');
 
-		echo json_encode($res['result']);
+		if($res && $res['result']) {
+
+			echo json_encode($res['result']);
+		
+		} else {
+			echo json_encode(array());
+		}
 		die;
 	}
 
@@ -2015,6 +2168,23 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage('Error: '.$res['msg'], 'dashboard');
 
 		echo json_encode($res['result']);
+		die;
+	}
+
+	// get brands from db
+	public function brandsAJAX() {
+
+		$res = $this->Admin_model->selectRecords('', 'brand', '*', array('name' => 'ASC'));
+		if (isset($res['db_error'])) 
+			redirectWithMessage('Error: '.$res['msg'], 'dashboard');
+
+		if($res && $res['result']) {
+
+			echo json_encode($res['result']);
+		
+		} else {
+			echo json_encode(array());
+		}
 		die;
 	}
 
@@ -2059,7 +2229,6 @@ class Admin_controller extends CI_Controller
 		$data['meta_keyword'] = $this->input->post('meta_keyword');
 		$data['meta_description'] = $this->input->post('meta_description');
 		$data['update_date'] = $this->current_date;
-		$controller = 'category';
 
 		if ($parent_cat_id != 0) 
 		{
@@ -2075,26 +2244,27 @@ class Admin_controller extends CI_Controller
 		//set null for blank fields
 		setNULLToBlank($data);
 
-		if (!empty($cat_id)) 
-		{
+		if (!empty($cat_id)) {
+
 			$condition = array('category_id' => $cat_id);
 			$isUpdated = $this->Admin_model->updateData('product_category', $data, $condition);
 
-			$msg = "Category updated successfully!!";
+			$msg = "Category updated successfully";
+			$controller = 'editCategory/'.$cat_id.'/edit';
 			
 			if (isset($isUpdated['db_error'])) 
-				$this->redirect('Error: '.$isUpdated['msg'], $controller);
-		}
-		else
-		{
+				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+		} else {
+
 			$data['create_date'] = $this->current_date;
 
 			$cat_id = $this->Admin_model->insertData('product_category', $data);
 
-			$msg = "Category inserted successfully!!";
+			$msg = "Category inserted successfully";
+			$controller = 'page/addCategory';
 
 			if (isset($cat_id['db_error'])) 
-				$this->redirect('Error: '.$cat_id['msg'], $controller);
+				redirectWithMessage('Error: '.$cat_id['msg'], $controller);
 		}
 		
 		if ($cat_id) 
@@ -2109,13 +2279,13 @@ class Admin_controller extends CI_Controller
 			//insert category images
 			$isUploaded = $this->upload_image( $folder, $img_data );
 			if (isset($isUploaded['db_error'])) 
-				$this->redirect('Error: '.$isUploaded['msg'], $controller);
+				redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
 
 			//select att_id from db
 			$where = array('cat_id' => $cat_id);
 			$db_att_res = $this->Admin_model->selectRecords($where, 'category_attribute_mp', 'att_id' );
 			if (isset($db_att_res['db_error'])) 
-				$this->redirect('Error: '.$db_att_res['msg'], $controller);
+				redirectWithMessage('Error: '.$db_att_res['msg'], $controller);
 
 			//db attribute result
 			$db_att_ids = array();
@@ -2154,7 +2324,7 @@ class Admin_controller extends CI_Controller
 					$isDeleted = $this->Admin_model->deleteRecord('category_attribute_mp', $where);
 
 					if (isset($isDeleted['db_error'])) 
-						$this->redirect('Error: '.$isDeleted['msg'], $controller);
+						redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 				}	
 			}
 			
@@ -2258,7 +2428,8 @@ class Admin_controller extends CI_Controller
 		for ($i = 1; $i < 7; $i++) 
 		{ 
 			$obj_name = 'file'.$i;
-			if ($_FILES[$obj_name]['name'] != '')
+			
+			if (isset($_FILES[$obj_name]) && $_FILES[$obj_name]['name'] != '')
 			{
 				$img_data['atch_url'] = $this->common_controller->single_upload($path, '', $obj_name);
 
@@ -2290,26 +2461,25 @@ class Admin_controller extends CI_Controller
 
 	public function addHTMLFiles($link_id = '', $type = '')
 	{
-		if ($link_id && $type) 
-		{
+	
+		if ($link_id && $type) {
+			
 			//insert/update/delete html files for category
-			for ($i = 1; $i < 5; $i++)
-			{ 
+			for ($i = 1; $i <= 5; $i++) {
+
 				$html_id = $this->input->post('html_id'.$i);
 				$html_link = $this->input->post('html_link'.$i);
 
-				if ($html_id) 
-				{
+				if ($html_id) {
+
 					$where = array('html_file_id' => $html_id);
 					if ($html_link) //update link
 						$this->Admin_model->updateData('html_files', array('html_file' => $html_link), $where);
 					else //delete link
 						$this->Admin_model->deleteRecord('html_files', $where);
-
-					return true;
-				}
-				else if ($html_link) //insert link
-				{
+				
+				} else if ($html_link) { //insert link
+				
 					$data = array(
 								'link_id' => $link_id,
 								'html_file' => $html_link,
@@ -2317,18 +2487,14 @@ class Admin_controller extends CI_Controller
 							);
 
 					$html_link_id = $this->Admin_model->insertData( 'html_files', $data );
-
-					if ($html_link_id) 
-						return true;
-					else
-						return false;
 				}
 			}
 
 			return true;
 		}
-		else
+		else {
 			return false;
+		}
 	}
 
 	//insert attribute for category
@@ -2367,9 +2533,9 @@ class Admin_controller extends CI_Controller
 
 		$att_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 
-		if ( isset($att_res['db_error']) ) 
+		if (isset($att_res['db_error'])) 
 			return $att_res;
-		else if ($att_res['result']) 
+		else if ($att_res && $att_res['result']) 
 			return $att_res['result'];
 		else
 			return FALSE;
@@ -2569,17 +2735,18 @@ class Admin_controller extends CI_Controller
 			$folder = BRAND_ATTATCHMENTS_PATH.$brand_id;
 
 			//insert logo
-			if ($_FILES['file']['name'])
+			if (isset($_FILES['file7']['name']) && $_FILES['file7']['name'] != '')
 			{
-				$logo = $this->common_controller->single_upload($folder);
+				$logo = $this->common_controller->single_upload($folder, '', "file7");
 
 				//insert brand logo
 				if ($logo) 
 				{
 					//remove image from brand folder
 					$brand_logo = $this->input->post('brand_logo');
-					if ($brand_logo) 
+					if ($brand_logo) {
 						unlink($folder.'/'.$brand_logo);
+					}
 
 					$logo_data['update_date'] = $this->current_date;
 					$logo_data['brand_logo'] = $logo;
@@ -2622,7 +2789,7 @@ class Admin_controller extends CI_Controller
 		$brands_result = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
 		if (isset($brands_result['db_error'])) 
 			return $brands_result;
-		else if ($brands_result['result']) 
+		else if ($brands_result && $brands_result['result']) 
 			return $brands_result['result'];
 		else
 			return FALSE;
@@ -2689,7 +2856,8 @@ class Admin_controller extends CI_Controller
 			$data['success'] = false;
 			$data['data'] = array();
 		}
-		
+
+		// echo "<pre>"; print_r($data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/brands', $data);
@@ -2743,7 +2911,7 @@ class Admin_controller extends CI_Controller
 			if (isset($data['brands']['db_error'])) 
 				redirectWithMessage('Error: '.$data['brands']['msg'], $controller);*/
 			
-			$data['products'] = json_encode($products['result']);
+			$data['products'] = $products ? json_encode($products['result']) : '';
 			$data['categories'] = $this->getAllCategories();
 
 			$data['brands'] = $this->getAllBrands();
@@ -2769,6 +2937,7 @@ class Admin_controller extends CI_Controller
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view($page, $data);	
+		$this->load->view('ajaxFunctions');
 		$this->load->view('admin/include/footer');
 		die;
 	}
@@ -2873,7 +3042,7 @@ class Admin_controller extends CI_Controller
 
 		if ( isset($cat_result['db_error']) ) 
 			return $cat_result;
-		if ($cat_result['result']) 
+		if ($cat_result && $cat_result['result']) 
 			return $cat_result['result'];
 		else
 			return FALSE;
@@ -2945,7 +3114,7 @@ class Admin_controller extends CI_Controller
 					$data['parent_category_id'] = $parent_cat_id;
 				}
 
-				$data['update_date'] = date("Y-m-d H:i:s");
+				$data['update_date'] = $this->current_date;
 				$condition = array('category_id' => $category_ids[$i]);
 				$isUpdated = $this->Admin_model->updateData('product_category', $data, $condition);
 
@@ -2975,7 +3144,7 @@ class Admin_controller extends CI_Controller
 		if ($brand_id) 
 			$where['product.brand_id'] = $_GET['brand_id'];
 
-		$data['data'] = $this->Admin_model->products($where);
+		$data['data'] = $this->Admin_model->products($where, true);
 		if (isset($data['data']['db_error'])) 
 			redirectWithMessage('Error: '.$data['data']['msg'], $controller);
 
@@ -2988,7 +3157,6 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage('Error: '.$data['brands']['msg'], $controller);
 		
 		// echo "<pre>"; print_r($data); die;
-		
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/products', $data);
@@ -3004,6 +3172,69 @@ class Admin_controller extends CI_Controller
 
 		if (isset($updated['db_error'])) redirectWithMessage('Error: '.$updated['msg'], 'products');
 		else $this->products();
+	}
+
+	public function verifyProduct($prd_id, $verify_status) {
+		
+		$data = ['verification_status' => $verify_status];
+		$condition = ['product_id' => $prd_id];
+		$updated = $this->Admin_model->updateData('product', $data, $condition);
+
+		if (isset($updated['db_error'])) redirectWithMessage('Error: '.$updated['msg'], 'products');
+		else $this->products();
+	}
+
+	public function addProductVarient()
+	{
+		$this->isLoggedIn();
+
+		$cat_id = $this->input->post('cat_id');
+		$prd_id = $this->input->post('prd_id');
+		$request_id = $this->input->post('request_id');
+		$att_id = $this->input->post('att_id');
+		$page_label = $this->input->post('page_label');
+		$vrnt_vals = $this->input->post('vrnt_vals');
+
+		$tbl_name = 'category_attribute_mp';
+		$columns  = 'mp_id';
+		$where = array('cat_id' => $cat_id, 'att_id' => $att_id);
+
+		$mp_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
+		
+		if ($mp_res['result']) 
+		{
+			$tbl_name = "category_attribute_value";
+			$where = array('cat_att_mp_id' => $mp_res['result'][0]['mp_id'], 'prd_id' => $prd_id);
+			$this->Admin_model->deleteRecord($tbl_name, $where);
+		}
+
+		$data = array();
+		$data['prd_id'] = $prd_id;
+		$data['att_id'] = $att_id;
+
+		if ($vrnt_vals) 
+		{
+			foreach ($vrnt_vals as $vrnt_key => $vrnt_value) 
+			{
+				$data['att_value'] = $vrnt_value;
+				$this->Admin_model->insertData('product_varient', $data);
+			}
+		}
+
+		//update product table for hasVarient
+		$prd_data = array();
+		$condition = array('product_id' => $prd_id);
+		$prd_data['hasVarient'] = 1;
+		$prd_data['update_date'] = $this->current_date;
+	
+		$this->Admin_model->updateData('product', $prd_data, $condition);
+		
+		if ($request_id) //this is for requested product
+			$controller = 'addProduct?req_prd_id='.$request_id;
+		else
+			$controller = 'editProduct/'.$prd_id.'/'.$page_label;
+
+		redirectWithMessage('Attribute varient added successfully!!!', $controller);
 	}
 
 	public function updateProductVarientValue()
@@ -3031,12 +3262,57 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
+	public function copyProductVarient($new_prd_id) {
+
+		$this->isLoggedIn();
+
+		$vrnt_att_ids = $this->input->post('vrnt_att_ids');
+		$vrnt_values = $this->input->post('vrnt_values');	
+
+		if ($vrnt_att_ids && $vrnt_values && $new_prd_id) {
+
+			for($i=0; $i<=count($vrnt_att_ids)-1;$i++) {
+
+				if($vrnt_values[$i]) {
+
+					$data = array(
+						'prd_id' => $new_prd_id,
+						'att_id' => $vrnt_att_ids[$i],
+						'att_value' => $vrnt_values[$i]
+					);
+					
+					$inserted = $this->Admin_model->insertData('product_varient', $data);
+
+					if (isset($inserted['db_error'])) redirectWithMessage('Error: '.$inserted['msg'], 'products');
+				}
+			}
+		}
+	}
+
 	public function deleteProductVarientValue($vrnt_id, $prd_id)
 	{
 		$this->isLoggedIn();
 
 		$tbl_name = 'product_varient';
 		$where = array('vrnt_id' => $vrnt_id);
+		$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
+		if (isset($isDeleted['db_error'])) 
+			redirectWithMessage('Error: '.$isDeleted['msg'], 'products');
+
+		$this->updateTableDate('product', array('product_id' => $prd_id));
+
+		if (isset($_GET['req_prd_id'])) 
+			redirectWithMessage('Varient value deleted successfully!', 'addProduct?req_prd_id='.$_GET['req_prd_id']);
+		else
+			redirectWithMessage('Varient value deleted successfully!', 'editProduct/'.$prd_id.'/edit');
+	}
+
+	public function deleteProductVarient($att_id, $prd_id)
+	{
+		$this->isLoggedIn();
+
+		$tbl_name = 'product_varient';
+		$where = array('att_id' => $att_id, 'prd_id' => $prd_id);
 		$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
 		if (isset($isDeleted['db_error'])) 
 			redirectWithMessage('Error: '.$isDeleted['msg'], 'products');
@@ -3054,21 +3330,21 @@ class Admin_controller extends CI_Controller
 		$this->isLoggedIn();
 
 		//get product id
-		$req_prd_id = $this->Admin_model->selectRecords(array('request_id' => $request_id), 'requested_product', 'req_prd_id');
+		$req_prd_id = $this->Admin_model->selectRecords(array('request_id' => $request_id), 'requested_product2', 'req_prd_id');
      	$product_id = $req_prd_id['result'][0]['req_prd_id'];
 
 		if($_COOKIE['site_code'] == 'admin') $controller = 'page/requestedProducts';
      	else $controller = 'page/merchantRequestedProducts';
 		
 		//delete requested product
-		$isDeleted = $this->Admin_model->deleteRecord('requested_product', array('request_id' => $request_id));
+		$isDeleted = $this->Admin_model->deleteRecord('requested_product2', array('request_id' => $request_id));
 		if (isset($isDeleted['db_error'])) 
 			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
 		//delete product
-		$isDeleted = $this->Admin_model->deleteRecord('product', array('product_id' => $product_id));
-		if (isset($isDeleted['db_error'])) 
-			redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+		// $isDeleted = $this->Admin_model->deleteRecord('product', array('product_id' => $product_id));
+		// if (isset($isDeleted['db_error'])) 
+		// 	redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
 
 		//save deleted item id
 		$isDeleted = $this->saveDeleteItem($request_id, 'REQUESTED_PRODUCT');
@@ -3137,7 +3413,7 @@ class Admin_controller extends CI_Controller
 	public function deleteListing($list_id, $sel_id)
 	{
 		$this->isLoggedIn();
-		$controller = 'getAllProducts/'.$sel_id;
+		$controller = 'listings';
 
 		$isDeleted = $this->Admin_model->deleteRecord('product_listing', array('listing_id' => $list_id));
 		if (isset($isDeleted['db_error'])) 
@@ -3198,32 +3474,40 @@ class Admin_controller extends CI_Controller
 		$this->isLoggedIn();
 		$controller = 'products';
 
-		if ($prd_id) 
-		{
-			//delete product
-			$tbl_name = 'product';
-			$where = array('product_id' => $prd_id);
-			$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
-			if (isset($isDeleted['db_error'])) 
-				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-			$folder_path = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
-			$msg = 'Product deleted successfully!';
+		if ($prd_id) {
 
-			if (is_dir($folder_path)) 
-			{
-				if (deleteFolder($folder_path))
+			// find seller listing with that product to restrict the delete the product
+			$listingExist = $this->Admin_model->listingProducts(['product.product_id' => $prd_id]);
+			if($listingExist) {
+
+				redirectWithMessage('This product cannot be deleted because it is linked to merchant listings. Please unlink the associated merchant listings before deleting. You can view these listings using the ‘Listing’ option available in the Action menu.', $controller);
+
+			} else { //delete product
+				
+				$tbl_name = 'product';
+				$where = array('product_id' => $prd_id);
+				$isDeleted = $this->Admin_model->deleteRecord($tbl_name, $where);
+				if (isset($isDeleted['db_error'])) 
+					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				$folder_path = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
+				$msg = 'Product deleted successfully!';
+
+				if (is_dir($folder_path)) 
 				{
-					$this->Admin_model->deleteRecord('attatchments', array('link_id' => $prd_id, 'atch_for' => 'PRODUCT', 'atch_type' => 'IMAGE'));
-					if (isset($isDeleted['db_error'])) 
-						redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+					if (deleteFolder($folder_path))
+					{
+						$this->Admin_model->deleteRecord('attatchments', array('link_id' => $prd_id, 'atch_for' => 'PRODUCT', 'atch_type' => 'IMAGE'));
+						if (isset($isDeleted['db_error'])) 
+							redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+					}
+					else
+						$msg = "Error: Unable to delete folder";
 				}
-				else
-					$msg = "Error: Unable to delete folder";
-			}
 
-			$isDeleted = $this->saveDeleteItem($prd_id, 'PRODUCT');
-			if (isset($isDeleted['db_error'])) 
-				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				$isDeleted = $this->saveDeleteItem($prd_id, 'PRODUCT');
+				if (isset($isDeleted['db_error'])) 
+					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+			}
 		}
 		else
 			$msg = 'Erorr: product id not found!';
@@ -3296,66 +3580,82 @@ class Admin_controller extends CI_Controller
 		return false;
 	}
 
-	public function deleteCategory($cat_id = '')
-	{
+	public function deleteCategory($cat_id = '') {
+
 		$this->isLoggedIn();
 		$controller = 'category';
 
-		if ($cat_id) 
-		{
+		if ($cat_id) {
+			
 			//delete category
 			$cat_tbl_name = 'product_category';
 			$columns = 'category_id';
 			$where = array('parent_category_id' => $cat_id);
 			$cat_result = $this->Admin_model->selectRecords($where, $cat_tbl_name, $columns);	
 
-			if (isset($cat_result['db_error'])) 
+			if (isset($cat_result['db_error'])) {
+
 				redirectWithMessage('Error: '.$cat_result['msg'], $controller);
-			else if ($cat_result) 
-				$msg = 'Error: Unable to delete the category!';
-			else
-			{
-				//delete category				
-				$where = 'category_id = '.$cat_id.' or parent_category_id = '.$cat_id;
-				$isDeleted = $this->Admin_model->deleteRecord($cat_tbl_name, $where);
-				if (isset($isDeleted['db_error'])) 
-					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
-				$folder_path = CATEGORY_ATTACHMENT_PATH.$cat_id;
-				$msg = 'Category deleted successfully!';
 
-				if (is_dir($folder_path)) 
-				{
-					if (deleteFolder($folder_path))
-						$this->Admin_model->deleteRecord('attatchments', array('link_id' => $cat_id, 'atch_for' => 'CATEGORY', 'atch_type' => 'IMAGE'));
-					else
-						$msg = "Error: Unable to delete folder";
-				}
+			} else if ($cat_result) {
 
-				$isDeleted = $this->saveDeleteItem($cat_id, 'CATEGORY');
-				if (isset($isDeleted['db_error'])) 
-					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				$msg = 'This category cannot be deleted because it has child categories. Please remove or reassign the child categories before deleting.';
+				redirectWithMessage($msg, $controller);
 			}
-		}
-		else
+			
+			// check is category linked with product
+			$product_result = $this->Admin_model->selectRecords(array('category_id' => $cat_id), 'product', 'product_id');	
+			if (isset($product_result['db_error'])) {
+				
+				redirectWithMessage('Error: '.$product_result['msg'], $controller);
+
+			} else if ($product_result) {
+
+				$msg = 'This category cannot be deleted because it is linked to one or more products. Please remove or reassign those products before deleting the category.';
+				redirectWithMessage($msg, $controller);
+			} 
+
+			//delete category
+			$where = 'category_id = '.$cat_id.' or parent_category_id = '.$cat_id;
+			$isDeleted = $this->Admin_model->deleteRecord($cat_tbl_name, $where);
+			if (isset($isDeleted['db_error'])) 
+				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+			$folder_path = CATEGORY_ATTACHMENT_PATH.$cat_id;
+			$msg = 'Category deleted successfully!';
+
+			if (is_dir($folder_path)) {
+
+				if (deleteFolder($folder_path)) {
+					$this->Admin_model->deleteRecord('attatchments', array('link_id' => $cat_id, 'atch_for' => 'CATEGORY', 'atch_type' => 'IMAGE'));
+				} else {
+					$msg = "Error: Unable to delete folder";
+				}
+			}
+
+			$isDeleted = $this->saveDeleteItem($cat_id, 'CATEGORY');
+			if (isset($isDeleted['db_error'])) 
+				redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+		} else {
 			$msg = 'Erorr: category id not found!';
+		}
 
 		redirectWithMessage($msg, $controller);
 	}
 
-	public function deleteBrand( $brand_id = '' )
-	{
+	public function deleteBrand( $brand_id = '' ) {
+
 		$this->isLoggedIn();
 
-		if ($brand_id) 
-		{
+		if ($brand_id) {
+
 			$tbl_name = 'product';
 			$columns  = 'product_id';
 			$where = array('brand_id' => $brand_id);
-			$brand_prd_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);	
-			if ($brand_prd_res)
-				$msg = "Error: Can't delete this brand There are some product related to this brand!";
-			else
-			{
+			$brand_prd_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
+			if ($brand_prd_res) {
+				$msg = "This brand cannot be deleted because it is associated with one or more products. Please remove or reassign those products before deleting the brand.";
+			} else {
+
 				$tbl_name = 'brand';
 				$where = array('brand_id' => $brand_id);
 				$this->Admin_model->deleteRecord($tbl_name, $where);
@@ -3384,6 +3684,34 @@ class Admin_controller extends CI_Controller
 		redirectWithMessage($msg, 'brand');
 	}
 
+	public function unique_product_name($product_name, $product_id=null) {
+
+		$this->db->where('product_name', $product_name);
+		$this->db->where('product_id !=', $product_id); // ignore current product
+		$query = $this->db->get('product');
+
+		if ($query->num_rows() > 0) {
+
+			$this->ci->form_validation->set_message(
+				'unique_product_name',
+				'This Product name already exists, use a different one.'
+			);
+
+			return FALSE;
+		}
+
+		return TRUE;
+	}
+
+	public function redirectBackToErrorPage() {
+						
+		$path = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH);
+		$segments = explode('/', trim($path, '/'));
+		$method = $segments[0]; // "editProduct"
+		$params = array_slice($segments, 1); // ["15", "duplicate"]
+		call_user_func_array([$this, $method], $params);
+	}
+
 	//add category method
 	public function insertProduct()
 	{
@@ -3391,6 +3719,7 @@ class Admin_controller extends CI_Controller
 		
 		$data = array();
 		$images = array();
+		$error = array ();
 
 		$data['category_id'] = $this->input->post('parent_cat_id');
 		$data['brand_id'] = $this->input->post('brand_id');
@@ -3407,23 +3736,42 @@ class Admin_controller extends CI_Controller
 		$request_id = $this->input->post('request_id');
 		$merchant_id = $this->input->post('merchant_id');
 		$data['update_date'] = $this->current_date;
+		$data['updated_by'] = $this->input->cookie('user_id', true);
 		$prd_tags = $this->input->post('selected_tag_ids');
 		$key_features = $this->input->post('key_feature_values');
 		$old_prd_id = $this->input->post('old_prd_id');
 		$prd_id = $this->input->post('prd_id');
+		$copiedImages = $this->input->post('remove_img'); // array of copied image id from original product
 
-		if ($request_id) 
-			$controller = 'page/requestedProducts';
-		else
-			$controller = 'products';
+		// if varient attribute id and values are available then need to add hasVarient=1 for product else set hasVarient=0
+		$vrnt_att_ids = $this->input->post('vrnt_att_ids');
+		$vrnt_values = $this->input->post('vrnt_values');	
+		// print_r($vrnt_att_ids);
+		if($vrnt_att_ids && $vrnt_values) {
+			$data['hasVarient'] = 1;
+		} else {
+			$data['hasVarient'] = 0;
+		}
+		
+		// echo "<pre>"; print_r($this->input->post()); print_r($_FILES); die;
+		
+		if ($request_id) $controller = 'page/requestedProducts';
+		else $controller = 'products';
 
 		//set null for blank fields
 		setNULLToBlank($data);
 
-		if (count(array_filter($data)) >= 5) 
-		{
-			if ($prd_id) //update product
-			{
+		if (count(array_filter($data)) >= 5) {
+			
+			if ($this->unique_product_name($data['product_name'], $prd_id && !$old_prd_id ? $prd_id : null) == FALSE) {
+
+				$this->session->set_flashdata('productNameError', 'Duplicate product name not allowed.');
+				$this->redirectBackToErrorPage();
+				die;
+			}
+			
+			if ($prd_id && !$old_prd_id) { // update existing product if not a duplicate/replicate product 
+			
 				$condition = array('product_id' => $prd_id);
 				$isUpdated = $this->Admin_model->updateData('product', $data, $condition);
 
@@ -3431,45 +3779,38 @@ class Admin_controller extends CI_Controller
 					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
 
 				$msg = 'Product succesfully updated!';
-			}
-			else //insert new product
-			{
-				$where = array('product_name' => $data['product_name']);
-				$prd_res = $this->Admin_model->selectRecords($where, 'product', 'product_id');	
-				if ($prd_res)
-					redirectWithMessage('Error: Please enter new product name!', $controller);
+			
+			} else { //insert new/duplicate product
 
 				$data['create_date'] = $this->current_date;
+				$data['verification_status'] = "APPROVED";
+				$data['created_by'] = $this->input->cookie('user_id', true);
 
 				$prd_id = $this->Admin_model->insertData('product', $data);
 
-				if (isset($prd_id['db_error'])) 
-					redirectWithMessage('Error: '.$prd_id['msg'], $controller);
-				else
-					$msg = 'Product inserted successfully!!';
+				if (isset($prd_id['db_error'])) redirectWithMessage('Error: '.$prd_id['msg'], $controller);
+				else $msg = 'Product created successfully';
 			}
 
-			if ($prd_id) 
-			{
+			if ($prd_id) {
+
 				//atatchment data
 				$img_data['link_id'] = $prd_id;
 				$img_data['atch_type'] = "IMAGE";
 				$img_data['atch_for'] = "PRODUCT";
+				$prd_folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
+					
+				if ($old_prd_id && count($copiedImages) > 0) {
 
-				if ($old_prd_id) 
-				{
-					//Copy all images from one product folder to another product folder
+					// Copy all images from one product folder to another product folder
 					$from_folder = PRODUCT_ATTATCHMENTS_PATH.$old_prd_id;
-					$to_folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
-					$files = $this->common_controller->cloneData($from_folder, $to_folder);
+					$files = $this->common_controller->cloneData($from_folder, $prd_folder, $copiedImages);
 
-					//insert images into the database
-					if (!$files) 
-						die('Error: Unable to copy images');
-					else
-					{
-						foreach ($files as $file) 
-						{
+					// insert images into the database
+					if ($files) {
+
+						foreach ($files as $file) {
+
 							$file_to_go = str_replace(PRODUCT_ATTATCHMENTS_PATH.$old_prd_id.'/', "", $file);
 							$img_data['atch_url'] = $file_to_go;
 
@@ -3477,26 +3818,23 @@ class Admin_controller extends CI_Controller
 							if (isset($isInserted['db_error'])) 
 								redirectWithMessage('Error: '.$isInserted['msg'], $controller);
 						}
+					} else {
+						array_push($error, 'Unable to copy images.');
 					}
-				}
-				else
-				{
-					//product folder attachment path
-					$folder = PRODUCT_ATTATCHMENTS_PATH.$prd_id;
-
-					//insert product images
-					$isUploaded = $this->upload_image($folder, $img_data);
-					if (isset($isUploaded['db_error'])) 
-						redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
+				} 
+				
+				//insert product images
+				$isUploaded = $this->upload_image($prd_folder, $img_data);
+				if (isset($isUploaded['db_error'])) {
+					array_push($error, 'Image upload failed.');
 				}
 
-				//insert or update product attribute values
-				//insert product category attribute
+				// insert or update product attribute values
+				// insert product category attribute
 				$category_attributes_res = $this->Admin_model->categoryAttributes($data['category_id'], $prd_id);	
 
 				$category_attributes = array();
-				if ($category_attributes_res)
-					$category_attributes = $category_attributes_res;
+				if ($category_attributes_res) $category_attributes = $category_attributes_res;
 
 				$tbl_name = 'category_attribute_value';
 				$i = 0;
@@ -3512,29 +3850,35 @@ class Admin_controller extends CI_Controller
 						
 						$att_values_data['cat_att_mp_id'] = $att_value['mp_id'];
 						$att_values_data['prd_id'] = $prd_id;
-						$att_values_data['att_value'] = $att_field_value;	
+						$att_values_data['att_value'] = $att_field_value ? $att_field_value : '';	
 						
-						if (isset($prd_att_res['db_error'])) 
-							redirectWithMessage('Error: '.$prd_att_res['msg'], $controller);
-						else if ($prd_att_res) //update attribute value
-						{
+						if (isset($prd_att_res['db_error'])) {
+							array_push($error, 'Attributes: Fetch Operations Failed.');
+						} else if ($prd_att_res) { //update attribute value
+						
 							$condition = array('value_id' => $prd_att_res['result'][0]['value_id']);
 							$isUpdated = $this->Admin_model->updateData($tbl_name, $att_values_data, $condition);
-							if (isset($isUpdated['db_error'])) 
-								redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-						}
-						else //insert attribute value
+							if (isset($isUpdated['db_error'])) {
+								array_push($error, 'Attributes: Update Operations Failed.');
+							}							
+						} else { //insert attribute value
 							$this->Admin_model->insertData($tbl_name, $att_values_data);
+						} 
 					}
 				}
 
-				//update product varient values
-				$this->updateProductVarientValue();
+				// if original product id available to create new product
+				if ($old_prd_id) {
+					$this->copyProductVarient($prd_id);
+				} else { // update product varient values
+					$this->updateProductVarientValue();
+				}
 
 				//delete all old tags of product
 				$isDeleted = $this->Admin_model->deleteRecord('product_tags', array('prd_id' => $prd_id));
-				if (isset($isDeleted['db_error'])) 
-					redirectWithMessage('Error: '.$isDeleted['msg'], $controller);
+				if (isset($isDeleted['db_error'])) {
+					array_push($error, 'Tags: Delete Operations Failed.');
+				}
 
 				//insert product tags
 				if ($prd_tags) 
@@ -3543,12 +3887,13 @@ class Admin_controller extends CI_Controller
 					{
 						$isInserted = $this->Admin_model->insertData('product_tags', array('prd_id' => $prd_id, 'tag_id' => $prd_tag_value));
 
-						if (isset($isInserted['db_error'])) 
-							redirectWithMessage('Error: '.$isInserted['msg'], $controller);
+						if (isset($isInserted['db_error'])) {
+							array_push($error, 'Tags: Insert Operations Failed.');
+						}
 					}
 				}
 
-				//insert product key features
+				//insert Product Features
 				if ($key_features) 
 				{
 					$key_feature_data = array();
@@ -3556,20 +3901,22 @@ class Admin_controller extends CI_Controller
 
 					foreach ($key_features as $key_feature_value)
 					{
-						$key_feature_data['feature'] = $key_feature_value;
-						$key_feature_id = $this->Admin_model->insertData('product_key_features', $key_feature_data);
+						if($key_feature_value) {
 
-						if (isset($key_feature_id['db_error'])) 
-							redirectWithMessage('Error: '.$key_feature_id['msg'], $controller);
-						else if (!$key_feature_id)
-							redirectWithMessage('Error: Unable to insert product feature!', $controller);
+							$key_feature_data['feature'] = $key_feature_value;
+							$key_feature_id = $this->Admin_model->insertData('product_key_features', $key_feature_data);
+
+							if (isset($key_feature_id['db_error']) || !$key_feature_id) {
+								array_push($error, 'Feature: Insert Operations Failed.');
+							}
+						}
 					}
 				}
 
 				$isAddedHTMLFile = $this->addHTMLFiles($prd_id, 'PRODUCT');
-
-				if (!$isAddedHTMLFile) 
-					$msg = 'Error: unable to perform action for HTML Files!';
+				if (!$isAddedHTMLFile) {
+					array_push($error, 'HTML Files: Operations Failed.');
+				}
 
 				//check this step
 				if ($request_id) 
@@ -3601,25 +3948,35 @@ class Admin_controller extends CI_Controller
 					setNULLToBlank($listing_data);
 					
 					$isUpdated = $this->Admin_model->updateData('product_listing', $listing_data, array('listing_id' => $list_id));
-					if (isset($isUpdated['db_error'])) 
-						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+					if (isset($isUpdated['db_error'])) {
+						array_push($error, 'Product Listing: Unable to update.');
+					}
 
 					//update linked status of requested product
-					$isUpdated = $this->Admin_model->updateData('requested_product', array('isLinked' => 1), array('request_id' => $request_id));
-					if (isset($isUpdated['db_error'])) 
-						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+					$isUpdated = $this->Admin_model->updateData('requested_product2', array('isLinked' => 1), array('request_id' => $request_id));
+					if (isset($isUpdated['db_error'])) {
+						array_push($error, 'Requested Product: Unable to update link status.');
+					}
 				}
-			}
-			else
-			{
+
+				// if any error occure, redirect user to edit product screen with saved data
+				if(count($error) > 0) {
+
+					$this->session->set_flashdata('errors', $error);
+					redirect('/editProduct/'.$prd_id.'/edit');
+					die;
+				}
+			} else {
+			
 				$msg = 'Error: Unable to insert!';
 				$controller = 'addProduct';
 			}
 
 			redirectWithMessage($msg, $controller);
-		}
-		else
+		
+		} else {
 			redirectWithMessage('Error: All fields are required!', 'addProduct');
+		}
 	}
 
 	public function attatchments($link_id, $atch_for)
@@ -3714,6 +4071,7 @@ class Admin_controller extends CI_Controller
 		if ($prd_id) 
 		{
 			$prd_res = $this->productDetail($prd_id);
+			// echo "<pre>"; print_r($prd_res); die;
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
 
@@ -3739,37 +4097,48 @@ class Admin_controller extends CI_Controller
 			$this->load->view('admin/include/header');
 			$this->load->view('admin/include/leftbar');
 			$this->load->view('admin/addProduct', $prd_res);
+			$this->load->view('ajaxFunctions');
 			$this->load->view('admin/include/footer');
 			die;
 		}
 	}
 
-	public function getProductDetail($prd_id = '', $sel_id='', $list_id='', $isRequestedProduct=false)
-	{
-		$this->isLoggedIn();
+	public function getProductDetail() {
 
-		if ($prd_id) 
-		{
+		$this->isLoggedIn();
+		
+		$prd_id = $this->input->post('product_id');
+		$sel_id = $this->input->post('merchant_id');
+		$list_id = $this->input->post('listing_id');
+		$isRequestedProduct = $this->input->post('isRequestedProduct');
+
+		if ($prd_id) {
+
 			$prd_res = $this->productDetail($prd_id, $isRequestedProduct);
 			if (isset($prd_res['db_error'])) 
 				redirectWithMessage('Error: '.$prd_res['msg'], 'products');
 
+			$prd_res['key_features'] = $this->Admin_model->selectRecords(array('product_id' => $prd_id), 'product_key_features', '*');
+			if (isset($data['key_features']['db_error'])) 
+				redirectWithMessage('Error: '.$data['key_features']['msg'], $controller);
+
 			$prd_res['seller_id'] = $sel_id;
 			$prd_res['product_listing'] = array();
 			
-			if ($list_id)
-			{
+			if ($list_id) {
+
 				$product_listing = $this->Admin_model->selectRecords(array('listing_id' => $list_id), 'product_listing', '*');
 				$prd_res['product_listing'] = $product_listing['result'];
-			}
-			else
-			{
+			
+			} else {
+				
 				$seller_default_values = $this->Admin_model->selectRecords(array('merchant_id' => $sel_id), 'merchant', 'finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering');
 
 				if ($seller_default_values)
 					$prd_res['seller_default_values'] = $seller_default_values['result'][0];
 			}
 			
+			// echo "<pre>"; print_r($prd_res); die;
 			$this->load->view('admin/include/header');
 			$this->load->view('admin/include/leftbar');
 			$this->load->view('admin/productDetail', $prd_res);
@@ -3778,28 +4147,27 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
-	public function fillListingDetailOfRequestedProduct($req_prd_id)
-	{
-		if ($req_prd_id) 
-		{
-			$data = array();
-			$data['req_prd_id'] = $req_prd_id;
+	// public function fillListingDetailOfRequestedProduct($req_prd_id)
+	// {
+	// 	if ($req_prd_id) 
+	// 	{
+	// 		$data = array();
+	// 		$data['req_prd_id'] = $req_prd_id;
 
-			$this->load->view('admin/include/header');
-			$this->load->view('admin/include/leftbar');
-			$this->load->view('admin/fillListingDetailOfRequestedProduct', $data);
-			$this->load->view('admin/include/footer');
-			die;
-		}
-		else
-			redirectWithMessage('Error: Requested product id could not found!', 'getAllProducts/'.$_COOKIE['merchant_id']);
-	}
+	// 		$this->load->view('admin/include/header');
+	// 		$this->load->view('admin/include/leftbar');
+	// 		$this->load->view('admin/fillListingDetailOfRequestedProduct', $data);
+	// 		$this->load->view('admin/include/footer');
+	// 		die;
+	// 	}
+	// 	else
+	// 		redirectWithMessage('Error: Requested product id could not found!', 'listings');
+	// }
 
 	//delete attatchment
 	public function deleteAttactchment($atch_url, $controller, $id)
 	{
 		$this->isLoggedIn();
-
 		
 		$redirect_path = $controller.'/'.$id.'/edit';
 
@@ -3822,13 +4190,38 @@ class Admin_controller extends CI_Controller
 		{
 			$folder_name = BRAND_ATTATCHMENTS_PATH;
 			$this->updateTableDate('brand', array('brand_id' => $id));
-		}
-		else if ($controller == "seller")
-		{
+
+		} else if ($controller == "brandLogo") {
+
+		 	// This block needs to be deleted once all images can be deleted from post methood only. Not need to have delete attachemtn method
+			$redirect_path = 'editBrand'.'/'.$id.'/edit';
+			$condition = array('brand_id' => $id);
+			$data = ['brand_logo' => null, 'update_date' => $this->current_date]; 
+			$this->Admin_model->updateData('brand', $data, $condition);
+			$folder_name = BRAND_ATTATCHMENTS_PATH;
+		
+		} else if ($controller == "seller") {
+	
 			$folder_name = SELLER_ATTATCHMENTS_PATH;
 			$this->updateTableDate('merchant', array('merchant_id' => $id));
-		}
-		else if ($controller == "editOffer")
+		
+		}  else if ($controller == "sellerLogo" || $controller == "businessProof") {
+
+		 	// This block needs to be deleted once all images can be deleted from post methood only. Not need to have delete attachemtn method
+			$redirect_path = 'seller'.'/'.$id.'/edit';
+			$condition = array('merchant_id' => $id);
+			$data = ['update_date' => $this->current_date];
+			
+			if($controller == "sellerLogo") {
+				$data['merchant_logo'] = null;
+			} elseif ($controller == "businessProof") {
+				$data['business_proof'] = null; 
+			}
+			
+			$this->Admin_model->updateData('merchant', $data, $condition);
+			$folder_name = SELLER_ATTATCHMENTS_PATH;
+		
+		} else if ($controller == "editOffer")
 		{
 			$folder_name = OFFER_ATTATCHMENTS_PATH;
 			$this->updateTableDate('product_listing_offer', array('offer_id' => $id));
@@ -3839,7 +4232,7 @@ class Admin_controller extends CI_Controller
 			$folder_name = PRODUCT_ATTATCHMENTS_PATH;
 			$redirect_path = $controller.'?req_prd_id='.$req_prd_id[0];
 			$id = $req_prd_id[1];
-			$this->updateTableDate('requested_product', array('request_id' => $id));
+			$this->updateTableDate('requested_product2', array('request_id' => $id));
 		}
 
 		//delete from the folder
@@ -3994,77 +4387,27 @@ class Admin_controller extends CI_Controller
 		else
 			redirectWithMessage($msg, 'seller/'.$merchant_id.'/edit');
 	}
-
-	public function addProductVarient()
-	{
-		$this->isLoggedIn();
-
-		$cat_id = $this->input->post('cat_id');
-		$prd_id = $this->input->post('prd_id');
-		$request_id = $this->input->post('request_id');
-		$att_id = $this->input->post('att_id');
-		$page_label = $this->input->post('page_label');
-		$vrnt_vals = $this->input->post('vrnt_vals');
-
-		$tbl_name = 'category_attribute_mp';
-		$columns  = 'mp_id';
-		$where = array('cat_id' => $cat_id, 'att_id' => $att_id);
-
-		$mp_res = $this->Admin_model->selectRecords($where, $tbl_name, $columns);
-		
-		if ($mp_res['result']) 
-		{
-			$tbl_name = "category_attribute_value";
-			$where = array('cat_att_mp_id' => $mp_res['result'][0]['mp_id'], 'prd_id' => $prd_id);
-			$this->Admin_model->deleteRecord($tbl_name, $where);
-		}
-
-		$data = array();
-		$data['prd_id'] = $prd_id;
-		$data['att_id'] = $att_id;
-
-		if ($vrnt_vals) 
-		{
-			foreach ($vrnt_vals as $vrnt_key => $vrnt_value) 
-			{
-				$data['att_value'] = $vrnt_value;
-				$this->Admin_model->insertData('product_varient', $data);
-			}
-		}
-
-		//update product table for hasVarient
-		$prd_data = array();
-		$condition = array('product_id' => $prd_id);
-		$prd_data['hasVarient'] = 1;
-		$prd_data['update_date'] = $this->current_date;
 	
-		$this->Admin_model->updateData('product', $prd_data, $condition);
-		
-		if ($request_id) //this is for requested product
-			$controller = 'addProduct?req_prd_id='.$request_id;
-		else
-			$controller = 'admin/editProduct/'.$prd_id.'/'.$page_label;
+	public function addAddress() {
 
-		redirectWithMessage('Attribute varient added successfully!!!', $controller);
-	}
-	
-	public function addAddress()
-	{
 		$user_id = $this->input->post('user_id');
 		$merchant_id = ($this->input->post('merchant_id')) ? $this->input->post('merchant_id') : $_COOKIE['merchant_id'];
 
-		if ($user_id && $merchant_id) 
-		{
+		if ($user_id && $merchant_id) {
+			
 			$address_id = $this->insertAddress($user_id);
-			if ($address_id) 
+			if ($address_id) {
 				$msg = 'Merchat address update successfully!!!!';
-			else
+			} else {
 				$msg = "Error: lat, long are not in correct format.";
+			}
 
-			$controller = 'page/addressManagement?user_id='.$user_id.'&merchant_id='.$merchant_id;
-		}
-		else
-		{
+			$this->session->set_flashdata('user_id', $user_id);
+			$this->session->set_flashdata('merchant_id', $merchant_id);
+
+			$controller = 'page/addressManagement';
+
+		} else {
 			$msg = 'Error: user id and merchant id is required!';
 			$controller = 'dashboard';
 		}
@@ -4100,7 +4443,8 @@ class Admin_controller extends CI_Controller
 		$offering_id = $this->input->post('offering_id');
 		$merchant_id = $this->input->post('merchant_id');
 		$offering = $this->input->post('offering');
-
+		$offerings = $this->input->post('seller_offerings'); // array of seller offering values
+		
 		if ($offering_id && $merchant_id && $offering) 
 		{
 			$condition = array('offering_id' => $offering_id);
@@ -4109,13 +4453,28 @@ class Admin_controller extends CI_Controller
 			$msg = 'Offering updated successfully!';
 			$controller = 'seller/'.$merchant_id.'/edit';
 		}
-		else
+		elseif($merchant_id && $offerings)
 		{
+			$seller_offering_data = array();
+			$seller_offering_data['merchant_id'] = $merchant_id;
+
+			foreach ($offerings as $offering)
+			{
+				$seller_offering_data['offering'] = $offering;
+				$seller_offering_id = $this->Admin_model->insertData('merchant_offering', $seller_offering_data);
+
+				if (isset($seller_offering_id['db_error'])) 
+					redirectWithMessage('Error: '.$seller_offering_id['msg'], $controller);
+				else if (!$seller_offering_id)
+					redirectWithMessage('Error: Unable to insert seller offering!', $controller);
+			}
+
 			$msg = 'Error: offering id, merchant id not found!';
 			$controller = 'sellers/sellersTable';
 		}
 
-		redirectWithMessage($msg, $controller);
+		redirect($_SERVER['HTTP_REFERER']);
+		// redirectWithMessage($msg, $controller);
 	}
 
 	//add/update user or merchant address
@@ -4139,7 +4498,14 @@ class Admin_controller extends CI_Controller
 		$address_data['state_id'] = $this->input->post('state_id');
 		$address_data['city_id'] = $this->input->post('city_id');
 		$address_data['update_date'] = $this->current_date;
-
+		
+		if(!$address_data['latitude'] && !$address_data['longitude']) {
+			
+			$lat_long = $this->get_lat_long_from_address($address_data);
+			$address_data['latitude'] = $lat_long['lat'];
+			$address_data['longitude'] = $lat_long['lng'];
+		}
+		
 		//set null for blank fields
 		setNULLToBlank($address_data);
 
@@ -4165,6 +4531,34 @@ class Admin_controller extends CI_Controller
 		}
 	}
 
+	private function get_lat_long_from_address($address_data) {
+		
+		// Build address string from your existing array
+		$address_string  = '';
+		$address_string .= !empty($address_data['address_line_1']) ? $address_data['address_line_1'] . ', ' : '';
+		$address_string .= !empty($address_data['address_line_2']) ? $address_data['address_line_2'] . ', ' : '';
+		$address_string .= !empty($address_data['landmark'])       ? $address_data['landmark'] . ', ' : '';
+		$address_string .= !empty($address_data['locality'])       ? $address_data['locality'] . ', ' : '';
+		$address_string .= !empty($address_data['country_id'])     ? $address_data['country_id'] . ', ' : '';
+		$address_string .= !empty($address_data['state_id'])       ? $address_data['state_id'] . ', ' : '';
+		$address_string .= !empty($address_data['city_id'])        ? $address_data['city_id'] : '';
+		$address_string .= !empty($address_data['pin'])            ? '-' . $address_data['pin'] : '';
+
+		// Trim trailing comma/space if any
+		$address_string = rtrim($address_string, ', ');
+        $address = str_replace(" ", "+", $address_string);
+        $json = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".$address."&key=".GOOGLE_MAP_API_KEY);
+        $data = json_decode($json);
+
+        if (!empty($data->results)) {
+            $lat = $data->results[0]->geometry->location->lat;
+            $lng = $data->results[0]->geometry->location->lng;
+            return ['lat' => $lat, 'lng' => $lng];
+        } else {
+            return ['lat' => 0, 'lng' => 0]; // fallback if not found
+        }
+    }
+
 	public function sellers($type)
 	{
 		$this->isLoggedIn();
@@ -4172,40 +4566,44 @@ class Admin_controller extends CI_Controller
 		$data['pageName'] = $type;
 		$controller = 'dashboard';
 
-		if ($this->sellers)
-		{
+		if ($this->sellers) {
+
 			$data['success'] = true;
 			$data['data'] = $this->sellers;	
 			$data['merchant_offers'] = $this->getOffer();
 
-			if (isset($data['merchant_offers']['db_error'])) 
+			if (isset($data['merchant_offers']['db_error'])) {
 				echo "<script>window.alert('".$data['merchant_offers']['msg']."');</script>";
-			else
-			{
+			} else {
+
 				$i = 0;
 
-				foreach ($this->sellers as $value) 
-				{
+				foreach ($this->sellers as $value) {
+
 					$address_res = $this->getUserAddress(array('address.userId' => $value['userId']));
-					if (isset($address_res['db_error'])) 
+					if (isset($address_res['db_error'])) {
 						redirectWithMessage('Error: '.$address_res['msg'], $controller);
-					else if ($address_res) 
-					{
+					} elseif ($address_res) {
+
 						$j = 0;
 						$data['data'][$i]['address'] = $address_res['result'];
-						foreach ($address_res['result'] as $add_value) 
-						{
+						
+						foreach ($address_res['result'] as $add_value) {
+
 							$country = $this->getCountry($add_value['country_id']);
-							if (isset($country['db_error'])) 
+							if (isset($country['db_error'])) {
 								redirectWithMessage('Error: '.$country['msg'], $controller);
+							}
 							
 							$state = $this->getState($add_value['state_id']);
-							if ( isset($state['db_error']) ) 
+							if (isset($state['db_error'])) { 
 								redirectWithMessage('Error: '.$state['msg'], $controller);
+							}
 							
 							$city = $this->getcity('', '', $add_value['city_id']);
-							if ( isset($city['db_error']) ) 
+							if (isset($city['db_error'])) { 
 								redirectWithMessage('Error: '.$city['msg'], $controller);
+							}
 
 							$data['data'][$i]['address'][$j]['country_name'] = $country['result'][0]['name'];
 							$data['data'][$i]['address'][$j]['state_name'] = $state['result'][0]['name'];
@@ -4213,16 +4611,14 @@ class Admin_controller extends CI_Controller
 
 							$j++;
 						}
-					}
-					else
+					} else {
 						$data['data'][$i]['address'] = array();
+					}
 
 					$i++;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			$data['success'] = false;
 			$data['data'] = array();
 		}
@@ -4334,9 +4730,11 @@ class Admin_controller extends CI_Controller
 
 		$seller_data['page_label'] = $page_label;
 		
+		// echo "<pre>"; print_r($seller_data); die;
 		$this->load->view('admin/include/header');
 		$this->load->view('admin/include/leftbar');
 		$this->load->view('admin/addSeller', $seller_data);
+        $this->load->view('ajaxFunctions');
 		$this->load->view('admin/include/footer');
 		die;
 	}
@@ -4384,21 +4782,21 @@ class Admin_controller extends CI_Controller
 		else if ($isExistUser) 
 			redirectWithMessage('Error: Email already exist!', $controller);
 
-		//update merchant account with e-mail address for varification
+		// update merchant account with e-mail address for varification
 		$user_data = array();
 		$user_data['email'] = $email;
 		$user_data['first_name'] = $name;
 		$user_data['status'] = 1;
-		$user_data['password'] = DEFAULT_PASSWORD;
+		// $user_data['password'] = DEFAULT_PASSWORD;
 		$user_data['update_date'] = $this->current_date;
 		$this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
 
-		//send mail for signup done
+		// send mail for signup done
         $mail_data = array();
         $mail_data['merchant_name'] = $name;
         $mail_data['shop_name'] = $merchant_data['establishment_name'];
         $mail_data['email'] = $email;
-        $mail_data['password'] = DEFAULT_PASSWORD;
+        // $mail_data['password'] = DEFAULT_PASSWORD;
         $mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
         
         $this->common_controller->sendMail($mail_data);
@@ -4510,7 +4908,7 @@ class Admin_controller extends CI_Controller
 		else if($req_prd_id)
 			$listing_data['req_prd_id'] = $req_prd_id;
 
-		$controller = 'getAllProducts/'.$merchant_id;
+		$controller = 'listings';
 
 		//set null for blank fields
 		setNULLToBlank($listing_data);
@@ -4545,7 +4943,7 @@ class Admin_controller extends CI_Controller
 				
 				if($req_prd_id)
 				{
-					$isUpdated = $this->Admin_model->updateData('requested_product', array('isLinked' => 1), array('request_id' => $req_prd_id));
+					$isUpdated = $this->Admin_model->updateData('requested_product2', array('isLinked' => 1), array('request_id' => $req_prd_id));
 
 					if (isset($isUpdated['db_error'])) 
 						redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
@@ -4727,19 +5125,19 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage("Error: unable to get reviews.", $controller);
 	}
 
-	public function merchantSignUp()
-	{
-		$data = array();
-		$countries = $this->getCountry();
-		if (isset($countries['db_error'])) 
-			redirectWithMessage('Error: '.$countries['msg'], 'merchant');
+	// public function merchantSignUp()
+	// {
+	// 	$data = array();
+	// 	$countries = $this->getCountry();
+	// 	if (isset($countries['db_error'])) 
+	// 		redirectWithMessage('Error: '.$countries['msg'], 'merchant');
 
-		$data['countries'] = $countries['result'];
+	// 	$data['countries'] = $countries['result'];
 
-		$this->load->view('admin/merchantSignUp', $data);
-	}
+	// 	$this->load->view('admin/merchantSignUp', $data);
+	// }
 
-	public function insertSellerDefaultValues()
+	public function updateSellerServicePolicy()
 	{
 		$data = array();
 		$data['finance_available'] = $this->input->post('finance_available');
@@ -4764,7 +5162,7 @@ class Admin_controller extends CI_Controller
 		if (isset($isUpdated['db_error'])) 
 			redirectWithMessage('Error: '.$isUpdated['msg'], 'dashboard');
 		else
-			redirectWithMessage("Default values updated successfully.", 'dashboard');
+			redirectWithMessage("Service & Policy updated successfully.", 'page/service_policy');
 	}
 
 	public function isLoggedIn()
@@ -4806,8 +5204,8 @@ class Admin_controller extends CI_Controller
 		redirectWithMessage('Error: invalid token', 'signout');
 	}
 
-	public function acceptRequest()
-	{
+	public function actionOnclaimRequest() {
+
 		$this->isLoggedIn();
 
 		$merchant_id = $this->input->post('merchant_id');
@@ -4815,8 +5213,12 @@ class Admin_controller extends CI_Controller
 		$userId = $this->input->post('user_id');
 		$email = $this->input->post('email');
 		$name = $this->input->post('name');
-		$failed_controller = 'viewRequest/'.$clmd_id;
+		$rejectRequest = $this->input->post('reject');
+		$submitRequest = $this->input->post('submit');
+		$notes = $this->input->post('notes');
+		$failed_controller = 'viewClaimRequest/'.$clmd_id;
 		$success_controller = 'page/claimedRequest';
+		$error = array();
 
 		$merchant_data = array();
 		$merchant_data['contact'] = $this->input->post('contact');
@@ -4824,127 +5226,225 @@ class Admin_controller extends CI_Controller
 		$merchant_data['is_verified'] = 1;
 		$merchant_data['update_date'] = $this->current_date;
 		$merchant_data['business_proof'] = $this->input->post('clmd_business_proof');
+		
+		if (isset($rejectRequest)) {
+			
+			// update claimed request status
+			$claimData = array(
+				'status' => "REJECTED",
+				'notes' => $notes	
+			);
+			$isClaimUpdated = $this->Admin_model->updateData('claimed_requests', $claimData, array('clmd_id' => $clmd_id));		
+			if (isset($isClaimUpdated['db_error'])) {
+				array_push($error, 'Claim Request: Update Operations Failed.');
+			}
 
-		if (!$merchant_data['business_proof'])
-			redirectWithMessage("Error: Unable to upload profile picture!", $failed_controller);
+			if(count($error) == 0) {
 
-		//check email is already exist or not
-		$isExistUser = $this->Admin_model->selectRecords(array('email' => $email), 'user', 'userId');
-		if (isset($isExistUser['db_error'])) 
-			redirectWithMessage('Error: '.$isExistUser['msg'], $failed_controller);
-		else if ($isExistUser) 
-			redirectWithMessage('Error: Email already exist!', $failed_controller);
+				// send mail for signup done
+				$mail_data = array();
+				$mail_data['merchant_name'] = $name;
+				$mail_data['shop_name'] = $merchant_data['establishment_name'];
+				$mail_data['email'] = $email;
+				$mail_data['reject_reason'] = $notes;
+				$mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_REJECTED;
+				
+				$this->common_controller->sendMail($mail_data);
 
-		//copy business proof image from temporary folder to seller folder
-		copy(
-        	TEMP_FOLDER_PATH.$merchant_data['business_proof'], 
-        	SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_data['business_proof']
-        );
+				redirectWithMessage('Claim Rejected', $success_controller);
+			}
+		} elseif (isset($submitRequest)) {
 
-		//update merchant account with e-mail address for varification
-		$user_data = array();
-		$user_data['email'] = $email;
-		$user_data['first_name'] = $name;
-		$user_data['status'] = 1;
-		$user_data['password'] = DEFAULT_PASSWORD;
-		$user_data['update_date'] = $this->current_date;
-		$this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
+			if (!$merchant_data['business_proof']) {
+				array_push($error, 'Attachment: Business Proof is mandatory.');
+			}
 
-		//send mail for signup done
-        $mail_data = array();
-        $mail_data['merchant_name'] = $name;
-        $mail_data['shop_name'] = $merchant_data['establishment_name'];
-        $mail_data['email'] = $email;
-        $mail_data['password'] = DEFAULT_PASSWORD;
-        $mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
-        
-        $this->common_controller->sendMail($mail_data);
+			// update user account with e-mail address
+			$user_data = array();
+			$user_data['email'] = $email;
+			$user_data['first_name'] = $name;
+			$user_data['status'] = 1;
+			$user_data['update_date'] = $this->current_date;
+			$isUserUpdated = $this->Admin_model->updateData('user', $user_data, array('userId' => $userId));
+			if (isset($isUserUpdated['db_error'])) {
+				array_push($error, 'User: Update Operations Failed.');
+			}
 
-		$condition = array('merchant_id' => $merchant_id);
-		$isUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $condition);
-		if (isset($isUpdated['db_error'])) 
-			redirectWithMessage('Error: '.$isUpdated['msg'], $failed_controller);
+			// move business proof image from temporary folder to seller folder
+			$source = TEMP_FOLDER_PATH . $merchant_data['business_proof'];
+			$destinationDir = SELLER_ATTATCHMENTS_PATH . $merchant_id . '/';
+			$destination = $destinationDir . $merchant_data['business_proof'];
 
-		//update claimed approved status
-		$isUpdated = $this->Admin_model->updateData(
-			'claimed_requests', 
-			array('is_clmd_approved' => 1), 
-			array('clmd_id' => $clmd_id)
-		);		
-		if (isset($isUpdated['db_error'])) 
-			redirectWithMessage('Error: '.$isUpdated['msg'], $failed_controller);
+			// Ensure destination folder exists
+			if (!is_dir($destinationDir)) {
+				mkdir($destinationDir, 0777, true); // recursive create
+			}
 
-		redirectWithMessage('Merchant status changed successfully!!!', $success_controller);
+			// Move file (rename is better than copy+unlink)
+			if (file_exists($source)) {
+				$copyBusinessProof = copy($source, $destination);
+				if (!$copyBusinessProof) {
+					array_push($error, 'Business Proof: Unable to copy.');
+				}
+			} else {
+				array_push($error, 'Business Proof: Not Found.');
+			}
+
+			// update merchant details
+			$condition = array('merchant_id' => $merchant_id);
+			$isMerchantUpdated = $this->Admin_model->updateData('merchant', $merchant_data, $condition);
+			if (isset($isMerchantUpdated['db_error'])) {
+				array_push($error, 'Merchant: Update Operations Failed.');
+			}
+			
+			if(count($error) == 0) {
+			
+				// update claimed request status
+				$claimData = array(
+					'status' => "APPROVED",
+					'notes' => $notes	
+				);
+				$isClaimUpdated = $this->Admin_model->updateData('claimed_requests', $claimData, array('clmd_id' => $clmd_id));		
+				if (isset($isClaimUpdated['db_error'])) {
+					array_push($error, 'Claim Request: Update Operations Failed.');
+				}
+
+				if(count($error) == 0) {
+
+					// send mail for signup done
+					$mail_data = array();
+					$mail_data['merchant_name'] = $name;
+					$mail_data['shop_name'] = $merchant_data['establishment_name'];
+					$mail_data['email'] = $email;
+					$mail_data['code'] = MAIL_CODE_CLAIM_BUSINESS_APPROVED;
+					
+					$this->common_controller->sendMail($mail_data);
+
+					redirectWithMessage('Claim Approved Successfully', $success_controller);
+				}
+			}
+
+			$this->session->set_flashdata('errors', $error);
+			$this->redirectBackToErrorPage();
+			die;
+		}
 	}
 
 	//add category method
-	public function addRequestedProduct()
-	{
+	public function addRequestedProduct() {
+
 		$images = array();
 		$data = array();
-		$prd_name = $this->input->post('prd_name');
-		$data['category_id'] = $this->input->post('parent_cat_id');
-		$data['brand_id'] = $this->input->post('brand_id');
-		$data['product_name'] = $prd_name;
-		$data['mrp_price'] = $this->input->post('prd_price');
-		$data['description'] = $this->input->post('prd_desc');
-		$data['in_the_box'] = $this->input->post('in_the_box');
-		$data['update_date'] = $this->current_date;
-
+		$error = array();
+		$merchant_id = $_COOKIE['merchant_id'];
+		$prd_name = $this->input->post('prd_name');		
 		$prd_id = $this->input->post('product_id');
-		$req_prd_id = $this->input->post('request_id');
+		$request_id = $this->input->post('request_id');
+		$brand_id = $this->input->post('brand_id');
+		$brand_name = $this->input->post('brand_name');
+		$list_id = $this->input->post('listing_id');
+		$category_id = $this->input->post('parent_cat_id');
 		$controller = 'page/merchantRequestedProducts';
 
-		//set null for blank fields
-		setNULLToBlank($data);
-
-		if (!$data['brand_id'] || $data['brand_id'] == 'other')
-		{
-			$data['brand_id'] = NULL;
+		if (!$brand_id || $brand_id == 'other') {
 
 			//brand name must be unique
-			if ($this->ci->form_validation->run('unique_brand_name') == FALSE)
-	        {
-	        	if ($req_prd_id) 
-	            	$this->editRequestedProduct($req_prd_id);
-	            else
-	            	$this->pageLoad('requestProduct');
+			// if ($this->ci->form_validation->run('unique_brand_name') == FALSE)
+	        // {
+	        // 	if ($req_prd_id) 
+	        //     	$this->editRequestedProduct($req_prd_id);
+	        //     else
+	        //     	$this->pageLoad('requestProduct');
 
-	            die;
-	        }
+	        //     die;
+	        // }
+
+			// check new brand existance, if duplicate brand name submitted then find the value of brand id
+			$brandRes = $this->Admin_model->selectRecords(array('name' => $brand_name), 'brand', 'brand_id');
+			if (isset($brandRes['db_error'])) {
+				
+				$this->session->set_flashdata('brandNameError', 'Brand selection error.');
+				$this->redirectBackToErrorPage();
+				die;
+			} else if ($brandRes) {
+				$brand_id = $brandRes['result'][0]['brand_id'];
+			} else {
+				$brand_id = NULL;
+			}
 		}
 
-		if ($prd_id) //update product
-		{
+		// requested product detail array
+		$req_prd_data = array();
+		$req_prd_data['merchant_id'] = $merchant_id;
+		$req_prd_data['product_name'] = $prd_name;
+		$req_prd_data['req_prd_id'] = $prd_id;
+		$req_prd_data['req_lst_id'] = $list_id;
+		$req_prd_data['brand_name'] = $brand_id ? null : $this->input->post('brand_name');
+		$req_prd_data['refer_link'] = $this->input->post('refer_link');
+		$req_prd_data['notes'] = $this->input->post('notes');
+		$req_prd_data['isLinked'] = 0;
+		// $req_prd_data['isEnabled'] = 1;
+		$req_prd_data['update_date'] = $this->current_date;
+		
+		//set null for blank fields
+		setNULLToBlank($req_prd_data);
+		
+		if ($request_id) {
+
+			$controller = 'editRequestedProduct/'.$request_id;
+
+			$isUpdated = $this->Admin_model->updateData('requested_product2', $req_prd_data, array('request_id' => $request_id));
+			if (isset($isUpdated['db_error'])) {
+				array_push($error, 'Requested Product: Unable to update.');
+			}
+		} else {
+			$req_prd_data['create_date'] = $this->current_date;
+
+			$request_id = $this->Admin_model->insertData('requested_product2', $req_prd_data);
+			
+			if (isset($request_id['db_error'])) {
+				redirectWithMessage('Error: Unable to save requested product', $controller);
+			}
+		}
+		
+		// product detail array
+		$prd_data = array();
+		$prd_data['category_id'] = $category_id;
+		$prd_data['brand_id'] = $brand_id;
+		$prd_data['product_name'] = $prd_name;
+		$prd_data['mrp_price'] = $this->input->post('prd_price');
+		$prd_data['description'] = $this->input->post('prd_desc');
+		$prd_data['in_the_box'] = $this->input->post('in_the_box');
+		$prd_data['updated_by'] = $this->input->cookie('user_id', true);
+		$prd_data['update_date'] = $this->current_date;
+
+		//set null for blank fields
+		setNULLToBlank($prd_data);
+
+		if ($prd_id) { // update product
+		
 			$condition = array('product_id' => $prd_id);
-			$isUpdated = $this->Admin_model->updateData('product', $data, $condition);
+			$isUpdated = $this->Admin_model->updateData('product', $prd_data, $condition);
 
-			if (isset($isUpdated['db_error'])) 
-				redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			if (isset($isUpdated['db_error'])) {
+				array_push($error, 'Product: Unable to update.');
+			}
+		
+		} else { //insert new product
+		
+			$prd_data['create_date'] = $this->current_date;
+			$prd_data['created_by'] = $this->input->cookie('user_id', true);
+			$prd_data['source'] = "SELLER";
 
-			$msg = 'Product succesfully updated!';
-		}
-		else //insert new product
-		{
-			$data['create_date'] = $this->current_date;
+			$prd_id = $this->Admin_model->insertData('product', $prd_data);
 
-			//product name must be unique
-			if ($this->ci->form_validation->run('unique_product_name') == FALSE)
-	        {
-	            $this->pageLoad('requestProduct');
-	            die;
-	        }
-
-			$prd_id = $this->Admin_model->insertData('product', $data);
-
-			if (isset($prd_id['db_error'])) 
+			if (isset($prd_id['db_error'])) {
 				redirectWithMessage('Error: '.$prd_id['msg'], $controller);
-			else
-				$msg = 'Product inserted successfully!!';
+			}
 		}
 
-		if ($prd_id) 
-		{
+		if ($prd_id) {
+
 			//atatchment data
 			$img_data['link_id'] = $prd_id;
 			$img_data['atch_type'] = "IMAGE";
@@ -4955,23 +5455,25 @@ class Admin_controller extends CI_Controller
 
 			//insert product images
 			$isUploaded = $this->upload_image($folder, $img_data);
-			if (isset($isUploaded['db_error'])) 
-				redirectWithMessage('Error: '.$isUploaded['msg'], $controller);
+			if (isset($isUploaded['db_error'])) {
+				array_push($error, 'Image upload failed.');
+			}
 
 			//insert or update product attribute values
 			//insert product category attribute
-			$category_attributes_res = $this->Admin_model->categoryAttributes($data['category_id'], $prd_id);	
+			$category_attributes_res = $this->Admin_model->categoryAttributes($category_id, $prd_id);	
 
 			$category_attributes = array();
-			if ($category_attributes_res)
+			if ($category_attributes_res){
 				$category_attributes = $category_attributes_res;
+			}
 
 			$tbl_name = 'category_attribute_value';
 			$i = 0;
-			foreach ($category_attributes as $att_value) 
-			{
-				if ($att_value['mp_id']) 
-				{
+			foreach ($category_attributes as $att_value) {
+
+				if ($att_value['mp_id']) {
+
 					$att_field_value = $this->input->post($att_value['att_id']);
 
 					$columns = 'value_id';
@@ -4982,103 +5484,129 @@ class Admin_controller extends CI_Controller
 					$att_values_data['prd_id'] = $prd_id;
 					$att_values_data['att_value'] = $att_field_value;	
 					
-					if (isset($prd_att_res['db_error'])) 
-						redirectWithMessage('Error: '.$prd_att_res['msg'], $controller);
-					else if ($prd_att_res) //update attribute value
-					{
+					if (isset($prd_att_res['db_error'])) {
+						array_push($error, 'Attributes: Fetch Operations Failed.');
+					} else if ($prd_att_res) { //update attribute value
+					
 						$condition = array('value_id' => $prd_att_res['result'][0]['value_id']);
 						$isUpdated = $this->Admin_model->updateData($tbl_name, $att_values_data, $condition);
-						if (isset($isUpdated['db_error'])) 
-							redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-					}
-					else //insert attribute value
+						if (isset($isUpdated['db_error'])) {
+							array_push($error, 'Attributes: Update Operations Failed.');
+						}
+					} else { //insert attribute value
 						$this->Admin_model->insertData($tbl_name, $att_values_data);
+					}
 				}
 			}
 
 			//insert product listing with merchant
-			$merchant_id = $_COOKIE['merchant_id'];
-			$list_id = $this->input->post('listing_id');
-
 			$listing_data = array();
 			$listing_data['merchant_id'] = $merchant_id;
 			$listing_data['sell_price'] = $this->input->post('sell_price');
-			$listing_data['finance_available'] = $this->input->post('finance_available');
+			$listing_data['finance_available'] = $this->input->post('finance_available') ? 1 : 0;
 			$listing_data['finance_terms'] = $this->input->post('finance_terms');
-			$listing_data['home_delivery_available'] = $this->input->post('home_delievery');
+			$listing_data['home_delivery_available'] = $this->input->post('home_delievery') ? 1 : 0;
 			$listing_data['home_delivery_terms'] = $this->input->post('delievery_terms');
-			$listing_data['installation_available'] = $this->input->post('installation_available');
+			$listing_data['installation_available'] = $this->input->post('installation_available') ? 1 : 0;
 			$listing_data['installation_terms'] = $this->input->post('installation_terms');
-			$listing_data['in_stock'] = $this->input->post('in_stock');
 			$listing_data['will_back_in_stock_on'] = $this->input->post('back_in_stock');
-			$listing_data['replacement_available'] = $this->input->post('replacement_available');
+			$listing_data['replacement_available'] = $this->input->post('replacement_available') ? 1 : 0;
 			$listing_data['replacement_terms'] = $this->input->post('replacement_terms');
-			$listing_data['return_available'] = $this->input->post('return_available');
+			$listing_data['return_available'] = $this->input->post('return_available') ? 1 : 0;
 			$listing_data['return_policy'] = $this->input->post('return_policy');
 			$listing_data['seller_offering'] = $this->input->post('seller_offering');
 			$listing_data['update_date'] = $this->current_date;
 			$listing_data['isVerified'] = 1;
 			$listing_data['product_id'] = $prd_id;
-
+			if($this->input->post('request_id')) {
+				$listing_data['in_stock'] = 1;
+			} else {
+				$listing_data['in_stock'] = $this->input->post('in_stock') ? 1 : 0;
+			}
+			
 			//set null for blank fields
 			setNULLToBlank($listing_data);
 
-			if ($list_id) 
-			{
+			if ($list_id) {
+
 				$condition = array('listing_id' => $list_id);
 				$isUpdated = $this->Admin_model->updateData('product_listing', $listing_data, $condition);
-				if (isset($isUpdated['db_error'])) 
-					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
-			}
-			else
-			{
+				if (isset($isUpdated['db_error'])) {
+					array_push($error, 'Listing: Update Operations Failed.'.$isUpdated['msg']);
+				}
+			} else {
+
 				$listing_data['create_date'] = $this->current_date;
 
 				$list_id = $this->Admin_model->insertData('product_listing', $listing_data);
 				
-				if (isset($list_id['db_error'])) 
-					redirectWithMessage('Error: '.$list_id['msg'], $controller);
+				if (isset($list_id['db_error'])) {
+					array_push($error, 'Listing: Insert Operations Failed.'.$list_id['msg']);
+				}
 			}
 
-			//insert requested product detail
+			// update requested product details with listing id and product id if eariler was not updated
 			$req_prd_data = array();
-			$req_prd_data['merchant_id'] = $merchant_id;
 			$req_prd_data['req_prd_id'] = $prd_id;
-			$req_prd_data['product_name'] = $prd_name;
 			$req_prd_data['req_lst_id'] = $list_id;
-			$req_prd_data['brand_name'] = $data['brand_id'] ? null : $this->input->post('brand_name');
-			$req_prd_data['refer_link'] = $this->input->post('refer_link');
-			$req_prd_data['isLinked'] = 0;
-			$req_prd_data['isEnabled'] = 1;
-			$req_prd_data['update_date'] = $this->current_date;
-			
-			//set null for blank fields
-			setNULLToBlank($req_prd_data);
-			
-			if ($req_prd_id) 
-			{
-				$controller = 'editRequestedProduct/'.$req_prd_id;
-
-				$isUpdated = $this->Admin_model->updateData('requested_product', $req_prd_data, array('request_id' => $req_prd_id));
-				if (isset($isUpdated['db_error'])) 
-					redirectWithMessage('Error: '.$isUpdated['msg'], $controller);
+			$condition = array('request_id' => $request_id);
+			$isUpdated = $this->Admin_model->updateData('requested_product2', $req_prd_data, $condition);
+			if (isset($isUpdated['db_error'])) {
+				array_push($error, 'Requested Product: Unable to link listing and product.');
 			}
-			else
-			{
-				$req_prd_data['create_date'] = $this->current_date;
+			
+			// if any error occure, redirect user to edit product screen with saved data
+			if(count($error) > 0) {
 
-				$req_id = $this->Admin_model->insertData('requested_product', $req_prd_data);
-				
-				if (isset($req_id['db_error'])) 
-					redirectWithMessage('Error: '.$req_id['msg'], $controller);
+				$this->session->set_flashdata('errors', $error);
+				redirect('/editRequestedProduct/'.$request_id);
+				die;
+			} else {
+				$msg = "Request product saved successfully";
 			}
-		}
-		else
-		{
+
+		} else {
+
 			$msg = 'Error: Unable to insert!';
 			$controller = 'addProduct';
 		}
 
 		redirectWithMessage($msg, $controller);
 	}
+	
+	public function resetPassword() {
+
+        $otp = $this->input->post('otp');
+        $password = $this->input->post('password');
+        $cpassword = $this->input->post('cpassword');
+        $user_id = $this->input->post('user_id');
+
+        if ($password != $cpassword) {
+
+			$this->session->set_flashdata('errors', 'Password and Confirm Password are not same.');
+			$this->resetPasswordPage($user_id);
+			die;
+
+        } else {
+
+			$res = $this->common_controller->resetPassword($user_id, $otp, $password);
+
+            if ($res['status']) {
+            				
+				echo "<script>window.alert('".$res['msg']."');</script>";
+				$this->isLoggedIn();
+
+			} else {
+				
+				$this->session->set_flashdata('errors', $res['msg']);
+				$this->resetPasswordPage($user_id);
+				die;
+			}            
+        }
+    }
+
+    public function resetPasswordPage($user_id) {
+		
+        $this->load->view('admin/resetPassword', array('user_id' => $user_id));
+    }
 }

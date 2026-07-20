@@ -180,10 +180,7 @@ $status = isset($area['status']) ? $area['status'] : 1;
                                                 <td>".$area_value['city_id']."</td>
                                             </tr>";
                                     }
-                                }
-                                else
-                                    echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
-                                ?>
+                                } ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->
@@ -297,7 +294,7 @@ $(document).ready(function(){
 });
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAP_API_KEY ?>"></script>
 
 <style type="text/css">
 .file_div {

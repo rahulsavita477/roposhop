@@ -1,9 +1,11 @@
-<?php 
-if (isset($start_date)) 
+<?php
+if (isset($start_date)) {
 	$start_date = explode(" ", $start_date);
+}
 
-if (isset($end_date)) 
+if (isset($end_date)) {
 	$end_date = explode(" ", $end_date);
+}
 
 $offer_id = isset($offer_id) ? $offer_id : '';
 $offer_title = isset($offer_title) ? $offer_title : set_value('offer_title');
@@ -16,13 +18,12 @@ $attatchments = isset($attatchments) ? $attatchments : array();
 $merchant_id = isset($merchant_id) ? $merchant_id : '';
 $brand_id = isset($brand_id) ? $brand_id : '';
 
-if (isset($page_label) && $page_label == 'view') 
+if (isset($page_label) && $page_label == 'view') {
 	$page_title = 'Offer Detail';
-else if (isset($page_label) && $page_label == 'edit') 
+} elseif (isset($page_label) && $page_label == 'edit') {
 	$page_title = 'Edit Offer';
-else
-{
-	$page_label = 'add';
+} else {
+	$page_label = 'Add';
 	$page_title = 'Add Offer';
 }
 ?>
@@ -49,24 +50,27 @@ else
     <section class="content">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
 				<!-- general form elements -->
 				<div class="box box-primary">
-				    <div class="box-header">
-				        <?php if ($page_label == "view") {
-							echo '<div class="box-footer" align="right">';
+					<?php if ($page_label == "view"): ?>
+						<div class="box-footer">
+							<div class="box-footer" style="margin-right: 10px; text-align: right;">
+								<?php if ($_COOKIE['site_code'] == 'admin') { ?>
+									<a href='<?= base_url("sellers/offers") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+								<?php } else { ?>
+									<a href='<?= base_url("page/offerManagement") ?>' title='Back'><i class="fa fa-undo" aria-hidden="true"></i></a>&nbsp;
+								<?php } ?>
+							
+								<form action="<?= base_url('offer/edit') ?>" method="post" id='offer/edit' style="display:none;">
+									<input type="hidden" name="offer_id" value="<?= $offer_id ?>" />
+								</form>
+								<a href='javascript:void(0)' onclick='document.getElementById("offer/edit").submit();' title='Edit'><i class='fa fa-edit'></i></a>
 
-							if ($_COOKIE['site_code'] == 'admin') {
-						?>
-							<a href='<?= base_url("sellers/offers") ?>' class='btn btn-default'>Back</a>
-						<?php } else { ?>
-							<a href='<?= base_url("page/offerManagement") ?>' class='btn btn-default'>Back</a>
-						<?php } ?>
-							<a href='<?= base_url("editOffer/$offer_id/edit") ?>' class='btn btn-primary'>Edit</a>
-							<a href='<?= base_url("deleteOffer/$offer_id") ?>' class='btn btn-danger'>Delete</a>
+								<a href='<?= base_url("deleteOffer/$offer_id") ?>' onclick='return confirm("Are you sure?")'title='Delete'><i class='fa fa-trash-o'></i></a>
 							</div>
-					    <?php } ?>
-					</div><!-- /.box-header -->
+						</div><!-- /.box-header -->
+					<?php endif; ?>
 
 					<?php if ($page_label == "view") { ?>
 						<div class="box-body">
@@ -108,33 +112,31 @@ else
 
                         	<div class="row form-group">
                         		<div class="col-sm-2">
-                        			<label>Offer status:</label>	
+                        			<label for="">Offer status:</label>
                         		</div>
                         		<div class="col-sm-10">
-                        			<?php
-                        			if ($current_status)
+                        			<?php if ($current_status) {
                             			echo "Active";
-	                            	else
+									} else {
 	                            		echo "Not active";
-                        			?>
+									} ?>
                         		</div>
                         	</div>
 
                         	<?php if ($_COOKIE['site_code'] == 'admin') { ?>
 	                        	<div class="row form-group">
 	                        		<div class="col-sm-2">
-	                        			<label>HTML File(s):</label>	
+	                        			<label for="">HTML File(s):</label>
 	                        		</div>
 	                        		<div class="col-sm-10">
-	                        			<?php
-	                        			for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-				                    	{
+	                        			<?php for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ ) {
+
 				                    		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 
-											if ($link)
+											if ($link) {
 												echo $this->config->item('site_url').HTML_FILES_PATH.$link;
-				                    	}
-	                        			?>
+											}
+				                    	} ?>
 	                        		</div>
 	                        	</div>
                         	<?php } ?>
@@ -188,7 +190,7 @@ else
 										
 										if ( $count == 1 )
 			    							echo "Not available";
-	                                	?>	                                    
+	                                	?>
 	                                </span>
 								</div>
 							</div>
@@ -213,227 +215,208 @@ else
 				        </div><!-- /.box-body -->
 					<?php } else { ?>
 						<!-- form start -->
-					    <?= form_open_multipart('addOffer'); ?>
+					    <?php if ($offer_id) {
+							$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+						} else {
+							$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+						}
+						echo form_open_multipart('addOffer', $formAttributes);
+						?>
+							
+							<input type="hidden" name="offer_id" value="<?= $offer_id; ?>" />
+
 					    	<div class="box-body">
-				        		<?php if ($_COOKIE['site_code'] == 'admin') { ?>
-						        	<!-- select brand -->
-			                        <div class="row form-group">
-		                        		<div class="col-sm-2">
-		                        			<label>Seller:</label>
-		                        		</div>
-		                        		<div class="col-sm-5">
-		                        			<?php
-								    		echo '<select class="form-control" name="merchant_id">
-								    				<option value="">select seller</option>';
+								<div class="row">
+									<?php if ($_COOKIE['site_code'] == 'admin'): ?>
+										<div class="col-sm-3">
+											<label for="">Seller *</label>
+											<?php
+											echo '<select class="form-control" name="merchant_id" id="" required>
+													<option value="">Select Seller</option>';
 
-								    			foreach ($sellers as $seller) 
-								    			{
-								    				if (!$seller['establishment_name'])
-								    					continue;
+												foreach ($sellers as $seller) {
 
-								    				$selected = $seller['merchant_id'] == $merchant_id ? 'selected' : '';
+													if (!$seller['establishment_name']) {
+														continue;
+													}
 
-								    				echo "<option value='".$seller['merchant_id']."' ".$selected.">".$seller['establishment_name']."</option>";
-								    			}
+													$selected = $seller['merchant_id'] == $merchant_id ? 'selected' : '';
 
-								    		echo "</select>
-								    			</div>";
-								    		?>
-		                        	</div>
-	                        	<?php } ?>
+													echo "<option value='".$seller['merchant_id']."' ".$selected.">".$seller['establishment_name']."</option>";
+												}
 
-	                            <!-- select brand -->
-		                        <div class="row form-group">
-	                        		<div class="col-sm-2">
-	                        			<label>Brand:</label>
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<?php
-							    		echo '<select class="form-control" name="ofr_brd_id">
-							    				<option value="">Please select a brand!!</option>';
+											echo "</select>";
+											?>
+										</div>
+									<?php endif; ?>
+								
+									<div class="col-sm-3">
+										<label for="">Brand</label>
+										<?php
+										echo '<select class="form-control" name="ofr_brd_id" id="">
+												<option value="">Select Brand</option>';
 
-							    			foreach ($brands['result'] as $brands_value) 
-							    			{
-							    				$selected = $brands_value['brand_id'] == $ofr_brd_id ? 'selected' : '';
+											foreach ($brands['result'] as $brands_value) {
 
-							    				echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
-							    			}
-							    		
-							    		echo "</select>
-							    			</div>";
-							    		?>
-	                        	</div>
+												$selected = $brands_value['brand_id'] == $ofr_brd_id ? 'selected' : '';
 
-					            <div class="row form-group">
-					            	<div class="col-sm-2">
-					                	<label>Title*: </label>
-					                </div>
-					                <div class="col-sm-5">
-						                <input type="hidden" name="offer_id" value="<?= $offer_id; ?>">
-						                <input type="text" name="offer_title" class="form-control" placeholder="Enter Offer Title" value="<?= $offer_title; ?>" required />
-						            </div>
-					            </div>
+												echo "<option value='".$brands_value['brand_id']."' ".$selected.">".$brands_value['name']."</option>";
+											}
+										
+										echo "</select>";
+										?>
+									</div>
+									<div class="col-sm-3">
+										<label for="">Status</label>
+										<?php
+										$active_selected = "";
+										$deactive_selected = "";
 
-					            <div class="row form-group">
-	                        		<div class="col-sm-2">
-	                        			<label>Start Date*:</label>	
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<input type="date" class="form-control" name="offer_startDate" value="<?= $start_date; ?>" required />
-	                        		</div>
-	                        	</div>
-
-	                        	<div class="row form-group">
-	                        		<div class="col-sm-2">
-	                        			<label>End Date*:</label>	
-	                        		</div>
-	                        		<div class="col-sm-5">
-	                        			<input type="date" class="form-control" name="offer_endDate" value="<?= $end_date; ?>" required />
-	                        		</div>
-	                        	</div>
-
-	                        	<!-- select category -->
-		                        <div class="row form-group">
-		                        	<div class="col-sm-2">
-		                            	<label>Status</label>
-		                            </div>
-		                            <div class="col-sm-5">
-		                            	<?php
-		                            	$active_selected = "";
-		                            	$deactive_selected = "";
-
-		                            	if (isset($current_status))
-		                            	{
-		                            		if ($current_status)
-		                            			$active_selected = "selected";
-			                            	else
-			                            		$deactive_selected = "selected";
-		                            	}
+										if (isset($current_status)) {
+											
+											if ($current_status) {
+												$active_selected = "selected";
+											} else {
+												$deactive_selected = "selected";
+											}
+										}
 										?>
 
-		                            	<select class="form-control" name="offer_status">
-		                            		<option value="1" <?= $active_selected ?> >ACTIVE</option>
-		                            		<option value="0" <?= $deactive_selected ?> >DEACTIVE</option>
-		                            	</select>
-							    	</div>
-							    </div>
+										<select class="form-control" name="offer_status" id="">
+											<option value="1" <?= $active_selected ?> >ACTIVE</option>
+											<option value="0" <?= $deactive_selected ?> >DEACTIVE</option>
+										</select>
+									</div>
+									<div class="col-sm-3">
+										<label for="">Title *</label>
+										<input type="text" name="offer_title" class="form-control" placeholder="Offer Title" value="<?= $offer_title; ?>" id="" required />
+									</div>
+								</div>
 
-								<div class="row form-group">
-					            	<div class="col-sm-2">
-					            		<label>Offer Description*:</label>	
-					            	</div>
-					                <div class="col-sm-8">
-					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="10" required /><?= $offer_desc; ?></textarea>
+					            <div class="row nextFormLine">
+	                        		<div class="col-sm-3">
+	                        			<label for="">Start Date *</label>
+	                        			<input type="date" class="form-control" name="offer_startDate" value="<?= $start_date; ?>" id="" required />
+	                        		</div>
+									<div class="col-sm-3">
+	                        			<label for="">End Date *</label>
+	                        			<input type="date" class="form-control" name="offer_endDate" value="<?= $end_date; ?>" id="" required />
+	                        		</div>
+									<div class="col-sm-6">
+					            		<label for="">Offer Description *</label>
+					                	<textarea name="offer_desc" class="form-control address" placeholder="Enter Offer Description" rows="1" id="" required><?= $offer_desc; ?></textarea>
 					                </div>
-					            </div>
+	                        	</div>
+								<div class="row nextFormLine">
+									<div class="col-sm-12">
+										<div class="table-responsive editTable">
+											<table class="table table-bordered dataTable">
+												<thead>
+													<tr>
+														<th class="text-align-center" colspan="6">
+															Offer Images
+															<i class="fa fa-chevron-down toggle-icon"  data-toggle="collapse" data-target="#offerImages_tableBody" style="cursor:pointer;"></i>
+														</th>
+													</tr>
+												</thead>
+												<tbody style="height: auto;" id="offerImages_tableBody" class="collapse in">
+													<tr>
+													<?php echo renderImages($attatchments, $atch_path.$offer_id, $offer_id, 'editOffer', 6); ?>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 
-					            <div class="row form-group">
-					            	<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
-					                        <thead>
-					                            <tr>
-					                                <th colspan="3"><center>Offer Images</center></th>
-					                            </tr>
-					                        </thead>
-					                        <tbody>
-						                        <?php for ( $i = 1, $j = 0; $i < 7; $i++, $j++ ) { ?>
-						                        	<tr>
-						                        		<td>
-						                        			<div class="btn btn-success btn-file">
-							                                    <i class="fa fa-paperclip"></i> Image<?= $i ?>
-							                                    <input type="file" name="file<?= $i ?>" id="file<?= $i ?>" />
-							                                </div>
-						                        		</td>
-						                        		<?php 
-						                        		if ($page_label == 'edit') 
-						                        		{
-							                        		echo "<td>";
-								                        		if (isset($attatchments[$j]))
-								                        		{
-								                        			$img_src = $atch_path.'/'.$offer_id.'/'.$attatchments[$j]['atch_url'];
-									                        		
-									                        		echo '<div class="thumbnail">
-									                        				<figure>
-																				<img src="'.$img_src.'">
-																				<center>
-																		    		<figcaption><a href="'.base_url().'deleteAttactchment/'.$attatchments[$j]['atch_url'].'/editOffer/'.$offer_id.'" class="btn btn-danger">DELETE</a></figcaption>
-																		    	</center>
-																		    </figure>
-																		</div>
+								<?php if ($offer_id && $_COOKIE['site_code'] == 'admin'): ?>
+									<!-- Toggle button/link -->
+									<a data-toggle="collapse" href="#additionalDetails" aria-expanded="false" aria-controls="additionalDetails">+ Show Advanced Options</a>
+									
+									<!-- Collapsible content -->
+									<div class="collapse in" id="additionalDetails">
+										<div class="well">
+											<div class="row nextFormLine">
+												<div class="col-sm-4">
+													<label for="">Meta Title</label>
+													<input type="text" class="form-control" placeholder="Meta Title" name="meta_title" value="<?= $meta_title; ?>" id="" />
+												</div>
+												<div class="col-sm-4">
+													<label for="">Meta Keywords</label>
+													<textarea rows="1" class="form-control" placeholder="Meta Keyword(s)" name="meta_keyword" id=""><?= $meta_keyword ?></textarea>
+												</div>
 
-																		<input type="hidden" name="remove_img'.$i.'" value="'.$attatchments[$j]['atch_url'].'" />';
-									                        	}
-									                        echo "</td>";
-								                        } ?>
-						                        		</td>
-						                        		<td><div class="file<?= $i ?>"></div></td>
-						                        	</tr>
-						                        <?php } ?>
-					                    	</tbody>
-					                    </table>
-					                </div>
-					            </div>
+												<div class="col-sm-4">
+													<label for="">Meta Description</label>
+													<textarea rows="1" class="form-control" placeholder="Meta Description" name="meta_description" id=""><?= $meta_description ?></textarea>
+												</div>
+											</div>
 
-					            <?php if ($_COOKIE['site_code'] == 'admin') { ?>
-									<div class="box-body table-responsive">
-					                    <table class="table table-bordered table-striped data-pagination-table">
-					                        <thead>
-					                        	<tr>
-					                        		<th colspan="4">
-					                        			<center>HTML FILE(s)</center>
-					                        		</th>
-					                        	</tr>
-					                            <tr>
-					                                <th></th>
-					                                <th>Prefix Path</th>
-					                                <th>File Path</th>
-					                                <th>Action</th>
-					                            </tr>
-					                        </thead>
-					                        <tbody>
-					                        	<?php
-					                        	for ( $i = 1, $j = 0; $i <= 5; $i++, $j++ )
-					                        	{
-					                        		$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
-													$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="table-responsive editTable">
+														<table class="table table-bordered dataTable">
+															<thead>
+																<tr>
+																	<th colspan="4" class="text-align-center">
+																		HTML Files
+																		<i class="fa fa-chevron-down toggle-icon" data-toggle="collapse" data-target="#HTMLFiles_tableBody" style="cursor:pointer;"></i>
+																	</th>
+																</tr>
+																<tr>
+																	<th></th>
+																	<th id="">Prefix Path</th>
+																	<th id="">File Path</th>
+																	<th id="">Action</th>
+																</tr>
+															</thead>
+															<tbody id="HTMLFiles_tableBody" class="in">
+																<?php for($i = 1, $j = 0; $i <= 5; $i++, $j++) {
 
-													if ( $link ) 
-													{
-														$buttons = "<a href='".base_url("deleteLink/$link_id/$offer_id/OFFER")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-				                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn btn-success' target='_blank'>Preview</a>";
-													}
-													else
-														$buttons = '';
-													
-					                                echo "<tr>
-				                        					<td>HTML LINK".$i."</td>
-				                        					<td><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
-				                                            <td>
-				                                            	<input type='hidden' name='html_id".$i."' value='".$link_id."' />
-				                                            	<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
-				                                            </td>
-				                                            <td>".$buttons."</td>
-				                        				</tr>";
-					                        	}
-					                        	?>
-					                        </tbody>
-					                    </table>
-					                </div><!-- /.box-body -->
-				                <?php } ?>
+																	$link_id = isset( $html_files['result'][$j]['html_file_id'] ) ? $html_files['result'][$j]['html_file_id'] : '';
+																	$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
+
+																	if ($link) {
+
+																		$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+																		<a href='".base_url("deleteLink/$link_id/$offer_id/OFFER")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
+																	} else {
+																		$buttons = '';
+																	}
+																	
+																	echo "<tr>
+																			<td>HTML LINK".$i."</td>
+																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td>
+																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
+																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />
+																			</td>
+																			<td>".$buttons."</td>
+																		</tr>";
+																}
+																?>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div><!-- /.box-body -->
+										</div>
+									</div>
+								<?php endif; ?>
+
+								<div class="box-footer"  align="right">
+									<?php if ($_COOKIE['site_code'] == 'seller') { ?>
+										<a href='<?= base_url("page/offerManagement") ?>' class='btn btn-default'>Cancel</a>
+									<?php } elseif ($_COOKIE['site_code'] == 'admin') { 
+										if ($page_label == 'add') { ?>
+											<a href='<?= base_url("sellers/offerManagement") ?>' class='btn btn-default'>Cancel</a>
+										<?php } else { ?>
+											<a href='<?= base_url("sellers/offers") ?>' class='btn btn-default'>Cancel</a>
+									<?php } } ?>
+
+									<button type="submit" class="btn btn-primary">Submit</button>
+								</div>
 					        </div><!-- /.box-body -->
-
-					        <div class="box-footer"  align="right">
-					        	<?php if ($_COOKIE['site_code'] == 'seller') { ?>
-					        		<a href='<?= base_url("page/offerManagement") ?>' class='btn btn-default'>Cancel</a>
-					        	<?php } elseif ($_COOKIE['site_code'] == 'admin') { 
-					        		if ($page_label == 'add') { ?>
-					        			<a href='<?= base_url("sellers/offerManagement") ?>' class='btn btn-default'>Cancel</a>
-					        		<?php } else { ?>
-					        			<a href='<?= base_url("sellers/offers") ?>' class='btn btn-default'>Cancel</a>
-					        	<?php } } ?>
-
-					            <button type="submit" class="btn btn-primary">Submit</button>
-					        </div>
 					    <?= form_close(); ?>
 					<?php } ?>
 				</div><!-- /.box -->

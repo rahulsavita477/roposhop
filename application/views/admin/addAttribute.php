@@ -17,11 +17,11 @@ else
     <section class="content-header">
         <h1>
             Attribute
-            <small><?= $page_label ?></small>
+            <small><?= ucfirst($page_label) ?></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="<?= base_url('dashboard') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="<?= base_url('page/attributes') ?>">Attribute Management</a></li>
+            <li><a href="<?= base_url('page/attributes') ?>">Attributies</a></li>
             <li class="active"><?= $page_title ?></li>
         </ol>
     </section>
@@ -34,7 +34,14 @@ else
 				<!-- general form elements -->
 				<div class="box box-primary">
 				    <!-- form start -->
-				    <?= form_open('addAttribute'); ?>
+					 <?php
+					if ($att_id) {
+						$formAttributes = ['onsubmit' => 'return confirmSave(\'' . UPDATE_MSG . '\');'];
+					} else {
+						$formAttributes = ['onsubmit' => 'return confirmSave(\'' . SAVE_MSG . '\');'];
+					}
+					?>
+				    <?= form_open('addAttribute', $formAttributes); ?>
 				        <div class="box-body">
 				            <div class="row form-group">
 				            	<div class="col-sm-3">

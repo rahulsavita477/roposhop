@@ -21,50 +21,71 @@
                         <table class="table table-bordered table-striped data-pagination-table">
                             <thead>
                                 <tr>
-                                    <th>S.NO.</th>
+                                    <!-- <th>S.NO.</th>
                                     <th>Claimed ID</th>
-                                    <th>Merchant ID</th>
+                                    <th>Merchant ID</th> -->
+                                    <th>Action</th>
+                                    <th>
+                                        Verification
+                                        <i class="fa fa-info-circle text-primary"
+                                            data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="Admin Verification Status on Product"
+                                        ></i>
+                                    </th>
                                     <th>Shop Name</th>
                                     <th>Claimed Name</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>isApproved</th>
-                                    <th>Action</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<?php
-                            	if ($claimedRequests) 
-                            	{
-                                    $count = 1;
-                            		foreach ($claimedRequests as $claimedRequest)
-                            		{
+                            	<?php if ($claimedRequests) {
+
+                                    // <td>".$count++."</td>
+                                    // <td>".$req_id."</td>
+                                    // <td>".$claimedRequest['merchant_id']."</td>
+                                    // $count = 1;
+
+                            		foreach ($claimedRequests as $claimedRequest) {
+
                                         $req_id = $claimedRequest['clmd_id'];
 
-                                        if ($claimedRequest['is_clmd_approved'])
-                                            $is_approved = "<span class='label label-success'>Approved</span>";
-                                        else
-                                            $is_approved = "<span class='label label-danger'>Not approved</span>";
+                                        $approveClaimRequestBtn = "<li><a href='".base_url()."viewClaimRequest/".$req_id."' title='Approve Claimed Request'><i class='fa fa-check'></i>Verify Request</a></li>";
+                                        $deleteClaimRequestBtn = "<li><a href='".base_url("deleteClaimedRequest").'/'.$req_id."' title='Delete Claimed Request' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i>Delete</a></li>";
+
+                                        if ($claimedRequest['status'] == "APPROVED") {
+                                            $is_approved = "<span class='label label-success'>APPROVED</span>";
+                                        } elseif ($claimedRequest['status'] == "REJECTED") {
+                                            $is_approved = "<span class='label label-danger'>REJECTED</span>";
+                                        } else {
+                                            $is_approved = "<span class='label label-warning'>PENDING</span>";
+                                        }
 
                                         echo "<tr>
-                                                <td>".$count++."</td>
-                                                <td>".$req_id."</td>
-                                                <td>".$claimedRequest['merchant_id']."</td>
-                                                <td>".$claimedRequest['establishment_name']."</td>
-                                                <td>".$claimedRequest['clmd_name']."</td>
-                                                <td>".$claimedRequest['clmd_contact']."</td>
-                                                <td>".$claimedRequest['clmd_email']."</td>
-                                                <td>".$is_approved."</td>
-                                                <td>
-                                                    <a href='".base_url("viewRequest/$req_id")."' class='btn btn-primary'>View</a>
-                                                    <a href='".base_url("deleteClaimedRequest/$req_id")."' class='btn btn-danger'>Delete</a>
-                                                </td>
-                                            </tr>";
+                                            <td>
+                                                <div class='input-group input-group'>
+                                                    <div class='input-group-btn'>
+                                                        <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                        <ul class='dropdown-menu'>
+                                                            ".$approveClaimRequestBtn.
+                                                            $deleteClaimRequestBtn.
+                                                        "</ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class='statusLabel'>".$is_approved."</td>
+                                            <td>".$claimedRequest['establishment_name']."</td>
+                                            <td>".$claimedRequest['clmd_name']."</td>
+                                            <td>".$claimedRequest['clmd_contact']."</td>
+                                            <td>".$claimedRequest['clmd_email']."</td>
+                                            <td>".convert_to_user_date($claimedRequest['create_date'])."</td>
+                                            <td>".convert_to_user_date($claimedRequest['update_date'])."</td>
+                                        </tr>";
                                     }
-                            	}
-                            	else
-                            		echo "<tr><td colspan='9' align='center'>No Record found.</td></tr>";
-                            	?>
+                            	} ?>
                             </tbody>
                         </table>
                     </div><!-- /.box-body -->

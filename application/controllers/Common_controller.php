@@ -55,20 +55,19 @@ class Common_controller extends CI_Controller
 
         $template = $this->am5->selectRecords(array('tmp_code' => $code), 'mail_template', 'tmp_html, mail_subject');
 
-        if (!$template)
+        if (!$template) {
             echo "<script>window.alert('Error: Template not found!');</script>";
-        else
-        {
+        } else {
+
             $body = $template['result'][0]['tmp_html'];
             $subject = $template['result'][0]['mail_subject'];
 
-            switch ($code) 
-            {
-                case MAIL_CODE_RESET_PASSWORD:
-                {
+            switch ($code) {
+
+                case MAIL_CODE_RESET_PASSWORD: {
+
                     $body = str_replace("[link_to_reset_password]", base_url('account/resetPassword/'.$mail_data['userId']), $body);
                     $body = str_replace("[NAME]", $mail_data['name'], $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
                     $body = str_replace("[OTP]", $mail_data['otp'], $body);
 
                     $reciever_email = $mail_data['email'];
@@ -76,8 +75,8 @@ class Common_controller extends CI_Controller
                     break;
                 }
 
-                case MAIL_CODE_CLAIM_BUSINESS:
-                {
+                case MAIL_CODE_CLAIM_BUSINESS: {
+
                     $merchant_id = $mail_data['clmd_merchant_id'];
                     $establishment_name = $mail_data['establishment_name'];
                     
@@ -95,20 +94,22 @@ class Common_controller extends CI_Controller
                     $body = str_replace("[LINK_TO_VIEW_REQUESTED_CLAIM]", $mail_data['request_url'], $body);
                     $body = str_replace("[MESSAGE]", $mail_data['clmd_message'], $body);
 
-                    if ($mail_data['atch']) 
+                    if ($mail_data['atch']) {
                         $atch = $mail_data['atch'];
+                    }
 
-                    break;   
+                    break;
                 }
                 
-                case MAIL_CODE_SELLER_SIGNUP:
-                {
+                case MAIL_CODE_SELLER_SIGNUP: {
+
                     $name = $mail_data['first_name'];
                     $merchant_id = $mail_data['seller_id'];
                     
                     //mail subject
                     $subject = str_replace("[NAME]", $name, $subject);
                     $subject = str_replace("[SELLER_ID]", $merchant_id, $subject);
+                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
 
                     //mail body
                     $body = str_replace("[NAME]", $name, $body);
@@ -120,8 +121,50 @@ class Common_controller extends CI_Controller
                     break;
                 }
 
-                case MAIL_CODE_HELP_AND_SUPPORT:
-                {
+                case MAIL_CODE_STEP_1_REGISTRATION:
+                case MAIL_CODE_STEP_2_REGISTRATION: {
+
+                    $reciever_email = $mail_data['email'];
+                    
+                    //mail subject
+                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
+
+                    //mail body
+                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
+                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
+
+                    break;
+                }
+
+                case MAIL_CODE_CLAIM_BUSINESS_APPROVED: {
+
+                    $reciever_email = $mail_data['email'];
+                    
+                    //mail subject
+                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
+
+                    //mail body
+                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
+                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
+                    $body = str_replace("[USER_EMAIL]", $mail_data['email'], $body);
+
+                    break;
+                }
+
+                case MAIL_CODE_CLAIM_BUSINESS_REJECTED: {
+
+                    $reciever_email = $mail_data['email'];
+
+                    //mail body
+                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
+                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
+                    $body = str_replace("[REJECTION_REASON]", $mail_data['reject_reason'], $body);
+
+                    break;
+                }
+
+                case MAIL_CODE_HELP_AND_SUPPORT: {
+
                     $name = $this->input->post('name');
                     $contact = $this->input->post('contact');
                     $message = $this->input->post('message');
@@ -140,90 +183,42 @@ class Common_controller extends CI_Controller
                     break;
                 }
 
-                case MAIL_CODE_STEP_1_REGISTRATION:
-                {
-                    $reciever_email = $mail_data['email'];
-                    
-                    //mail subject
-                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
-
-                    //mail body
-                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
-                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
-                    $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
-                    $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
-                    $body .= EMAIL_SIGNATURE;
-                    $body = nl2br($body);
-
-                    break;
-                }
-
-                case MAIL_CODE_STEP_2_REGISTRATION: 
-                {
-                    $reciever_email = $mail_data['email'];
-                    
-                    //mail subject
-                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
-                    
-                    //mail body
-                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
-                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
-                    $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
-                    $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
-                    $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
-                    $body .= EMAIL_SIGNATURE;
-                    $body = nl2br($body);
-
-                    break;   
-                }
-
-                case MAIL_CODE_CLAIM_BUSINESS_APPROVED: 
-                {
-                    $reciever_email = $mail_data['email'];
-                    
-                    //mail subject
-                    $subject = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $subject);
-
-                    //mail body
-                    $body = str_replace("[MERCHANT_NAME]", $mail_data['merchant_name'], $body);
-                    $body = str_replace("[SHOP_NAME]", $mail_data['shop_name'], $body);
-                    $body = str_replace("[USER_EMAIL]", $mail_data['email'], $body);
-                    $body = str_replace("[USER_PASSWORD]", $mail_data['password'], $body);
-                    $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
-                    $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
-                    $body .= EMAIL_SIGNATURE;
-                    $body = nl2br($body);
-
-                    break;
-                }
-
                 default: return false;
             }
+                    
+            $body = str_replace("[SUPPORT_MAIL]", SUPPORT_MAIL, $body);
+            $body = str_replace("[SUPPORT_NUMBER]", SUPPORT_NUMBER, $body);
+            $body = str_replace("[ROPO_SHOP_BRAND_NAME]", ROPO_SHOP_BRAND_NAME, $body);
+            // $body .= EMAIL_SIGNATURE;
+            $body = nl2br($body);
 
-            $mail_response = sendEmail($reciever_email, $subject, $body, $atch);
-            if ($code == MAIL_CODE_HELP_AND_SUPPORT)
-            {
-                echo "<script>window.alert('Mail has been sent!');</script>";
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-            else {
-                echo "<script>window.alert('Unable to send mail!');</script>";
-                return $mail_response;
-            }
+            return sendEmail($reciever_email, $subject, $body, $atch);
+
+            // if ($mail_response)
+            // {
+            //     echo "<script>window.alert('Mail has been sent!');</script>";
+            //     redirect($_SERVER['HTTP_REFERER']);
+            // }
+            // else {
+            //     echo "<script>window.alert('Unable to send mail!');</script>";
+            //     return $mail_response;
+            // }
         }
     }
 
     public function getMinimumOffOnProduct($product_id, $mrp_price)
     {
-        $data = array();
+        $data = array('offer_price' => 0, 'discount_price' => 0, 'off' => 0);
     
         //get product listings
         $sold_by_merchants = $this->am5->getProductListings(array('product_listing.product_id' => $product_id));
 
-        $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
-        // echo "<pre>"; print_r($sold_by_merchants); die;
-        $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);        
-        $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+        if($sold_by_merchants) {
+            $data['offer_price'] = ($sold_by_merchants && is_array($sold_by_merchants['result'])) ? (round(abs(min(array_column($sold_by_merchants['result'], 'sell_price'))), 2)) : 0;
+            // echo "<pre>"; print_r($sold_by_merchants); die;
+            $data['discount_price'] = (int) trim($mrp_price)- (int) trim($data['offer_price']);
+            $data['off'] = calculatePercentage((int) trim($mrp_price), (int) trim($data['offer_price']));
+        }
 
         return $data;
     }
@@ -233,15 +228,15 @@ class Common_controller extends CI_Controller
     {
         $this->createFolder($path);
         
-        $allowed_types = array('jpg', 'png', 'jpeg', 'pdf');
+        // $allowed_types = array('jpg', 'jpeg', 'png', 'gif', 'webp');
         $file_type = $_FILES[$obj_name]['type'];
         $extension = explode("/", $file_type);
 
-        if (!in_array($extension[1], $allowed_types)) 
-        {
-            echo "Error: allowed file types are => jpg, png, pdf";
-            die;
-        }
+        // if (!in_array($extension[1], $allowed_types)) 
+        // {
+        //     echo "Error: allowed file types are => jpg, jpeg, png, gif, webp";
+        //     die;
+        // }
 
         $_FILES['attatchment']['name'] = ($name) ? $name.'.'.$extension[1] : time().".".$extension[1];
         $_FILES['attatchment']['type'] = $file_type;
@@ -324,18 +319,29 @@ class Common_controller extends CI_Controller
     }
 
     //copy data from one folder to another folder
-    public function cloneData($from, $to)
+    public function cloneData($from, $to, $specificFiles = [])
     {
         $this->createFolder($to);
-        $files = glob($from.'/*.*');
 
-        foreach($files as $file) 
-        {
+        // Agar specific files diye gaye hain
+        if (!empty($specificFiles)) {
+            $files = [];
+            foreach ($specificFiles as $fileName) {
+                $filePath = $from . '/' . $fileName;
+                if (file_exists($filePath)) {
+                    $files[] = $filePath;
+                }
+            }
+        } else {
+            // Default: copy all files
+            $files = glob($from.'/*.*');
+        }
+
+        foreach ($files as $file) {
             $file_to_go = str_replace($from, "", $file);
             $isCopied = copy($file, $to.$file_to_go);
 
-            if (!$isCopied) 
-                return false;
+            if (!$isCopied) return false;
         }
 
         return $files;
@@ -356,5 +362,49 @@ class Common_controller extends CI_Controller
         }
 
         return true;
+    }
+
+    public function resetPassword($user_id, $otp, $password) {
+
+        $res = array();
+        $record = $this->am5->selectRecords(array('userId' => $user_id, 'passwordOtp' => $otp), 'user', 'otpCreatetime');
+            
+         if (!$record) {
+            
+            $res['status'] = false;
+            $res['msg'] = 'Invalid OTP.';
+
+            return $res;
+        }
+
+        //get time differance between current and db time
+        $time1 = new DateTime($record['result'][0]['otpCreatetime']);
+        $time2 = new DateTime(gmdate("Y-m-d H:i:s"));
+        $since_start = $time1->diff($time2);
+        $minutes = $since_start->days * 24 * 60;
+        $minutes += $since_start->h * 60;
+        $minutes += $since_start->i;
+        
+        if ($minutes <= 1440) {
+
+            $data = array();
+            $data['passwordOtp'] = null;
+            $data['otpCreatetime'] = null;
+            $data['password'] = $password;
+            $condition = array('userId' => $user_id);
+            $this->am5->updateData('user', $data, $condition);
+
+            $res['status'] = true;
+            $res['msg'] = 'Password updated.';
+
+            return $res;
+        
+        } else {
+
+            $res['status'] = true;
+            $res['msg'] = 'OPT Expired, Please reset your password again.';
+
+            return $res;
+        }
     }
 }

@@ -11,11 +11,11 @@ if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false)
 else if(strpos($_SERVER['HTTP_HOST'], 'seller') !== false)
 	setcookie('site_code', 'seller', null, "/");
 
-if(strpos($_SERVER['HTTP_HOST'], 'local') !== false)
-{
-	setcookie('latitude', '22.7196', null, "/");
-	setcookie('longitude', '75.8577', null, "/");
-}
+// if(strpos($_SERVER['HTTP_HOST'], 'local') !== false)
+// {
+// 	setcookie('latitude', '22.7196', null, "/");
+// 	setcookie('longitude', '75.8577', null, "/");
+// }
 
 //set default timezone
 date_default_timezone_set('UTC');

@@ -176,19 +176,23 @@ function calculatePercentage($oldFigure, $newFigure)
 }
 
 //-- function for converting time according to timezone
-function convert_to_user_date($date, $format = 'j-n-Y g:i:s A', $serverTimeZone = 'UTC')
-{
+function convert_to_user_date($date, $format = 'j-n-Y g:i A', $serverTimeZone = 'UTC') {
+    
     $userTimeZone = isset($_COOKIE['timezone']) ? $_COOKIE['timezone'] : $serverTimeZone;
     
-    try 
-    {
-        $dateTime = new DateTime ($date, new DateTimeZone($serverTimeZone));
-        $dateTime->setTimezone(new DateTimeZone($userTimeZone));
+    try {
+        
+        if($date) {
+        
+            $dateTime = new DateTime ($date, new DateTimeZone($serverTimeZone));
+            $dateTime->setTimezone(new DateTimeZone($userTimeZone));
 
-        return $dateTime->format($format);
-    } 
-    catch (Exception $e) 
-    {
+            return $dateTime->format($format);
+        } else {
+            
+            return '';
+        }
+    } catch (Exception $e) {
         return '';
     }
 }
@@ -344,18 +348,28 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     $ci = get_instance();
     $ci->load->library('email');
 
-    $config['protocol']  = EMAIL_PROTOCOL;
-    $config['smtp_host'] = EMAIL_HOST;
-    $config['smtp_port'] = EMAIL_PORT;
+    $config['protocol']  = 'smtp';
+    $config['smtp_host'] = 'ssl://smtp.gmail.com';
+    $config['smtp_port'] = 465; // or use 587 with tls
     $config['smtp_user'] = EMAIL_USERNAME;
-    $config['smtp_pass'] = EMAIL_PASSWORD;
-    $config['charset']   = "utf-8";
-    $config['mailtype']  = "html";
+    $config['smtp_pass'] = EMAIL_PASSWORD; // NOT your normal Gmail password
+    $config['mailtype']  = 'html';
+    $config['charset']   = 'utf-8';
     $config['newline']   = "\r\n";
+    $config['wordwrap']  = TRUE;
+
+    // $config['protocol']  = EMAIL_PROTOCOL;
+    // $config['smtp_host'] = EMAIL_HOST;
+    // $config['smtp_port'] = EMAIL_PORT;
+    // $config['smtp_user'] = EMAIL_USERNAME;
+    // $config['smtp_pass'] = EMAIL_PASSWORD;
+    // $config['charset']   = "utf-8";
+    // $config['mailtype']  = "html";
+    // $config['newline']   = "\r\n";
 
     $ci->email->initialize($config);
     $ci->email->from(EMAIL_ID, EMAIL_NAME);
-    $ci->email->to($to);
+    $ci->email->to('rahulsavita477@gmail.com');
     $ci->email->reply_to(EMAIL_ID, EMAIL_NAME);
     $ci->email->subject(ucfirst($subject));
     $ci->email->message($message);
@@ -363,8 +377,171 @@ function sendEmail($to='', $subject='', $message='', $atch='')
     if ($atch)
         $ci->email->attach($atch);
 
-    if(@$ci->email->send())
+    if (@$ci->email->send()) {
         return true;
-    else
+    } else {
+        // Print error details
+        // echo $ci->email->print_debugger();
         return false;
+    }
+
+}
+
+function renderImages($images, $images_dir, $entity_id, $method, $slots = 6) {
+
+    $html = '';
+
+    for ($i = 1, $j = 0; $i <= $slots; $i++, $j++) {
+
+        $html .= '<td class="text-align-center">';
+
+        if (isset($images[$j])) {
+
+            $img_src = $images_dir . '/' . $images[$j]['atch_url'];
+
+            $html .= '<div id="preview'.$i.'" class="image-preview">
+                <div class="file'.$i.'">
+                    <img src="'.$img_src.'" alt="Product Image '.$i.'">
+                </div>
+                <span class="remove-icon">
+                    <a href="'.base_url().'deleteAttactchment/'.$images[$j]['atch_url'].'/'.$method.'/'.$entity_id.'" onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </span>
+            </div>
+            <input type="hidden" name="remove_img'.$i.'" value="'.$images[$j]['atch_url'].'" />';
+
+        } else {
+
+            $html .= '<div class="btn btn-primary btn-file" id="fileUploadDiv'.$i.'">
+                <i class="fa fa-paperclip"></i> Upload
+                <input type="file" name="file'.$i.'" id="file'.$i.'" />
+            </div>
+            <div id="preview'.$i.'" class="image-preview" style="display:none;">
+                <div class="file'.$i.'"></div>
+                <span class="remove-icon" onclick="removeImage('.$i.')">
+                    <i class="fa fa-trash-o"></i>
+                </span>
+            </div>';
+        }
+
+        $html .= '</td>';
+    }
+    
+    return $html;
+}
+
+// image7 is treating as: brand logo
+function renderSingleImage($file, $dir, $entity_id, $method, $alt, $fileNo) {
+
+    $html = '<td class="text-align-center">';
+
+    if (!empty($file)) {
+
+        $img_src = $dir . '/' . $file;
+        $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $html .= '<div id="preview'.$fileNo.'" class="image-preview"><div class="file'.$fileNo.'">';
+
+        // Check if file is image type
+        if (in_array($file_ext, ['pdf'])) {
+            $html .= '<a href="'.$img_src.'" target="_blank" class="btn btn-primary">
+                <i class="fa fa-eye"></i> Preview
+            </a>';
+        } else {
+            $html .= '<img src="'.$img_src.'" alt="'.$alt.'" style="max-width:150px;">';
+        }
+
+        if(!empty($method)) {
+
+            $html .= '</div>
+                <span class="remove-icon">
+                    <a href="'.base_url().'deleteAttactchment/'.$file.'/'.$method.'/'.$entity_id.'" 
+                    onclick="return confirmSave(\'' . DELETE_MSG . '\');">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </span>
+            </div>';
+        }
+        $html .= '<input type="hidden" name="remove_img'.$fileNo.'" value="'.$file.'" />';
+    } else {
+        $html .= '
+            <div class="btn btn-primary btn-file" id="fileUploadDiv'.$fileNo.'">
+                <i class="fa fa-paperclip"></i> Upload
+                <input type="file" name="file'.$fileNo.'" id="file'.$fileNo.'" />
+            </div>
+            <div id="preview'.$fileNo.'" class="image-preview" style="display:none;">
+                <div class="file'.$fileNo.'"></div>
+                <span class="remove-icon" onclick="removeImage('.$fileNo.')">
+                    <i class="fa fa-trash-o"></i>
+                </span>
+            </div>';
+    }
+
+    $html .= '</td>';
+    return $html;
+}
+
+function renderDuplicateProductImages($images, $images_dir, $slots = 6) {
+
+    $html = '';
+
+    for ($i = 1; $i <= $slots; $i++) {
+
+        $html .= '<td class="text-align-center">';
+        $hasImage = isset($images[$i-1]); // Check if image exists
+        $img_src  = $hasImage ? $images_dir . '/' . $images[$i-1]['atch_url'] : '';
+
+        // Upload button (hidden if image exists)
+        $html .= '
+            <div class="btn btn-primary btn-file" id="fileUploadDiv'.$i.'" '.($hasImage ? 'style="display:none;"' : '').'>
+                <i class="fa fa-paperclip"></i> Upload '.$i.'
+                <input type="file" name="file'.$i.'" id="file'.$i.'" />
+            </div>';
+
+        // Preview block (visible if image exists)
+        $html .= '
+            <div id="preview'.$i.'" class="image-preview" '.(!$hasImage ? 'style="display:none;"' : '').'>
+                <div class="file'.$i.'">';
+
+        if ($hasImage) {
+            $html .= '<img src="'.$img_src.'" alt="Product Image '.$i.'">';
+        }
+
+        $html .= '</div>
+                <span class="remove-icon" onclick="removeStaticImage('.$i.')">
+                    <i class="fa fa-trash-o"></i>
+                </span>
+            </div>';
+
+        // Hidden input for image name (only if image exists)
+        if ($hasImage) {
+            $html .= '<input type="hidden" name="remove_img[]" value="'.$images[$i-1]['atch_url'].'" />';
+        }
+
+        $html .= '</td>';
+    }
+
+    return $html;
+}
+
+function renderImagesReadonly($images, $images_dir) {
+    $html = '';
+    foreach ($images as $index => $img) {
+        $img_src = $images_dir . '/' . $img['atch_url'];
+        $html .= '
+            <td class="text-align-center">
+                <div class="image-preview">
+                    <img src="' . $img_src . '" alt="Product Image ' . ($index + 1) . '" style="max-width:120px; height:auto;">
+                </div>
+            </td>';
+    }
+    return $html;
+}
+
+function format_inr_price($amount) {
+    // Format number in Indian style (lakhs/crores)
+    $formatted = number_format($amount, 2, '.', ',');
+    
+    // Add Rupee symbol
+    return '₹ ' . $formatted;
 }

@@ -8,6 +8,14 @@ $four_star = $product['rating_info']['rating_count_4_star'];
 $five_star = $product['rating_info']['rating_count_5_star'];
 $avg_rating_width = ($avg_rating*100)/5;
 
+if(isset($product['brand_name']) && $product['brand_name']) {
+    $brand_name = $product['brand_name'];
+} elseif(isset($product['requested_brand_name']) && $product['requested_brand_name']) {
+    $brand_name = $product['requested_brand_name'];
+} else {
+    $brand_name = false;
+}
+
 if ($rating_count) 
 {
     $five_star_width = ($five_star*100)/$rating_count;
@@ -23,38 +31,48 @@ else
 <style type="text/css" media="screen">
 html {
     scroll-behavior: smooth;
-}         
+}
+
 .product-default:hover figure {
     box-shadow:none;
-} 
+}
+
 .color-change {
     color: #08c !important;
 }
+
 #pro-img .product-default img {
     height: 150px;
     width: auto;
     margin: 0 auto;
-} 
+}
+
 #scs button.owl-prev, #scs button.owl-next{
     width: 20px !important;
     height: 20px !important;
-}  
+}
+
 .fa-star{
     color:#000;
 }
+
 .ratt {
     position: absolute;
     margin: -4px 18px 0px;
 }
+
 .ratt:hover{
     color: #fff;
 }
+
 .ratt:hover .fa-star {
     color: #1278bd;
 }
+
 a.text-active {
     color: #08c;
 }
+
 .rating-left {
     float: left;
     position: absolute;
@@ -64,42 +82,54 @@ a.text-active {
     color: #fff;
     padding: 2px;
 }
+
 .fa-star {
     color: #fff;
 }
+
 .fa-star {
     color: #fff;
 }
+
 .widget-body button.owl-next{
     background:transparent !important;
 }
+
 .widget-body button.owl-prev{
     background:transparent !important;
 }
+
 h2.product-title.text-black {
     text-align: left;
 }
+
 .featured-col a:hover{
     text-decoration: none;
 }
+
 .form-control{
     max-width: 100%;
 }
+
 textarea.form-control{
     max-width: 100%;
 }
+
 .s {
     font-size: 14px;
     padding: 4px;
     margin: 0px;
     color: #fff;
 }
+
 .product-default:hover{
   border:none;
 }
+
 .product-filters-container {
     padding-left: 5px;
 }
+
 .price-box {
     text-align: left !important;
     font-weight: 600;
@@ -108,102 +138,36 @@ textarea.form-control{
     margin: 0px;
     padding-left: 5px;
 }
+
 .under-l:before {
     content: '';
     left: 10px;
 }
+
 .under-l:after {
     content: '';
     left: 10px;
 }
+
 .hi{
     display: none;
 }
-#more{
-    display: none;
-}
-#more1{
-    display: none;
-}
+
 .height-100{
     height: 100px;
 }
-
 
 .viewSection a{
     color: #08c;
     font-weight: bold;
 }
 
-a.morelink {
-    text-decoration:none;
-    outline: none;
-    color: #08c;
-    font-weight: bold;
-}
-.morecontent span {
-    display: none;
-}
-.less{
-    color: #08c;
-    font-weight: bold;
-}
-.more{
-    text-align: justify;
-}
 #rating_text{
-    color: #08c;  
-    text-decoration: none; 
+    color: #08c;
+    text-decoration: none;
     pointer-events: none;
 }
 </style>
-
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.tableSeconday').each(function () {
-        $(this).find('tr:gt(14)').hide();
-    });
-
-    $(".viewSection a").click(function () {
-        var $table = $(this).parent().prevAll('div').find('.tableSeconday');
-        $table.find('tr:gt(14)').toggle();
-        $(this).html($(this).html() == 'view less' ? 'view more' : 'view less');
-    });
-
-    //show limited character
-    var showChar = 1000;
-    var ellipsestext = "...";
-    var moretext = "view more";
-    var lesstext = "view less";
-    $('.more').each(function() {
-        var content = $(this).html();
-
-        if(content.length > showChar) {
-
-            var c = content.substr(0, showChar);
-            var h = content.substr(showChar-1, content.length - showChar);
-
-            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink"><strong>' + moretext + '</strong></a></span>';
-
-            $(this).html(html);
-        }
-
-    });
-
-    $(".morelink").click(function(){
-        if($(this).hasClass("less")) {
-            $(this).removeClass("less");
-            $(this).html(moretext);
-        } else {
-            $(this).addClass("less");
-            $(this).html(lesstext);
-        }
-        $(this).parent().prev().toggle();
-        $(this).prev().toggle();
-        return false;
-    });
-});
-</script>
 
 <body id="page-details" class="loaded">
     <div class="page-wrapper">
@@ -291,29 +255,33 @@ $(document).ready(function() {
                                 </div>
                             </div>
 
+                            <?php if ($product['key_features']): ?>
                             <div class="product-filters-container pt-2">
-                                <ul style="list-style: inside;color:#000">
-                                    <?php if ($product['key_features']) {
-                                        foreach ($product['key_features'] as $feature) 
-                                            echo "<li>".$feature."</li>";
+                                <ul class="productFeatures_ul">
+                                    <?php foreach ($product['key_features'] as $feature) {
+                                        echo "<li>".$feature."</li>";
                                     } ?>
                                 </ul>
                             </div><!-- End .product-filters-container -->
-                            <table class="table table-bordered mt-2">
+                            <?php endif; ?>
+
+                            <table class="table table-bordered mt-1 mb-0">
                                 <tbody>
                                     <tr><th colspan="2">Product Details</th></tr>
-                                    <tr>
-                                        <td>Brand</td>
-                                        <td>
-                                            <?= isset($product['brand_name']) && $product['brand_name'] ? $product['brand_name'] : '' ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>In the box</td>
-                                        <td>
-                                            <?= isset($product['in_the_box']) && $product['in_the_box'] ? $product['in_the_box'] : '' ?>
-                                        </td>
-                                    </tr>
+                                    <?php if($brand_name) {
+                                        echo "<tr>
+                                            <td>Brand</td>
+                                            <td>".$brand_name."</td>
+                                        </tr>";
+                                    }
+
+                                    if (isset($product['in_the_box']) && $product['in_the_box']) {
+                                        echo "<tr>
+                                            <td>In the box</td>
+                                            <td>".$product['in_the_box']."</td>
+                                        </tr>";
+                                    } ?>
+
                                     <tr>
                                         <td>MRP</td>
                                         <td>
@@ -323,29 +291,58 @@ $(document).ready(function() {
                                 </tbody>
                             </table>
 
-                            <a class="small-brand" href="<?= base_url('brands/'.$product['brand_name'].'?brand_id='.$product['brand_id']) ?>">
-                                <div style="height: 400px; width: 300px;">
-                                    <img style="width: auto; max-width: 100%; height: auto; max-height: 100%" class="img-fluid" src="<?= $product['brand_logo'] ?>" alt="brand_logo" />
-                                </div>
-                            </a>           
+                            <?php if(isset($product['brand_name']) && $product['brand_name']) {
+                                echo '<a class="small-brand" href="'.base_url('brands/'.urlencode($product['brand_name']).'?brand_id='.$product['brand_id']).'" style="text-decoration: none;">';
+                                    
+                                    if($product['brand_logo']) {
+                                        echo '<img style="max-height: 50px" class="img-fluid" src="'.$product['brand_logo'].'" alt="brand_logo" />';
+                                    }   else {
+                                        echo '<div style="display:inline-block;
+                                            background:#007BFF;
+                                            border-radius:8px;
+                                            text-decoration:none;
+                                            padding:5px 15px;
+                                            box-sizing:border-box;
+                                            color:#fff;
+                                            margin:5px 0px 0px 0px;
+                                            font-size:14px;
+                                            font-weight:600;"
+                                        >'.$product['brand_name'].'</div>';
+                                    }
+                                echo "</a>";
+                            } if(isset($product['requested_brand_name']) && $product['requested_brand_name']) {
+                                echo '<div style="display:inline-block;
+                                    background:#007BFF;
+                                    border-radius:8px;
+                                    text-decoration:none;
+                                    padding:5px 15px;
+                                    box-sizing:border-box;
+                                    color:#fff;
+                                    margin:5px 0px 0px 0px;
+                                    font-size:14px;
+                                    font-weight:600;"
+                                >'.$product['requested_brand_name'].'</div>';
+                            } ?>
                         </div><!-- End .product-single-details -->
                     </div><!-- End .col-md-6 -->
                 </div><!-- End .row -->
                      
-                <div class="featured-products-section carousel-section" style="margin-top: 70px;">
-                    <div class="container">
+                <div class="featured-products-section carousel-section">
+                    <?php if($product['sold_by_merchants']): ?>
+                    <div class="container pb-5">
                         <h2 class="h3 title float-left">Offered By</h2>
                         <div class="under-l"></div>
                         <!-- <a href="#" class="float-right rounded-btn">View All</a> -->
-                        <div class="clearfix"></div><br>
-                        <div class="partners-container pt-1 pb-1 ">
-                            <div class="container">
-                                <div class="partners-carousel  owl-carousel owl-theme min-123" data-toggle="owl" data-owl-options="{
+                        <div class="clearfix"></div>
+                        <div class="partners-container pb-0 pt-5">
+                            <div class="container pl-0 pr-0">
+                                <div class="partners-carousel owl-carousel owl-theme min-123 pl-0 pr-0" data-toggle="owl" data-owl-options="{
+                                    'loop': false,
                                     'margin': 10,
                                     'autoplayHoverPause' : true,
                                     'nav' : true,
                                     'items': 1,
-                                    'autoplayTimeout': 4000,
+                                    'autoplayTimeout': 2000,
                                     'responsive': {
                                         '559': {
                                             'items': 2
@@ -355,126 +352,123 @@ $(document).ready(function() {
                                         }
                                     }
                                 }">
-                                    <?php
-                                    if(isset($product['product_name'])) {
+                                    <?php if(isset($product['product_name'])) {
                                         
                                         foreach ($product['sold_by_merchants'] as $merchant) {
 
-                                            $listing_url = base_url('listings').'/'.url_title($merchant['establishment_name'].'-'.$product['product_name'], '-', true).'?list_id='.$merchant['listing_id'].'&prd_id='.$_GET['prd_id'].$url;
+                                            $listing_url = base_url('listings').'/'.url_title($merchant['establishment_name'].'-'.$product['product_name'], '-', true)
+                                                .'?list_id='.$merchant['listing_id'].'&prd_id='.$_GET['prd_id'].$url;
 
                                             $lat = $merchant['nearest_address']['latitude'];
                                             $long = $merchant['nearest_address']['longitude'];
                                             $distance = distance($lat, $long);
 
-                                            echo '<div class="product-default d-flex flex-column justify-content-center">
-                                                <a href="'.$listing_url.'">';
+                                            echo '<a href="'.$listing_url.'" 
+                                                    class="partner d-flex flex-column align-items-center justify-content-between" 
+                                                    style="width:auto;max-width:220px;height:200px;border:1px solid #ddd;border-radius:8px;
+                                                            text-decoration:none;padding:10px;box-sizing:border-box;margin:0px 10px 10px 0px;">';
 
-                                                if ($merchant['merchant_logo']) 
-                                                    echo '<div class="height-100 d-flex flex-column"
-                                                        >
-                                                            <img 
-                                                                style="
-                                                                    display: block !important;
-                                                                    width: auto !important;
-                                                                    max-width: 100%;
-                                                                    height: auto;
-                                                                    position: relative;
-                                                                    max-height: 100px;
-                                                                    margin-left: auto;
-                                                                    margin-right: auto;"
-
-                                                                src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" alt="'.$merchant['establishment_name'].'" 
-                                                                alt="'.$merchant['establishment_name'].'"/>
+                                                // Logo or fallback block
+                                                if ($merchant['merchant_logo']) {
+                                                    echo '<div style="height:90px;display:flex;align-items:center;justify-content:center;">
+                                                            <img src="'.base_url(SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo']).'" 
+                                                                alt="'.$merchant['establishment_name'].'" 
+                                                                style="max-height:80px;width:auto;" />
                                                         </div>';
-                                                else
-                                                    echo '<div class="height-100 d-flex flex-column justify-content-center" style="background:red;">
-                                                        <h3 style="color:#fff;">'.$merchant['establishment_name'].'</h3></div>';
+                                                } else {
+                                                    echo '<div style="height:90px;display:flex;align-items:center;justify-content:center;
+                                                                background:#007BFF;border-radius:6px;padding:5px 10px;">
+                                                            <span style="color:#fff;font-size:14px;font-weight:600;text-align:center;
+                                                                        overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                                                '.htmlspecialchars($merchant['establishment_name']).'
+                                                            </span>
+                                                        </div>';
+                                                }
 
-                                                echo '<div class="row pt-2 pb-2">
-                                                        <div class="col-md-6 text-left">
-                                                            <div class="product-filters-container text-left">
-                                                                '.currency_format($merchant['sell_price']).'<br />('.calculatePercentage($product['mrp_price'], $merchant['sell_price']).'% Off)
-                                                            </div> 
-                                                        </div>    
-                                                
-                                                        <div class="col-md-6">
-                                                            <button class="bs"><i class="fa fa-walking" aria-hidden="true"></i> '.$distance.'<br />KM</button>
-                                                        </div>  
-                                                    </div>
-                                                </a>
-                                            </div>';
-                                        }    
-                                    }
-                                    ?>
+                                                // Price + discount + distance
+                                                echo '<div class="w-100 d-flex justify-content-between align-items-center mt-2">
+                                                        <div style="font-size:14px;color:#333;">
+                                                            '.currency_format($merchant['sell_price']).'<br />
+                                                            <small style="color:#28a745;">('.calculatePercentage($product['mrp_price'], $merchant['sell_price']).'% Off)</small>
+                                                        </div>
+                                                        <div>
+                                                            <span style="background:#f8f9fa;border:1px solid #ccc;border-radius:4px;
+                                                                        padding:4px 8px;font-size:12px;color:#333;">
+                                                                <i class="fa fa-walking"></i> '.$distance.' KM
+                                                            </span>
+                                                        </div>
+                                                    </div>';
+
+                                            echo '</a>';
+                                        }
+                                    } ?>
                                 </div>
                             </div>
-                        </div>    
-                    </div> 
-
-                    <div class="row pt-5">
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <div class="row">
                         <div class="col-lg-9">
                             <div class="product-single-collapse" id="productAccordion">
+                                <?php if ($product['specifications'] || $product['varients']): ?>
                                 <div class="product-collapse-panel">
                                     <h3 class="product-collapse-title" style="padding-bottom: 0px;">
-                                        <a class="collapsed" data-toggle="collapse" href="#product-specifications" role="button" aria-expanded="false" aria-controls="product-collapse-reviews">Specifications</a>
+                                        <a class="collapsed" data-toggle="collapse" href="#product-specifications" role="button" aria-expanded="false" aria-controls="product-specifications">Specifications</a>
                                     </h3>
 
-                                    <div class="product-collapse-body collapse show" id="product-specifications" data-parent="#productAccordion">
+                                    <div class="product-collapse-body collapse show" id="product-specifications" data-parent="#product-specifications">
                                         <div class="collapse-body-wrapper" style="padding-top: 0px;">
                                             <div class="product-specifications">
                                                 <div class="add-product-review">
                                                     <div class="childTable">
                                                         <table class="table show tableSeconday">
-                                                            <tbody>
+                                                            <tbody id="specTableBody">
                                                                 <?php
-                                                                if($product['specifications']) {
-                                                                    
+                                                                $rowCount = 0;
+                                                                if ($product['specifications']) {
                                                                     foreach ($product['specifications'] as $spec_value) {
-                                                                     
                                                                         if ($spec_value['value']) {
-                                                                        
-                                                                            echo '<tr><td>'.$spec_value['spec'].'</td><td>'.$spec_value['value'].'</td></tr>';
+                                                                            $rowCount++;
+                                                                            echo '<tr class="spec-row'.($rowCount > 4 ? ' d-none' : '').'">
+                                                                                    <td>'.$spec_value['spec'].'</td>
+                                                                                    <td>'.$spec_value['value'].'</td>
+                                                                                </tr>';
                                                                         }
                                                                     }
                                                                 }
 
-                                                                if ($product['varients'])
-                                                                {
-                                                                    foreach ($product['varients'] as $vrnt_key_name => $vrnt_values) 
-                                                                    {
-                                                                        echo '<tr><td>'.$vrnt_key_name.'</td><td>';
-
-                                                                        $i = 0;
-                                                                        foreach ($vrnt_values as $vrnt_value) 
-                                                                        {
-                                                                            if ($i > 0) 
-                                                                                echo ", ";
-
-                                                                            echo $vrnt_value;
-
-                                                                            $i++;
-                                                                        }
-
-                                                                        echo '</td></tr>';
+                                                                if ($product['varients']) {
+                                                                    foreach ($product['varients'] as $vrnt_key_name => $vrnt_values) {
+                                                                        $rowCount++;
+                                                                        echo '<tr class="spec-row'.($rowCount > 4 ? ' d-none' : '').'">
+                                                                            <td>'.$vrnt_key_name.'</td>
+                                                                            <td>'.implode(", ", $vrnt_values).'</td>
+                                                                        </tr>';
                                                                     }
-                                                                }
-                                                                ?>
+                                                                } ?>
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="viewSection"><a href="javascript:void(0)" style="color: #08c"><strong>view more</strong></a></div>
+
+                                                    <div class="viewSection">
+                                                        <a href="javascript:void(0)" id="specificationTableToggleBtn" style="color:#08c">
+                                                            <strong>View More</strong>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
-
+                                </div>
+                                <?php endif; ?>
+                                
                                 <div class="product-collapse-panel">
                                     <h3 class="product-collapse-title">
                                         <a class="collapsed" data-toggle="collapse" href="#product-collapse-description" role="button" aria-expanded="false" aria-controls="product-collapse-description">Description</a>
                                     </h3>
 
-                                    <div class="product-collapse-body collapse show" id="product-collapse-description" data-parent="#productAccordion">
+                                    <div class="product-collapse-body collapse show" id="product-collapse-description" data-parent="#product-collapse-description">
                                         <p class="more">
                                             <?= isset($product['description']) ? $product['description'] : "" ?>
                                         </p>

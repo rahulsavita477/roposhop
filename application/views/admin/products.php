@@ -1,7 +1,7 @@
 <?php 
 if ($category) 
 {
-    $category_options = '<option value="">-- select category --</option>';
+    $category_options = '<option value="">select category</option>';
     
     foreach ($category['result'] as $cat_value) 
     {
@@ -18,7 +18,7 @@ else
 
 if ($brands) 
 {
-    $brand_options = '<option value="">-- select brand --</option>';
+    $brand_options = '<option value="">select brand</option>';
     foreach ($brands['result'] as $brand_value) 
     {
         $selected = '';
@@ -50,94 +50,174 @@ else
 	<!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="row" style="margin: 10px 0 10px 0;">
-                        <div class="col-sm-11 Products_search_add_div">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <div class="row">
                             <form method="get" action="<?= base_url('products') ?>" onsubmit="return validateForm()">
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="category_id">
+                                <div class="col-sm-3 input-field" style="padding-right: 5px;">
+                                    <label for="">Category</label>
+                                    <select class="form-control" name="category_id" id="">
                                         <?= $category_options ?>
                                     </select>
                                 </div>
-                                <div class="col-sm-3">
-                                    <select class="form-control" name="brand_id">
+                                
+                                <div class="col-sm-3 input-field" style="padding-left: 0px; padding-right: 5px;">
+                                    <label for="">Brand</label>
+                                    <select class="form-control" name="brand_id" id="">
                                         <?= $brand_options ?>
                                     </select>
-                                </div>
-                                <div class="col-sm-3">
-                                    <button type="submit" class="btn btn-primary">Find product</button>
-                                    <a href="<?= base_url('products') ?>" class='btn btn-default'>Remove filter</a>
+                                </div> 
+
+                                <div class="col-sm-3" style="padding-left: 0px;">
+                                    <label class="label_hide" for="">make space equal to label</label><br />
+                                    <button class="btn btn-primary" type="submit">Find</button>
+                                    <a href="<?= base_url('products') ?>" title="Reset Filter">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-filter fa-stack-1x"></i>
+                                            <i class="fa fa-times fa-stack-1x text-danger" style="margin-top: 6px; margin-left: 6px; font-size: 0.6em;"></i>
+                                        </span>
+                                    </a>
                                 </div>
                             </form>
-                        </div>
-                        <div class="col-sm-1">
-                            <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
+
+                            <div class="col-sm-3 input-field">
+                                <label class="label_hide" for="">make space equal to label</label><br />
+                                <a href="<?= base_url('addProduct') ?>" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add New Product</a>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="box-body table-responsive">
-                        <table class="table table-bordered table-striped data-pagination-table">
-                            <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Status</th>
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Brand</th>
-                                    <th>Price</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            	<?php
-                            	if ($data)
-                            	{
-                                    $count = 1;
-                            		foreach ($data as $prd_value)
-                            		{
-                                        if ($prd_value['isEnabled'])
-                                        {
-                                            $status = "<span class='label label-success'>Enabled</span>";
-                                            $newStatus = 0;
-                                        }
-                                        else
-                                        {
-                                            $status = "<span class='label label-danger'>Disabled</span>";
-                                            $newStatus = 1;
-                                        }
-
-                                        $prd_id = $prd_value['product_id'];
-                                        $cat_id = $prd_value['category_id'];
-                                        
-                                        echo "<tr>
-                                                <td>".$prd_id."</td>
-                            					<td>".$status."</td>
-                                                <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
-                                                <td>".$prd_value['category_name']."</td>
-                                                <td>".$prd_value['brand_name']."</td>
-                                                <td>".$prd_value['mrp_price']."</td>
-                                                <td>
-                                                    <a href='".base_url("editProduct/$prd_id/edit")."' class='btn btn-primary'>Edit</a>
-                                                    <a href='".base_url("editProduct/$prd_id/duplicate")."' class='btn btn-warning'>Duplcate</a>
-                                                    <a href='".base_url("deleteProduct/$prd_id")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-                                                    <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' class='btn btn-default' onclick='return confirm(\"Do you want to change the product status?\")'>Change Status</a>
-                                                </td>
-                            				</tr>";
-                            		}
-                            	}
-                            	else
-                            		echo "<tr><td colspan='7' align='center'>No Record found.</td></tr>";
-                            	?>
-                            </tbody>
-                        </table>
-                        <?= form_close(); ?>
-                    </div><!-- /.box-body -->
-            </div><!-- /.box -->
+                </div>
+            </div>
         </div>
-    <!-- </div> -->
+
+        <div class="box">
+            <div class="box-body table-responsive">
+                <table class="table table-bordered table-striped data-pagination-table">
+                    <thead>
+                        <tr>
+                            <!-- <th>Product ID</th> -->
+                            <th>Action</th>
+                            <th>
+                                Visibility
+                                <i class="fa fa-info-circle text-primary"
+                                    data-toggle="tooltip"
+                                    data-placement="right"
+                                    title="Product Visibility On User Website"
+                                ></i>&nbsp;&nbsp;&nbsp;
+                            </th>
+                            <th>
+                                Verification
+                                <i class="fa fa-info-circle text-primary"
+                                    data-toggle="tooltip"
+                                    data-placement="right"
+                                    title="Admin Verification On Product"
+                                ></i>&nbsp;&nbsp;&nbsp;
+                            </th>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                            <th>Source&nbsp;&nbsp;&nbsp;</th>
+                            <th>Created By</th>
+                            <th>Created Date</th>
+                            <th>Updated By&nbsp;&nbsp;&nbsp;</th>
+                            <th>Updated Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($data) {
+
+                            // $count = 1;
+                            // <td>".$prd_id."</td>
+
+                            // echo "<pre>"; print_r($data); 
+
+                            foreach ($data as $prd_value) {
+
+                                $prd_id = $prd_value['product_id'];
+                                $cat_id = $prd_value['category_id'];
+
+                                if ($prd_value['isEnabled']) {
+
+                                    $status = "<span class='label label-success'>ENABLED</span>";
+                                    $newStatus = 0;
+                                
+                                } else {
+
+                                    $status = "<span class='label label-danger'>DISABLED</span>";
+                                    $newStatus = 1;
+                                }
+
+                                $verifyProduct = "<li><a href='".base_url("verifyProduct/$prd_id/VERIFIED")."' onclick='return confirm(\"Are you sure?\")' title='Verify Product'><i class='fa fa-check text-success'></i> Verify Product</a></li>";
+                                $rejectProduct = "<li><a href='".base_url("verifyProduct/$prd_id/REJECTED")."' onclick='return confirm(\"Are you sure?\")' title='Reject Product'><i class='fa fa-times text-danger'></i> Reject Product</a></li>";
+                                
+                                if ($prd_value['verification_status'] == "VERIFIED") {
+
+                                    $verifyProduct = false;
+                                    $rejectProduct = false;
+                                    $verificationStatus = "<span class='label label-success'>".$prd_value['verification_status']."</span>";
+                                    
+                                } elseif ($prd_value['verification_status'] == "REJECTED") {
+
+                                    $rejectProduct = false;
+                                    $verificationStatus = "<span class='label label-danger'>".$prd_value['verification_status']."</span>";
+
+                                } elseif ($prd_value['verification_status'] == "PENDING")  {
+
+                                    $verificationStatus = "<span class='label label-warning'>".$prd_value['verification_status']."</span>";
+                                }
+                                
+                                // Below is the URL for product view in read only mode. But design need to be improve
+                                
+                                echo "<tr>
+                                    <td>
+                                        <div class='input-group input-group'>
+                                            <div class='input-group-btn'>
+                                                <button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>Action <span class='fa fa-caret-down'></span></button>
+                                                <ul class='dropdown-menu'>
+                                                    ".$rejectProduct."
+                                                    ".$verifyProduct."
+                                                    <li>
+                                                        <a target='_blank' href='".base_url("listings?product_id=$prd_id")."' title='Change Status'><i class='fa fa-list-alt'></i>Listing</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("changeProductStatus/$prd_id/$newStatus")."' onclick='return confirm(\"Do you want to change the product status?\")' title='Change Status'><i class='fa fa-check-circle'></i>Change Visibility</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("editProduct/$prd_id/duplicate")."' title='Create Duplicate Product'><i class='fa fa-copy'></i>Duplicate</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("editProduct/$prd_id/edit")."' title='Edit'><i class='fa fa-edit'></i>Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='".base_url("deleteProduct/$prd_id")."'  onclick='return confirm(\"Are you sure?\")' title='Delete'><i class='fa fa-trash-o'></i>Delete</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class='statusLabel'>".$status."</td>
+                                    <td class='statusLabel'>".$verificationStatus."</td>
+                                    <td><a href='".base_url("editProduct/$prd_id/view")."'>".$prd_value['product_name']."</a></td>
+                                    <td>".$prd_value['category_name']."</td>
+                                    <td>".$prd_value['brand_name']."</td>
+                                    <td>".format_inr_price($prd_value['mrp_price'])."</td>
+                                    <td>".$prd_value['source']."</td>
+                                    <td>".$prd_value['created_by']."</td>
+                                    <td>".convert_to_user_date($prd_value['create_date'])."</td>
+                                    <td>".$prd_value['updated_by']."</td>
+                                    <td>".convert_to_user_date($prd_value['update_date'])."</td>
+                                </tr>";
+                            }
+                        } ?>
+                    </tbody>
+                </table>
+                <?= form_close(); ?>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
     </section><!-- /.content -->
-</div><!-- ./wrapper -->
+</aside><!-- ./wrapper -->
 
 <script type="text/javascript">
 function validateForm() 

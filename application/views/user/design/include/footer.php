@@ -7,9 +7,9 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 ?>
 
 <!-- contact form in modal ================================================================== -->
-<div class="container">
+<!-- <div class="container"> -->
     <!-- Modal -->
-    <div class="modal fade" id="resetPassword" role="dialog">
+    <div class="modal fade" id="resetPassword">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -18,24 +18,23 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.<br /><br /><br />
+                    Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.
                 
                     <input type="hidden" id="site_code" value="<?= $site_code ?>" />
 
                     <div class="form-group-inline">
-                        <input class="form-control" type="email" placeholder="email*" id="email" required />
+                        <input class="form-control" type="email" placeholder="email*" id="email" />
                     </div>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" onclick="resetPasswordMail()">Submit</button>
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                    </div>
-
+                <div class="modal-footer">
+                    <button class="btn-custom btn-default" data-dismiss="modal" style="border: none;">Close</button>
+                    <button type="button" class="btn-custom btn-primary" onclick="resetPasswordMail()">Submit</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<!-- </div> -->
 
 <footer class="footer">
     <div class="container">
@@ -62,9 +61,9 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 
                 <div class="col-md-3 widget-social">
                     <div class="social-icons">
-                        <a href="https://www.facebook.com/roposhop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
-                        <a href="https://twitter.com/roposhop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
-                        <a href="https://www.linkedin.com/company/roposhop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
+                        <a href="https://www.facebook.com/ROPOshop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
+                        <a href="https://twitter.com/ROPOshop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/ROPOshop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
                     </div><!-- End .social-icons -->
                 </div><!-- End .col-md-3 -->
             </div><!-- End .row -->
@@ -83,7 +82,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                 <span class="contact-info-label">Phone:</span>+91-73891-02962</a>
                             </li>
                             <li>
-                                <span class="contact-info-label">Email:</span> <a href="mailto:roposhop.app@gmail.com">roposhop.app@gmail.com</a>
+                                <span class="contact-info-label">Email:</span> <a href="mailto:ROPOshop.app@gmail.com">ROPOshop.app@gmail.com</a>
                             </li>
                         </ul>
                     </div><!-- End .widget -->
@@ -137,7 +136,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                             <li><a href="#">Products</a></li>
                                             <li><a href="<?= $site_url ?>/merchants">Top Sellers</a></li>
                                             <li><a href="<?= $site_url ?>/brands">Brands</a></li>
-                                            <li><a href="<?= base_url('categories') ?>">Categories</a></li>
+                                            <li><a href="<?= $site_url ?>/categories">Categories</a></li>
                                         </ul>
                                     </div><!-- End .col-sm-6 -->
                                 </div><!-- End .row -->
@@ -168,45 +167,12 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 <?php include('js.php'); ?>
 
 <script>
-function myFunction() {
-    var dots = document.getElementById("dots");
-    var moreText = document.getElementById("more");
-    var btnText = document.getElementById("myBtn");
-
-    if (dots.style.display === "none") {
-        dots.style.display = "inline";
-        btnText.innerHTML = "Read more"; 
-        moreText.style.display = "none";
-    } 
-    else {
-        dots.style.display = "none";
-        btnText.innerHTML = "Read less"; 
-        moreText.style.display = "inline";
-    }
-}
-
-function myFunction1() {
-    var dotss = document.getElementById("dots1");
-    var moreText = document.getElementById("more1");
-    var btnText = document.getElementById("myBtn1");
-
-    if (dots.style.display === "none") {
-        dots.style.display = "inline";
-        btnText.innerHTML = "Read more"; 
-        moreText.style.display = "none";
-    } 
-    else {
-        dots.style.display = "none";
-        btnText.innerHTML = "Read less"; 
-        moreText.style.display = "inline";
-    }
-}
-
 //get reset password mail
 function resetPasswordMail()
 {
     email = $('#email').val();
     site_code = $('#site_code').val();
+    $('#divLoading1').css('display', 'block');
 
     if (email) 
     {
@@ -222,6 +188,7 @@ function resetPasswordMail()
                 {
                     a = JSON.parse(data); 
                     $("#resetPassword").modal("hide");
+                    $('#divLoading1').css('display', 'none');
                     alert(a.msg);
                 }
             },
@@ -230,6 +197,81 @@ function resetPasswordMail()
     else
         alert('Please provide email');
 }
+
+//show limited character
+var showChar = 500;
+var ellipsestext = "...";
+var moretext = "View More";
+var lesstext = "View Less";
+
+$(document).ready(function() {
+    
+    const toggleBtn = document.getElementById('specificationTableToggleBtn');
+    const allRows = document.querySelectorAll('#specTableBody .spec-row');
+
+    if (toggleBtn) {
+        // Agar rows 4 ya usse kam hain → button hide kar do
+        if (allRows.length <= 4) {
+            toggleBtn.style.display = 'none';
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            const hiddenRows = document.querySelectorAll('#specTableBody .spec-row.d-none');
+
+            if (hiddenRows.length > 0) {
+                // Show all rows
+                hiddenRows.forEach(row => row.classList.remove('d-none'));
+                this.innerHTML = '<strong>Show Less</strong>';
+            } else {
+                // Hide rows after 4
+                allRows.forEach((row, index) => {
+                    if (index >= 4) row.classList.add('d-none');
+                });
+                this.innerHTML = '<strong>View More</strong>';
+            }
+        });
+    }
+
+
+    $('.more').each(function() {
+
+        var content = $(this).html();
+
+        if(content.length > showChar) {
+
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar);
+
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '</span>'
+                + '<span class="morecontent"><span>' + h + '</span> '
+                + '<a href="javascript:void(0);" class="morelink"><strong>' + moretext + '</strong></a></span>';
+
+            $(this).html(html);
+        }
+    });
+});
+
+$(document).on('click', '.morelink', function(e) {
+
+    e.preventDefault();
+    var $this = $(this);
+
+    if($this.hasClass("less")) {
+
+        $this.removeClass("less");
+        $this.html('<strong>' + moretext + '</strong>');
+        $this.prev().hide(); // hide extra text
+        $this.closest('.morecontent').prev('.moreellipses').show(); // show ellipses
+
+    } else {
+
+        $this.addClass("less");
+        $this.html('<strong>' + lesstext + '</strong>');
+        $this.prev().show(); // show extra text
+        $this.closest('.morecontent').prev('.moreellipses').hide(); // hide ellipses
+    }
+});
+
 </script>
     
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -244,10 +286,10 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
     // Your web app's Firebase configuration
     var firebaseConfig = {
         apiKey: "AIzaSyB56KWSL4OQPiP5t_sm5Qk1BMAFbqILq5A",
-        authDomain: "roposhop-8b514.firebaseapp.com",
-        databaseURL: "https://roposhop-8b514.firebaseio.com",
-        projectId: "roposhop-8b514",
-        storageBucket: "roposhop-8b514.appspot.com",
+        authDomain: "ROPOshop-8b514.firebaseapp.com",
+        databaseURL: "https://ROPOshop-8b514.firebaseio.com",
+        projectId: "ROPOshop-8b514",
+        storageBucket: "ROPOshop-8b514.appspot.com",
         messagingSenderId: "99824770445",
         appId: "1:99824770445:web:c840baa0cb7daa452071c4"
     };

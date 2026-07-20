@@ -31,7 +31,7 @@
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?= $counts['product_count'] ?></h3>
-                            <p>Products</p>
+                            <p>Total Products (Master Catalog)</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
@@ -95,7 +95,7 @@
                     <div class="small-box bg-maroon">
                         <div class="inner">
                             <h3><?= $counts['pending_requested_product_count'] ?></h3>
-                            <p>Pending Requested Produts</p>
+                            <p>Pending Requested Products</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
@@ -117,12 +117,12 @@
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <?php if ( $_COOKIE['site_code'] == "admin" ) { ?>
+                    <?php if ($_COOKIE['site_code'] == "admin") { ?>
                         <a href="<?= base_url('sellers/sellersList') ?>" class="small-box-footer">
                             More info <i class="fa fa-arrow-circle-right"></i>
                         </a>
-                    <?php } else if ( $_COOKIE['site_code'] == "seller" ) { 
-                        $url = 'getAllProducts/'.$_COOKIE['merchant_id'];
+                    <?php } elseif ($_COOKIE['site_code'] == "seller") {
+                        $url = 'listings';
                     ?>
                         <a href="<?= base_url($url) ?>" class="small-box-footer">
                             More info <i class="fa fa-arrow-circle-right"></i>

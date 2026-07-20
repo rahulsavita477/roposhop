@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Roposhop</title>
+    <title>ROPOshop</title>
 
     <meta name="" content="HTML5 Template" />
     <meta name="" content="P">
@@ -72,7 +72,7 @@
                                <input type="password" class="form-control" id="" name="password" autocomplete="off">
                     </div>
 
-                    <button class="btn btn-success">Login</button>
+                    <button class="btn-custom btn-primary">Login</button>
                         &nbsp;&nbsp;&nbsp;<a href="#"> Forgot password?</a>
 
                         <br>

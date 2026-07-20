@@ -8,10 +8,16 @@ else if(strpos($_SERVER['HTTP_HOST'], 'seller') !== false)
 $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
 ?>
 
+<div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none;">
+    <p style="position: absolute; top: 50%; left: 45%;">
+        <img src="<?= $this->config->item('site_url').'assets/admin/img/ajax-loader.gif' ?>" />
+    </p>
+</div>
+
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
-        <title>ROPO SHOP | Log in</title>
+        <title>ROPOshop | Log in</title>
         <link rel="shortcut icon" href="<?= $this->config->item('site_url').'assets/4d_logo.ico' ?>">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         
@@ -38,7 +44,7 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
                 <div class="footer">         
                     <button type="submit" class="btn bg-olive btn-block">Sign me in</button>  
                     
-                    <p><a href="<?= $home_url ?>"><span class="glyphicon glyphicon-home"></span> Home page</a></p>
+                    <!-- <p><a href="<?= $home_url ?>"><span class="glyphicon glyphicon-home"></span> Home page</a></p> -->
 
                     <p><a href="#myModal" data-toggle="modal"><span class="glyphicon glyphicon-lock"></span> I forgot my password</a></p>
 
@@ -55,7 +61,7 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal">
     <div class="modal-dialog">
     <!-- Modal content-->
         <div class="modal-content">
@@ -65,15 +71,17 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
             </div>
             
             <div class="modal-body">
-                Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.<br /><br /><br />
+                Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.
 
-                <input type="text" placeholder="email" id="email" />
-                <input type="text" id="site_code" value="<?= $_COOKIE['site_code'] ?>" />
+                <input type="hidden" id="site_code" value="<?= $_COOKIE['site_code'] ?>" />
+                <div class="form-group-inline">
+                    <input class="form-control" type="email" placeholder="email*" id="email" />
+                </div>
             </div>
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-default" onclick="resetPasswordMail()">Submit</button>
+                <button type="button" class="btn btn-primary" onclick="resetPasswordMail()">Submit</button>
             </div>
         </div>
     </div>
@@ -90,13 +98,15 @@ $home_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").$url;
 
 <script type="text/javascript">
 //get state of country
-function resetPasswordMail()
-{
+function resetPasswordMail() {
+
+    //show loader
+	$('#divLoading').show();
     email = $('#email').val();
     site_code = $('#site_code').val();
 
-    if (email) 
-    {
+    if (email) {
+
         $.ajax({
             type: "POST",
             url: '<?= base_url("api/v1/users/merchants/resetPassword") ?>',
@@ -105,16 +115,19 @@ function resetPasswordMail()
                 site_code: site_code
             },
             success: function(data){
-                if (data) 
-                {
+                if (data) {
+
                     a = JSON.parse(data); 
                     $("#myModal").modal("hide");
+                    
+                    //hide loader
+	                $('#divLoading').hide();
                     alert(a.msg);
                 }
             },
         }); 
-    }
-    else
+    } else {
         alert('Please provide email');
+    }
 }
 </script>

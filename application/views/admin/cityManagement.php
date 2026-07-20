@@ -88,8 +88,10 @@ $status = isset($city['status']) ? $city['status'] : 1;
 
                 <?php if (!isset($_GET['addNewCity'])) { ?>
                     <div class="box">
-                        <div class="box-header">
-                            <h3>Cities <small>List</small></h3>
+                        <div class="box-header" style="padding-bottom:0px">
+                            <div class="box-title">
+                                <h3 style="margin: 0px;">Cities <small>List</small></h3>
+                            </div>
                         </div>
                         <div class="box-body table-responsive">
                             <table class="table table-bordered table-striped data-pagination-table">
@@ -138,10 +140,7 @@ $status = isset($city['status']) ? $city['status'] : 1;
                                                     </td>
                                                 </tr>";
                                         }
-                                    }
-                                    else
-                                        echo "<tr><td colspan='6' align='center'>No Record found.</td></tr>";
-                                    ?>
+                                    } ?>
                                 </tbody>
                             </table>
                         </div><!-- /.box-body -->
@@ -188,7 +187,7 @@ $status = isset($city['status']) ? $city['status'] : 1;
                                             <input type="text" name="long" class="form-control" placeholder="Enter Longitude Name" value="<?= $long ?>" required />
                                         </div>
                                         <div class="col-sm-12" align="right">
-                                            <button type="button" class="btn btn-success" onclick="getLatLongFromCityName();">Get Lat-Long from city name</button>
+                                            <button type="button" class="btn-custom btn-primary" onclick="getLatLongFromCityName();">Get Lat-Long from city name</button>
                                             <a href='<?= base_url("page/cityManagement?getCityList=".$_GET['addNewCity']) ?>' class='btn btn-default'>Cancel</a>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -206,7 +205,7 @@ $status = isset($city['status']) ? $city['status'] : 1;
 <style type="text/css">
 .input-field{
     margin-bottom: 10px;
-}    
+}
 </style>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -286,4 +285,4 @@ $(document).ready(function(){
 });
 </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= GOOGLE_MAP_API_KEY ?>"></script>

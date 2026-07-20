@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Roposhop</title>
+    <title>ROPOshop</title>
 
     <meta name="" content="HTML5 Template" />
     <meta name="" content="P">
@@ -244,7 +244,7 @@ a.text-active {
                                           </tr>
 
                                           <tr>
-                                          <td>Home delievery available</td>
+                                          <td>Home Delivery available</td>
                                           <td class="text-left">No</td>
                                           </tr>
 

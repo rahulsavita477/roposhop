@@ -23,13 +23,15 @@ class Admin_model extends CI_Model
         $this->router->fetch_class();
         $ci =& get_instance();
         $this->controller_name = $ci->router->fetch_class();
+
+        $this->current_date = gmdate("Y-m-d H:i:s"); // will return UTC time
     }
 
     public function trimAllColumnsValue()
     {
         $sql = $this->db->query('show tables');
         $tables = $sql->result();
-
+print_r($tables); die;
         foreach($tables as $table) {
             $db = 'Tables_in_'.DB_DATABASE;
             $table_name = $table->$db;
@@ -53,12 +55,18 @@ class Admin_model extends CI_Model
 
         // Load the file helper and write the file to your server
         $this->load->helper('file');
-        $file_name = date("Y-m-d H:i:s").'.gz';
-        write_file(DB_BACKUP_PATH.date("Y-m-d H:i:s").'.gz', $backup);
+        $file_name = $this->current_date.'.gz';
+
+        // Ensure destination folder exists
+        if (!is_dir(DB_BACKUP_PATH)) {
+            mkdir(DB_BACKUP_PATH, 0777, true); // recursive create
+        }
+
+        write_file(DB_BACKUP_PATH.$file_name, $backup);
 
         // Load the download helper and send the file to your desktop
-        //$this->load->helper('download');
-        //force_download('mybackup.gz', $backup);
+        $this->load->helper('download');
+        force_download('mybackup.gz', $backup);
 
         $prefs = array(
             'tables' => array('user'),   // Array of tables to backup.
@@ -77,6 +85,7 @@ class Admin_model extends CI_Model
         $data['atch_url'] = $file_name;
         $data['atch_type'] = "ZIP";
         $data['atch_for'] = "DB_BACKUP";
+        $data['create_date'] = $this->current_date;
         $this->insertData('attatchments', $data);
     }
 
@@ -130,7 +139,7 @@ class Admin_model extends CI_Model
                 user.userId, 
                 email, 
                 status, 
-                first_name, 
+                first_name,
                 IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."',picture), '') as profile_image, 
                 auth_token, 
                 create_date, 
@@ -275,9 +284,12 @@ class Admin_model extends CI_Model
 
     public function products($where=array(), $isRequestedProduct = false)
     {
-        $this->db->select('product_id, product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, description, mrp_price, category_name, hasVarient, name as brand_name, product.create_date, product.update_date, in_the_box, notes, isEnabled');
+        $this->db->select('product_id, product.product_name, product.meta_keyword, product.meta_title, product.meta_description, amazon_prd_id, flipkart_prd_id, product_category.category_id, product.description, mrp_price, category_name, hasVarient, product.brand_id, name as brand_name, product.create_date, product.update_date, in_the_box, product.notes, product.isEnabled, brand_name as seller_suggested_brand_name, verification_status, source, u1.first_name as created_by,  u2.first_name as updated_by');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'inner');
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
+        $this->db->join('requested_product2', 'requested_product2.req_prd_id = product.product_id', 'left');
+        $this->db->join('user as u1', 'u1.userId = product.created_by', 'left');
+        $this->db->join('user as u2', 'u2.userId = product.updated_by', 'left');
 
         if (count($where)>0) {
             
@@ -290,10 +302,10 @@ class Admin_model extends CI_Model
         }
         
         //product should not present in requested list
-        if(!$isRequestedProduct) {
+        // if(!$isRequestedProduct) {
 
-            $this->db->where('product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)', null, false);
-        }
+            // $this->db->where('product_id NOT IN (SELECT req_prd_id FROM requested_product2 WHERE isLinked = 0)', null, false);
+        // }
         
         $this->db->order_by('update_date', 'ASC');
 
@@ -436,7 +448,7 @@ class Admin_model extends CI_Model
         if ($sel_id)
             $where = "WHERE merchant_id = ".$sel_id;
         
-        $query = $this->db->query("SELECT merchant_id, merchant.userId, establishment_name, description, meta_keyword, meta_description, is_verified, is_completed, contact, business_days, business_hours, email, first_name, merchant.create_date, merchant.update_date, IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, IF(business_proof, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', business_proof), '') as business_proof, merchant.status, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering FROM merchant INNER JOIN user ON user.userId = merchant.userId ".$where);
+        $query = $this->db->query("SELECT merchant_id, merchant.userId, establishment_name, description, meta_keyword, meta_description, is_verified, is_completed, contact, business_days, business_hours, email, first_name, merchant.create_date, merchant.update_date, merchant_logo, business_proof, merchant.status, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering FROM merchant INNER JOIN user ON user.userId = merchant.userId ".$where);
 
         $isDbError = $this->dbError();
 
@@ -451,23 +463,11 @@ class Admin_model extends CI_Model
 
     public function getProductsForLinking($sel_id=null, $where='')
     {
-        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified');
-
-        $merchant_where = $sel_id ? 'AND merchant_id = '.$sel_id : '';
-    
-        $this->db->join('product_listing', 'product_listing.product_id = product.product_id '.$merchant_where, 'left');
-
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, product.create_date, product.update_date, in_the_box, category_name, product.isEnabled, verification_status');
         $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
         $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
-        $this->db->join('attatchments', 'product.product_id = attatchments.link_id AND atch_for = "PRODUCT" AND atch_type = "IMAGE"', 'left');
-        $this->db->group_by('product.product_id');
-
-
-        if($sel_id == null) {
-            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0)');
-        } else {
-            $this->db->where('product.product_id NOT IN (SELECT req_prd_id FROM requested_product WHERE isLinked = 0 AND merchant_id = '.$sel_id.')');
-        }
+        if($where) $this->db->where($where);
+        $this->db->where('product.product_id NOT IN (SELECT product_id FROM product_listing WHERE merchant_id = '.$sel_id.')');
         
         $query = $this->db->get('product');
         //echo $this->db->last_query(); die;
@@ -480,6 +480,55 @@ class Admin_model extends CI_Model
             return $query->result_array();
         else
             return FALSE;
+    }
+
+    public function getListings($sel_id, $where='')
+    {
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, category_name, isVerified, product.isEnabled, verification_status');
+        $this->db->join('product_listing', 'product_listing.product_id = product.product_id', 'left');
+        $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
+        $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
+        $this->db->join('merchant', 'product_listing.merchant_id = merchant.merchant_id', 'left');
+        if($where) $this->db->where($where);
+        
+        $query = $this->db->get('product');
+        //echo $this->db->last_query(); die;
+
+        $isDbError = $this->dbError();
+        if (isset($isDbError['db_error'])) {
+            return $isDbError;
+        }
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getListing($where='')
+    {
+        $this->db->select('product.product_id, product_name, name as brand_name, mrp_price, sell_price as price, in_stock, product_listing.merchant_id, establishment_name as merchant_name, listing_id, product.create_date, product.update_date, in_the_box, atch_url, category_name, isVerified, product.isEnabled, verification_status');
+        $this->db->join('product', 'product_listing.product_id = product.product_id', 'left');
+        $this->db->join('brand', 'product.brand_id = brand.brand_id', 'left');
+        $this->db->join('product_category', 'product.category_id = product_category.category_id', 'left');
+        $this->db->join('attatchments', 'product_listing.product_id = attatchments.link_id AND atch_for = "PRODUCT" AND atch_type = "IMAGE"', 'left');
+        $this->db->join('merchant', 'product_listing.merchant_id = merchant.merchant_id', 'left');
+        if($where) $this->db->where($where);
+                
+        $query = $this->db->get('product_listing');
+        //echo $this->db->last_query(); die;
+
+        $isDbError = $this->dbError();
+        if (isset($isDbError['db_error'])) {
+            return $isDbError;
+        }
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return FALSE;
+        }
     }
 
     public function getAvailableProductsForOfferlink($mer_id)
@@ -523,7 +572,7 @@ class Admin_model extends CI_Model
         $this->db->select('att_value AS value, att_name AS spec, attribute_name.att_id');
         $this->db->join('category_attribute_mp', 'cat_att_mp_id = mp_id', 'inner');
         $this->db->join('attribute_name', 'attribute_name.att_id = category_attribute_mp.att_id', 'inner');
-        $this->db->where(array('prd_id' => $prd_id));
+        $this->db->where(array('prd_id' => $prd_id, 'att_value != ' => ''));
         $query = $this->db->get('category_attribute_value');
         
         $isDbError = $this->dbError();
@@ -559,16 +608,18 @@ class Admin_model extends CI_Model
             product_listing.return_policy, 
             product_listing.seller_offering, 
             merchant.userId, 
-            product_name, 
+            product.product_name, 
             mrp_price, 
             business_days, 
             business_hours, 
             product_listing.meta_description, 
-            product_listing.meta_keyword', 
+            product_listing.meta_keyword, 
+            brand_name',
             FALSE
         );
         $this->db->join('merchant', 'merchant.merchant_id = product_listing.merchant_id', 'left');
-        $this->db->join('product', 'product.product_id = product_listing.product_id', 'left');
+        $this->db->join('product', 'product.product_id = product_listing.product_id AND product.isEnabled = 1', 'inner');
+        $this->db->join('requested_product2', 'requested_product2.req_prd_id = product.product_id', 'left');
 
         $this->db->where($where);
 
@@ -639,7 +690,7 @@ class Admin_model extends CI_Model
 
     public function getNearestAddress($where='')
     {
-        $sql = "SELECT address_id , (3956 * 2 * ASIN(SQRT( POWER(SIN(( ".$_COOKIE['lat']." - latitude) *  pi()/180 / 2), 2) +COS( ".$_COOKIE['lat']." * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(( ".$_COOKIE['long']." - longitude) * pi()/180 / 2), 2) ))) as distance from address ".$where." order by distance DESC";
+        $sql = "SELECT address_id , (3956 * 2 * ASIN(SQRT( POWER(SIN(( ".$_COOKIE['latitude']." - latitude) *  pi()/180 / 2), 2) +COS( ".$_COOKIE['latitude']." * pi()/180) * COS(latitude * pi()/180) * POWER(SIN(( ".$_COOKIE['longitude']." - longitude) * pi()/180 / 2), 2) ))) as distance from address ".$where." order by distance DESC";
         $query = $this->db->query($sql);
         
         $isDbError = $this->dbError();
@@ -734,7 +785,7 @@ class Admin_model extends CI_Model
 
     public function merchantReviews($where = array(), $limit = '', $start = '', $order_by=array())
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, merchant_review.merchant_id, review_title, merchant_review.create_date as review_date, merchant_review.update_date as last_updated, first_name as consumer_name, consumer.userId as consumer_user_id, establishment_name as shop_name, merchant_review.status AS enabled, picture', FALSE);
+        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, merchant_review.merchant_id, review_title, merchant_review.create_date as review_date, merchant_review.update_date as last_updated, first_name as consumer_name, consumer.userId as consumer_user_id, establishment_name as shop_name, merchant_review.status AS enabled, picture, merchant.create_date, merchant.update_date', FALSE);
         $this->db->join('merchant', 'merchant.merchant_id = merchant_review.merchant_id', 'left');
         $this->db->join('consumer', 'consumer.consumer_id = merchant_review.consumer_id', 'inner');
         $this->db->join('user', 'consumer.userId = user.userId', 'inner');
@@ -782,7 +833,7 @@ class Admin_model extends CI_Model
 
     public function productReviews($where=array(), $limit='', $start='', $order_by=array())
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, product_review.product_id, review_title, product_review.create_date as review_date, product_review.update_date as last_updated, first_name as consumer_name, product_name, product_review.status AS enabled, picture, ', FALSE);
+        $this->db->select('SQL_CALC_FOUND_ROWS review_id, rating, review, consumer.consumer_id, product_review.product_id, review_title, product_review.create_date as review_date, product_review.update_date as last_updated, first_name as consumer_name, product_name, product_review.status AS enabled, picture, product.create_date, product.update_date', FALSE);
         $this->db->join('product', 'product.product_id = product_review.product_id', 'left');
         $this->db->join('consumer', 'consumer.consumer_id = product_review.consumer_id', 'left');
         $this->db->join('user', 'consumer.userId = user.userId', 'left');
@@ -827,7 +878,7 @@ class Admin_model extends CI_Model
 
     public function getConsumer($consumer_id)
     {
-        $query = $this->db->query("SELECT user.userId as user_id, email, first_name as full_name, consumer_id, gender, phone, birthday, IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."', picture), '') as profile_image, auth_token, status AS enabled FROM user inner JOIN consumer ON consumer.userId = user.userId AND consumer_id = ".$consumer_id);
+        $query = $this->db->query("SELECT user.userId as user_id, email, first_name as full_name, consumer_id, gender, phone, birthday, IF(picture, CONCAT('".$this->config->item('site_url').PROFILE_PIC_PATH."', picture), '') as profile_image, auth_token, status AS enabled FROM user inner JOIN consumer ON consumer.userId = user.userId AND consumer.consumer_id = ".$consumer_id);
 
         $isDbError = $this->dbError();
 
@@ -840,19 +891,25 @@ class Admin_model extends CI_Model
             return FALSE;
     }
 
+
     public function getSellerOffers($offer_id = '', $merchant_id = '')
     {
-        $this->db->select('product_listing_offer.*, establishment_name');
+        $this->db->select('product_listing_offer.*, establishment_name, u1.first_name as created_by,  u2.first_name as updated_by');
         $this->db->join('merchant', 'product_listing_offer.merchant_id = merchant.merchant_id', 'left');
+        $this->db->join('user as u1', 'u1.userId = product_listing_offer.created_by', 'left');
+        $this->db->join('user as u2', 'u2.userId = product_listing_offer.updated_by', 'left');
 
-        if (!empty($merchant_id)) 
+        if (!empty($merchant_id)) {
             $this->db->where(array('product_listing_offer.merchant_id' => $merchant_id));
+        }
         
-        if (isset($_GET['status'])) 
+        if (isset($_GET['status'])) {
             $this->db->where(array('product_listing_offer.current_status' => $_GET['status']));
+        }
 
-        if (isset($_GET['seller'])) 
+        if (isset($_GET['seller'])) {
             $this->db->where(array('product_listing_offer.merchant_id' => $_GET['seller']));
+        }
 
         $query = $this->db->get('product_listing_offer');
         //echo $this->db->last_query(); die;
@@ -890,16 +947,18 @@ class Admin_model extends CI_Model
             return FALSE;
     }
 
-    public function getRequestedProduct($where = '')
-    {
-        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box, sell_price, finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, in_stock, will_back_in_stock_on, replacement_available, replacement_terms, return_available, return_policy, seller_offering, product_listing.merchant_id as linkedMerchantId');
+    public function getRequestedProduct($where = '') {
+        
+        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, product.description, mrp_price AS prd_price, product.category_id, category_name, brand_id, in_the_box, sell_price, product_listing.finance_available, product_listing.finance_terms, product_listing.home_delivery_available, product_listing.home_delivery_terms, product_listing.installation_available, product_listing.installation_terms, product_listing.in_stock, product_listing.will_back_in_stock_on, product_listing.replacement_available, product_listing.replacement_terms, product_listing.return_available, product_listing.return_policy, product_listing.seller_offering, product_listing.merchant_id as linkedMerchantId, requested_product2.status as requestProductStatus, requested_product2.create_date, requested_product2.update_date, establishment_name as merchant_name, listing_id');
         $this->db->join('product_listing', 'listing_id = req_lst_id', 'left');
-        $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
+        $this->db->join('product', 'product.product_id = requested_product2.req_prd_id', 'left');
+        $this->db->join('merchant', 'merchant.merchant_id = requested_product2.merchant_id', 'left');
+        $this->db->join('product_category', 'product_category.category_id = product.category_id', 'left');
 
         if ($where) 
             $this->db->where($where);
 
-        $query = $this->db->get('requested_product');
+        $query = $this->db->get('requested_product2');
         
         $isDbError = $this->dbError();
 
@@ -914,15 +973,15 @@ class Admin_model extends CI_Model
 
     public function getRequestedProductsAvailableForLinking($where = '')
     {
-        $this->db->select('request_id, requested_product.req_prd_id, req_lst_id, requested_product.merchant_id, brand_name, refer_link, isLinked, requested_product.product_name, requested_product.description, mrp_price AS prd_price, category_id, brand_id, in_the_box');
+        $this->db->select('request_id, requested_product2.req_prd_id, req_lst_id, requested_product2.merchant_id, brand_name, refer_link, isLinked, requested_product2.product_name, requested_product2.description, mrp_price AS prd_price, category_id, brand_id, in_the_box');
         // $this->db->join('product_listing', 'listing_id = req_lst_id AND product_listing.merchant_id != '.$_COOKIE['merchant_id'], 'left');
         // $this->db->where('product_id NOT IN (SELECT product_id FROM product_listing WHERE product_listing.merchant_id = '.$_COOKIE['merchant_id'].')', null, false);
-        $this->db->join('product', 'product.product_id = requested_product.req_prd_id', 'left');
+        $this->db->join('product', 'product.product_id = requested_product2.req_prd_id', 'left');
 
         if ($where) 
             $this->db->where($where);
 
-        $query = $this->db->get('requested_product');
+        $query = $this->db->get('requested_product2');
         
         $isDbError = $this->dbError();
 
@@ -937,7 +996,7 @@ class Admin_model extends CI_Model
 
     public function claimedRequest($req_id='')
     {
-        $this->db->select('clmd_email, clmd_name, clmd_contact, clmd_message, clmd_business_proof, clmd_business_proof, establishment_name, merchant_id, clmd_id, claimed_requests.create_date, claimed_requests.update_date, is_clmd_approved, userId');
+        $this->db->select('clmd_email, clmd_name, clmd_contact, clmd_message, clmd_business_proof, clmd_business_proof, establishment_name, merchant_id, clmd_id, claimed_requests.create_date, claimed_requests.update_date, claimed_requests.status, userId, is_verified, notes');
         $this->db->join('merchant', 'clmd_merchant_id = merchant_id', 'left');
 
         if ($req_id) 
@@ -1052,10 +1111,10 @@ class Admin_model extends CI_Model
         catch (Exception $e) 
         {
             $arrayResponse['db_error'] = TRUE;
-            $arrayResponse['code'] = $db_error['message'];
-            $arrayResponse['msg'] = str_replace("'", "", $db_error['code']);
+            $arrayResponse['code'] = str_replace("'", "", $db_error['code']);
+            $arrayResponse['msg'] = $db_error['message'];
 
-            if ($this->controller_name == 'admin_controller') 
+            if (strtolower($this->controller_name) == 'admin_controller') 
                 return $arrayResponse;
             else
             {

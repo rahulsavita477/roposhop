@@ -21,8 +21,10 @@ if (isset($user['address']) && is_array($user['address']) && count($user['addres
 
 $shop_name = $user['establishment_name'] ? $user['establishment_name'] : set_value('shop_name');
 $shop_description = $user['description'] ? $user['description'] : set_value('description');
-$business_days = $add_bus_day ? $add_bus_day : set_value('business_days');
-$business_hours = $add_bus_hou ? $add_bus_hou : set_value('business_hours');
+$address_business_days = $add_bus_day ? $add_bus_day : set_value('business_days');
+$address_business_hours = $add_bus_hou ? $add_bus_hou : set_value('business_hours');
+$global_business_days = $user['business_days'] ? $user['business_days'] : set_value('business_days');
+$global_business_hours = $user['business_hours'] ? $user['business_hours'] : set_value('business_hours');
 $add_line1 = $add_line1 ? $add_line1 : set_value('line1');
 $add_line2 = $add_line2 ? $add_line2 : set_value('line2');
 $add_land = $add_land ? $add_land : set_value('landmark');
@@ -32,6 +34,8 @@ $add_lon = $add_lon ? $add_lon : set_value('long');
 $shop_contact = $add_con ? $add_con : set_value('contact');
 $own_name = $user['first_name'] ? $user['first_name'] : set_value('first_name');
 $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
+$is_verified = $user['is_verified'] ? $user['is_verified'] : set_value('is_verified');
+// var_dump($is_verified); die;
 ?>
 
 <body id="page-details" class="loaded">
@@ -39,13 +43,13 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <div class="container">
             <ol class="breadcrumb mt-0">
-                <li class="breadcrumb-item"><a href="index.php"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Seller signup</a></li>
+                <li class="breadcrumb-item"><a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>"><i class="icon-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)" class="text-active">Shop Info</a></li>
             </ol>
         </div>
         <!-- End .container -->
     </nav>
-    <div class="alert alert-warning" role="alert"><b>Warning :</b> Please complete your profile to start using your seller panel.</div>
+    <div class="alert alert-warning" role="alert" style="margin-bottom: 0px; padding: 0px;"><b>Warning :</b> Finish your profile to boost buyer confidence</div>
     <form 
         method="post" 
         action="<?= base_url('updateMerchant') ?>" 
@@ -53,25 +57,113 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
         onsubmit="return validateForm()"
     >
         <div class="row row-sm">
-            <div 
-                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
-                style="padding: 5px !important;" 
-            >
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="padding: 15px !important;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>SHOP DETAIL</h3>
+            <div class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto" style="padding: 5px !important;">
+                <div class="bdr-d" style="padding: 10px;">
+                    <div class="text-center">
+                        <h3 style="margin-bottom: 0px;">SHOP ADDRESS</h3>
                     </div>
                     
-                    <input type="hidden" name="user_id" value="<?= $this->uri->segment(2) ?>" />
-                    <input type="hidden" name="is_default_address" value="1" />
-                    <input type="hidden" name="merchant_id" value="<?= $this->uri->segment(3) ?>" />
+                    <div class="form-group">
+                        <label for=""><b>Address Line 1 <sup>*</sup></b></label>
+                        <input type="text" class="form-control" name="line1" placeholder="Address Line 1*" value="<?= $add_line1 ?>" id="" required />
+                    </div>
+
+                    <div class="row row-sm">
+                        <div class="col-md-6">
+                            <label for=""><b>Country <sup>*</sup></b></label>
+                            <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
+                                <?php if ($countries) {
+
+                                    echo "<option value=''>Please select country!!</option>";
+
+                                    foreach ($countries as $cnt_value) 
+                                    {
+                                        if ($cnt_value['country_id'] == $add_cnt_id)
+                                            $cnt_id_selected = 'selected="selected"';
+                                        else
+                                            $cnt_id_selected = "";
+
+                                        echo "<option value='".$cnt_value['country_id']."' ".$cnt_id_selected.">".$cnt_value['name']."</option>";
+                                    }
+                                } else
+                                    echo "<option>country not available!</option>";
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for=""><b>State <sup>*</sup></b></label>
+                            <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
+                        </div>
+                    </div>
+
+                    <div class="row row-sm">
+                        <div class="col-md-6">
+                            <label for=""><b>City <sup>*</sup></b></label>
+                            <select class="form-control" name="city_id" id="state_cities" required></select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for=""><b>Postal Code<sup>*</sup></b></label>
+                            <input type="number" class="form-control" name="pin" placeholder="postal code" value="<?= $add_pin ?>" required />
+                        </div>
+                    </div>
+
+                    <!-- Toggle button/link -->
+                    <a class="btn btn-link" data-toggle="collapse" href="#additionalAddressDetails" aria-expanded="false" aria-controls="additionalAddressDetails">+ Better shop finding (Recommended)</a>
+                    
+                    <!-- Collapsible content -->
+                    <div class="collapse" id="additionalAddressDetails">
+                        <div class="well">
+                            <div class="form-group">
+                                <label for=""><b>Address Line 2</b></label>
+                                <input type="text" class="form-control" name="line2" placeholder="Address Line 2" value="<?= $add_line2 ?>" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for=""><b>Landmark</b></label>
+                                <input type="text" class="form-control" name="landmark" placeholder="Landmark" value="<?= $add_land ?>" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">
+                                    <b>Shop Contact Number</b>
+                                    <!-- Tooltip icon -->
+                                    <i class="fa fa-info-circle text-primary"
+                                        data-toggle="tooltip"
+                                        data-placement="right"
+                                        title="Provide your shop contact so customers can connect instantly and never miss an opportunity."
+                                    ></i>
+                                </label>
+                                <input type="text" class="form-control" name="contact" placeholder="Shop Contact Number" value="<?= $shop_contact ?>" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for=""><b>Address Business Days</b></label>
+                                <input type="text" class="form-control" name="business_days" placeholder="Enter Address Business Days" value="<?= $address_business_days ?>" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for=""><b>Address Business Hours</b></label>
+                                <input type="text" class="form-control" name="business_hours" placeholder="Enter Address Business Hours" value="<?= $address_business_hours ?>" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div 
+                class="col-md-6 pt-5 pb-5 pl-5 pr-5 mx-auto"
+                style="padding: 5px !important;"
+            >
+                <div class="bdr-d" style="padding: 10px;">
+                    <div class="text-center pb-0 mt-0">
+                        <h3 style="margin-bottom: 0px;">SHOP DETAIL</h3>
+                    </div>
 
                     <div class="form-group">
                         <label for=""><b>Establishment (Shop) Name <sup>*</sup></b></label>
-                        <input type="text" class="form-control" id="" name="comp_name" value="<?= $shop_name ?>" placeholder="Shop name *" required /> 
+                        <input type="text" class="form-control" id="" name="comp_name" value="<?= $shop_name ?>" placeholder="Shop name *" required />
                     </div>
 
                     <div class="box-body table-responsive">
@@ -79,290 +171,141 @@ $own_contact = $user['contact'] ? $user['contact'] : set_value('own_contact');
                             <tbody>
                                 <tr>
                                     <td>
-                                        Business proof <sup>*</sup>
+                                        <?php if (!empty($user['business_proof'])): ?>
+                                            <a href='<?= $seller_images_dir.$user['business_proof'] ?>' target='_blank'><i class='fa fa-paperclip text-secondary'></i> Click here to view uploaded Business Proof</a>
+                                        <?php else: ?>
+                                            <b>Business Proof</b>
+                                            <!-- Tooltip icon -->
+                                            <i class="fa fa-info-circle text-primary"
+                                                data-toggle="tooltip"
+                                                data-placement="right"
+                                                title="Allowed Business proof: GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque."
+                                            ></i>
+                                            <b><sup>*</sup></b>
+                                        <?php endif; ?>
                                     </td>
 
-                                    <?php
-                                    if (!empty($user['business_proof']))
-                                    {
-                                        echo 
-                                        "<td>
-                                            <a href='".$user['business_proof']."' class='btn btn-success' target='_blank'>Preview</a>
-                                        </td>";
-                                    }
-                                    else
-                                    {
-                                        echo 
-                                        '<td>
-                                            <input type="file" name="file8" id="file8" required />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile8" />
-                                        </td>';
-                                    }
-                                    ?>
+                                    <?php if (empty($user['business_proof'])) {
+                                        echo '<td>
+                                                <input type="file" name="file8" id="file8" required />
+                                            </td>';
+                                            // '<td>
+                                            //     <img src="" id="srcfile8" />
+                                            // </td>';
+                                    } ?>
                                 </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert"><b>Allowed Business proof :</b> GST Certificate, Shop & Establishment License, Udhyog Aadhar, Trade Certificate / License, FSSAI Registration, Current Cheque.<br />Allowed File types: PDF, JPG and PNG.</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Shop Logo</td>
-
-                                    <?php
-                                    if ($user['merchant_logo']) 
-                                    {
-                                        echo 
-                                        "<td>
-                                            <a href='".$user['merchant_logo']."' class='btn btn-success' target='_blank'>Preview</a>
-                                        </td>";
-                                    }
-                                    else
-                                    {
-                                        echo 
-                                        '<td>
-                                            <input type="file" name="file9" id="file9" accept="image/*" />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile9" />
-                                        </td>';
-                                    }
-                                    ?>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert"> Allowed file types JPG or PNG only.
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <?php 
-                                if (
-                                    isset($user['shop_image']) && 
-                                    is_array($user['shop_image']) && 
-                                    count($user['shop_image']) > 0
-                                ) 
-                                {
-                                    $avl_shop_img_cnt = count($user['shop_image']);
-
-                                    for ($i=1; $i <= $avl_shop_img_cnt; $i++) 
-                                    { 
-                                        $shop_img = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$user['merchant_id'].'/'.$user['shop_image'][$i-1]['atch_url'];
-
-                                        echo 
-                                        "<tr>
-                                            <td>Shop image".$i."</td>
-                                            <td>
-                                                <a href='".$shop_img."' class='btn btn-success' target='_blank'>Preview</a>
-                                            </td>
-                                        </tr>";
-                                    }
-                                }
-                                else
-                                    $avl_shop_img_cnt = 0;
-
-                                for ($i=1; $i<7-$avl_shop_img_cnt; $i++)
-                                {
-                                    $img_cnt = $i+$avl_shop_img_cnt;
-
-                                    echo 
-                                    '<tr>
-                                        <td>Shop image'.$img_cnt.'</td>
-                                        <td>
-                                            <input type="file" name="file'.$img_cnt.'" id="file'.$img_cnt.'" accept="image/*" />
-                                        </td>
-                                        <td>
-                                            <img src="" id="srcfile'.$img_cnt.'" />
-                                        </td>
-                                    </tr>';
-                                } ?>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert"> Allowed file types JPG or PNG only.
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            </body>
                         </table>
-                    </div>
 
-                    <div class="form-group">
-                        <label for=""><b>Shop Description</b></label>
-                        <textarea 
-                            class="form-control" 
-                            name="description" 
-                            placeholder="shop description"
-                        >
-                            <?= $shop_description ?>
-                        </textarea>
-                    </div>
-                </div>
+                        <!-- Toggle button/link -->
+                        <a class="btn btn-link" data-toggle="collapse" href="#additionalBrandingDetails" aria-expanded="false" aria-controls="additionalBrandingDetails">+ Improve Customer Trust (Recommended)</a>
+                        
+                        <!-- Collapsible content -->
+                        <div class="collapse" id="additionalBrandingDetails">
+                            <div class="well">
+                                <table class="table table-striped">
+                                    <body>
+                                        <tr>
+                                            <td>Shop Logo</td>
 
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="
-                        padding: 15px !important;
-                        margin-top: 15px;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>SHOP ADDRESS</h3>
-                    </div>
-                    
-                    <input type="hidden" name="address_id" value="<?= $add_id ?>" />
+                                            <?php if ($user['merchant_logo']) {
+                                                echo "<td>
+                                                        <a href='".$seller_images_dir.$user['merchant_logo']."' target='_blank'><i class='fa fa-paperclip text-secondary'></i></a>
+                                                    </td>";
+                                            } else {
+                                                echo '<td>
+                                                    <input type="file" name="file9" id="file9" accept="image/*" />
+                                                </td>';
+                                                // '<td>
+                                                //     <img src="" id="srcfile9" />
+                                                // </td>';
+                                            } ?>
+                                        </tr>
 
-                    <div class="form-group">
-                        <label for=""><b>Address Line 1 <sup>*</sup></b></label>
-                        <input type="text" class="form-control" name="line1" placeholder="Address Line 1*" value="<?= $add_line1 ?>" required />
-                    </div>
+                                        <?php if (
+                                            isset($user['shop_image']) && 
+                                            is_array($user['shop_image']) && 
+                                            count($user['shop_image']) > 0
+                                        ) {
+                                            $avl_shop_img_cnt = count($user['shop_image']);
 
-                    <div class="form-group">
-                        <label for=""><b>Address Line 2</b></label>
-                        <input type="text" class="form-control" name="line2" placeholder="Address Line 2" value="<?= $add_line2 ?>" />
-                    </div>
+                                            for ($i=1; $i <= $avl_shop_img_cnt; $i++) {
+                                                
+                                                $shop_img = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$user['merchant_id'].'/'.$user['shop_image'][$i-1]['atch_url'];
 
-                    <div class="form-group">
-                        <label for=""><b>Landmark</b></label>
-                        <input type="text" class="form-control" name="landmark" placeholder="Landmark" value="<?= $add_land ?>" />
-                    </div>
+                                                echo "<tr>
+                                                    <td>Shop image".$i."</td>
+                                                    <td>
+                                                        <a href='".$shop_img."' target='_blank'><i class='fa fa-paperclip text-secondary'></i></a>
+                                                    </td>
+                                                </tr>";
+                                            }
+                                        } else {
+                                            $avl_shop_img_cnt = 0;
+                                        }
 
-                    <div class="form-group">
-                        <label for=""><b>Country <sup>*</sup></b></label>
-                        <select class="form-control" name="country_id" id="cnt_id" onchange="getState(this.value);" required>
-                            <?php
-                            if ($countries) 
-                            {
-                                echo "<option value=''>Please select country!!</option>";
+                                        for ($i=1; $i<7-$avl_shop_img_cnt; $i++)
+                                        {
+                                            $img_cnt = $i+$avl_shop_img_cnt;
 
-                                foreach ($countries as $cnt_value) 
-                                {
-                                    if ($cnt_value['country_id'] == $add_cnt_id)
-                                        $cnt_id_selected = 'selected="selected"';
-                                    else
-                                        $cnt_id_selected = "";
+                                            echo '<tr>
+                                                <td>Shop image'.$img_cnt.'</td>
+                                                <td>
+                                                    <input type="file" name="file'.$img_cnt.'" id="file'.$img_cnt.'" accept="image/*" />
+                                                </td>
+                                            </tr>';
+                                        } ?>
+                                    </tbody>
+                                </table>
 
-                                    echo "<option value='".$cnt_value['country_id']."' ".$cnt_id_selected.">".$cnt_value['name']."</option>";
-                                }
-                            }
-                            else
-                                echo "<option>country not available!</option>";
-                            ?>
-                        </select>
-                    </div>
+                                <div class="form-group">
+                                    <label for=""><b>Shop Description</b></label>
+                                    <textarea class="form-control" style="min-height: auto !important;" name="description" placeholder="shop description" rows="1" id=""><?= $shop_description ?></textarea>
+                                </div>
 
-                    <div class="form-group">
-                        <label for=""><b>State <sup>*</sup></b></label>
-                        <select class="form-control" name="state_id" onchange="getCity(this.value);" id="states" required></select>
-                    </div>
+                                <div class="form-group">
+                                    <label for="">
+                                        <b>Shop Contact Number</b>
+                                        <!-- Tooltip icon -->
+                                        <i class="fa fa-info-circle text-primary"
+                                            data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="Provide your shop contact so customers can connect instantly and never miss an opportunity."
+                                        ></i>
+                                    </label>
+                                    <input type="text" class="form-control" name="contact" placeholder="Shop Contact Number" value="<?= $shop_contact ?>" />
+                                </div>
 
-                    <div class="form-group">
-                        <label for=""><b>City <sup>*</sup></b></label>
-                        <select class="form-control" name="city_id" id="state_cities" required></select>
-                    </div>
+                                <div class="form-group">
+                                    <label for=""><b>Global Business days</b></label>
+                                    <input type="text" class="form-control" name="global_business_days" placeholder="Enter Global Business days" value="<?= $global_business_days ?>" />
+                                </div>
 
-                    <div class="form-group">
-                        <label for=""><b>PIN Code</b></label>
-                        <input type="text" class="form-control" name="pin" placeholder="pin code" value="<?= $add_pin ?>"/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Shop Contact Number (for consumers)</b></label>
-                        <input type="text" class="form-control" name="contact" placeholder="Shop contact number" value="<?= $shop_contact ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Business Days</b></label>
-                        <input type="text" class="form-control" name="business_days" placeholder="Business days" value="<?= $business_days ?>" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for=""><b>Business Hours</b></label>
-                        <input type="text" class="form-control" name="business_hours" placeholder="Business hours" value="<?= $business_hours ?>" />
+                                <div class="form-group">
+                                    <label for=""><b>Global Business hours</b></label>
+                                    <input type="text" class="form-control" name="global_business_hours" placeholder="Enter Global Business hours" value="<?= $global_business_hours ?>" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div 
-                class="col-md-6  pt-5 pb-5 pl-5 pr-5 mx-auto"
-                style="padding: 5px !important;" 
-            >
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="padding: 15px !important;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>OWNER DETAIL</h3>
-                    </div>
-                    <div class="form-group">
-                        <label for=""><b>Owner's Full Name <sup>*</sup></b></label>
-                        <input type="text" class="form-control" name="first_name" value="<?= $own_name ?>" placeholder="Full Name *" required />
-                    </div>
-                    <div class="form-group">
-                        <label for=""><b>Contact (Mobile) Number <sup>*</sup></b></label>
-                        +91-<input type="text" class="form-control" name="own_contact" value="<?= $own_contact ?>" placeholder="Contact Number" required />
-                    </div>
-                    <div class="span5 alert alert-warning" role="alert">Mobile Number need to be exact 10 digits.</div>
-
-                    <div class="form-group">
-                        <label for=""><b>Email</b></label>
-                        <input type="text" class="form-control" value="<?= $user['email'] ?>" name="email" readonly />
-                    </div>
-
-                    <div class="box-body table-responsive">
-                        <table class="table table-striped">
-                            <tbody>
-                                <tr>
-                                    <td>Profile Picture</td>
-                                    <td><input type="file" name="file7" id="file7" /></td>
-                                    <td><img src="" id="srcfile7" /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <div class="alert alert-warning" role="alert">Allowed file types JPG or PNG only.
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div 
-                    class="bdr-d pt-2 pb-2"
-                    style="
-                        padding: 15px !important;
-                        margin-top: 15px;"
-                >
-                    <div class="text-center pb-2 mt-1">
-                        <h3>SHOP MAP LOCATION</h3>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="lat" placeholder="latitude*" onkeyup="initialize();" value="<?= $add_lat ?>" id="lat" required />
-                        <?= UC_error_label('lat') ?>
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="long" id="long"  value="<?= $add_lon ?>" placeholder="longitude*" onkeyup="initialize();" required />
-                        <?= UC_error_label('long') ?>
-                    </div>
-
-                    <div class="alert alert-warning" role="alert">Only decimals are allowed for <b>Latitude </b> & <b>Longitude</b>.</div>
-
-                    <div class="form-group">
-                        <button type="button" onclick="getLatLongFromAddress();" class="btn btn-primary">Get lat-long from address</button>&nbsp;&nbsp;&nbsp; <span style="color: darkgray;"><b>Or Select On Map Below</b></span><br /><br />
-                    </div>
-
-                    <!-- google map -->
-                    <center>
-                        <div id="googleMap" style="width:90%;height:400px; margin: 20px;"></div>
-                   
+            
+                <button type="submit" class="btn btn-primary btn-block mt-1">save & continue</button>
+                <?php if(!$is_verified): ?>
+                    <div class="d-flex justify-content-center">
                         <a href="<?= base_url('merchantLoginWithoutStep2Completion/'.$this->uri->segment(2).'/'.$this->uri->segment(3)) ?>" class="btn btn-default">Skip for now?</a>
-                        <a href="<?= base_url('merchantLoginSignup') ?>" class="btn btn-default">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </center>
-                </div>
+                    </div>
+                <?php endif; ?>
             </div>
+            
+            <input type="hidden" name="user_id" value="<?= $this->uri->segment(2) ?>" />
+            <input type="hidden" name="is_default_address" value="1" />
+            <input type="hidden" name="merchant_id" value="<?= $this->uri->segment(3) ?>" />
+            <input type="hidden" name="address_id" value="<?= $add_id ?>" />
+            <input type="hidden" name="first_name" value="<?= $own_name ?>" />
+            <input type="hidden" name="own_contact" value="<?= $own_contact ?>" />
+            <input type="hidden" name="email" value="<?= $user['email'] ?>" />
+            <input type="hidden" name="is_verified" value="<?= $is_verified ?>" />
         </div>
     </form>
 </div>
@@ -476,105 +419,6 @@ $(function() {
     });
 });
 
-function getLatLongFromAddress() 
-{
-    geocoder = new google.maps.Geocoder();
-    line1 = ($('[name="line1"]').val()) ? $('[name="line1"]').val()+', ' : '';
-    line2 = ($('[name="line2"]').val()) ? $('[name="line2"]').val()+', ' : '';
-    landmark = ($('[name="landmark"]').val()) ? $('[name="landmark"]').val()+', ' : '';
-    country = ($("#cnt_id option:selected").html()) ? $("#cnt_id option:selected").html()+', ' : '';
-    state = ($("#states option:selected").html()) ? $("#states option:selected").html()+', ' : '';
-    city = ($("#state_cities option:selected").html()) ? $("#state_cities option:selected").html() : '';
-    pin = ($('[name="pin"]').val()) ? '-'+$('[name="pin"]').val() : '';
-    address = line1+line2+landmark+country+state+city+pin;
-    
-    //debugger;
-    geocoder.geocode({'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            //get lat-long
-            latitude = results[0].geometry.location.lat().toFixed(6);
-            longitude = results[0].geometry.location.lng().toFixed(6);
-
-            //set lat-long in text fields
-            $('[name="lat"]').val(latitude);
-            $('[name="long"]').val(longitude);
-
-            //call map for map initialization
-            initialize();
-        } 
-        else
-            alert('Shop address fields are not valid, Please check them!');
-    }); 
-}
-
-//initialize google map
-function initialize() 
-{
-    var lat = ($('[name="lat"]').val()) ? $('[name="lat"]').val() : 22.7196;
-    var long = ($('[name="long"]').val()) ? $('[name="long"]').val() : 75.8577;
-
-    //set location on google map using lat long
-    var myLatlng = new google.maps.LatLng(lat, long);
-    var mapOptions = {
-                        zoom: 15,
-                        center: myLatlng,
-                        draggable: true
-                    }
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapOptions);
-    setMarkerOnClickMap(myLatlng, map);
-
-    google.maps.event.addListener(map, 'click', function (e) {
-        lat1 = (e.latLng.lat()).toFixed(6);
-        long1 = (e.latLng.lng()).toFixed(6);
-
-        $('[name="lat"]').val(lat1);
-        $('[name="long"]').val(long1);
-
-        setMarkerOnClickMap(e.latLng, map);
-    });
-}
-
-var gmarkers = [];
-
-//set marker on click map
-function setMarkerOnClickMap(latLng, map) 
-{
-    //remove old markers from map
-    for(i=0; i<gmarkers.length; i++)
-        gmarkers[i].setMap(null);
-
-    //set marker on google map
-    var marker = new google.maps.Marker({
-                    position: latLng
-                });
-
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
-
-    //push old marker in array
-    gmarkers.push(marker);
-
-    //show info window for address
-    marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
-
-    //show address div on click marker
-    showFormattedAddress((latLng.lat()), (latLng.lng()));
-}
-
-//show address div on click marker
-function showFormattedAddress(lat, long) 
-{
-    infowindow = new google.maps.InfoWindow();
-    latlng = new google.maps.LatLng(lat, long);
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) 
-            infowindow.setContent(results[0].formatted_address);
-    });
-}
-
 //get state of country
 function getState(cnt_id)
 {
@@ -655,34 +499,6 @@ function getCity(state_id)
     }
 }
 
-//check form validation
-function validateForm() 
-{
-    //for owner mobile number
-    var isValid = mobileValidation($("input[name='own_contact']").val());
-    if (!isValid) 
-    {
-        alert("Contact (Mobile) Number is not valid!");
-        return false;
-    }
-
-    //for address lat
-    var isValid = floatValidation($("input[name='lat']").val());
-    if (!isValid) 
-    {
-        alert("wrong latitude!");
-        return false;
-    }
-
-    //for address long
-    var isValid = floatValidation($("input[name='long']").val());
-    if (!isValid) 
-    {
-        alert("wrong longitude!");
-        return false;
-    }
-}
-
 $(document).ready(function() {
     cnt_id = $('#cnt_id').val();
     if (parseInt(cnt_id)) 
@@ -691,10 +507,6 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-img {
-    cursor: zoom-in;
-}
-
 .file img, .file1 img, .file2 img, .file3 img, .file4 img, .file5 img, .file6 img, .file7 img, .file8 img{
     height: 50px;
     cursor: default;
@@ -724,7 +536,5 @@ select{
     width: 90%;
 }
 </style>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVz1q3IpVEItGM-WmXgBkNWEfMuofO3FI&callback=initialize"></script>
 
 <?php include dirname(__FILE__).'/../../js_form_validation.php'; ?>

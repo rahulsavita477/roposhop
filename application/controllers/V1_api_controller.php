@@ -44,7 +44,7 @@ class V1_api_controller extends CI_Controller
 		}
 
 		//current date
-		$this->current_date = date("Y-m-d H:i:s");
+		$this->current_date = gmdate("Y-m-d H:i:s");
 	}
 
 	//get consumer app version
@@ -414,7 +414,7 @@ class V1_api_controller extends CI_Controller
 				else
 					$res['products'][$i]['varients'] = array();
 
-				//get product key features
+				//get Product Features
 				$key_features = array();
 				$prd_feature = $this->am3->selectRecords(array('product_id' => $prd_id), 'product_key_features', 'feature');
 				if ($prd_feature) 
@@ -499,7 +499,7 @@ class V1_api_controller extends CI_Controller
                 $data['product']['image'] = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url'];
             }
             else
-                $data['product']['image'] = array($this->config->item('site_url').'assets/user/download (1).jpeg');
+                $data['product']['image'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
 
             $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 
@@ -856,7 +856,7 @@ class V1_api_controller extends CI_Controller
 
      		$review_data['consumer_id'] = $con_id;
      		$review_data['merchant_id'] = $mer_id;
-     		$review_data['update_date'] = date("Y-m-d H:i:s");
+     		$review_data['update_date'] = gmdate("Y-m-d H:i:s");
      		
      		$condition = array('consumer_id' => $con_id, 'merchant_id' => $mer_id);
 			$isExistMerchantReview = $this->am3->selectRecords($condition, 'merchant_review', 'review_id');
@@ -870,7 +870,7 @@ class V1_api_controller extends CI_Controller
 			}
 			else
 			{
-				$review_data['create_date'] = date("Y-m-d H:i:s");
+				$review_data['create_date'] = gmdate("Y-m-d H:i:s");
 				
 				$review_id = $this->am3->insertData('merchant_review', $review_data);
 
@@ -921,7 +921,7 @@ class V1_api_controller extends CI_Controller
 
      		$review_data['consumer_id'] = $con_id;
      		$review_data['product_id'] = $prd_id;
-     		$review_data['update_date'] = date("Y-m-d H:i:s"); 
+     		$review_data['update_date'] = gmdate("Y-m-d H:i:s");
 
      		$condition = array('consumer_id' => $con_id, 'product_id' => $prd_id);
 			$isExistProductReview = $this->am3->selectRecords($condition, 'product_review', 'review_id');
@@ -935,9 +935,9 @@ class V1_api_controller extends CI_Controller
 			}
 			else
 			{
-				$review_data['create_date'] = date("Y-m-d H:i:s");
+				$review_data['create_date'] = gmdate("Y-m-d H:i:s");
 				
-				$review_id = $this->am3->insertData('product_review', $review_data);     		
+				$review_id = $this->am3->insertData('product_review', $review_data);
 
 				$msg = 'Product review inserted!';
 			}
@@ -1367,23 +1367,23 @@ class V1_api_controller extends CI_Controller
 		$this->getJsonData($code, $msg, $data);
 	}
 
-	public function resetPassword()
-	{	
+	public function resetPassword() {
+		
 		$email = isset($this->requestData->email)?$this->requestData->email:"";
 		$site_code = isset($this->requestData->site_code)?$this->requestData->site_code:"";
 
-		if ($email != '') 
-		{
-			if (filter_var($email, FILTER_VALIDATE_EMAIL))
-			{
+		if ($email != '') {
+
+			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
 				$isEmailExist = $this->isEmailExist($email);
-				if ($isEmailExist) 
-				{
+				if ($isEmailExist) {
+
 					$user_id = $isEmailExist['result'][0]['userId'];
 
 					//check user role
-					if ($site_code) 
-					{
+					if ($site_code) {
+
 						$user_role = $this->am3->selectRecords(array('usr_id' => $user_id), 'user_type', 'type_name');
 						$user_roles = array_column($user_role['result'], 'type_name');
 
@@ -1410,31 +1410,24 @@ class V1_api_controller extends CI_Controller
 					$mail_data['email'] = $email;
 					$mail_data['code'] = MAIL_CODE_RESET_PASSWORD;
 					$isSent = $this->common_controller->sendMail($mail_data);
-					if ($isSent) 
-					{
+					if ($isSent) {
+
 						$msg = 'Instruction to recover password has been sent to your email.';
 						$code = CODE_SUCCESS;
-					}
-					else
-					{
+
+					} else {
 						$msg = 'ERROR: Unable to send email';
 						$code = CODE_ERROR_UNKNOWN;
 					}
-				}
-				else
-				{
+				} else {
 					$msg = 'ERROR: No user found with provided Email Id';
 					$code = CODE_ERROR_ALREADY_EXIST;
 				}
-			}
-			else
-			{
+			} else {
 				$msg = 'ERROR: please provide a valid Email Id';
 				$code = CODE_ERROR_ALREADY_EXIST;
 			}
-		}
-		else
-		{
+		} else {
 			$msg = 'ERROR: email is required';
 			$code = CODE_ERROR_PARAM_MISSING;
 		}
@@ -1637,7 +1630,7 @@ class V1_api_controller extends CI_Controller
 			{
 				$token_data = array();
 				$token_data['auth_token'] = md5(uniqid(rand(), true));
-				$token_data['update_date'] = date("Y-m-d H:i:s");
+				$token_data['update_date'] = gmdate("Y-m-d H:i:s");
 
 				$this->am3->updateData('user', $token_data, $where);
 			}
@@ -2716,7 +2709,7 @@ class V1_api_controller extends CI_Controller
 		if ($request_id)
 			$where['request_id'] = $request_id;
 
-		$a_req_prd_res = $this->am3->selectRecords($where, 'requested_product', 'SQL_CALC_FOUND_ROWS request_id, merchant_id, req_prd_id AS product_id, req_lst_id AS listing_id, brand_name, refer_link, isLinked, update_date AS last_updated, isEnabled AS enabled', array(), $this->limit, $this->start, array(), true);
+		$a_req_prd_res = $this->am3->selectRecords($where, 'requested_product2', 'SQL_CALC_FOUND_ROWS request_id, merchant_id, req_prd_id AS product_id, req_lst_id AS listing_id, brand_name, refer_link, isLinked, update_date AS last_updated, isEnabled AS enabled', array(), $this->limit, $this->start, array(), true);
 		
 		if ($a_req_prd_res) 
 		{
@@ -2794,11 +2787,11 @@ class V1_api_controller extends CI_Controller
 				'request_id' => $request_id, 
 				'merchant_id' => $merchant_id
 			);
-			$this->isExist($where, 'requested_product');
+			$this->isExist($where, 'requested_product2');
 		}
 
 		//get product id
-		$req_prd_id = $this->am3->selectRecords(array('request_id' => $request_id), 'requested_product', 'req_prd_id');
+		$req_prd_id = $this->am3->selectRecords(array('request_id' => $request_id), 'requested_product2', 'req_prd_id');
      	$product_id = $req_prd_id['result'][0]['req_prd_id'];
 
 		$isDeleted = $this->am3->deleteRecord('product', array('product_id' => $product_id));
@@ -3111,7 +3104,7 @@ class V1_api_controller extends CI_Controller
 			if (!in_array("ADMIN", $merchantUserDetail['roles']))
      			$where['merchant_id'] = $merchant_id;
 
-			$req_ids = $this->am3->selectRecords($where, 'requested_product', 'req_prd_id, req_lst_id');
+			$req_ids = $this->am3->selectRecords($where, 'requested_product2', 'req_prd_id, req_lst_id');
 			if (!$req_ids) 
 			{
 				$msg = 'ERROR: unauthorized merchant';
@@ -3220,12 +3213,12 @@ class V1_api_controller extends CI_Controller
 			$req_prd_data['req_prd_id'] = $product_id;
 			$req_prd_data['req_lst_id'] = $listing_id;
 			if ($request_id) 
-				$this->am3->updateData('requested_product', $req_prd_data, array('request_id' => $request_id));
+				$this->am3->updateData('requested_product2', $req_prd_data, array('request_id' => $request_id));
 			else
 			{
 				$req_prd_data['create_date'] = $this->current_date;
 
-				$request_id = $this->am3->insertData('requested_product', $req_prd_data);
+				$request_id = $this->am3->insertData('requested_product2', $req_prd_data);
 			}
 
 			if ($product_id && $request_id && $listing_id) 
@@ -3761,7 +3754,7 @@ class V1_api_controller extends CI_Controller
 		$arrayResponse = $data;
 		$arrayResponse['code'] = $code;
 		$arrayResponse['msg'] = $msg;
-		$arrayResponse['response_date_time'] = date("Y-m-d H:i:s");
+		$arrayResponse['response_date_time'] = gmdate("Y-m-d H:i:s");
 
 		echo json_encode($arrayResponse);
 		die;
