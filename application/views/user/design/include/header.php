@@ -36,6 +36,9 @@ else
     <meta name="twitter:image" content=" <?= $meta_image ?>" />
     <meta name="twitter:card" content="<?= $current_page_url ?>" />
 
+    <link rel="manifest" href="<?= $this->config->item('site_url').'assets/manifest.json' ?>">
+    <meta name="theme-color" content="#3c8dbc">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?= $this->config->item('site_url').'assets/favicon.ico' ?>" />
 

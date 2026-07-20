@@ -296,6 +296,17 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+
+    // console.log("<?= $site_url ?>"+'/assets/sw.js');
+    
+    window.addEventListener('load', () => {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/assets/sw.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('SW registration failed', err));
+    }
+    });
+
 </script>
 <!-- <script src="/__/firebase/init.js"></script> -->
 
