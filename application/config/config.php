@@ -4,12 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $root = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['HTTP_HOST'];
 $root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 $config['site_url'] = "$root";
-$config['base_url'] = "$root";
+// $config['base_url'] = "$root";
+// Detect scheme safely
+$scheme = (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) ? $_SERVER['HTTP_X_FORWARDED_PROTO'] : ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http");
+$config['base_url'] = $scheme . "://" . $_SERVER['HTTP_HOST'] . "/";
 
-if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false)
+if(strpos($_SERVER['HTTP_HOST'], 'admin') !== false) {
 	setcookie('site_code', 'admin', null, "/");
-else if(strpos($_SERVER['HTTP_HOST'], 'seller') !== false)
+} elseif(strpos($_SERVER['HTTP_HOST'], 'seller') !== false) {
 	setcookie('site_code', 'seller', null, "/");
+}
 
 // if(strpos($_SERVER['HTTP_HOST'], 'local') !== false)
 // {

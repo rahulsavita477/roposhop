@@ -8,10 +8,11 @@ $meta_keywords = isset($meta_data['keywords']) ? $meta_data['keywords'] : "";
 $meta_image = isset($meta_data['image']) ? $meta_data['image'] : "";
 $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
-if (isset($_COOKIE['location']) && $_COOKIE['location'] != '') 
+if (isset($_COOKIE['location']) && $_COOKIE['location'] != '') {
     $location = $_COOKIE['location'];
-else
+} else {
     $location = 'Location Setting';
+}
 ?>
 
 <html lang="en">
@@ -36,13 +37,13 @@ else
     <meta name="twitter:image" content=" <?= $meta_image ?>" />
     <meta name="twitter:card" content="<?= $current_page_url ?>" />
 
-    <link rel="manifest" href="<?= $this->config->item('site_url').'assets/manifest.json' ?>">
+    <link rel="manifest" href="<?= base_url().'assets/manifest.json' ?>">
     <meta name="theme-color" content="#3c8dbc">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?= $this->config->item('site_url').'assets/favicon.ico' ?>" />
+    <link rel="icon" type="image/x-icon" href="<?= base_url().'assets/favicon.ico' ?>" />
 
-    <script src="<?= $_SERVER['REQUEST_SCHEME'] ?>://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-29056639-44"></script>
@@ -60,7 +61,7 @@ else
 <header class="header">
     <div id="divLoading1" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none;">
         <p style="position: absolute; top: 50%; left: 45%;">
-            <img src="<?= $this->config->item('site_url').'assets/admin/img/ajax-loader1.gif' ?>" />
+            <img src="<?= base_url().'assets/admin/img/ajax-loader1.gif' ?>" />
         </p>
     </div>
             
@@ -80,7 +81,7 @@ else
         <div class="container">
             <div class="header-left">
                 <a href="<?= $site_url ?>" class="logo">
-                    <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>" alt="ROPOshop" width="180">
+                    <img src="<?= base_url().'assets/user/assets2/images/logo.png' ?>" alt="ROPOshop" width="180">
                 </a>
 
             </div><!-- End .header-left -->
@@ -114,21 +115,32 @@ else
                     <i class="icon-menu"></i>
                 </button>
                 <div class="header-contact">
-                   <a href="<?= $seller_url.'/merchantLoginSignup' ?>" class="btn-warning btn-custom">Free Listing</a>&nbsp;
-                   <a href="<?= $site_url.'/#app' ?>" class="btn-primary btn-custom">App</a>&nbsp;
-                   <a href="<?= $site_url.'/location_setting' ?>" class="btn-danger btn-custom" id="location"><i class="fa fa-map-marker"></i> &nbsp; <?= $location ?></a>&nbsp;
+                    <a href="<?= $seller_url.'/merchantLoginSignup' ?>" class="btn-warning btn-custom">Free Listing</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn-custom btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:inline-flex; align-items:center;">Get App<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="<?= $site_url.'/#app' ?>">
+                                    <i class="icon-mobile"></i> Download Android App
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" id="installBtn">
+                                    <i class="icon-desktop"></i> Install Web App
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-                    <?php
-                    if (!isset($_COOKIE['consumer_id'])) 
-                    {
-                        echo "<a href='".$site_url."/userLogin' class='btn-success btn-custom'>Login</a>&nbsp;";
-                    }
-                    else
-                    {
-                        echo "<a href='".$site_url."/userProfile' class='btn-info btn-custom'><i class='icon-user'></i></a>&nbsp;";
-                        echo "&nbsp;<a href='".$site_url."/userLogout' class='btn-default btn-custom' title='logout'><i class='fas fa-power-off'></i></a>";   
-                    }
-                    ?>        
+                    <a href="<?= $site_url.'/location_setting' ?>" class="btn-danger btn-custom" id="location"><i class="fa fa-map-marker"></i> <?= $location ?></a>
+
+                    <?php if (!isset($_COOKIE['consumer_id'])) {
+                        echo "<a href='".$site_url."/userLogin' class='btn-success btn-custom'>Login</a>";
+                    } else {
+                        echo "<a href='".$site_url."/userProfile' class='btn-info btn-custom'><i class='icon-user'></i></a>";
+                        echo "<a href='".$site_url."/userLogout' class='btn-default btn-custom' title='logout'><i class='fas fa-power-off'></i></a>";
+                    } ?>
                 </div>
             </div><!-- End .header-right -->
         </div><!-- End .container -->
@@ -138,22 +150,21 @@ else
         <div class="container">
             <nav class="main-nav" >
                 <ul class="menu sf-arrows">
-                    <?php 
-                    foreach ($tree_list as $category) 
-                    {
+                    <?php foreach ($tree_list as $category) {
+
                         echo '<li><a href="#" class="sf-with-ul">'.$category['category_name'].'</a><ul>';
 
-                            foreach ($category['child_category'] as $key => $child_category)
-                            {
-                                if($key == 0)
+                            foreach ($category['child_category'] as $key => $child_category) {
+
+                                if($key == 0) {
                                     echo '<li><a href="'.base_url('categories/'.url_title($category['category_name'], '-', true).'?category=').$category['category_id'].'">ALL IN '.$category['category_name'].'</a></li>';
+                                }
 
                                 echo '<li><a href="'.base_url('categories/'.url_title($child_category['category_name'], '-', true).'?category=').$child_category['category_id'].'">'.$child_category['category_name'].'</a></li>';
                             }
 
                         echo '</ul></li>';
-                    } 
-                    ?>  
+                    } ?>
 
                     <li><a href="<?= $site_url ?>/brands">Brands</a></li>
                     <li><a href="<?= $site_url ?>/merchants">Sellers</a></li>

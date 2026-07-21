@@ -1,5 +1,5 @@
 <?php 
-$seller_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").'seller.'.str_replace("seller.", "", $_SERVER['HTTP_HOST']); 
+echo $seller_url = (isset($_SERVER['HTTPS']) ? "https://" : "http://").'seller.'.str_replace("seller.", "", $_SERVER['HTTP_HOST']); die;
 $seller_url = str_replace("www.", "", $seller_url); 
 $site_url = str_replace("seller.", "", $seller_url);
 $meta_title = isset($meta_data['title']) ? $meta_data['title'] : "";
@@ -37,7 +37,7 @@ $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SER
 		<link href="<?= $this->config->item('site_url').'assets/user/themes/css/bootstrap-responsive.min.css' ?>" rel="stylesheet"/>
 		<link href="<?= $this->config->item('site_url').'assets/user/themes/css/font-awesome.css' ?>" rel="stylesheet" type="text/css">
 		
-		<!-- Google-code-prettify -->	
+		<!-- Google-code-prettify -->
 		<link href="<?= $this->config->item('site_url').'assets/user/themes/js/google-code-prettify/prettify.css' ?>" rel="stylesheet"/>
 
 		<!-- fav and touch icons -->

@@ -282,7 +282,7 @@
 						                <div class="post-heading">
 						                    <div class="pull-left image">
 						                        <?php 
-						                    	$consumer_pic = ($review['picture']) ? base_url(PROFILE_PIC_PATH.$review['picture']) : "http://dummyimage.com/60x60/666/ffffff&text=No+Image";
+						                    	$consumer_pic = ($review['picture']) ? base_url(PROFILE_PIC_PATH.$review['picture']) : "";
 												?>
 						                        <img src="<?= $consumer_pic ?>" class="img-circle avatar" alt="user profile image">
 						                    </div>

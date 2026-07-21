@@ -8,32 +8,33 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 
 <!-- contact form in modal ================================================================== -->
 <!-- <div class="container"> -->
-    <!-- Modal -->
-    <div class="modal fade" id="resetPassword">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    Recover Password
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    Please enter the email id you used to signup, we will send the instructions to recover your password if provided email id exists in our record.
-                
-                    <input type="hidden" id="site_code" value="<?= $site_code ?>" />
+<!-- Modal -->
+<div class="modal fade" id="resetPassword">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                Recover Password
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Please enter the email id you used to signup, we will send the instructions to recover your password if
+                provided email id exists in our record.
 
-                    <div class="form-group-inline">
-                        <input class="form-control" type="email" placeholder="email*" id="email" />
-                    </div>
-                </div>
+                <input type="hidden" id="site_code" value="<?= $site_code ?>" />
 
-                <div class="modal-footer">
-                    <button class="btn-custom btn-default" data-dismiss="modal" style="border: none;">Close</button>
-                    <button type="button" class="btn-custom btn-primary" onclick="resetPasswordMail()">Submit</button>
+                <div class="form-group-inline">
+                    <input class="form-control" type="email" placeholder="email*" id="email" />
                 </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-custom btn-default" data-dismiss="modal" style="border: none;">Close</button>
+                <button type="button" class="btn-custom btn-primary" onclick="resetPasswordMail()">Submit</button>
             </div>
         </div>
     </div>
+</div>
 <!-- </div> -->
 
 <footer class="footer">
@@ -45,7 +46,8 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                         <div class="row">
                             <div class="col-lg-6">
                                 <h4 class="widget-title">Subscribe newsletter</h4>
-                                <p>Get all the latest information on Events, Sales and Offers. Sign up for newsletter today</p>
+                                <p>Get all the latest information on Events, Sales and Offers. Sign up for newsletter
+                                    today</p>
                             </div><!-- End .col-lg-6 -->
 
                             <div class="col-lg-6">
@@ -61,9 +63,12 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 
                 <div class="col-md-3 widget-social">
                     <div class="social-icons">
-                        <a href="https://www.facebook.com/ROPOshop" class="social-icon" target="_blank"><i class="icon-facebook"></i></a>
-                        <a href="https://twitter.com/ROPOshop" class="social-icon" target="_blank"><i class="icon-twitter"></i></a>
-                        <a href="https://www.linkedin.com/company/ROPOshop/" class="social-icon" target="_blank"><i class="icon-linkedin"></i></a>
+                        <a href="https://www.facebook.com/ROPOshop" class="social-icon" target="_blank"><i
+                                class="icon-facebook"></i></a>
+                        <a href="https://twitter.com/ROPOshop" class="social-icon" target="_blank"><i
+                                class="icon-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/ROPOshop/" class="social-icon" target="_blank"><i
+                                class="icon-linkedin"></i></a>
                     </div><!-- End .social-icons -->
                 </div><!-- End .col-md-3 -->
             </div><!-- End .row -->
@@ -77,12 +82,13 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     <div class="widget">
                         <h4 class="widget-title">Contact Us</h4>
                         <ul class="contact-info">
-                           
+
                             <li>
                                 <span class="contact-info-label">Phone:</span>+91-73891-02962</a>
                             </li>
                             <li>
-                                <span class="contact-info-label">Email:</span> <a href="mailto:ROPOshop.app@gmail.com">ROPOshop.app@gmail.com</a>
+                                <span class="contact-info-label">Email:</span> <a
+                                    href="mailto:ROPOshop.app@gmail.com">ROPOshop.app@gmail.com</a>
                             </li>
                         </ul>
                     </div><!-- End .widget -->
@@ -97,7 +103,8 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                 <div class="row">
                                     <div class="col-sm-6 col-md-5">
                                         <ul class="links">
-                                            <li><a href="<?= $seller_url.'/merchantLoginSignup' ?>">Become a Seller</a></li>
+                                            <li><a href="<?= $seller_url.'/merchantLoginSignup' ?>">Become a Seller</a>
+                                            </li>
 
                                             <?php
                                             if (isset($_COOKIE['user_id'])) 
@@ -109,7 +116,7 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                                     </div><!-- End .col-sm-6 -->
                                     <div class="col-sm-6 col-md-5">
                                         <ul class="links">
-                                            
+
                                             <!-- <li><a href="#" class="login-link">Login</a></li> -->
                                         </ul>
                                     </div><!-- End .col-sm-6 -->
@@ -120,12 +127,13 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                         <div class="col-md-7">
                             <div class="widget">
                                 <h4 class="widget-title">Main Features</h4>
-                                
+
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <ul class="links">
                                             <li><a href="<?= $site_url ?>/aboutus/#contactus">Contact us</a></li>
-                                            <li><a href="<?= $site_url ?>/aboutus/#help&support">Help and support</a></li>
+                                            <li><a href="<?= $site_url ?>/aboutus/#help&support">Help and support</a>
+                                            </li>
                                             <li><a href="<?= $site_url ?>/aboutus/#t&c">Terms and conditions
                                             <li><a href="<?= $site_url ?>/aboutus/#faq">Faq</a></li>
                                             <li><a href="<?= $site_url ?>/privacypolicy">Privacy Policy</a></li>
@@ -145,12 +153,16 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
                     </div><!-- End .row -->
 
                     <div class="footer-bottom">
-                        <p class="footer-copyright">ROPOshop &copy;  2020.  All Rights Reserved</p>
+                        <p class="footer-copyright">ROPOshop &copy; 2020. All Rights Reserved</p>
                     </div><!-- End .footer-bottom -->
                 </div><!-- End .col-lg-9 -->
             </div><!-- End .row -->
         </div><!-- End .container -->
     </div><!-- End .footer-middle -->
+
+    <button id="installBtn" style="display:none;" class="btn btn-primary">
+        📲 Install App
+    </button>
 </footer>
 
 <!-- End .footer -->
@@ -168,14 +180,12 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
 
 <script>
 //get reset password mail
-function resetPasswordMail()
-{
+function resetPasswordMail() {
     email = $('#email').val();
     site_code = $('#site_code').val();
     $('#divLoading1').css('display', 'block');
 
-    if (email) 
-    {
+    if (email) {
         $.ajax({
             type: "POST",
             url: '<?= base_url("api/v1/users/merchants/resetPassword") ?>',
@@ -183,18 +193,16 @@ function resetPasswordMail()
                 email: email,
                 site_code: site_code
             },
-            success: function(data){
-                if (data) 
-                {
-                    a = JSON.parse(data); 
+            success: function(data) {
+                if (data) {
+                    a = JSON.parse(data);
                     $("#resetPassword").modal("hide");
                     $('#divLoading1').css('display', 'none');
                     alert(a.msg);
                 }
             },
-        }); 
-    }
-    else
+        });
+    } else
         alert('Please provide email');
 }
 
@@ -205,7 +213,7 @@ var moretext = "View More";
 var lesstext = "View Less";
 
 $(document).ready(function() {
-    
+
     const toggleBtn = document.getElementById('specificationTableToggleBtn');
     const allRows = document.querySelectorAll('#specTableBody .spec-row');
 
@@ -237,14 +245,15 @@ $(document).ready(function() {
 
         var content = $(this).html();
 
-        if(content.length > showChar) {
+        if (content.length > showChar) {
 
             var c = content.substr(0, showChar);
             var h = content.substr(showChar);
 
-            var html = c + '<span class="moreellipses">' + ellipsestext+ '</span>'
-                + '<span class="morecontent"><span>' + h + '</span> '
-                + '<a href="javascript:void(0);" class="morelink"><strong>' + moretext + '</strong></a></span>';
+            var html = c + '<span class="moreellipses">' + ellipsestext + '</span>' +
+                '<span class="morecontent"><span>' + h + '</span> ' +
+                '<a href="javascript:void(0);" class="morelink"><strong>' + moretext +
+                '</strong></a></span>';
 
             $(this).html(html);
         }
@@ -256,7 +265,7 @@ $(document).on('click', '.morelink', function(e) {
     e.preventDefault();
     var $this = $(this);
 
-    if($this.hasClass("less")) {
+    if ($this.hasClass("less")) {
 
         $this.removeClass("less");
         $this.html('<strong>' + moretext + '</strong>');
@@ -271,9 +280,8 @@ $(document).on('click', '.morelink', function(e) {
         $this.closest('.morecontent').prev('.moreellipses').hide(); // hide ellipses
     }
 });
-
 </script>
-    
+
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
 
@@ -283,32 +291,67 @@ https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
 
 <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-        apiKey: "AIzaSyB56KWSL4OQPiP5t_sm5Qk1BMAFbqILq5A",
-        authDomain: "ROPOshop-8b514.firebaseapp.com",
-        databaseURL: "https://ROPOshop-8b514.firebaseio.com",
-        projectId: "ROPOshop-8b514",
-        storageBucket: "ROPOshop-8b514.appspot.com",
-        messagingSenderId: "99824770445",
-        appId: "1:99824770445:web:c840baa0cb7daa452071c4"
-    };
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyB56KWSL4OQPiP5t_sm5Qk1BMAFbqILq5A",
+    authDomain: "ROPOshop-8b514.firebaseapp.com",
+    databaseURL: "https://ROPOshop-8b514.firebaseio.com",
+    projectId: "ROPOshop-8b514",
+    storageBucket: "ROPOshop-8b514.appspot.com",
+    messagingSenderId: "99824770445",
+    appId: "1:99824770445:web:c840baa0cb7daa452071c4"
+};
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
-    // console.log("<?= $site_url ?>"+'/assets/sw.js');
-    
-    window.addEventListener('load', () => {
+// console.log("<?= $site_url ?>"+'/assets/sw.js');
+const swUrl = '<?= rtrim(base_url(), '/') ?>/assets/sw.js';
+const swScope = '<?= rtrim(base_url(), '/') ?>/';
+
+window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/assets/sw.js')
-        .then(reg => console.log('Service Worker registered', reg))
-        .catch(err => console.error('SW registration failed', err));
+            .then(reg => console.log('Service Worker registered', reg))
+            .catch(err => console.error('SW registration failed', err));
     }
-    });
+});
 
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBtn').style.display = 'inline-block';
+});
+
+document.getElementById('installBtn').addEventListener('click', () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choiceResult => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted install');
+            } else {
+                console.log('User dismissed install');
+            }
+            deferredPrompt = null;
+        });
+    } else {
+        alert('✅ App is already installed!');
+    }
+});
+
+// Detect if app is already installed
+if ('getInstalledRelatedApps' in navigator) {
+    navigator.getInstalledRelatedApps().then(apps => {
+        if (apps.length > 0) {
+            document.getElementById('installBtn').innerText = '✅ App Installed';
+        }
+    });
+}
 </script>
 <!-- <script src="/__/firebase/init.js"></script> -->
 
 </body>
-</html>  
+
+</html>

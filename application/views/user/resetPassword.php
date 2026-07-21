@@ -6,17 +6,17 @@
 
     <title>ROPOshop | Reset Password</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?= $this->config->item('site_url').'assets/favicon.ico' ?>" />
+    <link rel="icon" type="image/x-icon" href="<?= base_url().'assets/favicon.ico' ?>" />
 
     <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="<?= $this->config->item('site_url').'assets/user/assets2/css/bootstrap.min.css' ?>" />
+    <link rel="stylesheet" href="<?= base_url().'assets/user/assets2/css/bootstrap.min.css' ?>" />
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="<?= $this->config->item('site_url').'assets/user/assets2/css/style.min.css' ?>" />
+    <link rel="stylesheet" href="<?= base_url().'assets/user/assets2/css/style.min.css' ?>" />
     <link rel="stylesheet" type="text/css"
-        href="<?= $this->config->item('site_url').'assets/user/assets2/vendor/fontawesome-free/css/all.min.css' ?>" />
+        href="<?= base_url().'assets/user/assets2/vendor/fontawesome-free/css/all.min.css' ?>" />
     <link rel="stylesheet" type="text/css"
-        href="<?= $this->config->item('site_url').'assets/user/assets2/css/custom.css' ?>" />
+        href="<?= base_url().'assets/user/assets2/css/custom.css' ?>" />
 </head>
 
 <header class="header">
@@ -36,7 +36,7 @@
         <div class="container">
             <div class="header-left">
                 <a href="<?= base_url() ?>" class="logo">
-                    <img src="<?= $this->config->item('site_url').'assets/user/assets2/images/logo.png' ?>"
+                    <img src="<?= base_url().'assets/user/assets2/images/logo.png' ?>"
                         alt="ROPOshop" width="180">
                 </a>
             </div><!-- End .header-left -->
