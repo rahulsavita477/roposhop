@@ -30,22 +30,22 @@ $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SER
 	    <meta name="twitter:card" content="<?= $current_page_url ?>" />
 
 		<!-- Bootstrap style --> 
-    	<link id="callCss" rel="stylesheet" href="<?= $this->config->item('site_url').'assets/user/themes/bootshop/bootstrap.min.css' ?>" media="screen"/>
-    	<link href="<?= $this->config->item('site_url').'assets/user/themes/css/base.css' ?>" rel="stylesheet" media="screen"/>
+    	<link id="callCss" rel="stylesheet" href="<?= base_url().'assets/user/themes/bootshop/bootstrap.min.css' ?>" media="screen"/>
+    	<link href="<?= base_url().'assets/user/themes/css/base.css' ?>" rel="stylesheet" media="screen"/>
 		
 		<!-- Bootstrap style responsive -->	
-		<link href="<?= $this->config->item('site_url').'assets/user/themes/css/bootstrap-responsive.min.css' ?>" rel="stylesheet"/>
-		<link href="<?= $this->config->item('site_url').'assets/user/themes/css/font-awesome.css' ?>" rel="stylesheet" type="text/css">
+		<link href="<?= base_url().'assets/user/themes/css/bootstrap-responsive.min.css' ?>" rel="stylesheet"/>
+		<link href="<?= base_url().'assets/user/themes/css/font-awesome.css' ?>" rel="stylesheet" type="text/css">
 		
 		<!-- Google-code-prettify -->
-		<link href="<?= $this->config->item('site_url').'assets/user/themes/js/google-code-prettify/prettify.css' ?>" rel="stylesheet"/>
+		<link href="<?= base_url().'assets/user/themes/js/google-code-prettify/prettify.css' ?>" rel="stylesheet"/>
 
 		<!-- fav and touch icons -->
-		<link rel="shortcut icon" href="<?= $this->config->item('site_url').'assets/favicon.ico' ?>">
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?= $this->config->item('site_url').'assets/user/themes/images/ico/apple-touch-icon-144-precomposed.png' ?>" />
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?= $this->config->item('site_url').'assets/user/themes/images/ico/apple-touch-icon-114-precomposed.png' ?>" />
-		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?= $this->config->item('site_url').'assets/user/themes/images/ico/apple-touch-icon-72-precomposed.png' ?>" />
-		<link rel="apple-touch-icon-precomposed" href="<?= $this->config->item('site_url').'assets/favicon.ico' ?>assets/user/themes/images/ico/apple-touch-icon-57-precomposed.png" />
+		<link rel="shortcut icon" href="<?= base_url().'assets/favicon.ico' ?>">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?= base_url().'assets/user/themes/images/ico/apple-touch-icon-144-precomposed.png' ?>" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?= base_url().'assets/user/themes/images/ico/apple-touch-icon-114-precomposed.png' ?>" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?= base_url().'assets/user/themes/images/ico/apple-touch-icon-72-precomposed.png' ?>" />
+		<link rel="apple-touch-icon-precomposed" href="<?= base_url().'assets/favicon.ico' ?>assets/user/themes/images/ico/apple-touch-icon-57-precomposed.png" />
 		<style type="text/css" id="enject"></style>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -108,7 +108,7 @@ $current_page_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SER
 						<span class="icon-bar"></span>
 					</a>
   					<div class="navbar-inner">
-    					<a class="brand" href="<?= $site_url ?>"><img src="<?= $this->config->item('site_url').'assets/logo.png' ?>" alt="ROPOshop" class="site_logo" /></a>
+    					<a class="brand" href="<?= $site_url ?>"><img src="<?= base_url().'assets/logo.png' ?>" alt="ROPOshop" class="site_logo" /></a>
 
 						<form method="get" action="<?= $site_url.'/search' ?>" class="form-inline navbar-search">
 	    					<input class="srchTxt" type="text" name="str" placeholder="Search: Product, Brand, Seller and More...." required />

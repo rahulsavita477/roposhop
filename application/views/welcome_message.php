@@ -5,7 +5,7 @@
         <meta name="description" content="ROPOshop." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--Bootstrap 4-->
-        <link rel="stylesheet" href="<?= $this->config->item('site_url').'assets/admin/css/bootstrap1.min.css' ?>" />
+        <link rel="stylesheet" href="<?= base_url().'assets/admin/css/bootstrap1.min.css' ?>" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
         <!--icons-->
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
@@ -55,11 +55,11 @@ deal making.
                       </p>
                         <p class="mt-5">
                             Available soon for Android Phones
-                            <a href="#" class="mr-2"><img src="<?= $this->config->item('site_url').'assets/admin/img/google-play.png' ?>" class="store-img"/></a>
+                            <a href="#" class="mr-2"><img src="<?= base_url().'assets/admin/img/google-play.png' ?>" class="store-img"/></a>
                         </p>
                     </div>
                     <div class="col-md-6 pt-5 d-none d-md-block wow fadeInRight">
-                        <img class="img-fluid mx-auto d-block" src="<?= $this->config->item('site_url').'assets/admin/img/shot-3.png' ?>"/>
+                        <img class="img-fluid mx-auto d-block" src="<?= base_url().'assets/admin/img/shot-3.png' ?>"/>
                     </div>
                 </div>
             </div>
@@ -158,7 +158,7 @@ purchase it from offline market
                         <p>Immediate value to users through the product search and compare product features.</p>
                     </div>
                     <div class="col-sm-4 wow fadeIn">
-                        <img class="img-fluid mx-auto d-block pb-3" src="<?= $this->config->item('site_url').'assets/admin/img/shot-3.png' ?>" />
+                        <img class="img-fluid mx-auto d-block pb-3" src="<?= base_url().'assets/admin/img/shot-3.png' ?>" />
                     </div>
                     <div class="col-sm-4 wow fadeIn">
                         <h5 class="text-orange">Reviews</h5>
@@ -196,7 +196,7 @@ purchase it from offline market
                             ROPOshop app for Android phones is under alpha testing and will be availabel soon for you. Stay tune for updates. 
                         </p>
                         <p class="mt-5">
-                            <a href="#" class="mr-2"><img src="<?= $this->config->item('site_url').'assets/admin/img/google-play.png' ?>" class="store-img"/></a>
+                            <a href="#" class="mr-2"><img src="<?= base_url().'assets/admin/img/google-play.png' ?>" class="store-img"/></a>
                         </p>
                     </div>
                 </div>
@@ -247,7 +247,7 @@ purchase it from offline market
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
-        <script src="<?= $this->config->item('site_url').'assets/admin/js/scripts.js' ?>"></script>
+        <script src="<?= base_url().'assets/admin/js/scripts.js' ?>"></script>
     </body>
 </html>
 

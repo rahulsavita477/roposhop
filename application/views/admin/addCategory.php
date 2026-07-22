@@ -133,7 +133,7 @@ $cat_name_data = array(
 			                        		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 											
 											if ($link) {
-												echo $this->config->item('site_url').HTML_FILES_PATH.$link."<br />";
+												echo base_url().HTML_FILES_PATH.$link."<br />";
 											}
 			                        	} ?>
 	                                </span>
@@ -359,7 +359,7 @@ $cat_name_data = array(
 
 																	if ($link) {
 																		
-																		$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+																		$buttons = "<a href='".base_url().HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
 																		<a href='".base_url("deleteLink/$link_id/$cat_id/CATEGORY")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
 																	} else {
 																		$buttons = '';
@@ -367,7 +367,7 @@ $cat_name_data = array(
 																	
 																	echo "<tr>
 																			<td>HTML LINK".$i."</td>
-																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td class='statusLabel'><span class='label label-default'>".base_url().HTML_FILES_PATH."</span></td>
 																			<td>
 																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

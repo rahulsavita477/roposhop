@@ -17,7 +17,7 @@ $executiveUserChecked = "";
 if (isset($user['profile_image'])) {
     $profile_pic = $user['profile_image'];
 } else {
-    $profile_pic = $this->config->item('site_url').'assets/admin/img/avatar3.png';
+    $profile_pic = base_url().'assets/admin/img/avatar3.png';
 }
 
 //merchant data
@@ -46,7 +46,7 @@ $page_label = isset($merchant['page_label']) ? $merchant['page_label'] : 'Add Se
 if (isset($merchant['merchant_logo'])) {
     $merchant_logo = $merchant['merchant_logo'];
 } else {
-    $merchant_logo = $this->config->item('site_url').'assets/admin/img/avatar3.png';
+    $merchant_logo = base_url().'assets/admin/img/avatar3.png';
 }
 
 //get user roles

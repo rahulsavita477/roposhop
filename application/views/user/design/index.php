@@ -209,7 +209,7 @@
                         }">
                             <?php foreach ($merchants['result'] as $merchant) {
                             
-                                $merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
+                                $merchant_logo = ($merchant['merchant_logo']) ? base_url().SELLER_ATTATCHMENTS_PATH.$merchant['merchant_id'].'/'.$merchant['merchant_logo'] : '';
                                 $merchentHref = base_url(
                                     'merchants/' . url_title($merchant['establishment_name'], '-', true)
                                 ) . '?merchant_id=' . $merchant['merchant_id'];

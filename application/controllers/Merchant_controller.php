@@ -188,7 +188,7 @@ class Merchant_controller extends CI_Controller
             $data['meta_data']['title'] = 'Seller signup';
             $data['meta_data']['keywords'] = '';
             $data['meta_data']['description'] = 'ROPOshop signup step 2';
-            $data['seller_images_dir'] = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/';
+            $data['seller_images_dir'] = base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/';
 
             //load user register view
             // $this->load->view('user/include/header', $data);

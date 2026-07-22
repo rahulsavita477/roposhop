@@ -540,7 +540,7 @@ select.form-control:not([size]):not([multiple]) {
                 $("#listing_product_url" + i).css("display", "none");
         }
 
-        console.log(listing_products);
+        // console.log(listing_products);
         //set products
         for (var i = 0, j = 1; i < listing_products.length; i++) {
             await sleep(150);
@@ -564,7 +564,7 @@ select.form-control:not([size]):not([multiple]) {
             //set data in products page
             $.when(getProduct(listing_products[i].product_id)).done(function(product) {
 
-                console.log(product);
+                // console.log(product);
 
                 resp = JSON.parse(product);
 

@@ -237,7 +237,7 @@ function setMerchantAddressData(addresses, paging)
     //set addresses
     for (var i=0,j=1; i<addresses.length; i++) 
     {
-        console.log(addresses[i]);
+        // console.log(addresses[i]);
         let address = addresses[i].address_line_1;
 
         if (addresses[i].address_line_2)

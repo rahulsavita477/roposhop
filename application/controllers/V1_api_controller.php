@@ -93,7 +93,7 @@ class V1_api_controller extends CI_Controller
 	public function getBrands($where = '', $like = array())
 	{
 		//get brand result
-		$columns = 'SQL_CALC_FOUND_ROWS brand_id, name as brand_name, brand_desc as description, IF(brand_logo, CONCAT("'.$this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.'", "/", brand_id, "/", brand_logo), "") as brand_logo, update_date as last_updated, isEnabled AS enabled';
+		$columns = 'SQL_CALC_FOUND_ROWS brand_id, name as brand_name, brand_desc as description, IF(brand_logo, CONCAT("'.base_url().BRAND_ATTATCHMENTS_PATH.'", "/", brand_id, "/", brand_logo), "") as brand_logo, update_date as last_updated, isEnabled AS enabled';
 		$brands_result = $this->am3->selectRecords($where, 'brand', $columns, array(), $this->limit, $this->start, $like, true);
 		$res['brands'] = array();
 		
@@ -111,7 +111,7 @@ class V1_api_controller extends CI_Controller
 				if ($brand_imgs['result']) 
 				{
 					foreach ($brand_imgs['result'] as $atch_value) 
-						array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);
+						array_push($attatchments, base_url().BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);
 				}
 
 				$res['brands']['brand_images'] = $attatchments;
@@ -131,7 +131,7 @@ class V1_api_controller extends CI_Controller
 					if ($brand_imgs['result']) 
 					{
 						foreach ( $brand_imgs['result'] as $atch_value ) 
-							array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);
+							array_push($attatchments, base_url().BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);
 
 						$res['brands'][$i]['brand_images'] = $attatchments;
 					}
@@ -171,7 +171,7 @@ class V1_api_controller extends CI_Controller
 		if ( $links ) 
 		{
 			foreach ( $links['result'] as $html_file_value ) 
-				array_push($web_links, $this->config->item('site_url').HTML_FILES_PATH.'/'.$html_file_value['html_file']);
+				array_push($web_links, base_url().HTML_FILES_PATH.'/'.$html_file_value['html_file']);
 		}
 
 		return $web_links;
@@ -224,7 +224,7 @@ class V1_api_controller extends CI_Controller
 				if ( $cat_imgs ) 
 				{
 					foreach ($cat_imgs['result'] as $atch_value) 
-						array_push($attatchments, $this->config->item('site_url').CATEGORY_ATTACHMENT_PATH.$cat_id.'/'.$atch_value['atch_url']);
+						array_push($attatchments, base_url().CATEGORY_ATTACHMENT_PATH.$cat_id.'/'.$atch_value['atch_url']);
 
 					$res['categories'][$i]['category_images'] = $attatchments;
 				}
@@ -393,7 +393,7 @@ class V1_api_controller extends CI_Controller
 				if ($prd_imgs && $prd_imgs['result']) 
 				{
 					foreach ($prd_imgs['result'] as $atch_value) 
-						array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$prd_id.'/'.$atch_value['atch_url']);
+						array_push($attatchments, base_url().PRODUCT_ATTATCHMENTS_PATH.$prd_id.'/'.$atch_value['atch_url']);
 
 					$res['products'][$i]['product_images'] = $attatchments;
 				}
@@ -496,10 +496,10 @@ class V1_api_controller extends CI_Controller
             $product_imgs = $this->attatchments($product_id, "PRODUCT");
             if ($product_imgs && $product_imgs['result']) 
             {
-                $data['product']['image'] = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url'];
+                $data['product']['image'] = base_url().PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$product_imgs['result'][0]['atch_url'];
             }
             else
-                $data['product']['image'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
+                $data['product']['image'] = array(base_url().'assets/user/noImage.jpeg');
 
             $merchant_id = isset($_GET['merchant_id']) ? $_GET['merchant_id'] : '';
 
@@ -723,7 +723,7 @@ class V1_api_controller extends CI_Controller
 	public function getMerchants($where = '', $like = array())
 	{
 		$res = array();
-		$columns = "SQL_CALC_FOUND_ROWS merchant_id, establishment_name, description, userId as user_id, contact, is_verified, business_days, business_hours, IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, status as enabled, update_date as last_updated";
+		$columns = "SQL_CALC_FOUND_ROWS merchant_id, establishment_name, description, userId as user_id, contact, is_verified, business_days, business_hours, IF(merchant_logo, CONCAT('".base_url().SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, status as enabled, update_date as last_updated";
 		$merchant_result = $this->am3->selectRecords($where, 'merchant', $columns, array(), $this->limit, $this->start, $like, true);
 
 		if ($merchant_result)
@@ -742,7 +742,7 @@ class V1_api_controller extends CI_Controller
 				if ($seller_imgs['result']) 
 				{
 					foreach ($seller_imgs['result'] as $atch_value) 
-						array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
+						array_push($attatchments, base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
 
 					$res['merchants'][$i]['merchant_images'] = $attatchments;
 				}
@@ -790,7 +790,7 @@ class V1_api_controller extends CI_Controller
 				if ($offer_imgs['result']) 
 				{
 					foreach ($offer_imgs['result'] as $atch_value) 
-						array_push($attatchments, $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH.$offer_id.'/'.$atch_value['atch_url']);
+						array_push($attatchments, base_url().OFFER_ATTATCHMENTS_PATH.$offer_id.'/'.$atch_value['atch_url']);
 
 					$res['offers'][$i]['offer_images'] = $attatchments;
 				}
@@ -1792,13 +1792,13 @@ class V1_api_controller extends CI_Controller
 		unset($user['status']);
 
 		//get merchant data
-		$merchant = $this->am3->selectRecords(array('userId' => $user_id), 'merchant', "merchant_id, establishment_name, description, IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') AS merchant_logo, IF(business_proof, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', business_proof), '') AS business_proof, contact, is_verified, is_completed, status, business_days, business_hours, status AS merchant_enabled");
+		$merchant = $this->am3->selectRecords(array('userId' => $user_id), 'merchant', "merchant_id, establishment_name, description, IF(merchant_logo, CONCAT('".base_url().SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') AS merchant_logo, IF(business_proof, CONCAT('".base_url().SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', business_proof), '') AS business_proof, contact, is_verified, is_completed, status, business_days, business_hours, status AS merchant_enabled");
 
 		//get merchant default values
 		$merchant_default_values = $this->am3->selectRecords(array('userId' => $user_id), 'merchant', "finance_available, finance_terms, home_delivery_available, home_delivery_terms, installation_available, installation_terms, replacement_available, replacement_terms, return_available, return_policy, seller_offering");
 
         //get shop images
-        $merchant_images = $this->am3->selectRecords(array('link_id' => $seller_id, 'atch_for' => 'SELLER', 'atch_type' => 'IMAGE'), 'attatchments', "CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', link_id, '/', atch_url) AS atch_url");
+        $merchant_images = $this->am3->selectRecords(array('link_id' => $seller_id, 'atch_for' => 'SELLER', 'atch_type' => 'IMAGE'), 'attatchments', "CONCAT('".base_url().SELLER_ATTATCHMENTS_PATH."', link_id, '/', atch_url) AS atch_url");
         $merchant_images = ($merchant_images) ? $merchant_images['result'] : array();
 
         //get key features/offering
@@ -2267,7 +2267,7 @@ class V1_api_controller extends CI_Controller
 		        {
 		        	//get all images of shop
 		        	$images = $this->am3->selectRecords(array('link_id' => $merchant_id, 'atch_type' => 'IMAGE'), 'attatchments', 
-		        		"CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', link_id, '/', atch_url) AS atch_url");
+		        		"CONCAT('".base_url().SELLER_ATTATCHMENTS_PATH."', link_id, '/', atch_url) AS atch_url");
 
 		        	$merchantDetail = $this->getMerchantData($merchant_id, $user_id);
                 	$res = json_decode(json_encode($merchantDetail), True);

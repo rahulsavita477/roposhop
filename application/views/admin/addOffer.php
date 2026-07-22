@@ -134,7 +134,7 @@ if (isset($page_label) && $page_label == 'view') {
 				                    		$link = isset( $html_files['result'][$j]['html_file'] ) ? $html_files['result'][$j]['html_file'] : '';
 
 											if ($link) {
-												echo $this->config->item('site_url').HTML_FILES_PATH.$link;
+												echo base_url().HTML_FILES_PATH.$link;
 											}
 				                    	} ?>
 	                        		</div>
@@ -378,7 +378,7 @@ if (isset($page_label) && $page_label == 'view') {
 
 																	if ($link) {
 
-																		$buttons = "<a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
+																		$buttons = "<a href='".base_url().HTML_FILES_PATH.$link."' target='_blank'><i class='fa fa-paperclip'></i></a>&nbsp;
 																		<a href='".base_url("deleteLink/$link_id/$offer_id/OFFER")."' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-trash-o'></i></a>";
 																	} else {
 																		$buttons = '';
@@ -386,7 +386,7 @@ if (isset($page_label) && $page_label == 'view') {
 																	
 																	echo "<tr>
 																			<td>HTML LINK".$i."</td>
-																			<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."</span></td>
+																			<td class='statusLabel'><span class='label label-default'>".base_url().HTML_FILES_PATH."</span></td>
 																			<td>
 																				<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 																				<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

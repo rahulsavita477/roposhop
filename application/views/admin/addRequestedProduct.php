@@ -524,14 +524,14 @@ $page_title = 'Add requested product';
 												if ($link) 
 												{
 													$buttons = "<a href='".base_url("deleteLink/$link_id/$product_id/PRODUCT")."' class='btn btn-danger' onclick='return confirm(\"Are you sure?\")'>Delete</a>
-			                                                <a href='".$this->config->item('site_url').HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
+			                                                <a href='".base_url().HTML_FILES_PATH.$link."' class='btn-custom btn-primary' target='_blank'>Preview</a>";
 												}
 												else
 													$buttons = '';
 												
 				                                echo "<tr>
 			                        					<td>HTML LINK".$i."</td>
-			                        					<td class='statusLabel'><span class='label label-default'>".$this->config->item('site_url').HTML_FILES_PATH."/</span></td>
+			                        					<td class='statusLabel'><span class='label label-default'>".base_url().HTML_FILES_PATH."/</span></td>
 			                                            <td>
 			                                            	<input type='hidden' name='html_id".$i."' value='".$link_id."' />
 			                                            	<input type='text' name='html_link".$i."' value='".$link."' class='form-control' />

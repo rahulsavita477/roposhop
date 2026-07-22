@@ -685,7 +685,7 @@ class Admin_controller extends CI_Controller
 				redirectWithMessage('Error: '.$res['brands']['msg'], $controller);
 			}
 
-			$data['atch_path'] = $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH;
+			$data['atch_path'] = base_url().OFFER_ATTATCHMENTS_PATH;
 
 			// $pageName = "addOffer_old";
 		}
@@ -773,7 +773,7 @@ class Admin_controller extends CI_Controller
 			}
 			
 			//get merchant logo and name
-			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".$this->config->item('site_url').SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name, merchant_id");
+			$data['merchant'] = $this->Admin_model->selectRecords(array('merchant_id' => $merchant_id), 'merchant', "IF(merchant_logo, CONCAT('".base_url().SELLER_ATTATCHMENTS_PATH."', merchant_id, '/', merchant_logo), '') as merchant_logo, establishment_name, merchant_id");
 			if (isset($data['merchant']['db_error'])) {
 				redirectWithMessage('Error: '.$data['merchant']['msg'], $controller);
 			}
@@ -1108,7 +1108,7 @@ class Admin_controller extends CI_Controller
 			redirectWithMessage('Error: '.$offers['msg'], $controller);
 
 		$offer_detail = $offers['result'][0];
-		$offer_detail['atch_path'] = $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH;
+		$offer_detail['atch_path'] = base_url().OFFER_ATTATCHMENTS_PATH;
 		$attatchments = $this->Admin_model->selectRecords(array('link_id' => $offer_id, 'atch_for' => 'OFFER', 'atch_type' => 'IMAGE'), 'attatchments', '*');
 
 		if (isset($attatchments['db_error'])) 
@@ -1160,7 +1160,7 @@ class Admin_controller extends CI_Controller
 			{
 				$seller_data['merchant'] = $sel_res[0];	
 				$seller_data['merchant']['address'] = array();
-				$seller_data['merchant']['seller_images_dir'] = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$sel_id;
+				$seller_data['merchant']['seller_images_dir'] = base_url().SELLER_ATTATCHMENTS_PATH.$sel_id;
 
 				//get user address
 				$address_res = $this->getUserAddress(array('address.userId' => $sel_res[0]['userId']));
@@ -2810,7 +2810,7 @@ class Admin_controller extends CI_Controller
 				$brand_data['success'] = true;
 				$brand_data['data'] = $brand_res[0];
 				$brand_data['page_label'] = $page_label;
-				$brand_data['data']['brand_images_dir'] = $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$brand_id;
+				$brand_data['data']['brand_images_dir'] = base_url().BRAND_ATTATCHMENTS_PATH.$brand_id;
 
 				//get brand images
 				$brand_data['data']['brand_images'] = $this->attatchments($brand_id, "BRAND");
@@ -2971,7 +2971,7 @@ class Admin_controller extends CI_Controller
 			$data['page_label'] = $page_label;
 			$data['html_files'] = $cat_html_links;
 			$data['images'] = array();
-			$data['category_images_dir'] = $this->config->item('site_url').CATEGORY_ATTACHMENT_PATH.$cat_id;
+			$data['category_images_dir'] = base_url().CATEGORY_ATTACHMENT_PATH.$cat_id;
 			
 			//get category images
 			$cat_imgs = $this->attatchments($cat_id, "CATEGORY");
@@ -4008,7 +4008,7 @@ class Admin_controller extends CI_Controller
 			$prd_res['categories'] = array();
 			$prd_res['product_tags'] = array();
 			$prd_res['tags'] = array();
-			$prd_res['product_images_dir'] = $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$prd_id;
+			$prd_res['product_images_dir'] = base_url().PRODUCT_ATTATCHMENTS_PATH.$prd_id;
 			$prd_res['page_label'] = 'Edit product detail';
 
 			//get product images
@@ -4695,7 +4695,7 @@ class Admin_controller extends CI_Controller
 			$seller_data['success'] = true;
 			$seller_data['data'] = $sel_res[0];	
 			$seller_data['data']['address'] = array();
-			$seller_data['data']['seller_images_dir'] = $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$sel_id;
+			$seller_data['data']['seller_images_dir'] = base_url().SELLER_ATTATCHMENTS_PATH.$sel_id;
 
 			//get user address
 			$address_res = $this->getUserAddress(array('address.userId' => $sel_res[0]['userId']));

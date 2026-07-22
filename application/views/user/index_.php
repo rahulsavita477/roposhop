@@ -71,7 +71,7 @@
 						{ 
 							$merchant_id = $merchant['merchant_id'];
 							$establishment_name = $merchant['establishment_name'];
-							$merchant_logo = ($merchant['merchant_logo']) ? $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant['merchant_logo'] : '';
+							$merchant_logo = ($merchant['merchant_logo']) ? base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant['merchant_logo'] : '';
 
 							if ($i != 0 && $i%4 == 0)
 								echo '</ul></div>';

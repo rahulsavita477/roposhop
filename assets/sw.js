@@ -7,7 +7,6 @@ const urlsToCache = [
 	'/assets/admin/img/ajax-loader1.gif',
 	// CSS/JS from css.php and js.php
 	'/assets/user/assets2/css/style.css',
-	'/assets/user/assets2/css/responsive.css',
 	'/assets/user/assets2/js/app.js',
 	'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
 	'https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js',

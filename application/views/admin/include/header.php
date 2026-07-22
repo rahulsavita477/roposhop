@@ -2,39 +2,39 @@
 if (isset($_COOKIE['image']))
     $usr_profile_pic = $_COOKIE['image'];
 else
-    $usr_profile_pic = $this->config->item('site_url').'assets/admin/img/avatar3.png';
+    $usr_profile_pic = base_url().'assets/admin/img/avatar3.png';
 ?>
 
 <html>
     <head>
         <meta charset="UTF-8">
         <title>ROPOshop | Dashboard</title>
-        <link rel="shortcut icon" href="<?= $this->config->item('site_url').('assets/favicon.ico') ?>">
+        <link rel="shortcut icon" href="<?= base_url().('assets/favicon.ico') ?>">
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
         <!-- bootstrap 3.0.2 -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/bootstrap.min.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/bootstrap.min.css' ?>" rel="stylesheet" type="text/css" />
         <!-- font Awesome -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/font-awesome.min.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/font-awesome.min.css' ?>" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/ionicons.min.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/ionicons.min.css' ?>" rel="stylesheet" type="text/css" />
         <!-- DATA TABLES -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/datatables/dataTables.bootstrap.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/datatables/dataTables.bootstrap.css' ?>" rel="stylesheet" type="text/css" />
 
         <!-- Theme style -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/AdminLTE.css' ?>" rel="stylesheet" type="text/css" />
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/custom.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/AdminLTE.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/custom.css' ?>" rel="stylesheet" type="text/css" />
         
         <!-- Morris chart -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/morris/morris.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/morris/morris.css' ?>" rel="stylesheet" type="text/css" />
         <!-- jvectormap -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/jvectormap/jquery-jvectormap-1.2.2.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/jvectormap/jquery-jvectormap-1.2.2.css' ?>" rel="stylesheet" type="text/css" />
         <!-- fullCalendar -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/fullcalendar/fullcalendar.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/fullcalendar/fullcalendar.css' ?>" rel="stylesheet" type="text/css" />
         <!-- Daterange picker -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/daterangepicker/daterangepicker-bs3.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/daterangepicker/daterangepicker-bs3.css' ?>" rel="stylesheet" type="text/css" />
         <!-- bootstrap wysihtml5 - text editor -->
-        <link href="<?= $this->config->item('site_url').'assets/admin/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' ?>" rel="stylesheet" type="text/css" />
+        <link href="<?= base_url().'assets/admin/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' ?>" rel="stylesheet" type="text/css" />
         
         <style type="text/css">
         .navbar-nav.navbar-center {
@@ -51,13 +51,13 @@ else
     <body class="skin-black">
         <div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none;">
             <p style="position: absolute; top: 50%; left: 45%;">
-                <img src="<?= $this->config->item('site_url').'assets/admin/img/ajax-loader.gif' ?>" />
+                <img src="<?= base_url().'assets/admin/img/ajax-loader.gif' ?>" />
             </p>
         </div>
 
         <div id="divLoading1" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: rgb(102, 102, 102); z-index: 30001; opacity: 0.8; display: none;">
             <p style="position: absolute; top: 50%; left: 45%;">
-                <img src="<?= $this->config->item('site_url').'assets/admin/img/ajax-loader1.gif' ?>" />
+                <img src="<?= base_url().'assets/admin/img/ajax-loader1.gif' ?>" />
             </p>
         </div>
 

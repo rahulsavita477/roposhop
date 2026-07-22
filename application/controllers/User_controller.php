@@ -375,13 +375,13 @@ class User_controller extends CI_Controller
                 if ($product_imgs && $product_imgs['result']) 
                 {
                     foreach ($product_imgs['result'] as $atch_value) 
-                        array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
+                        array_push($attatchments, base_url().PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
                     
                     if ($attatchments)
                         $data['result'][$i]['products_images'] = $attatchments;
                 }
                 else
-                    $data['result'][$i]['products_images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
+                    $data['result'][$i]['products_images'] = array(base_url().'assets/user/noImage.jpeg');
 
                 //get product rating
                 $data['result'][$i]['rating'] = $this->getProductRating($product_id);
@@ -492,13 +492,13 @@ class User_controller extends CI_Controller
             if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
-                    array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
+                    array_push($attatchments, base_url().PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
                 
                 if ($attatchments)
                     $data['product']['images'] = $attatchments;
             }
             else
-                $data['product']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
+                $data['product']['images'] = array(base_url().'assets/user/noImage.jpeg');
 
             //get product reviews
             $product_reviews = $this->am1->productReviews(array('product_review.product_id' => $product_id), 0, 3);
@@ -553,7 +553,7 @@ class User_controller extends CI_Controller
                     if ($product_imgs && $product_imgs['result']) 
                     {
                         foreach ($product_imgs['result'] as $atch_value) 
-                            array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
+                            array_push($attatchments, base_url().PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
                         
                         if ($attatchments)
                             $data['product']['similar_products'][$i]['images'] = $attatchments;
@@ -751,20 +751,20 @@ class User_controller extends CI_Controller
             
             //merchant logo
             if ($merchant_detail['result'][0]['merchant_logo'])
-                array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_detail['result'][0]['merchant_logo']);
+                array_push($attatchments, base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_detail['result'][0]['merchant_logo']);
 
             //get merchant shop images
             $product_imgs = $this->attatchments($merchant_id, "SELLER");
             if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
-                    array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
+                    array_push($attatchments, base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
             }
 
             if (count($attatchments)>0)
                 $data['merchant']['images'] = $attatchments;
             else
-                $data['merchant']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
+                $data['merchant']['images'] = array(base_url().'assets/user/noImage.jpeg');
 
             //get seller heighlights
             $data['merchant']['heighlights'] = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_offering', '*');
@@ -823,13 +823,13 @@ class User_controller extends CI_Controller
             if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
-                    array_push($attatchments, $this->config->item('site_url').PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
+                    array_push($attatchments, base_url().PRODUCT_ATTATCHMENTS_PATH.$product_id.'/'.$atch_value['atch_url']);
                 
                 if ($attatchments)
                     $data['product']['images'] = $attatchments;
             }
             else
-                $data['product']['images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
+                $data['product']['images'] = array(base_url().'assets/user/noImage.jpeg');
 
             //average rating information
             $rating_info = $this->am1->selectRecords(array('product_id' => $product_id), 'product_review', "COUNT(review_id) as rating_count, ROUND(AVG(CAST(rating AS DECIMAL(10,1))), 1) as avg_rating, coalesce(sum(rating = '1'), 0) as rating_count_1_star, coalesce(sum(rating = '2'), 0) as rating_count_2_star, coalesce(sum(rating = '3'), 0) as rating_count_3_star, coalesce(sum(rating = '4'), 0) as rating_count_4_star, coalesce(sum(rating = '5'), 0) as rating_count_5_star");
@@ -905,7 +905,7 @@ class User_controller extends CI_Controller
                 if ($offer_imgs && $offer_imgs['result']) 
                 {
                     foreach ($offer_imgs['result'] as $atch_value) 
-                        array_push($attatchments, $this->config->item('site_url').OFFER_ATTATCHMENTS_PATH.$offer_id.'/'.$atch_value['atch_url']);
+                        array_push($attatchments, base_url().OFFER_ATTATCHMENTS_PATH.$offer_id.'/'.$atch_value['atch_url']);
                     
                     if ($attatchments)
                         $res['offers'][$i]['offer_images'] = $attatchments;
@@ -1192,7 +1192,7 @@ class User_controller extends CI_Controller
             
             //merchant logo
             if ($merchant_detail['result'][0]['merchant_logo'])
-                array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_detail['result'][0]['merchant_logo']);
+                array_push($attatchments, base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$merchant_detail['result'][0]['merchant_logo']);
 
             // get merchant's user detail
             $userDetails = $this->am1->selectRecords(['userId' => $merchant_detail['result'][0]['userId']], 'user', '*');
@@ -1203,13 +1203,13 @@ class User_controller extends CI_Controller
             if ($product_imgs && $product_imgs['result']) 
             {
                 foreach ($product_imgs['result'] as $atch_value) 
-                    array_push($attatchments, $this->config->item('site_url').SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
+                    array_push($attatchments, base_url().SELLER_ATTATCHMENTS_PATH.$merchant_id.'/'.$atch_value['atch_url']);
             }
 
             if (count($attatchments)>0)
                 $merchants['shop_images'] = $attatchments;
             else
-                $merchants['shop_images'] = array($this->config->item('site_url').'assets/user/noImage.jpeg');
+                $merchants['shop_images'] = array(base_url().'assets/user/noImage.jpeg');
 
             //get seller heighlights
             $merchants['merchant_heighlights'] = $this->am1->selectRecords(array('merchant_id' => $merchant_id), 'merchant_offering', '*');
@@ -1403,17 +1403,17 @@ class User_controller extends CI_Controller
             // if brand logo available then push into the array with path
             if($brand['result'][0]['brand_logo']) {
 
-                array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$_GET['brand_id'].'/'.$brand['result'][0]['brand_logo']);
+                array_push($attatchments, base_url(BRAND_ATTATCHMENTS_PATH.$_GET['brand_id'].'/'.$brand['result'][0]['brand_logo']));
             }
 
             //get product images
             $brand_id = $brand['result'][0]['brand_id'];
             $brand_imgs = $this->attatchments($brand_id, "BRAND");
 
-            if ($brand_imgs && $brand_imgs['result']) 
-            {
-                foreach ($brand_imgs['result'] as $atch_value) 
-                    array_push($attatchments, $this->config->item('site_url').BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']);
+            if ($brand_imgs && $brand_imgs['result']) {
+                foreach ($brand_imgs['result'] as $atch_value) {
+                    array_push($attatchments, base_url(BRAND_ATTATCHMENTS_PATH.$brand_id.'/'.$atch_value['atch_url']));
+                }
             }
 
             $brands['brand_images'] = $attatchments;
