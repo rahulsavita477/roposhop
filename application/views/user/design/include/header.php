@@ -126,7 +126,7 @@ if (isset($_COOKIE['location']) && $_COOKIE['location'] != '') {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" id="installBtn">
+                                <a href="#" id="desktopInstallBtn">
                                     <i class="icon-desktop"></i> Install Web App
                                 </a>
                             </li>

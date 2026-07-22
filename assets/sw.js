@@ -1,4 +1,4 @@
-const CACHE_NAME = 'roposhop-cache-v3';
+const CACHE_NAME = 'roposhop-cache-v2';
 const urlsToCache = [
 	'/',
 	'/assets/manifest.json',

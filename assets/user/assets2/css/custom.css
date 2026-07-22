@@ -143,7 +143,7 @@ a.partner:hover {
 }
 
 #page-home .partners-carousel .owl-item {
-    width: auto !important;
+    /* width: auto !important; */
 }
 
 #page-home .sethr {
@@ -512,11 +512,15 @@ a.morelink {
     /* Cloud download icon */
 }
 
+.product-default .product-details {
+    align-items: unset;
+}
+
 /*==============
 
 ===============*/
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 800px) {
 
     .slider-ptext-ul {
         display: none !important;
@@ -534,5 +538,13 @@ a.morelink {
 
     .under-l:before {
         left: 10px;
+    }
+
+    .owl-theme .owl-nav .owl-next {
+        display: none;
+    }
+
+    .mfp-wrap {
+        height: 100vh !important;
     }
 }

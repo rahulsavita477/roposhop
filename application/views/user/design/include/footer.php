@@ -159,10 +159,6 @@ $site_code = isset($_COOKIE['site_code']) ? $_COOKIE['site_code'] : "";
             </div><!-- End .row -->
         </div><!-- End .container -->
     </div><!-- End .footer-middle -->
-
-    <button id="installBtn" style="display:none;" class="btn btn-primary">
-        📲 Install App
-    </button>
 </footer>
 
 <!-- End .footer -->
@@ -319,13 +315,19 @@ window.addEventListener('load', () => {
 
 let deferredPrompt;
 
+// Capture the install prompt event
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    document.getElementById('installBtn').style.display = 'inline-block';
+
+    // Show both buttons when prompt is available
+    document.getElementById('desktopInstallBtn').style.display = 'block';
+    document.getElementById('mobileInstallBtn').style.display = 'block';
 });
 
-document.getElementById('installBtn').addEventListener('click', () => {
+// Common handler function
+function handleInstallClick(e) {
+    e.preventDefault();
     if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then(choiceResult => {
@@ -337,18 +339,25 @@ document.getElementById('installBtn').addEventListener('click', () => {
             deferredPrompt = null;
         });
     } else {
+        e.target.style.display = 'none';
         alert('✅ App is already installed!');
     }
-});
+}
+
+// Attach handler to both buttons
+document.getElementById('desktopInstallBtn').addEventListener('click', handleInstallClick);
+document.getElementById('mobileInstallBtn').addEventListener('click', handleInstallClick);
 
 // Detect if app is already installed
 if ('getInstalledRelatedApps' in navigator) {
     navigator.getInstalledRelatedApps().then(apps => {
         if (apps.length > 0) {
-            document.getElementById('installBtn').innerText = '✅ App Installed';
+            document.getElementById('desktopInstallBtn').innerText = '✅ App Installed';
+            document.getElementById('mobileInstallBtn').innerText = '✅ App Installed';
         }
     });
 }
+
 </script>
 <!-- <script src="/__/firebase/init.js"></script> -->
 
