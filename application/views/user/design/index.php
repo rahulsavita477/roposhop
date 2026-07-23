@@ -7,26 +7,27 @@
                 <?php foreach ($offers as $offer) { ?>
                     <div class="home-slide">
                         <div class="container">
-                            <div class="row justify-content-end">
-                                <?php if($offer['offer_images']): ?>
-                                    <div class="col-md-6 text-center slide-content-left">
-                                        <img src="<?= $offer['offer_images'][0] ?>" />
+                            <div class="row justify-content-end align-items-center">
+                            <?php if($offer['offer_images']): ?>
+                                <div class="col-6 text-center slide-content-left d-flex align-items-center justify-content-center">
+                                    <img src="<?= $offer['offer_images'][0] ?>" />
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="col-6 text-center slide-content-right d-flex align-items-center justify-content-center" style="margin:auto;">
+                                <div class="home-slide-content">
+                                    <div class="slide-border-top">
+                                        <img src="assets/user/assets2/images/slider/border-top.png" alt="Border" width="290" height="38" />
                                     </div>
-                                <?php endif; ?>
-                                
-                                <div class="col-md-6 text-center slide-content-right" style="margin: auto;">
-                                    <div class="home-slide-content">
-                                        <div class="slide-border-top">
-                                            <img src="assets/user/assets2/images/slider/border-top.png" alt="Border" width="290" height="38" />
-                                        </div>
-                                        <h1><?= $offer['offer_title'] ?></h1>
-                                        <a href="<?= base_url().'offer/'.url_title($offer['offer_title'], '-', true).'?offer_id='.$offer['offer_id'] ?>" class="btn btn-primary">Know More</a>
-                                        <div class="slide-border-bottom">
-                                            <img src="assets/user/assets2/images/slider/border-bottom.png" alt="Border" width="290" height="111">
-                                        </div><!-- End .slide-border-bottom -->
-                                    </div><!-- End .home-slide-content -->
-                                </div><!-- End .col-lg-5 -->
-                            </div><!-- End .row -->
+                                    <h1><?= $offer['offer_title'] ?></h1>
+                                    <a href="<?= base_url().'offer/'.url_title($offer['offer_title'], '-', true).'?offer_id='.$offer['offer_id'] ?>" class="btn btn-primary">Know More</a>
+                                    <div class="slide-border-bottom">
+                                        <img src="assets/user/assets2/images/slider/border-bottom.png" alt="Border" width="290" height="111">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         </div><!-- End .container -->
                     </div><!-- End .home-slide -->
                 <?php } ?>

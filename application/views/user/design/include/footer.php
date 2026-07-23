@@ -358,6 +358,44 @@ if ('getInstalledRelatedApps' in navigator) {
     });
 }
 
+// Show loader before leaving page
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        const target = link.getAttribute('target');
+        if (!target || target === '_self') {
+            // Same tab navigation → show loader
+            document.getElementById('loader').style.display = 'flex';
+        }
+        // Agar new tab hai to loader mat show karo
+    });
+});
+
+// Hide loader when page fully loaded
+window.addEventListener('load', () => {
+    document.getElementById('divLoading1').style.display = 'none';
+});
+
+$(document).ready(function() {
+    function toggleCollapse() {
+        if ($(window).width() < 768) {
+            // Mobile: collapse closed
+            $('#widget-body-z').removeClass('show').addClass('collapse');
+            $('#widget-body-y').removeClass('show').addClass('collapse');
+        } else {
+            // Laptop/Desktop: collapse open
+            $('#widget-body-z').addClass('show');
+            $('#widget-body-y').addClass('show');
+        }
+    }
+
+    // Run on page load
+    toggleCollapse();
+
+    // Run on window resize
+    $(window).resize(function() {
+        toggleCollapse();
+    });
+});
 </script>
 <!-- <script src="/__/firebase/init.js"></script> -->
 

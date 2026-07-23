@@ -16,7 +16,7 @@ a.btn-custom {
 }
 
 .partner {
-    border: 1px solid #f7f7f7;
+    border: none;
     padding: 5px;
     box-shadow: 0px 2px 3px #ededed;
 }
@@ -109,7 +109,7 @@ a.btn-custom {
 }
 
 .rating {
-    top: 15px;
+    /* top: 15px; */
     float: right;
     color: #fff;
     padding: 3px 4px;
@@ -349,7 +349,7 @@ button.bs {
 }
 
 form.form-inline input.w-50 {
-    width: 320px !important;
+    width: 100% !important;
     border: 1px solid #dae2e6;
     border-radius: 4px 0px 0px 4px;
     padding-left: 5px !important;
@@ -516,6 +516,23 @@ a.morelink {
     align-items: unset;
 }
 
+.product-default {
+    margin: 0px;
+    box-shadow: none;
+}
+
+.select-custom {
+    margin-bottom: 0px;
+}
+
+.toolbox.toolbox-pagination {
+    margin-bottom: 0px;
+    padding-top: 0px;
+}
+
+.sidebar-shop .widget-title a {
+    padding: 0px;
+}
 /*==============
 
 ===============*/
